@@ -8,7 +8,7 @@
 
 class BayesianNet {
 private:
-
+int i;
 public:
 
 };
