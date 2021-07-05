@@ -1989,7 +1989,7 @@ PUGI__NS_BEGIN
 		if (d0 == 0 && d1 == 0x3c && d2 == 0 && d3 == 0x3f) return encoding_utf16_be;
 		if (d0 == 0x3c && d1 == 0 && d2 == 0x3f && d3 == 0) return encoding_utf16_le;
 
-		// look for utf16 < followed by node name (this may fail, but is better than utf8 since it's zero terminated so early)
+		// look for utf16 < followed by bnode name (this may fail, but is better than utf8 since it's zero terminated so early)
 		if (d0 == 0 && d1 == 0x3c) return encoding_utf16_be;
 		if (d0 == 0x3c && d1 == 0) return encoding_utf16_le;
 
@@ -3038,7 +3038,7 @@ PUGI__NS_BEGIN
 
 		char_t* parse_exclamation(char_t* s, xml_node_struct* cursor, unsigned int optmsk, char_t endch)
 		{
-			// parse node contents, starting with exclamation mark
+			// parse bnode contents, starting with exclamation mark
 			++s;
 
 			if (*s == '-') // '<!-...'
@@ -3051,7 +3051,7 @@ PUGI__NS_BEGIN
 
 					if (PUGI__OPTSET(parse_comments))
 					{
-						PUGI__PUSHNODE(node_comment); // Append a new node on the tree.
+						PUGI__PUSHNODE(node_comment); // Append a new bnode on the tree.
 						cursor->value = s; // Save the offset.
 					}
 
@@ -3084,7 +3084,7 @@ PUGI__NS_BEGIN
 
 					if (PUGI__OPTSET(parse_cdata))
 					{
-						PUGI__PUSHNODE(node_cdata); // Append a new node on the tree.
+						PUGI__PUSHNODE(node_cdata); // Append a new bnode on the tree.
 						cursor->value = s; // Save the offset.
 
 						if (PUGI__OPTSET(parse_eol))
@@ -3151,7 +3151,7 @@ PUGI__NS_BEGIN
 			xml_node_struct* cursor = ref_cursor;
 			char_t ch = 0;
 
-			// parse node contents, starting with question mark
+			// parse bnode contents, starting with question mark
 			++s;
 
 			// read PI target
@@ -3162,7 +3162,7 @@ PUGI__NS_BEGIN
 			PUGI__SCANWHILE(PUGI__IS_CHARTYPE(*s, ct_symbol));
 			PUGI__CHECK_ERROR(status_bad_pi, s);
 
-			// determine node type; stricmp / strcasecmp is not portable
+			// determine bnode type; stricmp / strcasecmp is not portable
 			bool declaration = (target[0] | ' ') == 'x' && (target[1] | ' ') == 'm' && (target[2] | ' ') == 'l' && target + 3 == s;
 
 			if (declaration ? PUGI__OPTSET(parse_declaration) : PUGI__OPTSET(parse_pi))
@@ -3186,7 +3186,7 @@ PUGI__NS_BEGIN
 				// parse value/attributes
 				if (ch == '?')
 				{
-					// empty node
+					// empty bnode
 					if (!PUGI__ENDSWITH(*s, '>')) PUGI__THROW_ERROR(status_bad_pi, s);
 					s += (*s == '>');
 
@@ -3257,7 +3257,7 @@ PUGI__NS_BEGIN
 				LOC_TAG:
 					if (PUGI__IS_CHARTYPE(*s, ct_start_symbol)) // '<#...'
 					{
-						PUGI__PUSHNODE(node_element); // Append a new node to the tree.
+						PUGI__PUSHNODE(node_element); // Append a new bnode to the tree.
 
 						cursor->name = s;
 
@@ -3447,7 +3447,7 @@ PUGI__NS_BEGIN
 						}
 						else
 						{
-							PUGI__PUSHNODE(node_pcdata); // Append a new node on the tree.
+							PUGI__PUSHNODE(node_pcdata); // Append a new bnode on the tree.
 
 							cursor->value = s; // Save the offset.
 
@@ -4223,7 +4223,7 @@ PUGI__NS_BEGIN
 				break;
 
 			default:
-				assert(false && "Invalid node type"); // unreachable
+				assert(false && "Invalid bnode type"); // unreachable
 		}
 	}
 
@@ -4244,7 +4244,7 @@ PUGI__NS_BEGIN
 		{
 			assert(node);
 
-			// begin writing current node
+			// begin writing current bnode
 			if (PUGI__NODETYPE(node) == node_pcdata || PUGI__NODETYPE(node) == node_cdata)
 			{
 				node_output_simple(writer, node, flags);
@@ -4292,7 +4292,7 @@ PUGI__NS_BEGIN
 				}
 			}
 
-			// continue to the next node
+			// continue to the next bnode
 			while (node != root)
 			{
 				if (node->next_sibling)
@@ -4303,7 +4303,7 @@ PUGI__NS_BEGIN
 
 				node = node->parent;
 
-				// write closing node
+				// write closing bnode
 				if (PUGI__NODETYPE(node) == node_element)
 				{
 					depth--;
@@ -4368,7 +4368,7 @@ PUGI__NS_BEGIN
 		if (!allow_insert_child(parent.type(), child.type()))
 			return false;
 
-		// check that node is not moved between documents
+		// check that bnode is not moved between documents
 		if (parent.root() != child.root())
 			return false;
 
@@ -4456,7 +4456,7 @@ PUGI__NS_BEGIN
 				}
 			}
 
-			// continue to the next node
+			// continue to the next bnode
 			do
 			{
 				if (sit->next_sibling)
@@ -5581,7 +5581,7 @@ namespace pugi
 	{
 		xml_attribute_struct* hint = hint_._attr;
 
-		// if hint is not an attribute of node, behavior is not defined
+		// if hint is not an attribute of bnode, behavior is not defined
 		assert(!hint || (_root && impl::is_attribute_of(hint, _root)));
 
 		if (!_root) return xml_attribute();
@@ -6161,7 +6161,7 @@ namespace pugi
 		// append_buffer is only valid for elements/documents
 		if (!impl::allow_insert_child(type(), node_element)) return impl::make_parse_result(status_append_invalid_root);
 
-		// get document node
+		// get document bnode
 		impl::xml_document_struct* doc = &impl::get_document(_root);
 
 		// disable document_buffer_order optimization since in a document with multiple buffers comparing buffer pointers does not make sense
@@ -6185,7 +6185,7 @@ namespace pugi
 		extra->next = doc->extra_buffers;
 		doc->extra_buffers = extra;
 
-		// name of the root has to be NULL before parsing - otherwise closing node mismatches will not be detected at the top level
+		// name of the root has to be NULL before parsing - otherwise closing bnode mismatches will not be detected at the top level
 		impl::name_null_sentry sentry(_root);
 
 		return impl::load_buffer_impl(doc, _root, const_cast<void*>(contents), size, options, encoding, false, false, &extra->buffer);
@@ -6404,7 +6404,7 @@ namespace pugi
 			return _root->value && (_root->header & impl::xml_memory_page_value_allocated_or_shared_mask) == 0 ? _root->value - doc.buffer : -1;
 
 		default:
-			assert(false && "Invalid node type"); // unreachable
+			assert(false && "Invalid bnode type"); // unreachable
 			return -1;
 		}
 	}
@@ -7072,7 +7072,7 @@ namespace pugi
 		if (other_first_child)
 		{
 			size_t other_children = 0;
-			for (xml_node_struct* node = other_first_child; node; node = node->next_sibling)
+			for (xml_node_struct* bnode = other_first_child; bnode; bnode = bnode->next_sibling)
 				other_children++;
 
 			// in compact mode, each pointer assignment could result in a hash table request
@@ -7149,9 +7149,9 @@ namespace pugi
 		{
 		#ifdef PUGIXML_COMPACT
 			// most children will have migrated when we reassigned compact_shared_parent
-			assert(node->parent == other || node->parent == doc);
+			assert(bnode->parent == other || bnode->parent == doc);
 
-			node->parent = doc;
+			bnode->parent = doc;
 		#else
 			assert(node->parent == other);
 			node->parent = doc;
@@ -8087,7 +8087,7 @@ PUGI__NS_BEGIN
 			rn = rn->parent;
 		}
 
-		// one node is the ancestor of the other
+		// one bnode is the ancestor of the other
 		if (ln == rn) return left_higher;
 
 		// find common ancestor... again
@@ -8833,7 +8833,7 @@ PUGI__NS_BEGIN
 	}
 PUGI__NS_END
 
-// Internal node set class
+// Internal bnode set class
 PUGI__NS_BEGIN
 	PUGI__FN xpath_node_set::type_t xpath_get_order(const xpath_node* begin, const xpath_node* end)
 	{
@@ -8890,7 +8890,7 @@ PUGI__NS_BEGIN
 			return *min_element(begin, end, document_order_comparator());
 
 		default:
-			assert(false && "Invalid node set type"); // unreachable
+			assert(false && "Invalid bnode set type"); // unreachable
 			return xpath_node();
 		}
 	}
@@ -9473,7 +9473,7 @@ PUGI__NS_BEGIN
 		ast_func_ceiling,				// ceiling(left)
 		ast_func_round,					// round(left)
 		ast_step,						// process set left with step
-		ast_step_root,					// select root node
+		ast_step_root,					// select root bnode
 
 		ast_opt_translate_table,		// translate(left, right, third) where right/third are constants
 		ast_opt_compare_attribute		// @name = 'string'
@@ -9534,7 +9534,7 @@ PUGI__NS_BEGIN
 	class xpath_ast_node
 	{
 	private:
-		// node type
+		// bnode type
 		char _type;
 		char _rettype;
 
@@ -9544,7 +9544,7 @@ PUGI__NS_BEGIN
 		// for ast_step/ast_predicate/ast_filter
 		char _test;
 
-		// tree node structure
+		// tree bnode structure
 		xpath_ast_node* _left;
 		xpath_ast_node* _right;
 		xpath_ast_node* _next;
@@ -9557,7 +9557,7 @@ PUGI__NS_BEGIN
 			double number;
 			// variable for ast_variable
 			xpath_variable* variable;
-			// node test for ast_step (node name/namespace/node type/pi target)
+			// bnode test for ast_step (bnode name/namespace/bnode type/pi target)
 			const char_t* nodetest;
 			// table for ast_opt_translate_table
 			const unsigned char* table;
@@ -10027,7 +10027,7 @@ PUGI__NS_BEGIN
 			{
 				xml_node_struct* cur = n;
 
-				// exit from this node so that we don't include descendants
+				// exit from this bnode so that we don't include descendants
 				while (!cur->next_sibling)
 				{
 					cur = cur->parent;
@@ -10064,7 +10064,7 @@ PUGI__NS_BEGIN
 			{
 				xml_node_struct* cur = n;
 
-				// exit from this node so that we don't include descendants
+				// exit from this bnode so that we don't include descendants
 				while (!cur->prev_sibling_c->next_sibling)
 				{
 					cur = cur->parent;
@@ -10080,7 +10080,7 @@ PUGI__NS_BEGIN
 						cur = cur->first_child->prev_sibling_c;
 					else
 					{
-						// leaf node, can't be ancestor
+						// leaf bnode, can't be ancestor
 						if (step_push(ns, cur, alloc) & once)
 							return;
 
@@ -10151,7 +10151,7 @@ PUGI__NS_BEGIN
 			case axis_ancestor:
 			case axis_ancestor_or_self:
 			{
-				if (axis == axis_ancestor_or_self && _test == nodetest_type_node) // reject attributes based on principal node type test
+				if (axis == axis_ancestor_or_self && _test == nodetest_type_node) // reject attributes based on principal bnode type test
 					if (step_push(ns, a, p, alloc) & once)
 						return;
 
@@ -10171,7 +10171,7 @@ PUGI__NS_BEGIN
 			case axis_descendant_or_self:
 			case axis_self:
 			{
-				if (_test == nodetest_type_node) // reject attributes based on principal node type test
+				if (_test == nodetest_type_node) // reject attributes based on principal bnode type test
 					step_push(ns, a, p, alloc);
 
 				break;
@@ -10213,7 +10213,7 @@ PUGI__NS_BEGIN
 
 			case axis_preceding:
 			{
-				// preceding:: axis does not include attribute nodes and attribute ancestors (they are the same as parent's ancestors), so we can reuse node preceding
+				// preceding:: axis does not include attribute nodes and attribute ancestors (they are the same as parent's ancestors), so we can reuse bnode preceding
 				step_fill(ns, p, alloc, once, v);
 				break;
 			}
@@ -10274,7 +10274,7 @@ PUGI__NS_BEGIN
 			}
 
 			// child, attribute and self axes always generate unique set of nodes
-			// for other axis, if the set stayed sorted, it stayed unique because the traversal algorithms do not visit the same node twice
+			// for other axis, if the set stayed sorted, it stayed unique because the traversal algorithms do not visit the same bnode twice
 			if (axis != axis_child && axis != axis_attribute && axis != axis_self && ns.type() == xpath_node_set::type_unsorted)
 				ns.remove_duplicates(stack.temp);
 
@@ -11021,8 +11021,8 @@ PUGI__NS_BEGIN
 				;
 			}
 
-			// none of the ast types that return the value directly matched, but conversions to node set are invalid
-			assert(false && "Wrong expression for return type node set"); // unreachable
+			// none of the ast types that return the value directly matched, but conversions to bnode set are invalid
+			assert(false && "Wrong expression for return type bnode set"); // unreachable
 			return xpath_node_set_raw();
 		}
 
@@ -11065,8 +11065,8 @@ PUGI__NS_BEGIN
 					_test = predicate_posinv;
 			}
 
-			// Rewrite descendant-or-self::node()/child::foo with descendant::foo
-			// The former is a full form of //foo, the latter is much faster since it executes the node test immediately
+			// Rewrite descendant-or-self::bnode()/child::foo with descendant::foo
+			// The former is a full form of //foo, the latter is much faster since it executes the bnode test immediately
 			// Do a similar kind of rewrite for self/descendant/descendant-or-self axes
 			// Note that we only rewrite positionally invariant steps (//foo[1] != /descendant::foo[1])
 			if (_type == ast_step && (_axis == axis_child || _axis == axis_self || _axis == axis_descendant || _axis == axis_descendant_or_self) &&
@@ -11271,7 +11271,7 @@ PUGI__NS_BEGIN
 			case 'c':
 				if (name == PUGIXML_TEXT("count") && argc == 1)
 				{
-					if (args[0]->rettype() != xpath_type_node_set) return error("Function has to be applied to node set");
+					if (args[0]->rettype() != xpath_type_node_set) return error("Function has to be applied to bnode set");
 					return alloc_node(ast_func_count, xpath_type_number, args[0]);
 				}
 				else if (name == PUGIXML_TEXT("contains") && argc == 2)
@@ -11304,7 +11304,7 @@ PUGI__NS_BEGIN
 					return alloc_node(ast_func_lang, xpath_type_boolean, args[0]);
 				else if (name == PUGIXML_TEXT("local-name") && argc <= 1)
 				{
-					if (argc == 1 && args[0]->rettype() != xpath_type_node_set) return error("Function has to be applied to node set");
+					if (argc == 1 && args[0]->rettype() != xpath_type_node_set) return error("Function has to be applied to bnode set");
 					return alloc_node(argc == 0 ? ast_func_local_name_0 : ast_func_local_name_1, xpath_type_string, args[0]);
 				}
 
@@ -11313,12 +11313,12 @@ PUGI__NS_BEGIN
 			case 'n':
 				if (name == PUGIXML_TEXT("name") && argc <= 1)
 				{
-					if (argc == 1 && args[0]->rettype() != xpath_type_node_set) return error("Function has to be applied to node set");
+					if (argc == 1 && args[0]->rettype() != xpath_type_node_set) return error("Function has to be applied to bnode set");
 					return alloc_node(argc == 0 ? ast_func_name_0 : ast_func_name_1, xpath_type_string, args[0]);
 				}
 				else if (name == PUGIXML_TEXT("namespace-uri") && argc <= 1)
 				{
-					if (argc == 1 && args[0]->rettype() != xpath_type_node_set) return error("Function has to be applied to node set");
+					if (argc == 1 && args[0]->rettype() != xpath_type_node_set) return error("Function has to be applied to bnode set");
 					return alloc_node(argc == 0 ? ast_func_namespace_uri_0 : ast_func_namespace_uri_1, xpath_type_string, args[0]);
 				}
 				else if (name == PUGIXML_TEXT("normalize-space") && argc <= 1)
@@ -11357,7 +11357,7 @@ PUGI__NS_BEGIN
 					return alloc_node(argc == 2 ? ast_func_substring_2 : ast_func_substring_3, xpath_type_string, args[0], args[1]);
 				else if (name == PUGIXML_TEXT("sum") && argc == 1)
 				{
-					if (args[0]->rettype() != xpath_type_node_set) return error("Function has to be applied to node set");
+					if (args[0]->rettype() != xpath_type_node_set) return error("Function has to be applied to bnode set");
 					return alloc_node(ast_func_sum, xpath_type_number, args[0]);
 				}
 
@@ -11457,7 +11457,7 @@ PUGI__NS_BEGIN
 				break;
 
 			case 'n':
-				if (name == PUGIXML_TEXT("node"))
+				if (name == PUGIXML_TEXT("bnode"))
 					return nodetest_type_node;
 
 				break;
@@ -11610,7 +11610,7 @@ PUGI__NS_BEGIN
 					return error_rec();
 
 				if (n->rettype() != xpath_type_node_set)
-					return error("Predicate has to be applied to node set");
+					return error("Predicate has to be applied to bnode set");
 
 				xpath_ast_node* expr = parse_expression();
 				if (!expr) return 0;
@@ -11637,7 +11637,7 @@ PUGI__NS_BEGIN
 		xpath_ast_node* parse_step(xpath_ast_node* set)
 		{
 			if (set && set->rettype() != xpath_type_node_set)
-				return error("Step has to be applied to node set");
+				return error("Step has to be applied to bnode set");
 
 			bool axis_specified = false;
 			axis_t axis = axis_child; // implied child axis
@@ -11673,7 +11673,7 @@ PUGI__NS_BEGIN
 
 			if (_lexer.current() == lex_string)
 			{
-				// node name test
+				// bnode name test
 				nt_name = _lexer.contents();
 				_lexer.next();
 
@@ -11689,7 +11689,7 @@ PUGI__NS_BEGIN
 					if (!axis_specified)
 						return error("Unknown axis");
 
-					// read actual node test
+					// read actual bnode test
 					_lexer.next();
 
 					if (_lexer.current() == lex_multiply)
@@ -11705,13 +11705,13 @@ PUGI__NS_BEGIN
 					}
 					else
 					{
-						return error("Unrecognized node test");
+						return error("Unrecognized bnode test");
 					}
 				}
 
 				if (nt_type == nodetest_none)
 				{
-					// node type test or processing-instruction
+					// bnode type test or processing-instruction
 					if (_lexer.current() == lex_open_brace)
 					{
 						_lexer.next();
@@ -11723,7 +11723,7 @@ PUGI__NS_BEGIN
 							nt_type = parse_node_test_type(nt_name);
 
 							if (nt_type == nodetest_none)
-								return error("Unrecognized node type");
+								return error("Unrecognized bnode type");
 
 							nt_name = xpath_lexer_string();
 						}
@@ -11742,7 +11742,7 @@ PUGI__NS_BEGIN
 						}
 						else
 						{
-							return error("Unmatched brace near node type test");
+							return error("Unmatched brace near bnode type test");
 						}
 					}
 					// QName or NCName:*
@@ -11768,7 +11768,7 @@ PUGI__NS_BEGIN
 			}
 			else
 			{
-				return error("Unrecognized node test");
+				return error("Unrecognized bnode test");
 			}
 
 			const char_t* nt_name_copy = alloc_string(nt_name);
@@ -11904,7 +11904,7 @@ PUGI__NS_BEGIN
 					if (*state != '(')
 						return parse_location_path();
 
-					// This looks like a function call; however this still can be a node-test. Check it.
+					// This looks like a function call; however this still can be a bnode-test. Check it.
 					if (parse_node_test_type(_lexer.contents()) != nodetest_none)
 						return parse_location_path();
 				}
@@ -11920,7 +11920,7 @@ PUGI__NS_BEGIN
 					if (l == lex_double_slash)
 					{
 						if (n->rettype() != xpath_type_node_set)
-							return error("Step has to be applied to node set");
+							return error("Step has to be applied to bnode set");
 
 						n = alloc_node(ast_step, n, axis_descendant_or_self, nodetest_type_node, 0);
 						if (!n) return 0;
@@ -12039,7 +12039,7 @@ PUGI__NS_BEGIN
 				}
 
 				if (op.asttype == ast_op_union && (lhs->rettype() != xpath_type_node_set || rhs->rettype() != xpath_type_node_set))
-					return error("Union operator has to be applied to node sets");
+					return error("Union operator has to be applied to bnode sets");
 
 				lhs = alloc_node(op.asttype, op.rettype, lhs, rhs);
 				if (!lhs) return 0;
@@ -12152,7 +12152,7 @@ PUGI__NS_BEGIN
 			return 0;
 		#else
 			xpath_parse_result res;
-			res.error = "Expression does not evaluate to node set";
+			res.error = "Expression does not evaluate to bnode set";
 
 			throw xpath_exception(res);
 		#endif
