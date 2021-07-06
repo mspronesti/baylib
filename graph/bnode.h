@@ -19,11 +19,18 @@ private:
     string name;
     list<string> events{};
     list<string> parents{};
-    ub::matrix<int> probabilities;
+    ub::matrix<double> probabilities;
 public:
-    bnode(string name, const list<string> &events, const list<string> &parents,
-          const ub::matrix<int> &probabilities);
+    bnode(const string &name, const list<string> &events, const list<string> &parents,
+          const ub::matrix<double> &probabilities);
 
+    const string &getName() const;
+
+    const list<string> &getEvents() const;
+
+    const list<string> &getParents() const;
+
+    const ub::matrix<double> &getProbabilities() const;
 
 };
 
