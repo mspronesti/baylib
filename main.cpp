@@ -9,7 +9,6 @@
 using namespace pugi;
 
 int main(){
-    cout << "HI";
     BayesianNet net("../xml_files/Coma.xdsl");
     testFile();
 
