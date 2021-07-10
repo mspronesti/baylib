@@ -2,7 +2,6 @@
 // Created by paolo on 04/07/2021.
 //
 
-#include <iostream>
 #include "BayesianNet.h"
 #include "../pugixml/pugixml.hpp"
 
@@ -12,11 +11,11 @@ namespace ub = boost::numeric::ublas;
 class FileNotFoundException: exception{
 };
 
-double get_element(ub::matrix<double> const &m,int i,int j) {
-    return m(i,j);
-}
 
-
+/// Function to read xdsl format and transform it in a vector of bnodes, the nodes are indipendent and
+/// the graph is not generated
+/// \param doc xml document handle from the pugi library
+/// \param res_list vector where the results will be saved
 void readXML(const pugi::xml_document& doc, vector<bnode> &res_list){
     pugi::xml_node node = doc.first_child().child("nodes");
     map<string, int> nevent;
@@ -58,6 +57,8 @@ void readXML(const pugi::xml_document& doc, vector<bnode> &res_list){
     }
 }
 
+/// Constructor of Bayesian Network from file
+/// \param file_name path
 BayesianNet::BayesianNet(const char *file_name) {
     pugi::xml_document doc;
 

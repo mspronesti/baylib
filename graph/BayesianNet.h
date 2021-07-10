@@ -13,11 +13,12 @@
 typedef boost::adjacency_list<boost::vecS, boost::vecS> Graph;
 using namespace std;
 
+
 class BayesianNet {
 public:
-    Graph network;
-    map<string, int> name_map;
-    vector<bnode> bnode_vec;
+    Graph network; // adjacency list of the network
+    map<string, int> name_map; // map: node_name -> graph_index/vector_index
+    vector<bnode> bnode_vec; //
     explicit BayesianNet(const char *file_name);
 };
 
