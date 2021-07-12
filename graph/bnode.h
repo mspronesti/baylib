@@ -9,29 +9,21 @@
 #include <string>
 #include <list>
 #include <memory>
+#include <utility>
 #include <vector>
 #include <boost/numeric/ublas/matrix.hpp>
 
 using namespace std;
 namespace ub = boost::numeric::ublas;
-class bnode {
-private:
+struct bnode {
     string name;
     list<string> events{};
     list<string> parents{};
     ub::matrix<double> probabilities;
-public:
-    bnode(const string &name, const list<string> &events, const list<string> &parents,
-          const ub::matrix<double> &probabilities);
 
-    const string &getName() const;
-
-    const list<string> &getEvents() const;
-
-    const list<string> &getParents() const;
-
-    const ub::matrix<double> &getProbabilities() const;
-
+    bnode(string name, const list<string> &events, const list<string> &parents,
+          const ub::matrix<double> &probabilities):
+          name(std::move(name)), events(events), parents(parents), probabilities(probabilities){}
 };
 
 

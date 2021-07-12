@@ -89,10 +89,10 @@ BayesianNet::BayesianNet(const string &file_name) {
     network = Graph(bnode_vec.size());
 
     for(int i=0; i<bnode_vec.size(); i++)
-        name_map[bnode_vec[i].getName()] = i;
+        name_map[bnode_vec[i].name] = i;
 
     for(int i=0; i<bnode_vec.size(); i++){
-        for(const string& parent: bnode_vec[i].getParents()){
+        for(const string& parent: bnode_vec[i].parents){
             int j = name_map[parent];
             boost::add_edge(j, i, network);
         }
