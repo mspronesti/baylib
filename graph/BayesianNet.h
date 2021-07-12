@@ -18,8 +18,8 @@ class BayesianNet {
 public:
     Graph network; // adjacency list of the network
     map<string, int> name_map; // map: node_name -> graph_index/vector_index
-    vector<bnode> bnode_vec; //
-    explicit BayesianNet(const char *file_name);
+    vector<bnode> bnode_vec; // vector of bnodes structs
+    explicit BayesianNet(const string &file_name);
 };
 
 

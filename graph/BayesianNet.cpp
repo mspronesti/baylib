@@ -8,9 +8,28 @@
 
 using namespace std;
 namespace ub = boost::numeric::ublas;
-class FileNotFoundException: exception{
-};
 
+
+class FileNotFoundException : public exception {
+
+protected:
+    std::string _msg;
+
+public:
+    explicit FileNotFoundException(const string &msg){
+        _msg = msg;
+    }
+
+    const char* what() const noexcept override{
+        return _msg.c_str();
+    }
+
+    FileNotFoundException prepend(const string &str){
+        _msg = str + _msg;
+        return *this;
+    }
+
+};
 
 /// Function to read xdsl format and transform it in a vector of bnodes, the nodes are indipendent and
 /// the graph is not generated
@@ -19,6 +38,7 @@ class FileNotFoundException: exception{
 void readXML(const pugi::xml_document& doc, vector<bnode> &res_list){
     pugi::xml_node node = doc.first_child().child("nodes");
     map<string, int> nevent;
+
     for (auto cpt:node.children()){
         list<string> event{};
         ub::matrix<double> matr{};
@@ -59,11 +79,11 @@ void readXML(const pugi::xml_document& doc, vector<bnode> &res_list){
 
 /// Constructor of Bayesian Network from file
 /// \param file_name path
-BayesianNet::BayesianNet(const char *file_name) {
+BayesianNet::BayesianNet(const string &file_name) {
     pugi::xml_document doc;
 
-    if(!doc.load_file(file_name))
-        throw FileNotFoundException();
+    if(!doc.load_file(file_name.c_str()))
+        throw FileNotFoundException("Specified path is not valid");
 
     readXML(doc, bnode_vec);
     network = Graph(bnode_vec.size());
