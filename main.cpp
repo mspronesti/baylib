@@ -6,10 +6,8 @@
 #include "pugixml/pugixml.hpp"
 #include "graph/BayesianNet.h"
 #include "test/testFile.hpp"
-using namespace pugi;
 
 int main(){
     BayesianNet net("../xml_files/Coma.xdsl");
     testFile();
-
 }
