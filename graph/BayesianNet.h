@@ -10,16 +10,15 @@
 #include <boost/graph/adjacency_list.hpp>
 #include "bnode.h"
 
-typedef boost::adjacency_list<boost::vecS, boost::vecS> Graph;
-using namespace std;
+using Graph =  boost::adjacency_list<boost::vecS, boost::vecS>;
 
 
 class BayesianNet {
 public:
     Graph network; // adjacency list of the network
-    map<string, int> name_map; // map: node_name -> graph_index/vector_index
-    vector<bnode> bnode_vec; // vector of bnodes structs
-    explicit BayesianNet(const string &file_name);
+    std::map<std::string, int> name_map; // map: node_name -> graph_index/vector_index
+    std::vector<bnode> bnode_vec; // vector of bnodes structs
+    explicit BayesianNet(const std::string &file_name);
 };
 
 
