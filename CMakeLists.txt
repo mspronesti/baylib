@@ -1,10 +1,10 @@
-project(gputest)
+project(bayesian-inferrer)
 set(Boost_DEBUG 1)
 include_directories(${Boost_INCLUDE_DIR})
 find_package(Boost REQUIRED)
 find_package(OpenCL REQUIRED)
-add_executable(gputest main.cpp pugixml/pugixml.cpp graph/BayesianNet.cpp graph/BayesianNet.h graph/bnode.h test/testFile.hpp exceptions/FileNotFoundException.h)
-target_link_libraries(gputest OpenCL::OpenCL)
+add_executable(bayesian-inferrer main.cpp parser/pugixml/pugixml.cpp graph/BayesianNet.cpp graph/BayesianNet.h graph/bnode.h test/testFile.hpp exceptions/FileNotFoundException.h inference/logic_sampling.hpp tools/COW.hpp tools/thread_pool.hpp parser/parser.h)
+target_link_libraries(bayesian-inferrer OpenCL::OpenCL)
 cmake_minimum_required(VERSION 3.14)
 set(CMAKE_CXX_STANDARD 17)
 

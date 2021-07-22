@@ -9,6 +9,8 @@ void test_near(double real, double expected, double eps=0.001){
     assert(std::abs(expected-real) < eps);
 }
 
+using namespace bn;
+
 void testFile(){
     BayesianNet net("../xml_files/Coma.xdsl");
     assert(net.name_map["MetastCancer"] == 0);

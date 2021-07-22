@@ -3,11 +3,11 @@
 //
 #include <fstream>
 #include <iostream>
-#include "pugixml/pugixml.hpp"
+#include "parser/pugixml/pugixml.hpp"
 #include "graph/BayesianNet.h"
 #include "test/testFile.hpp"
 
 int main(){
-    BayesianNet net("../xml_files/Coma.xdsl");
+    bn::BayesianNet net("../xml_files/Coma.xdsl");
     testFile();
 }
