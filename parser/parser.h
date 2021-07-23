@@ -6,12 +6,12 @@
 #define BAYESIAN_INFERRER_PARSER_H
 
 #include "pugixml/pugixml.hpp"
-#include "../graph/bnode.h"
+#include "../old_graph/bnode.h"
 #include <map>
 
 /**
  * Function to read xdsl format and transform it in a vector of bnodes,
- * the nodes are indipendent and the graph is not generated
+ * the nodes are indipendent and the old_graph is not generated
  * @param doc: xml document handled from the pugi library
  * @return res_list: vector to store the results in
  */

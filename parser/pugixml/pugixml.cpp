@@ -850,9 +850,9 @@ PUGI__NS_BEGIN
 			{
 				if (_data < 255)
 				{
-					uintptr_t base = reinterpret_cast<uintptr_t>(this) & ~(compact_alignment - 1);
+					uintptr_t rapidxml = reinterpret_cast<uintptr_t>(this) & ~(compact_alignment - 1);
 
-					return reinterpret_cast<T*>(base + (_data - 1 + start) * compact_alignment);
+					return reinterpret_cast<T*>(rapidxml + (_data - 1 + start) * compact_alignment);
 				}
 				else
 					return compact_get_value<header_offset, T>(this);
@@ -928,9 +928,9 @@ PUGI__NS_BEGIN
 			{
 				if (_data < 65534)
 				{
-					uintptr_t base = reinterpret_cast<uintptr_t>(this) & ~(compact_alignment - 1);
+					uintptr_t rapidxml = reinterpret_cast<uintptr_t>(this) & ~(compact_alignment - 1);
 
-					return reinterpret_cast<T*>(base + (_data - 1 - 65533) * compact_alignment);
+					return reinterpret_cast<T*>(rapidxml + (_data - 1 - 65533) * compact_alignment);
 				}
 				else if (_data == 65534)
 					return static_cast<T*>(compact_get_page(this, header_offset)->compact_shared_parent);
@@ -976,16 +976,16 @@ PUGI__NS_BEGIN
 				if (static_cast<uintptr_t>(offset) < (65535 << 7))
 				{
 					// round-trip through void* to silence 'cast increases required alignment of target type' warnings
-					uint16_t* base = reinterpret_cast<uint16_t*>(static_cast<void*>(reinterpret_cast<char*>(this) - base_offset));
+					uint16_t* rapidxml = reinterpret_cast<uint16_t*>(static_cast<void*>(reinterpret_cast<char*>(this) - base_offset));
 
-					if (*base == 0)
+					if (*rapidxml == 0)
 					{
-						*base = static_cast<uint16_t>((offset >> 7) + 1);
+						*rapidxml = static_cast<uint16_t>((offset >> 7) + 1);
 						_data = static_cast<unsigned char>((offset & 127) + 1);
 					}
 					else
 					{
-						ptrdiff_t remainder = offset - ((*base - 1) << 7);
+						ptrdiff_t remainder = offset - ((*rapidxml - 1) << 7);
 
 						if (static_cast<uintptr_t>(remainder) <= 253)
 						{
@@ -1021,10 +1021,10 @@ PUGI__NS_BEGIN
 					xml_memory_page* page = compact_get_page(this, header_offset);
 
 					// round-trip through void* to silence 'cast increases required alignment of target type' warnings
-					const uint16_t* base = reinterpret_cast<const uint16_t*>(static_cast<const void*>(reinterpret_cast<const char*>(this) - base_offset));
-					assert(*base);
+					const uint16_t* rapidxml = reinterpret_cast<const uint16_t*>(static_cast<const void*>(reinterpret_cast<const char*>(this) - base_offset));
+					assert(*rapidxml);
 
-					ptrdiff_t offset = ((*base - 1) << 7) + (_data - 1);
+					ptrdiff_t offset = ((*rapidxml - 1) << 7) + (_data - 1);
 
 					return page->compact_string_base + offset;
 				}
@@ -8268,7 +8268,7 @@ PUGI__NS_BEGIN
 #if defined(PUGI__MSVC_CRT_VERSION) && PUGI__MSVC_CRT_VERSION >= 1400 && !defined(_WIN32_WCE)
 	PUGI__FN void convert_number_to_mantissa_exponent(double value, char (&buffer)[32], char** out_mantissa, int* out_exponent)
 	{
-		// get base values
+		// get rapidxml values
 		int sign, exponent;
 		_ecvt_s(buffer, sizeof(buffer), value, DBL_DIG + 1, &exponent, &sign);
 

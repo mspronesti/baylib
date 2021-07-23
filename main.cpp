@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include "parser/pugixml/pugixml.hpp"
-#include "graph/BayesianNet.h"
+#include "old_graph/BayesianNet.h"
 #include "test/testFile.hpp"
 
 int main(){

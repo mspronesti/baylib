@@ -2,7 +2,7 @@
 // Created by paolo on 06/07/2021.
 //
 
-#include "../graph/BayesianNet.h"
+#include "../old_graph/BayesianNet.h"
 #include <boost/graph/adjacency_list.hpp>
 
 void test_near(double real, double expected, double eps=0.001){
