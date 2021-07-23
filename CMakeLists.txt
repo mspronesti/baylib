@@ -5,7 +5,7 @@ include_directories(${Boost_INCLUDE_DIR})
 find_package(Boost REQUIRED)
 find_package(OpenCL REQUIRED)
 find_package (Threads)
-add_executable(bayesian-inferrer main.cpp parser/pugixml/pugixml.cpp old_graph/BayesianNet.cpp old_graph/BayesianNet.h old_graph/bnode.h test/testFile.hpp exceptions/FileNotFoundException.h
+add_executable(bayesian-inferrer main.cpp parser/pugixml/pugixml.cpp test/testFile.hpp exceptions/FileNotFoundException.h
         inference/logic_sampling.hpp tools/COW.hpp tools/thread_pool.hpp graphs/DAG.cpp graphs/DAG.h
         graphs/graphStructure/ArcSet.cpp graphs/graphStructure/ArcSet.h graphs/graphStructure/EdgeSet.cpp graphs/graphStructure/EdgeSet.h graphs/graphStructure/GraphElements.cpp
         networks/BayesianNet.h networks/io/BNReader.h
