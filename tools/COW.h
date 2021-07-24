@@ -2,8 +2,8 @@
 // Created by elle on 22/07/21.
 //
 
-#ifndef BAYESIAN_INFERRER_COW_HPP
-#define BAYESIAN_INFERRER_COW_HPP
+#ifndef BAYESIAN_INFERRER_COW_H
+#define BAYESIAN_INFERRER_COW_H
 
 
 #include <memory>
@@ -27,7 +27,7 @@ protected:
         _ptr = other._ptr;
     }
 
-    const T * get() const {
+    const T * ptr() const {
         return _ptr.get();
     }
 
@@ -40,4 +40,4 @@ private:
 };
 
 
-#endif //BAYESIAN_INFERRER_COW_HPP
+#endif //BAYESIAN_INFERRER_COW_H
