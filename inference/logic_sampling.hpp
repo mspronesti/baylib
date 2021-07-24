@@ -12,12 +12,15 @@
 #include <boost/compute.hpp>
 
 namespace bn {
+    using bcvec = boost::compute::vector<int>;
+
     template <typename T>
     class logic_sampling {
 
     };
+
     template <typename T=float >
-    std::pair<int, int> simulate_node(std::vector<T> striped_cpt, std::vector<std::future<boost::compute::vector<int>>> parents_result, std::promise<boost::compute::vector<int>> result);
+    std::pair<int, int> simulate_node(std::vector<T> striped_cpt, std::vector<std::future<bcvec>> parents_result, std::promise<bcvec> result);
 
 }
 

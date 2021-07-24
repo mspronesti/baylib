@@ -5,7 +5,6 @@
 #ifndef BAYESIAN_INFERRER_COW_H
 #define BAYESIAN_INFERRER_COW_H
 
-
 #include <memory>
 
 template <typename T>
