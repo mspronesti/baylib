@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "base/rapidxml.hpp"
+#include "../../parser/rapidxml/rapidxml.hpp"
 #include "../BayesianNet.h"
 #include "../../probability/CPT.h"
 

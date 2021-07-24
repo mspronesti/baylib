@@ -3,9 +3,8 @@
 #include <iostream>
 
 #include "../graphs/DAG.h"
-#include "../tools/VariableNodeMap.h"
-#include "../tools/ThreadPoolManager.h"
 #include "../probability/CPT.h"
+#include "../tools/VariableNodeMap.h"
 
 template <class T = float>
 class BayesianNetwork {
@@ -105,13 +104,6 @@ public:
 		}
 	}
 
-	//wrapper function that decides if the check for sparse CPTs can be done in parallel or not
-	void checkSparseCPTs() {
-		if (ThreadPoolManager::getInstance()->get_thread_count() > 0)
-			checkSparseCPTsParallel();
-		else
-			checkSparseCPTsUnparallel();
-	}
 
 	void checkSparseCPTsUnparallel() {
 		for (auto it = m_cpt.begin(); it != m_cpt.end(); it++) {
@@ -121,17 +113,6 @@ public:
 		}
 	}
 
-	void checkSparseCPTsParallel() {
-		auto it = m_cpt.begin();
-
-		auto lambda = [&](int i) {
-			if (m_nodeWithSameCPT.find(std::next(it, i)->first) == m_nodeWithSameCPT.end()) {
-				std::next(it, i)->second.checkSparseCPT();
-			}
-		};
-
-		ThreadPoolManager::getInstance()->parallelize_loop(0, (int)m_cpt.size() - 1, lambda);
-	}
 
 	void checkSparseCPT(const NodeId n) {
 		m_cpt.find(n)->second.checkSparseCPT();
@@ -147,10 +128,6 @@ public:
 		return m_vnm.idFromName(variableName);
 	}
 
-	//wrapper function for converting the DAG of the bayesian network into a junction tree
-	std::shared_ptr<JunctionTree<T>> fromDAGToJunctionTree() {
-		return m_bn->fromDAGToJunctionTree<T>(m_cpt);
-	}
 
 	int getNextVariableId() {
 		return m_vnm.getNumberOfVariables();
