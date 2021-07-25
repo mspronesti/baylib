@@ -13,7 +13,6 @@
 #include "inference/logic_sampling.hpp"
 
 int main(){
-    auto bn = std::make_shared<BayesianNetwork<float>>();
-    
-  CPT cpt{};
+    std::shared_ptr<BayesianNetwork<double>> BN = std::make_shared<BayesianNetwork<double>>();
+    BNReader<double>().loadNetworkFromFile("../xml_files/Coma.xdsl", BN);
 }

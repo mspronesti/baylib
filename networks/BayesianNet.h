@@ -101,6 +101,9 @@ public:
 		}
 	}
 
+    void checkSparseCPTs() {
+	    checkSparseCPTsUnparallel();
+    }
 
 	void checkSparseCPTsUnparallel() {
 		for (auto it = m_cpt.begin(); it != m_cpt.end(); it++) {

@@ -192,7 +192,7 @@ public:
 
     //uses the same data contained in c for the CPTData of this CPT
     void duplicateCPT(CPT& c) {
-        duplicate(c);
+        this->duplicate(c);
     }
 
     //adds variables order to the CPT
@@ -209,7 +209,6 @@ public:
     //adds probability distribution for a combination of variables to the CPT
     void addProbability(const T prob) {
         clone_if_needed();
-
         ptr()->m_cpt.push_back(prob);
     }
 
