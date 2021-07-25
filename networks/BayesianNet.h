@@ -11,9 +11,7 @@ class BayesianNetwork {
 public:
 
 	//constructor
-	BayesianNetwork() : m_bn(std::make_shared<DAG>()) {
-
-	}
+	BayesianNetwork() : m_bn(std::make_shared<DAG>()) {}
 
 	//copy constructor
 	BayesianNetwork(const BayesianNetwork& bn) {
@@ -36,8 +34,7 @@ public:
 
 	//boolean operator
 	bool operator==(const BayesianNetwork& bn) const {
-		if (*m_bn == *(bn.m_bn)) return true;
-		else false;
+		return  *m_bn == *(bn.m_bn);
 	}
 
 	//adds and arc to the old_graph

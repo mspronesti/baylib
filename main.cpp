@@ -13,5 +13,7 @@
 #include "inference/logic_sampling.hpp"
 
 int main(){
-
+    auto bn = std::make_shared<BayesianNetwork<float>>();
+    
+  CPT cpt{};
 }

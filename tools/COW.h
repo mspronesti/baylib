@@ -26,7 +26,11 @@ protected:
         _ptr = other._ptr;
     }
 
-    const T * ptr() const {
+    const T * ptr() const{
+        return _ptr.get();
+    }
+
+    T* ptr(){
         return _ptr.get();
     }
 

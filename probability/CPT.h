@@ -89,10 +89,11 @@ struct CPTData {
 
 template <class T = float>
 class CPT : private COW<CPTData<T>> {
-    static constexpr auto construct = COW<CPTData<T>>::construct;
-    static constexpr auto ptr = COW<CPTData<T>>::ptr;
-    static constexpr auto clone_if_needed = COW<CPTData<T>>::clone_if_needed;
 public:
+    using COW<CPTData<T>>::construct;
+    using COW<CPTData<T>>::ptr;
+    using COW<CPTData<T>>::clone_if_needed;
+
     //default CPT constructor without parameters
     CPT() : m_var(-1), m_instantiated(false) {
         construct();
