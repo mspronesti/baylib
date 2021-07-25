@@ -12,7 +12,17 @@
 #include "parser/BNReader.h"
 #include "inference/logic_sampling.hpp"
 
+void test_simulation_source(){
+    std::vector<float> probabilities = {0.2, 0.8};
+    std::vector<bn::bcvec> parents = {};
+    bn::bcvec result(1000);
+    bn::simulate_node_agnostic(probabilities, parents, result);
+}
+
+void test_simulation_child(){
+
+}
+
 int main(){
-    std::shared_ptr<BayesianNetwork<double>> BN = std::make_shared<BayesianNetwork<double>>();
-    BNReader<double>().loadNetworkFromFile("../xml_files/Coma.xdsl", BN);
+    test_simulation();
 }
