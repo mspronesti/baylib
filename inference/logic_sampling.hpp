@@ -22,10 +22,38 @@ namespace bn {
         compute::device device;
         compute::context context;
         compute::command_queue queue;
-
+        std::unique_ptr<compute::default_random_engine> rand_eng;
     public:
-        logic_sampling();
-        std::pair<int, int> simulate_node_agnostic(const std::vector<T>& striped_cpt, const std::vector<bcvec>& parents_result, bcvec& result);
+
+        logic_sampling() {
+            this->device = compute::system::default_device();
+            this->context = compute::context(device);
+            this->queue = compute::command_queue(context, device);
+            this->rand_eng = std::make_unique<compute::default_random_engine>(queue);
+        }
+
+        explicit logic_sampling(const compute::device &device) {
+            this->device = device;
+            this->context = compute::context(device);
+            this->queue = compute::command_queue(context, device);
+            this->rand_eng = std::make_unique<compute::default_random_engine>(queue);
+        }
+
+        std::pair<int, int> simulate_node_agnostic(const std::vector<T>& striped_cpt, const std::vector<bcvec>& parents_result, bcvec& result){
+            if(parents_result.empty() && striped_cpt.size() == 2) {
+                int sum = 0;
+                compute::bernoulli_distribution<T> distribution(striped_cpt[0]);
+                distribution.generate(result.begin(), result.end(), *this->rand_eng, queue);
+                compute::reduce(result.begin(), result.end(), &sum, queue);
+                return std::pair<int, int>(sum, result.size() - sum);
+            }
+            else {
+                compute::vector<T> device_cpt(striped_cpt.size(), context);
+                compute::copy(striped_cpt.begin(), striped_cpt.end(), device_cpt.begin(), queue);
+            }
+
+            return std::pair<int, int>();
+        }
 
     };
 

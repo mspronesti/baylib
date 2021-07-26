@@ -13,10 +13,12 @@
 #include "inference/logic_sampling.hpp"
 
 void test_simulation_source(){
+    auto ls = bn::logic_sampling<float>();
     std::vector<float> probabilities = {0.2, 0.8};
     std::vector<bn::bcvec> parents = {};
     bn::bcvec result(1000);
-    bn::simulate_node_agnostic(probabilities, parents, result);
+    auto res = ls.simulate_node_agnostic(probabilities, parents, result);
+    std::cout << res.first << " " << res.second << "\n";
 }
 
 void test_simulation_child(){
@@ -24,5 +26,5 @@ void test_simulation_child(){
 }
 
 int main(){
-    test_simulation();
+    test_simulation_source();
 }
