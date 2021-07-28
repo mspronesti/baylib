@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 
-#include "../graphs/graphStructure/GraphElements.h"
+#include "../graph/structure/GraphElements.h"
 
 class VariableNodeMap {
 public:

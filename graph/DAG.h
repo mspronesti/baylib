@@ -2,7 +2,7 @@
 
 #include <mutex>
 
-#include "graphStructure/ArcSet.h"
+#include "structure/ArcSet.h"
 #include "../tools/thread_pool.hpp"
 
 typedef std::set<std::pair<Arc, Arc>> ArcPairSet;
@@ -13,7 +13,7 @@ struct NodeSeparated {
 
 	NodeSeparated() : m_id(-1), m_separated(false) {};
 
-	NodeSeparated(NodeId id) : m_id(id), m_separated(false) {};
+	explicit NodeSeparated(NodeId id) : m_id(id), m_separated(false) {};
 
 	NodeSeparated(NodeId id, bool separated) : m_id(id), m_separated(separated) {};
 

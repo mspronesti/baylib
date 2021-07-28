@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include "rapidxml/rapidxml.hpp"
-#include "../networks/BayesianNet.h"
+#include "../network/bayesian_network.h"
 #include "../probability/CPT.h"
 
 using namespace rapidxml;
@@ -19,7 +19,7 @@ public:
     BNReader() = default;
 
     //loads the bayesian network from the given file
-    void loadNetworkFromFile(const std::string& fileName, std::shared_ptr<BayesianNetwork<T>> bn) {
+    void loadNetworkFromFile(const std::string& fileName, std::shared_ptr<bn::bayesian_network<T>> bn) {
         auto doc = std::make_shared<xml_document<>>();
         std::ifstream inputFile(fileName);
         auto buffer = std::make_shared<std::stringstream>();
@@ -157,7 +157,7 @@ private:
     }
 
     //splits the string of parents into a vector containing their id and their number of states
-    int splitParents(std::string& parents, std::vector<VarStates>& variablesOrder, std::shared_ptr<BayesianNetwork<T>> bn) {
+    int splitParents(std::string& parents, std::vector<VarStates>& variablesOrder, std::shared_ptr<bn::bayesian_network<T>> bn) {
         if (parents.empty()) return 0;
         int pos;
         while ((pos = parents.find(" ")) != std::string::npos) {

@@ -15,7 +15,7 @@
 #include <functional>
 #include <algorithm>
 
-#include "../graphs/graphStructure/GraphElements.h"
+#include "../graph/structure/GraphElements.h"
 #include "../tools/COW.h"
 
 #define SPARSETHRESHOLD 0.7
