@@ -8,7 +8,7 @@ set(threading=multi)
 include_directories(${Boost_INCLUDE_DIR})
 find_package(Boost REQUIRED)
 find_package(OpenCL REQUIRED)
-find_package (Threads)
+find_package (Threads REQUIRED)
 
 add_executable(bayesian-inferrer main.cpp parser/pugixml/pugixml.cpp exceptions/FileNotFoundException.h
         inference/logic_sampling.hpp tools/COW.h tools/thread_pool.hpp graphs/DAG.cpp graphs/DAG.h
