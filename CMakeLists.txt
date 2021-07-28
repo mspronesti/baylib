@@ -41,6 +41,6 @@ add_executable( bayesian-inferrer
         tools/VariableNodeMap.h
         probability/CPT.h )
 
-target_link_libraries(bayesian-inferrer OpenCL::OpenCL gtest gtest_main pthread)
+target_link_libraries(bayesian-inferrer OpenCL::OpenCL pthread boost_thread gtest gtest_main)
 
 
