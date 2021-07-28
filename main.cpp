@@ -2,9 +2,9 @@
 // Created by paolo on 04/07/2021.
 //
 
-#include "graphs/DAG.h"
+#include "graph/DAG.h"
 #include "inference/logic_sampling.hpp"
-#include "networks/BayesianNet.h"
+#include "network/bayesian_network.h"
 #include "parser/BNReader.h"
 
 void test_simulation_source(){
