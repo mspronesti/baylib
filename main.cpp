@@ -42,12 +42,12 @@ void test_simulation_non_binary(){
     int n = 100;
     auto ls = bn::logic_sampling<float>();
     auto res = ls.simulate_node({0.2, 0.2, 0.2, 0.2, 0.2}, {}, n, 5);
-    auto acc_res = ls.compute_result_general(*res, 5);
+    auto acc_res = ls.compute_result_general(*res);
     std::vector<std::string> animals = {"Monkey", "Penguin", "Platypus", "Robin", "Turtle"};
     for (int i = 0; i < 5; i++)
         std::cout << animals[i] << ": " << acc_res[i] << '\n';
     res = ls.simulate_node({0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1}, {res}, n, 3);
-    acc_res = ls.compute_result_general(*res, 3);
+    acc_res = ls.compute_result_general(*res);
     print_results({"Bird", "Mammal", "Reptile"}, acc_res);
 }
 
@@ -60,11 +60,11 @@ void test_simulation_non_binary_multiple_parents(){
     auto expert_forecast = ls.simulate_node({0.7, 0.2, 0.1, 0.2, 0.3, 0.5, 0.6, 0.3, 0.1, 0.1, 0.3, 0.6, 0.5, 0.3, 0.2, 0.2, 0.4, 0.4},
                                             {success_of_venture, state_of_economy},
                                             n, 3);
-    auto acc_res = ls.compute_result_general(*success_of_venture, 2);
+    auto acc_res = ls.compute_result_general(*success_of_venture);
     print_results({"Success", "Failure"}, acc_res);
-    acc_res = ls.compute_result_general(*state_of_economy, 3);
+    acc_res = ls.compute_result_general(*state_of_economy);
     print_results({"Up", "Flat", "Down"}, acc_res);
-    acc_res = ls.compute_result_general(*expert_forecast, 3);
+    acc_res = ls.compute_result_general(*expert_forecast);
     print_results({"Good", "Moderate", "Poor"}, acc_res);
 
 }
