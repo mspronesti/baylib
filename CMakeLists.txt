@@ -13,33 +13,28 @@ set(threading=multi)
 find_package(OpenCL REQUIRED)
 find_package (Threads REQUIRED)
 
-# google test
-find_package(GTest REQUIRED)
 
 find_package (Threads)
 
+# testing env
+add_subdirectory(test)
+enable_testing()
+
 add_executable( bayesian-inferrer
         main.cpp
-        parser/pugixml/pugixml.cpp
+    #[[    parser/pugixml/pugixml.cpp
         parser/rapidxml/rapidxml.hpp
         parser/rapidxml/rapidxml_iterators.hpp
         parser/rapidxml/rapidxml_print.hpp
         parser/rapidxml/rapidxml_utils.hpp
-        parser/BNReader.h
+        parser/BNReader.h]]
         inference/logic_sampling.hpp
-        tools/COW.h
+        graph/graph.hpp
+        network/bayesian_network.hpp
+        network/probability/cpt.hpp
+        tools/COW.hpp
         tools/thread_pool.hpp
-        graph/DAG.cpp
-        graph/DAG.h
-        graph/structure/ArcSet.cpp
-        graph/structure/ArcSet.h
-        graph/structure/EdgeSet.cpp
-        graph/structure/EdgeSet.h
-        graph/structure/GraphElements.cpp
-        network/bayesian_network.h
-        tools/VariableNodeMap.cpp
-        tools/VariableNodeMap.h
-        probability/CPT.h )
+        )
 
 target_link_libraries(bayesian-inferrer OpenCL::OpenCL pthread boost_thread gtest gtest_main)
 

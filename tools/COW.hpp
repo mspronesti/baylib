@@ -2,8 +2,8 @@
 // Created by elle on 22/07/21.
 //
 
-#ifndef BAYESIAN_INFERRER_COW_H
-#define BAYESIAN_INFERRER_COW_H
+#ifndef BAYESIAN_INFERRER_COW_HPP
+#define BAYESIAN_INFERRER_COW_HPP
 
 #include <memory>
 
@@ -43,4 +43,4 @@ private:
 };
 
 
-#endif //BAYESIAN_INFERRER_COW_H
+#endif //BAYESIAN_INFERRER_COW_HPP

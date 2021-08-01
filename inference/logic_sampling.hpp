@@ -6,29 +6,19 @@
 #define GPUTEST_LOGIC_SAMPLING_HPP
 
 #define DEBUG_MONTECARLO 0
-#define BOOST_COMPUTE_THREAD_SAFE
 
 #include <vector>
 #include <future>
 
 #include <boost/compute.hpp>
 #include <boost/compute/device.hpp>
-#include <boost/graph/adjacency_list.hpp>
 
-#include "../network/bayesian_network.h"
+#include "../network/bayesian_network.hpp"
 
 namespace bn {
     namespace compute = boost::compute;
 	using boost::compute::lambda::_1;
     using boost::compute::lambda::_2;
-	
-    /* aliases */
-    /// graph
-    using graph = boost::adjacency_list<boost::setS, boost::setS, boost::bidirectionalS>;
-    using node = graph::vertex_descriptor;
-    
-    /// graph ranking
-    using rank_t = std::map<node, int>;
 
 	struct bcvec {
         compute::vector<int> vec;
@@ -38,77 +28,57 @@ namespace bn {
         }
     };
 
-    template <typename T>
+    template <typename Probability>
     class logic_sampling {
-		
-		
+        using rank_t = std::map<bn::vertex<Probability>, int>;
+
     public:
-        logic_sampling() {
-            this->device = compute::system::default_device();
+		explicit logic_sampling(const std::shared_ptr<bn::bayesian_network<Probability>> &bn,
+                const compute::device &device = compute::system::default_device())
+                : bn(bn), device(device)
+        {
             this->context = compute::context(device);
             this->queue = compute::command_queue(context, device);
             this->rand_eng = std::make_unique<compute::default_random_engine>(queue);
-        }
+		}
 
-        logic_sampling(const compute::device &device, const bn::bayesian_network<T> &bn){
-            to_boost_graph(bn);
-            // TODO: add missing
-        }
-		
-		explicit logic_sampling(const std::shared_ptr<bn::bayesian_network<T>> &bn,
-                const compute::device &device = compute::system::default_device()
-                        ) {
-            this->device = device;
-            this->context = compute::context(device);
-            this->queue = compute::command_queue(context, device);
-            this->rand_eng = std::make_unique<compute::default_random_engine>(queue);
-
-			// init bn, dipende da come scriviamo la BN 
-        }
-
+        std::shared_ptr<bn::bcvec> simulate_node(const std::vector<Probability>& striped_cpt,
+                                                 const std::vector<std::shared_ptr<bcvec>>& parents_result,
+                                                 int dim = 10000,
+                                                 int possible_states = 2);
 
 
 
     private:
-        graph g;
-        std::vector<node> nodes;
 		compute::device device;
         compute::context context;
         compute::command_queue queue;
         std::unique_ptr<compute::default_random_engine> rand_eng;
-		
-		
+		std::shared_ptr<bn::bayesian_network<Probability>> bn;
+
         // private members
-        std::vector<T> accumulate_cpt(std::vector<T> striped_cpt, int possible_states);
-        std::shared_ptr<bn::bcvec> simulate_node(const std::vector<T>& striped_cpt,
-                                                                    const std::vector<std::shared_ptr<bcvec>>& parents_result,
-                                                                    int dim = 10000,
-                                                                    int possible_states = 2);
+        std::vector<Probability> accumulate_cpt(std::vector<Probability> striped_cpt, int possible_states);
         std::pair<int, int> compute_result_binary(bcvec &res);
         std::vector<int> compute_result_general(bcvec &res);
-
         rank_t graph_rank();
-        bool exists_edge(node v1, node v2, const graph &g);
-        void to_boost_graph(const bn::bayesian_network<T> &bn);
-
     };
 
 
 #if DEBUG_MONTECARLO
     template<typename S>
-    void logic_sampling<T>::print_vec(compute::vector<S> &vec, const std::string& message="", int len=-1){
+    void logic_sampling<Probability>::print_vec(compute::vector<S> &vec, const std::string& message="", int len=-1){
         if(len == -1)
             len = vec.size();
         std::vector<S> host_vec(len);
         compute::copy(vec.begin(), vec.begin() + len, host_vec.begin(), queue);
         std::cout << message << ' ';
-        for(T el: host_vec)
+        for(Probability el: host_vec)
             std::cout << el << ' ';
         std::cout << '\n';
     }
 #endif
-    template <typename T>
-    std::vector<T> logic_sampling<T>::accumulate_cpt(std::vector<T> striped_cpt, int possible_states){
+    template <typename Probability>
+    std::vector<Probability> logic_sampling<Probability>::accumulate_cpt(std::vector<Probability> striped_cpt, int possible_states){
         for(int i = 0 ; i < striped_cpt.size() ; i += possible_states)
             for(int j = 1 ; j < possible_states - 1 ; j++)
                 striped_cpt[i + j] += striped_cpt[i + j - 1];
@@ -202,68 +172,41 @@ namespace bn {
     }
 
     /**
-    * Applies ranking function to the DAG g
+    * Applies ranking function to the DAG representing the
+    * bayesian network
     * @tparam T
     * @return map containing node-rank as key-value couple
     */
-    template<typename T>
-    rank_t logic_sampling<T>::graph_rank() {
-        std::vector<node> roots;
+    template<typename Probability>
+    typename logic_sampling<Probability>::rank_t logic_sampling<Probability>::graph_rank() {
         rank_t ranks{};
+        auto vertices = bn->getVariables();
+        std::vector<bn::vertex<Probability>> roots;
 
         // fill nodes map with 0s
-        for(auto & v : nodes)
-            ranks[v] = 0;
-
-        // find roots
-        graph::vertex_iterator v, vend;
-        for (auto vd : boost::make_iterator_range(boost::vertices(g)))
-            if(boost::in_degree(vd, g) == 0)
-                roots.push_back(vd);
+        for(auto & v : vertices) {
+            ranks[v.id] = 0;
+            if(bn->is_root(v.name)) roots.push_back(v.id);
+        }
 
         if(roots.empty())
-            throw std::logic_error("No root nodes found in graph.");
+            throw std::runtime_error("No root nodes found in graph.");
 
         while(!roots.empty()) {
-            node curr_node = roots.back();
+            bn::vertex<Probability> curr_node = roots.back();
             roots.pop_back();
 
-            for (auto vd : boost::make_iterator_range(boost::vertices(g))) {
-                if (!exists_edge(curr_node, vd, g)) continue;
+            for (auto v : vertices) {
+                if (!bn->conditional_dependency(curr_node, v.id)) continue;
 
-                if (ranks[curr_node] + 1 > ranks[vd]) {
-                    ranks[vd] = ranks[curr_node] + 1;
-                    roots.push_back(vd);
+                if (ranks[curr_node] + 1 > ranks[v.id]) {
+                    ranks[v.id] = ranks[curr_node] + 1;
+                    roots.push_back(v.id);
                 }
             }
         }
 
         return ranks;
-    }
-
-
-    /**
-    * determines whether nodes v1 and v2 are adjacent
-    * @tparam T
-    * @param v1 : source node
-    * @param v2 : destination node
-    * @param g  : BGL adjacency list
-    * @return true if v1's adjacent v2, false otherwise
-    */
-    template<typename T>
-    bool logic_sampling<T>::exists_edge(bn::node v1, bn::node v2, const bn::graph &g) {
-        return boost::edge(v1, v2, g).second;
-    }
-
-    /**
-    * Extracts needed info from custom graph to build internal
-    * graph using BGL
-    * @tparam T
-    * @param bn : bayesian network
-    */
-    template <typename T>
-    void logic_sampling<T>::to_boost_graph(const bn::bayesian_network<T> &bn){
-        // TODO: to be implemented
     }
 
 

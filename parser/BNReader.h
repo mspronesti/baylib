@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include "rapidxml/rapidxml.hpp"
-#include "../network/bayesian_network.h"
+#include "../network/bayesian_network.hpp"
 #include "../probability/CPT.h"
 
 using namespace rapidxml;

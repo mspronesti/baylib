@@ -2,12 +2,10 @@
 // Created by paolo on 04/07/2021.
 //
 
-#include "graph/DAG.h"
 #include "inference/logic_sampling.hpp"
-#include "network/bayesian_network.h"
-#include "parser/BNReader.h"
+#include "network/bayesian_network.hpp"
 
-void print_results(const std::vector<std::string>& names, std::vector<int> results){
+/*void print_results(const std::vector<std::string>& names, std::vector<int> results){
     for (int i = 0; i < names.size(); ++i)
         std::cout << names[i] << ": " << results[i] << '\n';
 }
@@ -67,9 +65,9 @@ void test_simulation_non_binary_multiple_parents(){
     acc_res = ls.compute_result_general(*expert_forecast);
     print_results({"Good", "Moderate", "Poor"}, acc_res);
 
-}
+}*/
 
 int main(){
     //test_simulation_chain();
-    test_simulation_non_binary_multiple_parents();
+    //test_simulation_non_binary_multiple_parents();
 }
