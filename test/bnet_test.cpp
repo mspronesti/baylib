@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../network/bayesian_network.hpp"
+#include <baylib/network/bayesian_network.hpp>
 
 class bnet_tests : public ::testing::Test {
 protected:

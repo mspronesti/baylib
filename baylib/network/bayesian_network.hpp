@@ -1,6 +1,6 @@
-﻿#pragma once
-
-#include "../graph/graph.hpp"
+﻿#ifndef BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP
+#define BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP
+#include <baylib/graph/graph.hpp>
 
 namespace bn {
 
@@ -165,3 +165,5 @@ namespace bn {
         }
     };
 } // namespace bn
+
+#endif //BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP

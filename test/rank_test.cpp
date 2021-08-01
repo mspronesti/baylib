@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #define private public // trick to test private members
-#include "../inference/logic_sampling.hpp"
+#include <baylib/inference/logic_sampling.hpp>
 
 TEST(test_rank, _test){
    auto bn = std::make_shared<bn::bayesian_network<double>>();

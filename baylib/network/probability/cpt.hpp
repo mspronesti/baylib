@@ -6,8 +6,8 @@
 #define BAYESIAN_INFERRER_CPT_HPP
 
 
-#include "../../tools/COW.hpp"
-#include "../../graph/graph.hpp"
+#include <baylib/tools/COW.hpp>
+#include <baylib/graph/graph.hpp>
 
 namespace  bn {
     template <typename Probability>

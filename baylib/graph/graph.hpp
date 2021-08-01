@@ -6,10 +6,9 @@
 #define BAYESIAN_INFERRER_GRAPH_HPP
 
 #include <boost/graph/adjacency_list.hpp>
-#include "../network/probability/cpt.hpp"
+#include <baylib/network/probability/cpt.hpp>
 
 namespace bn {
-    // vertex
     template <typename Probability>
     struct variable {
         unsigned int id{};
