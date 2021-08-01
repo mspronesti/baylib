@@ -41,10 +41,7 @@ namespace bn {
 
 
         void remove_variable(const std::string &name){
-            if(!is_variable(name))
-                throw std::runtime_error("variable with name " + name + " doesn't exists");
-
-            bn::vertex<Probability> v = var_map.at(name);
+            bn::vertex<Probability> v = find_variable(name);
             boost::remove_vertex(v, *graph);
         }
 
@@ -59,7 +56,7 @@ namespace bn {
         }
 
         void add_dependency(const bn::vertex<Probability> &from, const bn::vertex<Probability> &to){
-            if(is_able_trace(to, from))
+            if(is_able_trace(from, to))
                 throw std::logic_error("can't create a loop in DAG");
 
             boost::add_edge(from, to, *graph);
@@ -69,8 +66,11 @@ namespace bn {
             boost::remove_edge(v1, v2);
         }
 
-        bool conditional_dependency(const std::string &name1, const std::string &name2) const {
-            return boost::edge(var_map.at(name1), var_map.at(name2), *graph).second;
+        bool conditional_dependency(const std::string &name1, const std::string &name2)  {
+            auto v1  = find_variable(name1);
+            auto v2  = find_variable(name2);
+
+            return boost::edge(v1, v2, *graph).second;
         }
 
         bool conditional_dependency(const bn::vertex<Probability> &v1, const bn::vertex<Probability> &v2) const {
@@ -86,7 +86,8 @@ namespace bn {
         }
 
         bool is_root(const std::string &name){
-            return boost::in_degree(var_map.at(name), *graph) == 0;
+            auto v  = find_variable(name);
+            return boost::in_degree(v, *graph) == 0;
         }
 
         std::vector<bn::vertex<Probability>> getChildren(const bn::vertex<Probability> & v) {
@@ -98,7 +99,7 @@ namespace bn {
         }
 
         std::vector<bn::vertex<Probability>> getChildren(const std::string &name) {
-            bn::vertex<Probability> v = var_map.at(name);
+            auto v  = find_variable(name);
             return getChildren(v);
         }
 
@@ -125,10 +126,8 @@ namespace bn {
         }
 
         bn::variable<Probability> getVariable(const std::string &name) {
-            if(!is_variable(name))
-                throw std::runtime_error("variable with name " + name + " doesn't exists");
-
-            return (*graph)[var_map.at(name)];
+            auto v  = find_variable(name);
+            return (*graph)[v];
         }
 
 
@@ -138,6 +137,13 @@ namespace bn {
 
         bool is_variable(const std::string &name){
             return var_map.find(name) != var_map.end();
+        }
+
+        bn::vertex<Probability> find_variable(const std::string &name){
+            if(!is_variable(name))
+                throw std::runtime_error("identifier " + name + " doesn't represent a variable");
+
+            return var_map.at(name);
         }
 
         /**
