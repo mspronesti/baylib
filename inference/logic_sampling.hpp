@@ -31,6 +31,7 @@ namespace bn {
     template <typename Probability>
     class logic_sampling {
         using rank_t = std::map<bn::vertex<Probability>, int>;
+        using prob_v = boost::compute::vector<Probability>;
 
     public:
 		explicit logic_sampling(const std::shared_ptr<bn::bayesian_network<Probability>> &bn,
@@ -102,9 +103,9 @@ namespace bn {
 
         std::vector<T> striped_cpt_accum = this->accumulate_cpt(striped_cpt, possible_states);
         std::shared_ptr<bcvec> result = std::make_shared<bcvec>(dim, context, possible_states);
-        compute::vector<T> device_cpt(striped_cpt.size(), context);
-        compute::vector<T> threshold_vec(dim, context);
-        compute::vector<T> random_vec(dim, context);
+        prob_v device_cpt(striped_cpt.size(), context);
+        prob_v threshold_vec(dim, context);
+        prob_v random_vec(dim, context);
         compute::uniform_real_distribution<T> distribution(0, 1);
         compute::vector<int> index_vec(dim, context);
 
@@ -120,11 +121,12 @@ namespace bn {
                 print_vec(*parents_result[i], "PARENT", 10);
 #endif
                 if (i == 0)
-                    compute::transform(parents_result[i]->vec.begin(), parents_result[i]->vec.end(), index_vec.begin(),
-                                       _1 * coeff, queue);
+                    compute::transform(parents_result[i]->vec.begin(), parents_result[i]->vec.end(),
+                                       index_vec.begin(), _1 * coeff, queue);
                 else
-                    compute::transform(parents_result[i]->vec.begin(), parents_result[i]->vec.end(), index_vec.begin(),
-                                   index_vec.begin(), _1 * coeff + _2, queue);
+                    compute::transform(parents_result[i]->vec.begin(), parents_result[i]->vec.end(),
+                                       index_vec.begin(),index_vec.begin(),
+                                       _1 * coeff + _2, queue);
                 coeff *= parents_result[i]->cardinality;
             }
         }
@@ -137,10 +139,14 @@ namespace bn {
         compute::transform(random_vec.begin(), random_vec.end(), threshold_vec.begin(), result->vec.begin(), _1 > _2, queue);
         for(int i = 0; i + 2 < possible_states ; i++){
             compute::vector<int> temp(dim, context);
-            compute::transform(index_vec.begin(), index_vec.end(), index_vec.begin(), _1 + 1, queue);
-            compute::gather(index_vec.begin(), index_vec.end(), device_cpt.begin(), threshold_vec.begin(), queue);
-            compute::transform(random_vec.begin(), random_vec.end(), threshold_vec.begin(), temp.begin(), _1 > _2, queue);
-            compute::transform(temp.begin(), temp.end(), result->vec.begin(), result->vec.begin(), _1 + _2, queue);
+            compute::transform(index_vec.begin(), index_vec.end(),
+                               index_vec.begin(), _1 + 1, queue);
+            compute::gather(index_vec.begin(), index_vec.end(), device_cpt.begin(),
+                            threshold_vec.begin(), queue);
+            compute::transform(random_vec.begin(), random_vec.end(), threshold_vec.begin(),
+                               temp.begin(), _1 > _2, queue);
+            compute::transform(temp.begin(), temp.end(), result->vec.begin(),
+                               result->vec.begin(), _1 + _2, queue);
         }
 
 #if DEBUG_MONTECARLO
