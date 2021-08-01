@@ -11,6 +11,7 @@ sudo apt install libboost-all-dev
 
 # openCL
 sudo apt install ocl-icd-opencl-dev
+sudo apt install mesa-opencl-icd
 
 # google test
 git clone https://github.com/google/googletest
