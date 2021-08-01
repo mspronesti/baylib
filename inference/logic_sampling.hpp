@@ -60,6 +60,7 @@ namespace bn {
         std::vector<Probability> accumulate_cpt(std::vector<Probability> striped_cpt, int possible_states);
         std::pair<int, int> compute_result_binary(bcvec &res);
         std::vector<int> compute_result_general(bcvec &res);
+        std::pair<int, int> calculate_iterations(int nthreads, size_t memory); // return <n_iterations, samples_in_iter>
         rank_t graph_rank();
     };
 
