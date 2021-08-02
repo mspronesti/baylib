@@ -8,13 +8,13 @@
 #include <memory>
 
 template <typename T>
-class COW {
+class cow {
 protected:
     void construct() {
         _ptr = std::make_shared<T>();
     }
 
-    void clone_if_needed() {
+    void copy() {
         if(_ptr.use_count() > 1){
            std::shared_ptr<T> old = _ptr;
            construct();
@@ -22,15 +22,15 @@ protected:
         }
     }
 
-    void duplicate(const COW<T> &other) {
+    void duplicate(const cow<T> &other) {
         _ptr = other._ptr;
     }
 
-    const T * ptr() const{
+    const T * get() const{
         return _ptr.get();
     }
 
-    T* ptr(){
+    T* get(){
         return _ptr.get();
     }
 

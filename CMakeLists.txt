@@ -21,7 +21,7 @@ add_subdirectory(baylib)
 add_subdirectory(test)
 enable_testing()
 
-add_executable(bayesian-inferrer main.cpp)
+add_executable(bayesian-inferrer main.cpp baylib/network/algorithm.hpp baylib/tools/tpool_manager.cpp baylib/tools/tpool_manager.h)
 
 target_link_libraries(bayesian-inferrer OpenCL::OpenCL pthread boost_thread)
 

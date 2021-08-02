@@ -19,7 +19,7 @@ namespace bn {
         net_parser() = default;
 
         //loads the bayesian network from the given file
-        void loadNetworkFromFile(const std::string &fileName, std::shared_ptr<bn::bayesian_network<T>> bn) {
+        void load_from_xdsl(const std::string &fileName, std::shared_ptr<bn::bayesian_network<T>> bn) {
             auto doc = std::make_shared<xml_document<>>();
             std::ifstream inputFile(fileName);
             auto buffer = std::make_shared<std::stringstream>();

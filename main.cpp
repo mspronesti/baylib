@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include <baylib/inference/logic_sampling.hpp>
+#include <baylib/network/probability/cpt.hpp>
 
 /*void print_results(const std::vector<std::string>& names, std::vector<int> results){
     for (int i = 0; i < names.size(); ++i)

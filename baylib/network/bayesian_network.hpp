@@ -1,7 +1,7 @@
 ﻿#ifndef BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP
 #define BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP
 #include <baylib/graph/graph.hpp>
-
+#include <baylib/network/probability/cpt.hpp>
 namespace bn {
 
     template <typename Probability>
@@ -49,14 +49,14 @@ namespace bn {
             bn::vertex<Probability> from = var_map.at(name1);
             bn::vertex<Probability> to = var_map.at(name2);
 
-            if(is_able_trace(to, from))
+            if(introduces_loop(to, from))
                 throw std::logic_error("can't create a loop in DAG");
 
             boost::add_edge(from, to, *graph);
         }
 
         void add_dependency(const bn::vertex<Probability> &from, const bn::vertex<Probability> &to){
-            if(is_able_trace(from, to))
+            if(introduces_loop(from, to))
                 throw std::logic_error("can't create a loop in DAG");
 
             boost::add_edge(from, to, *graph);
@@ -77,8 +77,10 @@ namespace bn {
             return boost::edge(v1, v2, *graph).second;
         }
 
-        bn::cpt<Probability> getCPT(const bn::vertex<Probability> &v) const {
-            return (*graph)[v].cpt;
+        bn::cpt<Probability> cpt_of(const std::string &name) const {
+            if(!is_variable(name))
+                throw std::runtime_error("identifier " + name + "doesn't represent a variable");
+            return cpt_map[name];
         }
 
         bool is_root(const bn::vertex<Probability> &v){
@@ -90,7 +92,12 @@ namespace bn {
             return boost::in_degree(v, *graph) == 0;
         }
 
-        std::vector<bn::vertex<Probability>> getChildren(const bn::vertex<Probability> & v) {
+        std::vector<bn::vertex<Probability>> children_of(const std::string &name) {
+            auto v  = find_variable(name);
+            return children_of(v);
+        }
+
+        std::vector<bn::vertex<Probability>> children_of(const bn::vertex<Probability> &v) {
             std::vector<bn::vertex<Probability>> children{};
             for (auto vd : boost::make_iterator_range(adjacent_vertices(v, *graph)))
                 children.push_back(vd);
@@ -98,12 +105,12 @@ namespace bn {
             return children;
         }
 
-        std::vector<bn::vertex<Probability>> getChildren(const std::string &name) {
+        std::vector<bn::vertex<Probability>> parents_of(const std::string &name) {
             auto v  = find_variable(name);
-            return getChildren(v);
+            return parents_of(v);
         }
 
-        std::vector<bn::vertex<Probability>> getParents(const bn::vertex<Probability> & v) {
+        std::vector<bn::vertex<Probability>> parents_of(const bn::vertex<Probability> &v) {
             std::vector<bn::vertex<Probability>> parents;
 
             for(auto vd : boost::make_iterator_range(boost::in_edges(v, *graph)))
@@ -112,11 +119,8 @@ namespace bn {
             return parents;
         }
 
-        std::vector<bn::vertex<Probability>> getParents(const std::string & name) {
-            return getParents(var_map.at(name));
-        }
 
-        std::vector<bn::variable<Probability>> getVariables() const {
+        std::vector<bn::variable<Probability>> variables() const {
             auto vars = std::vector<bn::variable<Probability>>{};
 
             for(auto v : boost::make_iterator_range(boost::vertices(*graph)))
@@ -132,8 +136,9 @@ namespace bn {
 
 
     private:
-        std::shared_ptr<bn::graph<Probability>> graph;
+        std::unique_ptr<bn::graph<Probability>> graph;
         std::map<std::string, vertex<Probability>> var_map;
+        std::map<std::string, bn::cpt<Probability>> cpt_map;
 
         bool is_variable(const std::string &name){
             return var_map.find(name) != var_map.end();
@@ -153,14 +158,14 @@ namespace bn {
          * @param to : edge'sloader
          * @return true if introduces a loop, false otherwise
          */
-        bool is_able_trace(const bn::vertex<Probability> &from, const bn::vertex<Probability> &to){
+        bool introduces_loop(const bn::vertex<Probability> &from, const bn::vertex<Probability> &to){
             if(from == to) return true;
 
-            auto const children = getChildren(from);
+            auto const children = children_of(from);
             return std::any_of(
                     children.cbegin(), children.cend(),
                     [this, &to](const bn::vertex<Probability> &next){
-                        return is_able_trace(next, to);
+                        return introduces_loop(next, to);
                     });
         }
     };

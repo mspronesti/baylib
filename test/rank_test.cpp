@@ -3,8 +3,9 @@
 //
 
 #include <gtest/gtest.h>
-#define private public // trick to test private members
-#include <baylib/inference/logic_sampling.hpp>
+#include <baylib/network/algorithm.hpp>
+
+using rank_t = std::map<bn::vertex<double>, int>;
 
 TEST(test_rank, _test){
    auto bn = std::make_shared<bn::bayesian_network<double>>();
@@ -24,12 +25,16 @@ TEST(test_rank, _test){
    ASSERT_TRUE(bn->is_root("a"));
    ASSERT_TRUE(bn->is_root("b"));
 
-   bn::logic_sampling ls(bn);
-   auto rank = ls.graph_rank();
+   rank_t rank_map = bn::graph_rank(bn);
 
    int expected[] = {0, 0, 1, 2, 3};
    std::uint8_t  i = 0;
-   for(auto & r : rank) ASSERT_EQ(r.second, expected[i++]);
+   for(auto & r : rank_map) ASSERT_EQ(r.second, expected[i++]);
+
+    auto order = bn::rank_order(bn);
+    int exp_order[] = {0, 1, 2, 3, 4};
+    for (int j = 0; j < order.size(); ++j)
+        ASSERT_EQ(order[j], exp_order[j]);
 }
 
 TEST(test_rank, test_from_book){
@@ -59,13 +64,19 @@ TEST(test_rank, test_from_book){
     ASSERT_TRUE(bn->is_root("1"));
     ASSERT_FALSE(bn->is_root("7"));
 
-    bn::logic_sampling ls(bn);
-    auto rank = ls.graph_rank();
+    rank_t rank = bn::graph_rank(bn);
 
     int expected[] = {0, 2, 1, 4, 4, 3, 5};
     std::uint8_t  i = 0;
     for(auto & r : rank) ASSERT_EQ(r.second, expected[i++]);
+
+    auto order = bn::rank_order(bn);
+    int exp_order[] = {0, 2, 1, 5, 3, 4, 6};
+    for (int j = 0; j < order.size(); ++j)
+        ASSERT_EQ(order[j], exp_order[j]);
 }
+
+
 
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);

@@ -39,7 +39,7 @@ protected:
 TEST_F(bnet_tests, test_names){
     std::vector<std::string> e{"a", "b", "c", "d", "e"};
     std::uint8_t i = 0;
-    for(auto & a : bn.getVariables())
+    for(auto & a : bn.variables())
         EXPECT_EQ(e[i++], a.name);
 }
 
@@ -69,7 +69,7 @@ TEST_F(bnet_tests, test_not_dag){
 }
 
 TEST_F(bnet_tests, test_children){
-    auto children = bn.getChildren("a");
+    auto children = bn.children_of("a");
     auto a_id = bn.getVariable("b").id;
     auto b_id = bn.getVariable("c").id;
 
@@ -78,7 +78,7 @@ TEST_F(bnet_tests, test_children){
 }
 
 TEST_F(bnet_tests, test_parents){
-    auto parents = bn.getParents("d");
+    auto parents = bn.parents_of("d");
 
     auto b_id = bn.getVariable("b").id;
     auto c_id = bn.getVariable("c").id;
