@@ -30,7 +30,6 @@ namespace bn {
 
     template <typename Probability>
     class logic_sampling {
-        using rank_t = std::map<bn::vertex<Probability>, int>;
         using prob_v = boost::compute::vector<Probability>;
 
     public:
@@ -48,8 +47,6 @@ namespace bn {
                                                  int dim = 10000,
                                                  int possible_states = 2);
 
-
-
     private:
 		compute::device device;
         compute::context context;
@@ -62,7 +59,6 @@ namespace bn {
         std::pair<int, int> compute_result_binary(bcvec &res);
         std::vector<int> compute_result_general(bcvec &res);
         std::pair<int, int> calculate_iterations(int nthreads, size_t memory); // return <n_iterations, samples_in_iter>
-        rank_t graph_rank();
     };
 
 
@@ -176,44 +172,6 @@ namespace bn {
             acc_res[i] = compute::count(res.vec.begin(), res.vec.end(), i, queue);
         }
         return acc_res;
-    }
-
-    /**
-    * Applies ranking function to the DAG representing the
-    * bayesian network
-    * @tparam T
-    * @return map containing node-rank as key-value couple
-    */
-    template<typename Probability>
-    typename logic_sampling<Probability>::rank_t logic_sampling<Probability>::graph_rank() {
-        rank_t ranks{};
-        auto vertices = bn->getVariables();
-        std::vector<bn::vertex<Probability>> roots;
-
-        // fill nodes map with 0s
-        for(auto & v : vertices) {
-            ranks[v.id] = 0;
-            if(bn->is_root(v.name)) roots.push_back(v.id);
-        }
-
-        if(roots.empty())
-            throw std::runtime_error("No root nodes found in graph.");
-
-        while(!roots.empty()) {
-            bn::vertex<Probability> curr_node = roots.back();
-            roots.pop_back();
-
-            for (auto v : vertices) {
-                if (!bn->conditional_dependency(curr_node, v.id)) continue;
-
-                if (ranks[curr_node] + 1 > ranks[v.id]) {
-                    ranks[v.id] = ranks[curr_node] + 1;
-                    roots.push_back(v.id);
-                }
-            }
-        }
-
-        return ranks;
     }
 
 
