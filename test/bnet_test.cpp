@@ -95,9 +95,7 @@ TEST_F(bnet_tests, test_invalid_edge){
     ASSERT_ANY_THROW(bn.add_dependency("a", "pippo"));
 }
 
-/*
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-*/

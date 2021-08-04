@@ -1,5 +1,5 @@
 set(CMAKE_CXX_STANDARD 17)
-project(bayesian-inferrer)
+project(baylib)
 cmake_minimum_required(VERSION 3.14)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -21,8 +21,8 @@ add_subdirectory(baylib)
 add_subdirectory(test)
 enable_testing()
 
-add_executable(bayesian-inferrer main.cpp baylib/network/algorithm.hpp baylib/tools/tpool_manager.cpp baylib/tools/tpool_manager.h baylib/graph/graph2.hpp baylib/network/probability/marginal_ptable.hpp)
+add_executable(bnetlib main.cpp)
 
-target_link_libraries(bayesian-inferrer OpenCL::OpenCL pthread boost_thread)
+target_link_libraries(bnetlib OpenCL::OpenCL pthread boost_thread)
 
 

@@ -74,10 +74,9 @@ void test_simulation_non_binary_multiple_parents(){
 }*/
 
 #include <baylib/graph/graph2.hpp>
-#include <baylib/network/probability/marginal_ptable.hpp>
 
 int main(){
-  /*  bayesian_network<double> g;
+    bayesian_network<double> g;
     g.add_variable("a", {});
     g.add_variable("b", {});
     g.add_variable("c", {});
@@ -85,11 +84,9 @@ int main(){
     g.add_dependency("a", "b");
     std::cout << g.has_dependency("a", "b") << '\n'
               << g.is_root("a") << '\n'
-              << g.has_dependency("b", "a");*/
+              << g.has_dependency("b", "a");
 
-    bn::marginal_ptable<double> mpt(10, 2);
-    mpt[9][1] = 3;
-    std::cout << mpt[9][1] << '\n';
+
 
     //test_simulation_chain();
     //test_simulation_non_binary_multiple_parents();
