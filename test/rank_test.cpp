@@ -9,11 +9,11 @@ using rank_t = std::map<bn::vertex<double>, int>;
 
 TEST(test_rank, _test){
    auto bn = std::make_shared<bn::bayesian_network<double>>();
-   bn->add_variable("a");
-   bn->add_variable("b");
-   bn->add_variable("c");
-   bn->add_variable("d");
-   bn->add_variable("e");
+   bn->add_variable("a", {"s1", "s2"});
+   bn->add_variable("b", {"s1", "s2"});
+   bn->add_variable("c", {"s1", "s2"});
+   bn->add_variable("d", {"s1", "s2"});
+   bn->add_variable("e", {"s1", "s2"});
 
    bn->add_dependency("a", "c");
    bn->add_dependency("a", "e");
@@ -39,13 +39,13 @@ TEST(test_rank, _test){
 
 TEST(test_rank, test_from_book){
     auto bn = std::make_shared<bn::bayesian_network<double>>();
-    bn->add_variable("1");
-    bn->add_variable("2");
-    bn->add_variable("3");
-    bn->add_variable("4");
-    bn->add_variable("5");
-    bn->add_variable("6");
-    bn->add_variable("7");
+    bn->add_variable("1", {"1", "2", "3"});
+    bn->add_variable("2", {"1", "2", "3"});
+    bn->add_variable("3", {"1", "2", "3"});
+    bn->add_variable("4", {"1", "2", "3"});
+    bn->add_variable("5", {"1", "2", "3"});
+    bn->add_variable("6", {"1", "2", "3"});
+    bn->add_variable("7", {"1", "2", "3"});
 
     bn->add_dependency("1", "2");
     bn->add_dependency("1", "3");

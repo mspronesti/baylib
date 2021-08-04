@@ -21,11 +21,11 @@ protected:
         // .    .
         //  .  .
         //    d
-        bn.add_variable("a");
-        bn.add_variable("b");
-        bn.add_variable("c");
-        bn.add_variable("d");
-        bn.add_variable("e");
+        bn.add_variable("a", {"s1", "s2"});
+        bn.add_variable("b", {"s1", "s2"});
+        bn.add_variable("c", {"s1", "s2"});
+        bn.add_variable("d", {"s1", "s2"});
+        bn.add_variable("e", {"s1", "s2"});
 
         bn.add_dependency("a", "b");
         bn.add_dependency("a", "c");
@@ -52,15 +52,15 @@ TEST_F(bnet_tests, test_root){
 }
 
 TEST_F(bnet_tests, test_dependency){
-    ASSERT_TRUE(bn.conditional_dependency("a", "b"));
-    ASSERT_TRUE(bn.conditional_dependency("a", "c"));
-    ASSERT_TRUE(bn.conditional_dependency("b", "d"));
-    ASSERT_TRUE(bn.conditional_dependency("c", "d"));
+    ASSERT_TRUE(bn.has_dependency("a", "b"));
+    ASSERT_TRUE(bn.has_dependency("a", "c"));
+    ASSERT_TRUE(bn.has_dependency("b", "d"));
+    ASSERT_TRUE(bn.has_dependency("c", "d"));
 
-    ASSERT_FALSE(bn.conditional_dependency("b", "a"));
-    ASSERT_FALSE(bn.conditional_dependency("c", "a"));
-    ASSERT_FALSE(bn.conditional_dependency("d", "b"));
-    ASSERT_FALSE(bn.conditional_dependency("d", "c"));
+    ASSERT_FALSE(bn.has_dependency("b", "a"));
+    ASSERT_FALSE(bn.has_dependency("c", "a"));
+    ASSERT_FALSE(bn.has_dependency("d", "b"));
+    ASSERT_FALSE(bn.has_dependency("d", "c"));
 }
 
 TEST_F(bnet_tests, test_not_dag){
@@ -70,8 +70,8 @@ TEST_F(bnet_tests, test_not_dag){
 
 TEST_F(bnet_tests, test_children){
     auto children = bn.children_of("a");
-    auto a_id = bn.getVariable("b").id;
-    auto b_id = bn.getVariable("c").id;
+    auto a_id = bn["b"].id;
+    auto b_id = bn["c"].id;
 
     ASSERT_EQ(children[0], a_id);
     ASSERT_EQ(children[1], b_id);
@@ -80,22 +80,24 @@ TEST_F(bnet_tests, test_children){
 TEST_F(bnet_tests, test_parents){
     auto parents = bn.parents_of("d");
 
-    auto b_id = bn.getVariable("b").id;
-    auto c_id = bn.getVariable("c").id;
+    auto b_id = bn["b"].id;
+    auto c_id = bn["c"].id;
 
     ASSERT_EQ(parents[0], c_id);
     ASSERT_EQ(parents[1], b_id);
 }
 
 TEST_F(bnet_tests, test_invalid_varname){
-    ASSERT_ANY_THROW(bn.getVariable("pippo"));
+    ASSERT_ANY_THROW(bn["pippo"]);
 }
 
 TEST_F(bnet_tests, test_invalid_edge){
     ASSERT_ANY_THROW(bn.add_dependency("a", "pippo"));
 }
 
+/*
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+*/

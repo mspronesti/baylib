@@ -1,12 +1,12 @@
 //
 // Created by elle on 02/08/21.
 //
-#include <iostream>
+
 #include <gtest/gtest.h>
 #include <baylib/network/probability/cpt.hpp>
 
 TEST(test_cpt, test_root_1){
-    bn::variable<double> var;
+    bn::random_variable<double> var;
     var.states.emplace_back("s1");
     var.states.emplace_back("s2");
 
@@ -16,7 +16,7 @@ TEST(test_cpt, test_root_1){
 }
 
 TEST(test_cpt, test_root_2){
-    bn::variable<double> var;
+    bn::random_variable<double> var;
     var.states.emplace_back("s1");
     var.states.emplace_back("s2");
     var.states.emplace_back("s3");
@@ -26,7 +26,9 @@ TEST(test_cpt, test_root_2){
         ASSERT_EQ(1.0/3, p);
 }
 
-int main(int argc, char** argv){
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+
+TEST(test_cpt, test_entire_graph){
+
 }
+
+

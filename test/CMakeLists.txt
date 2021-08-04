@@ -11,7 +11,7 @@ find_package(GTest REQUIRED)
 
 target_link_libraries(bnet_test gtest gtest_main pthread)
 target_link_libraries(rank_test gtest gtest_main pthread OpenCL::OpenCL)
-target_link_libraries(cpt_test gtest gtest_main pthread OpenCL::OpenCL)
+target_link_libraries(cpt_test gtest gtest_main pthread)
 
 add_test( bnet_test bnet)
 add_test( rank_test rank)

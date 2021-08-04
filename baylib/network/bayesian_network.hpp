@@ -2,6 +2,7 @@
 #define BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP
 #include <baylib/graph/graph.hpp>
 #include <baylib/network/probability/cpt.hpp>
+
 namespace bn {
 
     template <typename Probability>
@@ -14,7 +15,7 @@ namespace bn {
         }
 
         ~bayesian_network() {
-            graph.reset(); // credo evitabile !
+            graph.reset();
         }
 
         bayesian_network & operator = (const bayesian_network &bn){
@@ -28,17 +29,14 @@ namespace bn {
             return graph.get() == bn.graph.get();
         }
 
-        void add_variable(const std::string &name, const std::size_t nstates = 2){
+        void add_variable(const std::string &name, const std::vector<std::string> &states){
             if(is_variable(name))
-                throw std::runtime_error("variable with name " + name + " already exists");
+                throw std::runtime_error("random_variable with name " + name + " already exists");
 
-            bn::vertex<Probability> v = boost::add_vertex(*graph);
-            (*graph)[v].name = name;
-            (*graph)[v].nstates = nstates;
+            bn::vertex<Probability> v = boost::add_vertex(bn::random_variable<Probability>{name, states}, *graph);
             (*graph)[v].id = v;
             var_map[name] = std::move(v);
         }
-
 
         void remove_variable(const std::string &name){
             bn::vertex<Probability> v = find_variable(name);
@@ -50,14 +48,16 @@ namespace bn {
             bn::vertex<Probability> to = var_map.at(name2);
 
             if(introduces_loop(to, from))
-                throw std::logic_error("can't create a loop in DAG");
+                throw std::logic_error("adding conditional dependency "
+                                       + name1 + " to " + name2 +
+                                       " would introduce a loop");
 
             boost::add_edge(from, to, *graph);
         }
 
         void add_dependency(const bn::vertex<Probability> &from, const bn::vertex<Probability> &to){
             if(introduces_loop(from, to))
-                throw std::logic_error("can't create a loop in DAG");
+                throw std::logic_error("adding conditional dependency would introduce a loop");
 
             boost::add_edge(from, to, *graph);
         }
@@ -66,20 +66,39 @@ namespace bn {
             boost::remove_edge(v1, v2);
         }
 
-        bool conditional_dependency(const std::string &name1, const std::string &name2)  {
+        std::vector<bn::random_variable<Probability>> variables() const {
+            auto vars = std::vector<bn::random_variable<Probability>>{};
+
+            for(auto v : boost::make_iterator_range(boost::vertices(*graph)))
+                vars.push_back((*graph)[v]);
+
+            return vars;
+        }
+
+        bn::random_variable<Probability>& operator [] (const std::string &name){
+            auto v  = find_variable(name);
+            return (*graph)[v];
+        }
+
+        bn::random_variable<Probability>const & operator [] (const std::string &name) const{
+            auto v  = find_variable(name);
+            return (*graph)[v];
+        }
+
+        bool has_dependency(const std::string &name1, const std::string &name2)  {
             auto v1  = find_variable(name1);
             auto v2  = find_variable(name2);
 
             return boost::edge(v1, v2, *graph).second;
         }
 
-        bool conditional_dependency(const bn::vertex<Probability> &v1, const bn::vertex<Probability> &v2) const {
+        bool has_dependency(const bn::vertex<Probability> &v1, const bn::vertex<Probability> &v2) const {
             return boost::edge(v1, v2, *graph).second;
         }
 
         bn::cpt<Probability> cpt_of(const std::string &name) const {
             if(!is_variable(name))
-                throw std::runtime_error("identifier " + name + "doesn't represent a variable");
+                throw std::runtime_error("identifier " + name + "doesn't represent a random_variable");
             return cpt_map[name];
         }
 
@@ -120,23 +139,12 @@ namespace bn {
         }
 
 
-        std::vector<bn::variable<Probability>> variables() const {
-            auto vars = std::vector<bn::variable<Probability>>{};
-
-            for(auto v : boost::make_iterator_range(boost::vertices(*graph)))
-                vars.push_back((*graph)[v]);
-
-            return vars;
+        bn::vertex<Probability> index_of(const std::string &name){
+            return find_variable(name);
         }
-
-        bn::variable<Probability> getVariable(const std::string &name) {
-            auto v  = find_variable(name);
-            return (*graph)[v];
-        }
-
 
     private:
-        std::unique_ptr<bn::graph<Probability>> graph;
+        std::shared_ptr<bn::graph<Probability>> graph;
         std::map<std::string, vertex<Probability>> var_map;
         std::map<std::string, bn::cpt<Probability>> cpt_map;
 
@@ -145,10 +153,11 @@ namespace bn {
         }
 
         bn::vertex<Probability> find_variable(const std::string &name){
-            if(!is_variable(name))
-                throw std::runtime_error("identifier " + name + " doesn't represent a variable");
+            auto it = var_map.find(name);
+            if(it == var_map.end())
+                throw std::runtime_error("identifier " + name + " doesn't represent a random_variable");
 
-            return var_map.at(name);
+            return it->second; // more efficient than calling "at"
         }
 
         /**

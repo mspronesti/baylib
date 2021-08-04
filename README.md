@@ -13,12 +13,12 @@ Bayesian Inferrer is a simple inference engine library for Bayesian networks imp
 * cmake-based deployment
 
 ## Abstract
-A Bayesian Network (BN) is a probabilistic graphical model for representing knowledge about an uncertain domain where each node corresponds to a random variable and each edge represents the conditional probability for the corresponding random variables.
+A Bayesian Network (BN) is a probabilistic graphical model for representing knowledge about an uncertain domain where each node corresponds to a random random_variable and each edge represents the conditional probability for the corresponding random variables.
 
 The graphical model measures the conditional dependence structure of a set of random variables based on the [Bayes theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem).
 
 
-The problem requires to model the casual dependency between the variables and to build a direct, acyclic graph. Besides, it requires to identify for each variable a subset of states and probabilities.  
+The problem requires to model the casual dependency between the variables and to build a direct, acyclic graph. Besides, it requires to identify for each random_variable a subset of states and probabilities.  
 
 Once the engine produces the graph, inference algorithms process the conditional probabilities traversing the graph.
 

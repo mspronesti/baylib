@@ -5,8 +5,7 @@
 #ifndef BAYESIAN_INFERRER_ALGORITHM_HPP
 #define BAYESIAN_INFERRER_ALGORITHM_HPP
 
-#include <boost/range/adaptor/map.hpp>
-#include <boost/range/algorithm/copy.hpp>
+
 #include <baylib/network/bayesian_network.hpp>
 
 namespace  bn{
@@ -36,7 +35,7 @@ namespace  bn{
             roots.pop_back();
 
             for (auto v : vertices) {
-                if (!bn->conditional_dependency(curr_node, v.id)) continue;
+                if (!bn->has_dependency(curr_node, v.id)) continue;
 
                 if (ranks[curr_node] + 1 > ranks[v.id]) {
                     ranks[v.id] = ranks[curr_node] + 1;

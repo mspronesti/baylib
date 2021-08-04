@@ -11,8 +11,10 @@
 #include <numeric>
 
 namespace  bn {
+    using state_t = std::uint32_t;
+
     template<typename Probability>
-    using condition = std::map<bn::variable<Probability>, unsigned int>;
+    using condition = std::map<bn::random_variable<Probability>, state_t>;
 
     template <typename Probability>
     using table_t = std::map<condition<Probability>, std::vector<Probability>>;
@@ -20,7 +22,7 @@ namespace  bn {
     template <typename Probability>
     struct table_data {
         table_t<Probability> table;
-        std::vector<bn::variable<Probability>> parents;
+        std::vector<bn::random_variable<Probability>> parents;
     };
 
     template <typename Probability>
@@ -43,12 +45,12 @@ namespace  bn {
        using cow<table_data<Probability>>::copy;
 
     public:
-        explicit cpt(bn::variable<Probability> _owner) : _owner(_owner){
+        explicit cpt(bn::random_variable<Probability> _owner) : _owner(_owner){
             construct();
             fill_table();
         }
 
-        cpt(bn::variable<Probability> _owner, const std::vector<bn::variable<Probability>> &parents)
+        cpt(bn::random_variable<Probability> _owner, const std::vector<bn::random_variable<Probability>> &parents)
             : _owner(_owner)
         {
             construct();
@@ -74,7 +76,7 @@ namespace  bn {
             return get()->table[cond];
         }
 
-        std::vector<bn::variable<Probability>> const &parents() const noexcept{
+        std::vector<bn::random_variable<Probability>> const &parents() const noexcept{
             return get()->parents;
         }
 
@@ -89,13 +91,13 @@ namespace  bn {
 
 
     private:
-        bn::variable<Probability> _owner; // the vertex the table belongs to
-        void fill_table(const std::vector<bn::variable<Probability>> &parents = {});
+        bn::random_variable<Probability> _owner; // the vertex the table belongs to
+        void fill_table(const std::vector<bn::random_variable<Probability>> &parents = {});
     };
 
     template <typename Probability>
-    void cpt<Probability>::fill_table(const std::vector<bn::variable<Probability>> &parents){
-        if(parents.empty()){ // variable is a root
+    void cpt<Probability>::fill_table(const std::vector<bn::random_variable<Probability>> &parents){
+        if(parents.empty()){ // random_variable is a root
             unsigned int nstates = _owner.states.size();
             // controllo che non siano 0 ...
             auto cond = condition<Probability>{};
@@ -105,9 +107,11 @@ namespace  bn {
                 probabilities.push_back(1.0/nstates);
 
             get()->table.insert(std::make_pair(cond, probabilities));
-        }else {
-            // TODO: to be implemented
+            return;
         }
+
+        // case not root
+        // TODO: to be implemented
     }
 
 } // namespace bn
