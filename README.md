@@ -1,14 +1,16 @@
-# Bayesian Inferrer
+# baylib C++ library
 <p align="center">
  <img alt="C++" src="https://img.shields.io/badge/cmake-v3.14.0-green"/>
  <img alt="developement" src="https://img.shields.io/badge/C++-17 | 20-blue.svg?style=flat&logo=c%2B%2B"/> 
 </p>
 
-Bayesian Inferrer is a simple inference engine library for Bayesian networks implementing the [logic sampling algorithm](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/9b660beb-e839-4ee7-a30e-5bd6a12e56de/henrion1988.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210722%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210722T134310Z&X-Amz-Expires=86400&X-Amz-Signature=ca28cf9692cd9be410b692e6388eab7da6a0e960e81c34c8060be8cc0fcc1419&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22henrion1988.pdf%22) characterized by the following features:
+Baylib is a simple inference engine library for Bayesian networks developed as final project for System Programming class at PoliTO.
+The engine supports approximate inference algorithms.
+
+Here's a list of the main requested features:
 * Copy-On-Write semantics for the graph data structure, including the conditional probability table (CPT) of each node 
 * parallel implementation of the algorithm 
-* template-based classes 
-* allocation policy based on `std::pmr::polymorphic_allocator`
+* template-based classes for probability format
 * input and output compatible with the [XDSL format](https://support.bayesfusion.com/docs/) prived by the SMILE library
 * cmake-based deployment
 
