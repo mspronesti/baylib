@@ -74,9 +74,10 @@ void test_simulation_non_binary_multiple_parents(){
 }*/
 
 #include <baylib/graph/graph2.hpp>
+#include <baylib/network/probability/condition.hpp>
 
 int main(){
-    bayesian_network<double> g;
+  /*  bayesian_network<double> g;
     g.add_variable("a", {});
     g.add_variable("b", {});
     g.add_variable("c", {});
@@ -86,7 +87,37 @@ int main(){
               << g.is_root("a") << '\n'
               << g.has_dependency("b", "a");
 
+*/
+    bn::condition c{};
+    c.add("a", 1);
+    c.add("b", 1);
 
+/*
+    std::cout << c["a"] << '\t' << c["b"] << '\n';
+*/
+
+    bn::condition c1{};
+    c1.add("c", 2);
+    c1.add("a", 1);
+  /*  std::cout << c["a"] << '\t' << c["b"] << '\n';
+    std::cout << c1["c"] << '\n';
+    std::cout << c["a"] << '\t' << c["b"] << '\n';*/
+
+
+    std::map<bn::condition, int> m;
+    m[c] = 1;
+    std::cout << "c is present: " << (m.find(c) != m.end()) << '\n';
+    m[c1] = 2;
+    std::cout << "c1 is present: " << (m.find(c1) != m.end()) << '\n';
+
+
+    std::cout << "---\n";
+
+    for(auto & v : m)
+        std::cout << v.second << '\n';
+
+
+    std::cout << m.size();
 
     //test_simulation_chain();
     //test_simulation_non_binary_multiple_parents();

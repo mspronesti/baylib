@@ -96,12 +96,6 @@ namespace bn {
             return boost::edge(v1, v2, *graph).second;
         }
 
-        bn::cpt<Probability> cpt_of(const std::string &name) const {
-            if(!is_variable(name))
-                throw std::runtime_error("identifier " + name + "doesn't represent a random_variable");
-            return cpt_map[name];
-        }
-
         bool is_root(const bn::vertex<Probability> &v){
             return boost::in_degree(v, *graph) == 0;
         }
@@ -113,7 +107,11 @@ namespace bn {
 
         std::vector<bn::vertex<Probability>> children_of(const std::string &name) {
             auto v  = find_variable(name);
-            return children_of(v);
+            std::vector<bn::vertex<Probability>> children{};
+            for (auto vd : boost::make_iterator_range(adjacent_vertices(v, *graph)))
+                children.push_back(vd);
+
+            return children;
         }
 
         std::vector<bn::vertex<Probability>> children_of(const bn::vertex<Probability> &v) {
@@ -126,7 +124,18 @@ namespace bn {
 
         std::vector<bn::vertex<Probability>> parents_of(const std::string &name) {
             auto v  = find_variable(name);
-            return parents_of(v);
+            std::vector<bn::vertex<Probability>> parents;
+
+            for(auto vd : boost::make_iterator_range(boost::in_edges(v, *graph)))
+                parents.push_back(boost::source(vd, *graph));
+
+            return parents;
+        }
+
+        bool has_parent(const std::string &v1, const std::string &v2){
+            auto parents = parents_of(v1);
+            auto ind = index_of(v2);
+            return std::find(parents.begin(), parents.end(), ind) != parents.end();
         }
 
         std::vector<bn::vertex<Probability>> parents_of(const bn::vertex<Probability> &v) {
@@ -143,10 +152,23 @@ namespace bn {
             return find_variable(name);
         }
 
+        void set_variable_probability(
+           const std::string& var_name,
+           bn::state_t state_value,
+           const bn::condition& cond,
+           Probability p
+        )
+        {
+            for(auto & c : cond)
+                if(!has_parent(var_name, c.first))
+                    throw std::runtime_error("no such parent " + c.first + " for variable " + var_name);
+
+            this->operator[](var_name).set_probability(state_value, cond, p);
+        }
+
     private:
         std::shared_ptr<bn::graph<Probability>> graph;
         std::map<std::string, vertex<Probability>> var_map;
-        std::map<std::string, bn::cpt<Probability>> cpt_map;
 
         bool is_variable(const std::string &name){
             return var_map.find(name) != var_map.end();

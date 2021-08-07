@@ -5,32 +5,31 @@
 #ifndef BAYESIAN_INFERRER_CPT_HPP
 #define BAYESIAN_INFERRER_CPT_HPP
 
-
+#include <baylib/network/probability/condition.hpp>
 #include <baylib/tools/cow.hpp>
-#include <baylib/graph/graph.hpp>
 #include <numeric>
 
-namespace  bn {
-    using state_t = std::uint32_t;
+#include <baylib/tools/cow/shared_data.hpp>
+#include <baylib/tools/cow/shared_ptr.hpp>
 
-    template<typename Probability>
-    using condition = std::map<bn::random_variable<Probability>, state_t>;
+
+namespace  bn {
 
     template <typename Probability>
-    using table_t = std::map<condition<Probability>, std::vector<Probability>>;
+    using table_t = std::map<bn::condition, std::vector<Probability>>;
 
     template <typename Probability>
     struct table_data {
         table_t<Probability> table;
-        std::vector<bn::random_variable<Probability>> parents;
+        std::vector<std::string> states;
     };
 
     template <typename Probability>
-    class cpt : private cow<table_data<Probability>> {
+class cpt : private ::cow<table_data<Probability>> {
         /**
          *  example:
-         *  condition c = {{var1, 1}, {var2, 3}}
-         *  cpt cpt(var3, {var1, var2}}
+         *  condition c = {{"var1": 1}, {"var2": 3}}
+         *  cpt cpt({"var1", "var2"}}
          *
          *  std::vector<Probability> probs = cpt[c]
          *
@@ -40,80 +39,148 @@ namespace  bn {
          *     .                 .
          *  probs[n] :  P(var3=n | var=1, var2=3)
          */
-       using cow<table_data<Probability>>::construct;
-       using cow<table_data<Probability>>::get;
-       using cow<table_data<Probability>>::copy;
+       using ::cow<table_data<Probability>>::construct;
+       using ::cow<table_data<Probability>>::data;
+       using ::cow<table_data<Probability>>::detach;
 
     public:
-        explicit cpt(bn::random_variable<Probability> _owner) : _owner(_owner){
-            construct();
-            fill_table();
-        }
-
-        cpt(bn::random_variable<Probability> _owner, const std::vector<bn::random_variable<Probability>> &parents)
-            : _owner(_owner)
+        explicit cpt(const std::vector<std::string> &states = {"T", "F"})
         {
             construct();
-            get()->_parents = std::move(parents);
-            fill_table(parents);
+            data()->states = states;
         }
 
-        std::vector<Probability> & operator [] (const condition<Probability> &cond){
-            copy();
-            return get()->table[cond];
+        void set_probability (
+            const bn::condition &cond,
+            bn::state_t state_val,
+            Probability p
+         )
+        {
+            if(state_val > data()->states.size())
+                throw std::runtime_error("invalid state value");
+
+            if( p < 0.0 || p > 1.0)
+                throw std::runtime_error("invalid probability value");
+
+            detach();
+            if(has_entry_for(cond)){
+                data()->table[cond][state_val] = p;
+            } else {
+                auto tmp = std::vector<Probability>(data()->states.size(), -1);
+                data()->table[cond] = std::move(tmp);
+                data()->table[cond][state_val] = p;
+            }
         }
 
-        std::vector<Probability> const& operator [] (const condition<Probability> &cond) const{
-            return get()->table[cond];
+        std::vector<Probability> & operator [] (const bn::condition &cond){
+            detach();
+            return data()->table[cond];
         }
 
-        std::vector<Probability> & at (const condition<Probability> &cond) {
-            copy();
-            return get()->table[cond];
+        std::vector<Probability> & at (const bn::condition &cond) {
+            detach();
+            return data()->table[cond];
         }
 
-        std::vector<Probability> const& at (const condition<Probability> &cond) const{
-            return get()->table[cond];
+        std::vector<Probability> const& at (const bn::condition &cond) const{
+            return data()->table[cond];
         }
 
-        std::vector<bn::random_variable<Probability>> const &parents() const noexcept{
-            return get()->parents;
+        std::vector<std::string> const &states() const noexcept{
+            return data()->states;
         }
 
         void clear(){
-            copy();
-            // TODO: to be implemented
+            detach();
+            data()->table.clear();
         }
 
-        bn::vertex<Probability> owner() const {
-            return _owner;
+        bool has_entry_for(const bn::condition &c) const{
+            auto _table = data()->table;
+            return _table.find(c) != _table.end();
         }
-
 
     private:
-        bn::random_variable<Probability> _owner; // the vertex the table belongs to
-        void fill_table(const std::vector<bn::random_variable<Probability>> &parents = {});
-    };
-
-    template <typename Probability>
-    void cpt<Probability>::fill_table(const std::vector<bn::random_variable<Probability>> &parents){
-        if(parents.empty()){ // random_variable is a root
-            unsigned int nstates = _owner.states.size();
-            // controllo che non siano 0 ...
-            auto cond = condition<Probability>{};
-            auto probabilities = std::vector<Probability>{};
-
-            for(int i = 0; i < nstates; ++i)
-                probabilities.push_back(1.0/nstates);
-
-            get()->table.insert(std::make_pair(cond, probabilities));
-            return;
+        bool coherent_table(){
+            return false;
         }
-
-        // case not root
-        // TODO: to be implemented
-    }
+    };
 
 } // namespace bn
 
+
+
+
+/**
+ * ============== SECOND POSSIBILITY OF DEFINING IT =================
+ * Using custom shared_ptr from bn::cow namespace adapted from
+ * Qt library source code
+ */
+namespace bn::cow {
+    template <typename Probability>
+    struct CPTData : public bn::cow::shared_data {
+        std::map<bn::condition, std::vector<Probability>> table;
+        std::vector<std::string> states;
+    };
+
+
+    template<typename Probability>
+    class cpt {
+    public:
+        explicit cpt(const std::vector<std::string> &states = {"T", "F"})
+        {
+            d = new CPTData<Probability>();
+            d->states = states;
+        }
+
+        void set_probability (
+                const bn::condition &cond,
+                bn::state_t state_val,
+                Probability p
+        )
+        {
+            if(state_val > d->states.size())
+                throw std::runtime_error("invalid state value");
+
+            if( p < 0.0 || p > 1.0)
+                throw std::runtime_error("invalid probability value");
+
+            if(has_entry_for(cond)){
+                d->table[cond][state_val] = p;
+            } else {
+                auto tmp = std::vector<Probability>(d->states.size(), -1);
+                d->table[cond] = std::move(tmp);
+                d->table[cond][state_val] = p;
+            }
+        }
+
+        std::vector<Probability> & operator [] (const bn::condition &cond){
+            return d->table[cond];
+        }
+
+        std::vector<Probability> & at (const bn::condition &cond) {
+            return d->table[cond];
+        }
+
+        std::vector<Probability> const& at (const bn::condition &cond) const{
+            return d->table[cond];
+        }
+
+        std::vector<std::string> const &states() const noexcept{
+            return d->states;
+        }
+
+        void clear(){
+            d->table.clear();
+        }
+
+        bool has_entry_for(const bn::condition &c) const{
+            auto _table = d->table;
+            return _table.find(c) != _table.end();
+        }
+
+    private:
+        bn::cow::shared_ptr<CPTData<Probability>> d;
+    };
+}
 #endif //BAYESIAN_INFERRER_CPT_HPP

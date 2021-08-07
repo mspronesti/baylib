@@ -7,6 +7,15 @@
 
 
 #include <baylib/network/bayesian_network.hpp>
+#include <unordered_set>
+
+/**
+ * this file contains some useful algorithms
+ * for bayesian network inference
+ *  ! graph rank function for vectorization ordering
+ *  ! graph rank direct ordering
+ *  ! markov-blanket
+ */
 
 namespace  bn{
     /**
@@ -73,6 +82,33 @@ namespace  bn{
        });
 
        return order;
+    }
+
+    /**
+     * Computes the Markov blanket reduction
+     * given the bayesian network and a node
+     * @tparam Probability : the type expressing the probability
+     * @param bn           : bayesian network shared pointer
+     * @param rv           : random variable node
+     * @return             : unordered set containing the Markov blanket
+     */
+    template <typename Probability>
+    std::unordered_set<bn::random_variable<Probability>> markov_blanket
+     (  const std::shared_ptr<bn::bayesian_network<Probability>> &bn,
+        const bn::random_variable<Probability> &rv
+     ) {
+        auto marblank = std::unordered_set<bn::random_variable<Probability>>{};
+        for(auto & pv : bn->parents_of(rv.name))
+            marblank.insert(pv);
+
+        for(auto & cv : bn->children_of(rv.name)){
+            marblank.insert(cv);
+            for(auto pv : bn->parents_of(cv))
+                if(cv.id != rv.id)
+                    marblank.insert(pv);
+        }
+
+        return marblank;
     }
 
 } // namespace bn

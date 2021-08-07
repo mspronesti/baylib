@@ -6,19 +6,40 @@
 #define BAYESIAN_INFERRER_GRAPH_HPP
 
 #include <boost/graph/adjacency_list.hpp>
+#include <baylib/network/probability/cpt.hpp>
 
 namespace bn {
     template <typename Probability>
     struct random_variable {
         unsigned int id{};
         std::string name;
-        std::vector<std::string> states; // names of states
-        std::map<std::string, Probability> marginal_probs;
+        bn::cow::cpt<Probability> cpt;
 
         random_variable() = default;
 
-        random_variable(std::string name, std::vector<std::string> states)
-            :name(std::move(name)), states(std::move(states)) {}
+        random_variable(std::string name, const std::vector<std::string>& states)
+            :name(std::move(name)), cpt(states) {}
+
+        bool has_state(const std::string &state_name){
+            return std::find(states().begin(), states().end(), state_name) != states().end();
+        }
+
+        std::vector<std::string> states () const {
+            return cpt.states();
+        }
+
+        bn::cow::cpt<Probability> &table() {
+            return cpt;
+        }
+
+        void set_probability(
+          bn::state_t state_value,
+          const bn::condition& cond,
+          Probability p
+        )
+        {
+            cpt.set_probability(cond, state_value, p);
+        }
 
         bool operator < (const random_variable & other) const { return id < other.id; }
     };
