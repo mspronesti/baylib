@@ -5,7 +5,7 @@
 #ifndef BAYESIAN_INFERRER_CPT_HPP
 #define BAYESIAN_INFERRER_CPT_HPP
 
-#include <baylib/network/probability/condition.hpp>
+#include <baylib/probability/condition.hpp>
 #include <baylib/tools/cow.hpp>
 #include <numeric>
 
@@ -25,7 +25,7 @@ namespace  bn {
     };
 
     template <typename Probability>
-class cpt : private ::cow<table_data<Probability>> {
+    class cpt : private ::cow<table_data<Probability>> {
         /**
          *  example:
          *  condition c = {{"var1": 1}, {"var2": 3}}

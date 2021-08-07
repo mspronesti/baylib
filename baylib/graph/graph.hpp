@@ -6,7 +6,7 @@
 #define BAYESIAN_INFERRER_GRAPH_HPP
 
 #include <boost/graph/adjacency_list.hpp>
-#include <baylib/network/probability/cpt.hpp>
+#include <baylib/probability/cpt.hpp>
 
 namespace bn {
     template <typename Probability>

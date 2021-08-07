@@ -1,7 +1,7 @@
 ﻿#ifndef BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP
 #define BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP
 #include <baylib/graph/graph.hpp>
-#include <baylib/network/probability/cpt.hpp>
+#include <baylib/probability/cpt.hpp>
 
 namespace bn {
 
