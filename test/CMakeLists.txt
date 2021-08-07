@@ -1,6 +1,6 @@
-add_executable(bnet_test bnet_test.cpp cpt_test.cpp)
+add_executable(bnet_test bnet_test.cpp)
 add_executable(rank_test rank_test.cpp)
-add_executable(cpt_test cpt_test.cpp)
+add_executable(cpt_test  cpt_test.cpp)
 
 set_target_properties( bnet_test PROPERTIES OUTPUT_NAME "bnet" )
 set_target_properties( rank_test PROPERTIES OUTPUT_NAME "rank" )
