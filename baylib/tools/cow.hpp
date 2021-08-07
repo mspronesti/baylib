@@ -7,6 +7,7 @@
 
 #include <memory>
 
+
 template <typename T>
 class cow {
 protected:
@@ -14,7 +15,8 @@ protected:
         _ptr = std::make_shared<T>();
     }
 
-    void copy() {
+    // call this function in derived's setter before other code
+    void detach() {
         if(_ptr.use_count() > 1){
            std::shared_ptr<T> old = _ptr;
            construct();
@@ -22,15 +24,12 @@ protected:
         }
     }
 
-    void duplicate(const cow<T> &other) {
-        _ptr = other._ptr;
-    }
 
-    const T * get() const{
+    const T * data() const{
         return _ptr.get();
     }
 
-    T* get(){
+    T* data(){
         return _ptr.get();
     }
 
