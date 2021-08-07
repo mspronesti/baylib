@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <baylib/network/bayesian_network.hpp>
-#include <baylib/network/probability/condition.hpp>
+#include <baylib/probability/condition.hpp>
 
 class cpt_tests : public ::testing::Test {
 protected:
