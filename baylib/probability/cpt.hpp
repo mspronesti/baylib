@@ -116,71 +116,134 @@ namespace  bn {
  * Using custom shared_ptr from bn::cow namespace adapted from
  * Qt library source code
  */
-namespace bn::cow {
-    template <typename Probability>
-    struct CPTData : public bn::cow::shared_data {
-        std::map<bn::condition, std::vector<Probability>> table;
-        std::vector<std::string> states;
-    };
+
+namespace bn{
+    namespace cow {
+
+        template<typename Probability>
+        struct CPTData : public bn::cow::shared_data {
+            /**
+             * "table" doesn't map condition into a probability
+             * vector using a map because this struct is used for
+             * copy-on-write
+             * (only probability values are actually shared, regardless
+             * of condition entry so that cow is used for two tables
+             * having the very same probability entries of different
+             *  conditions )
+             */
+            std::vector<std::vector<Probability>> table;
+            unsigned int nstates{};
+        };
 
 
-    template<typename Probability>
-    class cpt {
-    public:
-        explicit cpt(const std::vector<std::string> &states = {"T", "F"})
-        {
-            d = new CPTData<Probability>();
-            d->states = states;
-        }
-
-        void set_probability (
-                const bn::condition &cond,
-                bn::state_t state_val,
-                Probability p
-        )
-        {
-            if(state_val > d->states.size())
-                throw std::runtime_error("invalid state value");
-
-            if( p < 0.0 || p > 1.0)
-                throw std::runtime_error("invalid probability value");
-
-            if(has_entry_for(cond)){
-                d->table[cond][state_val] = p;
-            } else {
-                auto tmp = std::vector<Probability>(d->states.size(), -1);
-                d->table[cond] = std::move(tmp);
-                d->table[cond][state_val] = p;
+        template<typename Probability>
+        class cpt {
+            /**
+            * This class models a condition probability
+            * table indirectly mapping condition to probability
+            * row (and employing copy on write to spare memory)
+            *
+            *  Example:
+            *  condition c = {{"var1": 1}, {"var2": 3}}
+            *  cpt cpt({"var1", "var2"}}
+            *
+            *  std::vector<Probability> probs = cpt[c]
+            *
+            *  probs[0] :  P(var3=0 | var1=1, var2=3)
+            *  probs[1] :  P(var3=1 | var1=1, var2=3)
+            *     .                 .
+            *     .                 .
+            *  probs[n] :  P(var3=n | var=1, var2=3)
+            */
+        public:
+            explicit cpt(unsigned int nstates = 2) {
+                d = new CPTData<Probability>();
+                d->nstates = nstates;
             }
-        }
 
-        std::vector<Probability> & operator [] (const bn::condition &cond){
-            return d->table[cond];
-        }
+            void set_probability(
+                    const bn::condition &cond,
+                    bn::state_t state_val,
+                    Probability p
+            ) {
+                BAYLIB_ASSERT(state_val <= d->nstates,
+                              "invalid state value",
+                              std::runtime_error)
 
-        std::vector<Probability> & at (const bn::condition &cond) {
-            return d->table[cond];
-        }
+                BAYLIB_ASSERT(p >= 0.0 && p <= 1.0,
+                              "illegal probability value",
+                              std::logic_error)
 
-        std::vector<Probability> const& at (const bn::condition &cond) const{
-            return d->table[cond];
-        }
+                if (has_entry_for(cond)) {
+                    d->table[cond_map.at(cond)][state_val] = p;
+                } else {
+                    int size = d->table.size();
+                    cond_map[cond] = size; // storing condition
+                    d->table.emplace_back(d->nstates, -1); // alloccating new row in cpt
+                    d->table[size][state_val] = p; // storing probability
+                }
+            }
 
-        std::vector<std::string> const &states() const noexcept{
-            return d->states;
-        }
+            std::vector<Probability> &operator[](const bn::condition &cond) {
+                BAYLIB_ASSERT(has_entry_for(cond),
+                        "bad condition value",
+                        std::out_of_range)
 
-        void clear(){
-            d->table.clear();
-        }
+                return d->table[cond_map.at(cond)];
+            }
 
-        bool has_entry_for(const bn::condition &c) const{
-            auto _table = d->table;
-            return _table.find(c) != _table.end();
-        }
+            std::vector<Probability> &at(const bn::condition &cond) {
+                BAYLIB_ASSERT(has_entry_for(cond),
+                              "bad condition value",
+                              std::out_of_range)
 
-    private:
-        bn::cow::shared_ptr<CPTData<Probability>> d;
-    };
-}
+                return d->table[cond_map.at(cond)];
+            }
+
+            std::vector<Probability> const &at(const bn::condition &cond) const {
+                BAYLIB_ASSERT(has_entry_for(cond),
+                              "bad condition value",
+                              std::out_of_range)
+
+                return d->table[cond_map.at(cond)];
+            }
+
+            void clear() {
+                d->table.clear();
+                cond_map.clear();
+            }
+
+            bool has_entry_for(const bn::condition &c) const {
+                return cond_map.find(c) != cond_map.end();
+            }
+
+            bool operator == (const cpt<Probability> &c) const {
+                // TODO: to be implemented
+                // useful for cow assign
+                return false;
+            }
+
+            friend std::ostream& operator << (std::ostream &os, const cpt &cpt) {
+                for(auto &[cond, cond_id] : cpt.cond_map){
+                    os << cond << " | ";
+                    for(auto &p : cpt.d->table[cond_id])
+                        os <<  ' ' << p << " | ";
+                    os << '\n';
+                }
+                return os;
+            }
+
+        private:
+            bn::cow::shared_ptr<CPTData<Probability>> d;
+            // assigns a condition its index in the cpt
+            // ! key   : condition
+            // ! value : row index
+            std::map<bn::condition, unsigned int> cond_map;
+        };
+
+
+
+
+    } // namespace cow
+} // namespace bn
 #endif //BAYESIAN_INFERRER_CPT_HPP

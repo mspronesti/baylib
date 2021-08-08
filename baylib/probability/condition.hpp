@@ -5,6 +5,8 @@
 #ifndef BAYLIB_CONDITION_HPP
 #define BAYLIB_CONDITION_HPP
 
+#include <baylib/assert.h>
+
 namespace bn {
     using state_t = std::uint64_t;
 
@@ -34,26 +36,26 @@ namespace bn {
             return *this;
         }
 
-        void add(const std::string &parent_name, state_t val) {
-            // controllo ...
-
-            cmap[parent_name] = val;
+        void add(const std::string &node_name, state_t val) {
+            cmap[node_name] = val;
         }
 
-        state_t &operator[](const std::string &parent_name) {
-            if (!has_parent(parent_name)) {
-                // throw ...
-            }
+        state_t &operator[](const std::string &node_name) {
+            BAYLIB_ASSERT(contains(node_name),
+                    "condition doesn't contain node"
+                    + node_name,
+                    std::runtime_error)
 
-            return cmap[parent_name];
+            return cmap[node_name];
         }
 
-        const state_t &operator[](const std::string &parent_name) const {
-            if (!has_parent(parent_name)) {
-                // throw ...
-            }
+        const state_t &operator[](const std::string &node_name) const {
+            BAYLIB_ASSERT(contains(node_name),
+                          "condition doesn't contain node"
+                          + node_name,
+                          std::runtime_error)
 
-            return cmap.at(parent_name);
+            return cmap.at(node_name);
         }
 
         void swap(condition &other) {
@@ -64,8 +66,8 @@ namespace bn {
             cmap.clear();
         }
 
-        bool has_parent(const std::string &state_name) const {
-            return cmap.find(state_name) != cmap.end();
+        bool contains(const std::string &node_name) const {
+            return cmap.find(node_name) != cmap.end();
         }
 
         auto  begin() const {
@@ -74,6 +76,10 @@ namespace bn {
 
         auto end() const {
             return cmap.end();
+        }
+
+        unsigned int size() const {
+            return cmap.size();
         }
 
         bool operator < ( const condition &other) const {
@@ -100,9 +106,16 @@ namespace bn {
             }
         }
 
+        friend std::ostream& operator << (std::ostream &os, const condition &c)
+        {
+          for(auto & [k,v] : c.cmap)
+              os << k << ':' << v << ' ';
+          return os;
+        }
+
 
     private:
-        // ! key   : parent name
+        // ! key   : node name
         // ! value : state value
         std::map<std::string, state_t> cmap;
     };

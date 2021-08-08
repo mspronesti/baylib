@@ -7,8 +7,8 @@
 
 /**
  * Adapted version of qshareddata.h from Qt library
- * (which already implements the copy on write in an
- * efficient way)
+ * which already implements the IMPLICIT copy on write
+ * in an efficient way
  */
 
 namespace bn{

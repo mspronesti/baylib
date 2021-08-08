@@ -7,25 +7,27 @@
 
 #include <boost/graph/adjacency_list.hpp>
 #include <baylib/probability/cpt.hpp>
-
+#include <memory_resource>
 namespace bn {
     template <typename Probability>
     struct random_variable {
         unsigned int id{};
         std::string name;
         bn::cow::cpt<Probability> cpt;
-
+        std::vector<std::string> _states;
+        
         random_variable() = default;
 
         random_variable(std::string name, const std::vector<std::string>& states)
-            :name(std::move(name)), cpt(states) {}
+            :name(std::move(name)), cpt(states.size()) {}
 
         bool has_state(const std::string &state_name){
-            return std::find(states().begin(), states().end(), state_name) != states().end();
+            return std::any_of(_states.begin(), _states.end(), 
+                    [state_name](std::string state){ return state_name == state; });
         }
 
         std::vector<std::string> states () const {
-            return cpt.states();
+            return _states;
         }
 
         bn::cow::cpt<Probability> &table() {
