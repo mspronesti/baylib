@@ -17,12 +17,14 @@ protected:
     void SetUp() override {
         //
         // b    c
-        // .    .
-        //  .  .
-        //    a
-        //    .
-        //    .
-        //    d
+        // \   /
+        //  \ /
+        //   v
+        //   a
+        //   |
+        //   |
+        //   v
+        //   d
 
         // 2 states variables
         bn.add_variable("a", {"T", "F"});
@@ -46,8 +48,9 @@ TEST_F(cpt_tests, test_root_1) {
   bn.set_variable_probability("b", T, c, .02);
   bn.set_variable_probability("b", F, c, 1 - .02);
 
-  ASSERT_EQ(bn["b"].table()[c][F], 1 - .02);
-  ASSERT_EQ(bn["b"].table()[c][T],  .02);
+  auto& b_cpt = bn["b"].table();
+  ASSERT_EQ(b_cpt[c][F], 1 - .02);
+  ASSERT_EQ(b_cpt[c][T],  .02);
 }
 
 
@@ -56,8 +59,9 @@ TEST_F(cpt_tests, test_root_2) {
     bn.set_variable_probability("c", T, c, .002);
     bn.set_variable_probability("c", F, c, 1 - .002);
 
-    ASSERT_EQ(bn["c"].table()[c][F], 1 - .002);
-    ASSERT_EQ(bn["c"].table()[c][T],  .002);
+    auto &c_cpt = bn["c"].table();
+    ASSERT_EQ(c_cpt[c][F], 1 - .002);
+    ASSERT_EQ(c_cpt[c][T], .002);
 }
 
 TEST_F(cpt_tests, test_parents) {
@@ -65,18 +69,33 @@ TEST_F(cpt_tests, test_parents) {
     c.add("b", 1);
     c.add("c", 1);
 
+    // can't set a probability > 1
+    ASSERT_ANY_THROW( bn.set_variable_probability("a", T, c, 1.5));
+
     bn.set_variable_probability("a", T, c, .9); // P(a = 1 | b = 1, c = 1) = 0.9
     bn.set_variable_probability("a", F, c, 1 - .9); // P(a = 0 | b = 1, c = 1) = 0.1
-    ASSERT_EQ(bn["a"].table()[c][F], 1 - .9);
-    ASSERT_EQ(bn["a"].table()[c][T],  .9);
+
+    auto& a_cpt = bn["a"].table();
+    ASSERT_EQ(a_cpt[c][F], 1 - .9);
+    ASSERT_EQ(a_cpt[c][T],  .9);
 
     bn::condition c1;
     c1.add("b", 0);
     c1.add("c", 1);
     bn.set_variable_probability("a", T, c1, .5);
     bn.set_variable_probability("a", F, c1, 1-.5);
-    ASSERT_EQ(bn["a"].table()[c1][F], 1 - .5);
-    ASSERT_EQ(bn["a"].table()[c1][T],  .5);
+
+    ASSERT_EQ(a_cpt[c1][F], 1 - .5);
+    ASSERT_EQ(a_cpt[c1][T],  .5);
+
+    c1.clear();
+    c1.add("b", 0);
+    c1.add("c", 0);
+    bn.set_variable_probability("a", T, c1, .25);
+    bn.set_variable_probability("a", F, c1, 1-.25);
+
+    ASSERT_EQ(a_cpt[c1][F], 1 - .25);
+    ASSERT_EQ(a_cpt[c1][T],  .25);
 
 
     c1.clear();
@@ -84,9 +103,21 @@ TEST_F(cpt_tests, test_parents) {
     bn.set_variable_probability("d", T, c1, 0.5);
     bn.set_variable_probability("d", F, c1, 1 - 0.5);
 
-    ASSERT_EQ(bn["d"].table()[c1][F], 1 - .5);
-    ASSERT_EQ(bn["d"].table()[c1][T],  .5);
+    auto& b_cpt = bn["d"].table();
+    ASSERT_EQ(b_cpt[c1][F], 1 - .5);
+    ASSERT_EQ(b_cpt[c1][T],  .5);
 
+    std::cout << a_cpt;
+}
+
+
+TEST_F(cpt_tests, test_no_parent) {
+    bn::condition c;
+    c.add("a", 1);
+    c.add("c", 1);
+
+    // "b" is root, hence doesn't have any parent!
+    ASSERT_ANY_THROW(bn.set_variable_probability("b", T, c, 0.5));
 }
 
 

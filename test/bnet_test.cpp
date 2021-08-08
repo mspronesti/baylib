@@ -15,12 +15,13 @@ protected:
 
     void SetUp() override {
         //   a
-        //  .  .
-        // .    .
-        // b    c . . e
-        // .    .
-        //  .  .
-        //    d
+        //  /  \
+        // v    v
+        // b    c <--- e
+        // \   /
+        //  \ /
+        //   v
+        //   d
         bn.add_variable("a", {"s1", "s2"});
         bn.add_variable("b", {"s1", "s2"});
         bn.add_variable("c", {"s1", "s2"});
@@ -64,8 +65,9 @@ TEST_F(bnet_tests, test_dependency){
 }
 
 TEST_F(bnet_tests, test_not_dag){
-    // would be not longer DAG!
-    ASSERT_ANY_THROW(bn.add_dependency("d", "a"));
+    ASSERT_THROW(bn.add_dependency("d", "a"), std::logic_error);
+    ASSERT_THROW(bn.add_dependency("d", "e"), std::logic_error);
+    ASSERT_NO_THROW(bn.add_dependency("e", "d"));
 }
 
 TEST_F(bnet_tests, test_children){
@@ -85,6 +87,8 @@ TEST_F(bnet_tests, test_parents){
 
     ASSERT_EQ(parents[0], c_id);
     ASSERT_EQ(parents[1], b_id);
+    ASSERT_TRUE(bn.has_dependency("b", "d"));
+    ASSERT_TRUE(bn.has_dependency("c", "d"));
 }
 
 TEST_F(bnet_tests, test_invalid_varname){
