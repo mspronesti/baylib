@@ -58,7 +58,7 @@ namespace bn {
         std::vector<Probability> accumulate_cpt(std::vector<Probability> striped_cpt, int possible_states);
         std::pair<int, int> compute_result_binary(bcvec &res);
         std::vector<int> compute_result_general(bcvec &res);
-        std::pair<int, int> calculate_iterations(int nthreads, size_t memory); // return <n_iterations, samples_in_iter>
+        std::pair<int, int> calculate_iterations(int nthreads, size_t memory, int samples); // return <n_iterations, samples_in_iter>
     };
 
 
@@ -172,6 +172,11 @@ namespace bn {
             acc_res[i] = compute::count(res.vec.begin(), res.vec.end(), i, queue);
         }
         return acc_res;
+    }
+
+    template<typename Probability>
+    std::pair<int, int> logic_sampling<Probability>::calculate_iterations(int nthreads, size_t memory, int samples) {
+        return std::pair<int, int>(1, samples); //TODO implement calculation
     }
 
 
