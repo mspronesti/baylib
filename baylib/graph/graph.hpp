@@ -7,7 +7,7 @@
 
 #include <boost/graph/adjacency_list.hpp>
 #include <baylib/probability/cpt.hpp>
-#include <memory_resource>
+
 namespace bn {
     template <typename Probability>
     struct random_variable {
@@ -15,14 +15,14 @@ namespace bn {
         std::string name;
         bn::cow::cpt<Probability> cpt;
         std::vector<std::string> _states;
-        
+
         random_variable() = default;
 
         random_variable(std::string name, const std::vector<std::string>& states)
             :name(std::move(name)), cpt(states.size()) {}
 
         bool has_state(const std::string &state_name){
-            return std::any_of(_states.begin(), _states.end(), 
+            return std::any_of(_states.begin(), _states.end(),
                     [state_name](std::string state){ return state_name == state; });
         }
 

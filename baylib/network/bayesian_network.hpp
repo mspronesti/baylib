@@ -44,7 +44,7 @@ namespace bn {
 
             bn::vertex<Probability> v = boost::add_vertex(bn::random_variable<Probability>{name, states}, *graph);
             (*graph)[v].id = v;
-            var_map[name] = std::move(v);
+            var_map[name] = v;
         }
 
         void remove_variable(const std::string &name){
@@ -169,14 +169,15 @@ namespace bn {
             [[maybe_unused]] auto var = find_variable(var_name); // to assert var existence
             auto nparents = parents_of(var).size();
 
+            // make sure the cardinality of parents is correct
             BAYLIB_ASSERT(cond.size() == nparents,
                           "condition contains "
                           + std::to_string(cond.size())
                           + " while " + var_name + " has "
                           + std::to_string(nparents),
                           std::logic_error)
-                          
-            // make sure the condition is legit
+
+            // make sure the parents are actually correct
             BAYLIB_ASSERT(std::all_of(cond.begin(), cond.end(),
                              [this, var_name](const auto&c){
                                  return has_dependency(c.first, var_name);
