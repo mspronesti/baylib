@@ -24,20 +24,23 @@ namespace bn {
             // TODO: to be implemented
         }
 
+        /*
         bayesian_network(const bayesian_network &bn){
             graph = bn.graph;
         }
+        */
 
         ~bayesian_network() {
             graph.reset();
         }
-
+        /*
         bayesian_network & operator = (const bayesian_network &bn){
             if(this != &bn){
                 graph = bn.graph;
             }
             return *this;
         }
+        */
 
         bool operator == (const bayesian_network &bn) const {
             return graph.get() == bn.graph.get();
@@ -232,6 +235,30 @@ namespace bn {
                            std::runtime_error)
 
             this->operator[](var_name).set_probability(state_value, cond, p);
+        }
+
+        void set_variable_probability(
+                const std::string& var_name,
+                bn::state_t state_value,
+                unsigned int condition_index,
+                Probability p
+                )
+        {
+            std::vector<bn::vertex<Probability>> parents = parents_of(find_variable(var_name));
+            auto node =  (*graph)[find_variable(var_name)];
+            unsigned int combinations = node.states().size();
+            for(auto parent: parents)
+                combinations *= (*graph)[parent].states().size();
+            BAYLIB_ASSERT(condition_index < combinations, "" << condition_index << "no such condition index can exist",
+                            std::runtime_error)
+            unsigned int cum_card = 1;
+            bn::condition cond;
+            for (int i = parents.size() - 1; i >= 0; --i) {
+                cond.add((*graph)[parents[i]].name,
+                         condition_index / (cum_card) % ((*graph)[parents[i]].states().size()));
+                cum_card *= (*graph)[parents[i]].states().size();
+            }
+            set_variable_probability(var_name, state_value, cond, p);
         }
 
     private:
