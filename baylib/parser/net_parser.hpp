@@ -1,5 +1,5 @@
-#ifndef BAYESIAN_INFERRER_NET_PARSER_HPP
-#define BAYESIAN_INFERRER_NET_PARSER_HPP
+#ifndef BAYLIB_NET_PARSER_HPP
+#define BAYLIB_NET_PARSER_HPP
 #include <string>
 #include <fstream>
 #include <sstream>
