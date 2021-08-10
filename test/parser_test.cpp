@@ -10,6 +10,7 @@ protected:
     bn::bayesian_network<double> net1;
     bn::bayesian_network<double> net2;
     bn::bayesian_network<double> net3;
+    bn::bayesian_network<double> net4;
 
     void SetUp() override {
 
@@ -20,7 +21,8 @@ protected:
         net2 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/VentureBN.xdsl");
         // https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
         net3 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/VentureBNExpanded.xdsl");
-
+        //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAnimals.xdsl
+        net4 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Animals.xdsl");
     }
 };
 
@@ -168,6 +170,34 @@ TEST_F(parser_test, test_node_cpt_children3){
     ASSERT_DOUBLE_EQ(net3["Forecast"].table().at(cond)[2], .4);
 }
 
+TEST_F(parser_test, test_node_cpt_children4){
+    bn::condition cond;
+
+    cond.add("Animal", 0);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[0], 0);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[1], 1);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[2], 0);
+
+    cond.add("Animal", 1);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[0], 0);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[1], .5);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[2], .5);
+
+    cond.add("Animal", 2);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[0], 0);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[1], 0);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[2], 1);
+
+    cond.add("Animal", 3);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[0], .5);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[1], .5);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[2], 0);
+
+    cond.add("Animal", 4);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[0], 0);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[1], .5);
+    ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[2], .5);
+}
 
 
 
