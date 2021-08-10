@@ -2,8 +2,8 @@
 // Created by elle on 02/08/21.
 //
 
-#ifndef BAYESIAN_INFERRER_ALGORITHM_HPP
-#define BAYESIAN_INFERRER_ALGORITHM_HPP
+#ifndef BAYLIB_BAYESIAN_UTILS_HPP
+#define BAYLIB_BAYESIAN_UTILS_HPP
 
 
 #include <baylib/network/bayesian_network.hpp>
@@ -113,4 +113,4 @@ namespace  bn{
 
 } // namespace bn
 
-#endif //BAYESIAN_INFERRER_ALGORITHM_HPP
+#endif //BAYLIB_BAYESIAN_UTILS_HPP

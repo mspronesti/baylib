@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <baylib/network/algorithm.hpp>
+#include <baylib/network/bayesian_utils.hpp>
 
 using rank_t = std::map<bn::vertex<double>, int>;
 

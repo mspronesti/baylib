@@ -1,9 +1,16 @@
-﻿#ifndef BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP
-#define BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP
+﻿#ifndef BAYLIB_BAYESIAN_NETWORK_HPP
+#define BAYLIB_BAYESIAN_NETWORK_HPP
 
 #include <baylib/graph/graph.hpp>
 #include <baylib/probability/cpt.hpp>
 #include <baylib/assert.h>
+
+/**
+ * ================ Bayesian Network ===================
+ * This class represents a Bayesian Network allowing both
+ * index and name based access to its facilities for a better
+ * user experience
+ */
 
 namespace bn {
 
@@ -66,6 +73,10 @@ namespace bn {
         }
 
         void add_dependency(const bn::vertex<Probability> &v1, const bn::vertex<Probability> &v2){
+            BAYLIB_ASSERT(has_index(v1) && has_index(v2),
+                    "out of bound access to vertices",
+                    std::out_of_range);
+
             BAYLIB_ASSERT(!introduces_loop(v2, v1),
                           "adding conditional dependency "
                           " would introduce a loop",
@@ -75,6 +86,10 @@ namespace bn {
         }
 
         void remove_dependency(const bn::vertex<Probability> &v1, const bn::vertex<Probability> &v2){
+            BAYLIB_ASSERT(has_index(v1) && has_index(v2),
+                          "out of bound access to graph",
+                          std::out_of_range)
+
             boost::remove_edge(v1, v2);
         }
 
@@ -87,6 +102,10 @@ namespace bn {
             return vars;
         }
 
+        std::uint64_t number_of_variables() const {
+            return boost::num_vertices(*graph);
+        }
+
         bn::random_variable<Probability>& operator [] (const std::string &name){
             auto v  = find_variable(name);
             return (*graph)[v];
@@ -97,6 +116,22 @@ namespace bn {
             return (*graph)[v];
         }
 
+        bn::random_variable<Probability>& operator [] (bn::vertex<Probability> v) {
+            BAYLIB_ASSERT(has_index(v),
+                          "out of bound access to graph",
+                          std::out_of_range)
+
+            return (*graph)[v];
+        }
+
+        bn::random_variable<Probability>& operator [] (bn::vertex<Probability> v) const{
+            BAYLIB_ASSERT(has_index(v),
+                          "out of bound access to graph",
+                          std::out_of_range)
+
+            return (*graph)[v];
+        }
+
         bool has_dependency(const std::string &name1, const std::string &name2)  {
             auto v1  = find_variable(name1);
             auto v2  = find_variable(name2);
@@ -104,11 +139,19 @@ namespace bn {
             return boost::edge(v1, v2, *graph).second;
         }
 
-        bool has_dependency(const bn::vertex<Probability> &v1, const bn::vertex<Probability> &v2) const {
+        bool has_dependency(bn::vertex<Probability> v1, bn::vertex<Probability> v2) const {
+            BAYLIB_ASSERT(has_index(v1) && has_index(v2),
+                          "out of bound access to graph",
+                          std::out_of_range)
+
             return boost::edge(v1, v2, *graph).second;
         }
 
-        bool is_root(const bn::vertex<Probability> &v){
+        bool is_root(bn::vertex<Probability> v){
+            BAYLIB_ASSERT(has_index(v),
+                          "out of bound access to graph",
+                          std::out_of_range)
+
             return boost::in_degree(v, *graph) == 0;
         }
 
@@ -119,41 +162,43 @@ namespace bn {
 
         std::vector<bn::vertex<Probability>> children_of(const std::string &name) {
             auto v  = find_variable(name);
-            std::vector<bn::vertex<Probability>> children{};
-            for (auto vd : boost::make_iterator_range(adjacent_vertices(v, *graph)))
-                children.push_back(vd);
+            auto it = boost::make_iterator_range(adjacent_vertices(v, *graph));
 
-            return children;
+            return std::vector<bn::vertex<Probability>>(it.begin(), it.end());
         }
 
-        std::vector<bn::vertex<Probability>> children_of(const bn::vertex<Probability> &v) {
-            std::vector<bn::vertex<Probability>> children{};
-            for (auto vd : boost::make_iterator_range(adjacent_vertices(v, *graph)))
-                children.push_back(vd);
+        std::vector<bn::vertex<Probability>> children_of(bn::vertex<Probability> v) {
+            BAYLIB_ASSERT(has_index(v),
+                          "out of bound access to graph",
+                          std::out_of_range)
 
-            return children;
+            auto it = boost::make_iterator_range(adjacent_vertices(v, *graph));
+            return std::vector<bn::vertex<Probability>>(it.begin(), it.end());
         }
 
         std::vector<bn::vertex<Probability>> parents_of(const std::string &name) {
             auto v = find_variable(name);
             std::vector<bn::vertex<Probability>> parents;
 
-            for(auto vd : boost::make_iterator_range(boost::in_edges(v, *graph)))
-                parents.push_back(boost::source(vd, *graph));
+            for(auto ed : boost::make_iterator_range(boost::in_edges(v, *graph)))
+                parents.push_back(boost::source(ed, *graph));
 
             return parents;
         }
 
 
-        std::vector<bn::vertex<Probability>> parents_of(const bn::vertex<Probability> &v) {
+        std::vector<bn::vertex<Probability>> parents_of(bn::vertex<Probability> v) {
+            BAYLIB_ASSERT(has_index(v),
+                          "out of bound access to graph",
+                          std::out_of_range)
+
             std::vector<bn::vertex<Probability>> parents;
 
-            for(auto vd : boost::make_iterator_range(boost::in_edges(v, *graph)))
-                parents.push_back(boost::source(vd, *graph));
+            for(auto ed : boost::make_iterator_range(boost::in_edges(v, *graph)))
+                parents.push_back(boost::source(ed, *graph));
 
             return parents;
         }
-
 
         bn::vertex<Probability> index_of(const std::string &name){
             return find_variable(name);
@@ -207,6 +252,8 @@ namespace bn {
             return it->second; // more efficient than calling "at"
         }
 
+        bool has_index(bn::vertex<Probability> v) const { return boost::num_vertices(*graph) >= v; }
+
         /**
          * utility to detect whether a vertex introduces
          * a loop in the DAG
@@ -227,4 +274,4 @@ namespace bn {
     };
 } // namespace bn
 
-#endif //BAYESIAN_INFERRER_BAYESIAN_NETWORK_HPP
+#endif //BAYLIB_BAYESIAN_NETWORK_HPP

@@ -2,8 +2,8 @@
 // Created by elle on 01/08/21.
 //
 
-#ifndef BAYESIAN_INFERRER_GRAPH_HPP
-#define BAYESIAN_INFERRER_GRAPH_HPP
+#ifndef BAYLIB_GRAPH_HPP
+#define BAYLIB_GRAPH_HPP
 
 #include <boost/graph/adjacency_list.hpp>
 #include <baylib/probability/cpt.hpp>
@@ -19,7 +19,10 @@ namespace bn {
         random_variable() = default;
 
         random_variable(std::string name, const std::vector<std::string>& states)
-            :name(std::move(name)), cpt(states.size()) {}
+            : name(std::move(name))
+            , cpt(states.size())
+            , _states(states)
+            {}
 
         bool has_state(const std::string &state_name){
             return std::any_of(_states.begin(), _states.end(),
@@ -42,9 +45,8 @@ namespace bn {
         {
             cpt.set_probability(cond, state_value, p);
         }
-
-        bool operator < (const random_variable & other) const { return id < other.id; }
     };
+
 
     template <typename Probability>
     using graph = boost::adjacency_list<boost::listS,
@@ -56,7 +58,6 @@ namespace bn {
     template <typename Probability>
     using vertex = typename graph<Probability>::vertex_descriptor;
 
-
 } // namespace bn
 
-#endif //BAYESIAN_INFERRER_GRAPH_HPP
+#endif //BAYLIB_GRAPH_HPP
