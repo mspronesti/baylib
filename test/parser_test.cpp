@@ -11,6 +11,7 @@ protected:
     bn::bayesian_network<double> net2;
     bn::bayesian_network<double> net3;
     bn::bayesian_network<double> net4;
+    bn::bayesian_network<double> net5;
 
     void SetUp() override {
 
@@ -19,10 +20,12 @@ protected:
         net1 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Coma.xdsl");
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBN.xdsl
         net2 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/VentureBN.xdsl");
-        // https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
+        //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
         net3 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/VentureBNExpanded.xdsl");
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAnimals.xdsl
         net4 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Animals.xdsl");
+        //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
+        net5 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Credit.xdsl");
     }
 };
 
@@ -199,6 +202,23 @@ TEST_F(parser_test, test_node_cpt_children4){
     ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[2], .5);
 }
 
+TEST_F(parser_test, test_node_cpt_children5) {
+    bn::condition cond;
+    cond.add("Reliability", 0);
+    cond.add("RatioDebInc", 0);
+    cond.add("FutureIncome", 0);
+    cond.add("Age", 0);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], 0.9);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], 0.1);
+
+    cond.add("Reliability", 1);
+    cond.add("RatioDebInc", 0);
+    cond.add("FutureIncome", 1);
+    cond.add("Age", 2);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], 0.2);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], 0.8);
+
+}
 
 
 int main(int argc, char** argv){
