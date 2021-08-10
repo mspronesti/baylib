@@ -2,8 +2,8 @@
 // Created by elle on 01/08/21.
 //
 
-#ifndef BAYESIAN_INFERRER_CPT_HPP
-#define BAYESIAN_INFERRER_CPT_HPP
+#ifndef BAYLIB_CPT_HPP
+#define BAYLIB_CPT_HPP
 
 #include <baylib/probability/condition.hpp>
 #include <numeric>
@@ -36,7 +36,6 @@ namespace bn{
             unsigned int nstates{};
         };
 
-
         template<typename Probability>
         class cpt {
             /**
@@ -45,9 +44,9 @@ namespace bn{
             * row (and employing copy on write to spare memory)
             *
             *  Example:
-            *  condition c = {{"var1": 1}, {"var2": 3}}
-            *  cpt cpt({"var1", "var2"}}
-            *
+            *  bn::condition c = {{"var1": 1}, {"var2": 3}}
+            *  bn::cow::cpt cpt{n}
+            *  ...
             *  std::vector<Probability> probs = cpt[c]
             *
             *  probs[0] :  P(var3=0 | var1=1, var2=3)
@@ -68,7 +67,8 @@ namespace bn{
                     Probability p
             ) {
                 BAYLIB_ASSERT(state_val <= d->nstates,
-                              "invalid state value",
+                              "invalid state value"
+                              + std::to_string(state_val),
                               std::runtime_error)
 
                 BAYLIB_ASSERT(p >= 0.0 && p <= 1.0,
@@ -124,6 +124,18 @@ namespace bn{
                 return false;
             }
 
+            std::vector<Probability> flat() {
+                auto flat_cpt = std::vector<Probability>{};
+                flat_cpt.reserve(d->table.size() * d->nstates);
+
+                for(auto &[cond, cond_id] : cond_map) {
+                    auto cpt_row = d->table[cond_id];
+                    flat_cpt.insert(end(flat_cpt), begin(cpt_row), end(cpt_row));
+                }
+
+                return flat_cpt;
+            }
+
             friend std::ostream& operator << (std::ostream &os, const cpt &cpt) {
                 for(auto &[cond, cond_id] : cpt.cond_map){
                     os << cond << " | ";
@@ -134,16 +146,26 @@ namespace bn{
                 return os;
             }
 
+            // checks whether the cpt table is properly set
+            bool filled_out(){
+                // check su nrighe e ncolonne !!
+                for(auto & row : d->table)
+                    if(std::accumulate(row.begin(), row.end(), 0.0) - 1.0 > 1e-5)
+                        return false;
+
+                return true;
+            }
+
         private:
             bn::cow::shared_ptr<CPTData<Probability>> d;
             // assigns a condition its index in the cpt
             // ! key   : condition
             // ! value : row index
-            std::map<bn::condition, unsigned int> cond_map;
+            std::map<bn::condition, std::uint64_t> cond_map;
         };
 
 
     } // namespace cow
 } // namespace bn
 
-#endif //BAYESIAN_INFERRER_CPT_HPP
+#endif //BAYLIB_CPT_HPP
