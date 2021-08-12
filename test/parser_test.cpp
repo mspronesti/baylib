@@ -133,7 +133,6 @@ TEST_F(parser_test, test_node_cpt_children2){
 }
 TEST_F(parser_test, test_node_cpt_children3){
     bn::condition cond;
-
     cond.add("Economy", 0);
     cond.add("Success", 0);
     ASSERT_DOUBLE_EQ(net3["Forecast"].table().at(cond)[0], .7);
@@ -206,15 +205,64 @@ TEST_F(parser_test, test_node_cpt_children5) {
     cond.add("RatioDebInc", 0);
     cond.add("FutureIncome", 0);
     cond.add("Age", 0);
-    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], 0.9);
-    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], 0.1);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], .9);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], .1);
+
+    cond.add("Reliability", 0);
+    cond.add("RatioDebInc", 0);
+    cond.add("FutureIncome", 0);
+    cond.add("Age", 2);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], .8);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], .2);
+
+    cond.add("Reliability", 0);
+    cond.add("RatioDebInc", 0);
+    cond.add("FutureIncome", 1);
+    cond.add("Age", 0);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], .7);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], .3);
+
+    cond.add("Reliability", 0);
+    cond.add("RatioDebInc", 0);
+    cond.add("FutureIncome", 1);
+    cond.add("Age", 1);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], .8);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], .2);
+
+    cond.add("Reliability", 0);
+    cond.add("RatioDebInc", 0);
+    cond.add("FutureIncome", 1);
+    cond.add("Age", 2);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], .6);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], .4);
+
+    cond.add("Reliability", 0);
+    cond.add("RatioDebInc", 1);
+    cond.add("FutureIncome", 0);
+    cond.add("Age", 0);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], .7);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], .3);
+
+    cond.add("Reliability", 0);
+    cond.add("RatioDebInc", 1);
+    cond.add("FutureIncome", 0);
+    cond.add("Age", 2);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], .7);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], .3);
 
     cond.add("Reliability", 1);
     cond.add("RatioDebInc", 0);
     cond.add("FutureIncome", 1);
     cond.add("Age", 2);
-    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], 0.2);
-    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], 0.8);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], .2);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], .8);
+
+    cond.add("Reliability", 1);
+    cond.add("RatioDebInc", 1);
+    cond.add("FutureIncome", 1);
+    cond.add("Age", 2);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], .001);
+    ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], .999);
 
 }
 

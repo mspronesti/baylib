@@ -82,11 +82,12 @@ namespace bn {
 
                 /// !!! new code !!!
                 if(!probDistribution.empty()) {
-                    bn::condition_factory cf(net[varname]);
+                    std::reverse(parents.begin(), parents.end());
+                    bn::condition_factory cf(net[varname], parents);
                     unsigned int i = 0;
                     do {
                         auto cond = cf.get();
-                        for (int j = state_names.size() - 1; j >= 0; --j)
+                        for (int j = 0; j < state_names.size(); j++)
                             net.set_variable_probability(varname, j, cond, probDistribution[i * state_names.size()  + j]);
                         ++i;
                     } while (cf.has_next());
@@ -114,5 +115,7 @@ namespace bn {
             return result;
         }
     };
+
+
 } // namespace bn
 #endif //BAYESIAN_INFERRER_NET_PARSER_HPP

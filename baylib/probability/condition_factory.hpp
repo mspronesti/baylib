@@ -19,14 +19,20 @@ namespace  bn {
          * table
          */
     public:
-        explicit condition_factory(const bn::random_variable<Probability> &rv)
-        : var(rv)
+        explicit condition_factory(const bn::random_variable<Probability> &rv, std::vector<std::string> parents={})
+        : var(rv), parents(parents.empty() ? var.parents_names() : parents)
         {
-            auto parents = var.parents_names();
+            /*
+             auto parents = var.parents_names();
 
             for (auto &parent : parents) {
                 c.add(parent, 0);
             }
+             */
+            index = 0;
+            tot = 1;
+            for (auto &parent : parents)
+                tot *= var.parent_states_size(parent);
         }
 
         /**
@@ -36,7 +42,7 @@ namespace  bn {
          *         false otherwise
          */
         bool has_next() {
-            for (auto it = c.rbegin(); it != c.rend(); ++it) {
+            /*for (auto it = c.rbegin(); it != c.rend(); ++it) {
                 auto& key = it->first;
                 auto& val = it->second;
                 c[key]++;
@@ -45,9 +51,8 @@ namespace  bn {
                     c[key] = 0;
                 else
                     return true;
-            }
-
-            return false;
+            }*/
+            return ++index < tot;
         }
 
 
@@ -55,13 +60,22 @@ namespace  bn {
          * retrieves current condition
          * @return condition
          */
-        const bn::condition& get() const {
+        bn::condition get() {
+            bn::condition c;
+            uint32_t cum_card = 1;
+            for (auto name : parents) {
+                c.add(name,index / (cum_card) % (var.parent_states_size(name)));
+                cum_card *= var.parent_states_size(name);
+            }
             return c;
         }
 
     private:
-        bn::condition c;
+        // bn::condition c;
         bn::random_variable<Probability> var;
+        std::vector<std::string> parents;
+        uint16_t index;
+        uint16_t tot;
     };
 }
 

@@ -266,6 +266,7 @@ namespace bn {
                          condition_index / (cum_card) % ((*graph)[parents[i]].states().size()));
                 cum_card *= (*graph)[parents[i]].states().size();
             }
+            std::cout << cond << '\n';
             set_variable_probability(var_name, state_value, cond, p);
         }*/
 
