@@ -76,11 +76,7 @@ namespace bn {
                 for (auto parent: parents)
                     net.add_dependency(parent, varname);
 
-                /*for (int i = 0; i < probDistribution.size()/stateNames.size(); ++i)
-                    for(int j = 0; j < stateNames.size(); ++j)
-                        net.set_variable_probability(varName, j, i, probDistribution[i * stateNames.size() + j]);*/
-
-                /// !!! new code !!!
+                // fill CPTs
                 if(!probDistribution.empty()) {
                     std::reverse(parents.begin(), parents.end());
                     bn::condition_factory cf(net[varname], parents);
