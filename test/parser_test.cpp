@@ -14,8 +14,6 @@ protected:
     bn::bayesian_network<double> net5;
 
     void SetUp() override {
-
-
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
         net1 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Coma.xdsl");
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBN.xdsl

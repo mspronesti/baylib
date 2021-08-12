@@ -78,6 +78,14 @@ namespace bn {
             return cmap.end();
         }
 
+        auto rbegin() const {
+            return cmap.rbegin();
+        }
+
+        auto rend() const {
+            return cmap.rend();
+        }
+
         unsigned int size() const {
             return cmap.size();
         }
@@ -91,13 +99,13 @@ namespace bn {
                 // compare keys and values
                 auto it = other.cmap.begin();
                 for (auto &[k, v] : cmap) {
-                    if (k < it->first)
-                        return true;
-                    else if (k > it->first)
-                        return false;
-                    else if (v < it->second)
+                    if (v < it->second)
                         return true;
                     else if (v > it->second)
+                        return false;
+                    else  if (k < it->first)
+                        return true;
+                    else if (k > it->first)
                         return false;
 
                     it++;

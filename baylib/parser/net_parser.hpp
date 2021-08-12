@@ -8,6 +8,8 @@
 #include <baylib/probability/cpt.hpp>
 #include "rapidxml/rapidxml.hpp"
 
+#include <baylib/probability/condition_factory.hpp>
+
 using namespace rapidxml;
 
 //reader class for bayesian network stored in .xdsl files
@@ -26,8 +28,10 @@ namespace bn {
             auto doc = std::make_shared<xml_document<>>();
             std::ifstream inputFile(fileName);
 
-            if(!inputFile)
-                throw std::runtime_error("File does not exists");
+            BAYLIB_ASSERT(inputFile,
+                    "file " << fileName
+                    << " does not exist",
+                    std::runtime_error)
 
             auto buffer = std::make_shared<std::stringstream>();
             *buffer << inputFile.rdbuf();
@@ -40,14 +44,14 @@ namespace bn {
             //reading all variables in file
             for (xml_node<> *pNode = pNodes->first_node("cpt"); pNode; pNode = pNode->next_sibling()) {
                 xml_attribute<> *attr = pNode->first_attribute("id");
-                std::string varName;
-                std::vector<std::string> stateNames;
+                std::string varname;
+                std::vector<std::string> state_names;
                 std::vector<std::string> parents;
                 std::vector<Probability> probDistribution;
                 std::vector<std::string> resultingStates;
 
                 //reading variable name
-                varName = attr->value();
+                varname = attr->value();
 
                 //reading all properties of the variable
                 for (xml_node<> *pStates = pNode->first_node("state"); pStates; pStates = pStates->next_sibling()) {
@@ -57,7 +61,7 @@ namespace bn {
                     if (name == "state") {
                         attr = pStates->first_attribute("id");
                         if (attr != nullptr)
-                            stateNames.emplace_back(attr->value());
+                            state_names.emplace_back(attr->value());
                     }
                     else if (name == "resultingstates")
                         resultingStates.emplace_back(pStates->value());
@@ -68,22 +72,37 @@ namespace bn {
                 }
 
                 // Build bayesian_network
-                net.add_variable(varName, stateNames);
+                net.add_variable(varname, state_names);
                 for (auto parent: parents)
-                    net.add_dependency(parent, varName);
+                    net.add_dependency(parent, varname);
 
-                for (int i = 0; i < probDistribution.size()/stateNames.size(); ++i)
+                /*for (int i = 0; i < probDistribution.size()/stateNames.size(); ++i)
                     for(int j = 0; j < stateNames.size(); ++j)
-                        net.set_variable_probability(varName, j, i, probDistribution[i * stateNames.size() + j]);
+                        net.set_variable_probability(varName, j, i, probDistribution[i * stateNames.size() + j]);*/
+
+                /// !!! new code !!!
+                if(!probDistribution.empty()) {
+                    bn::condition_factory cf(net[varname]);
+                    unsigned int i = 0;
+                    do {
+                        auto cond = cf.get();
+                        for (int j = state_names.size() - 1; j >= 0; --j)
+                            net.set_variable_probability(varname, j, cond, probDistribution[i * state_names.size()  + j]);
+                        ++i;
+                    } while (cf.has_next());
+                }
             }
             return net;
-
-
         }
 
     private:
-        template<class T>
-        std::vector<T> split(const std::string &text, std::function<T(const std::string&)> mapper, const std::string& delimiter = " "){
+        template<typename T>
+        std::vector<T> split(
+            const std::string &text,
+            std::function<T(const std::string&)> mapper,
+            const std::string& delimiter = " "
+        )
+        {
             std::vector<T> result;
             unsigned long ix;
             unsigned long start = 0;
