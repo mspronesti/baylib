@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include <baylib/inference/logic_sampling.hpp>
-
+#include <baylib/parser/net_parser.hpp>
 /*void print_results(const std::vector<std::string>& names, std::vector<int> results){
     for (int i = 0; i < names.size(); ++i)
         std::cout << names[i] << ": " << results[i] << '\n';
@@ -75,4 +75,7 @@ void test_simulation_non_binary_multiple_parents(){
 int main(){
     //test_simulation_chain();
     //test_simulation_non_binary_multiple_parents();
+    bn::net_parser<float> parser;
+    auto net = parser.load_from_xdsl("../xdls/Coma.xdsl");
+    printf("HI");
 }

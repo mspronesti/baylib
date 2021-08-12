@@ -80,7 +80,7 @@ namespace bn{
                 } else {
                     int size = d->table.size();
                     cond_map[cond] = size; // storing condition
-                    d->table.emplace_back(d->nstates, -1); // alloccating new row in cpt
+                    d->table.emplace_back(d->nstates, 0.0); // alloccating new row in cpt
                     d->table[size][state_val] = p; // storing probability
                 }
             }
@@ -124,6 +124,10 @@ namespace bn{
                 return false;
             }
 
+            std::uint64_t size() {
+                return d->table.size();
+            }
+
             std::vector<Probability> flat() {
                 auto flat_cpt = std::vector<Probability>{};
                 flat_cpt.reserve(d->table.size() * d->nstates);
@@ -146,14 +150,12 @@ namespace bn{
                 return os;
             }
 
-            // checks whether the cpt table is properly set
-            bool filled_out(){
-                // check su nrighe e ncolonne !!
-                for(auto & row : d->table)
-                    if(std::accumulate(row.begin(), row.end(), 0.0) - 1.0 > 1e-5)
-                        return false;
+            auto begin() const {
+                return d->table.begin();
+            }
 
-                return true;
+            auto end() const {
+                return d->table.end();
             }
 
         private:
