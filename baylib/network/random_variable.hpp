@@ -41,9 +41,9 @@ namespace  bn {
         }
 
         void set_probability(
-           bn::state_t state_value,
-           const bn::condition &cond,
-           Probability p
+                bn::state_t state_value,
+                const bn::condition &cond,
+                Probability p
         )
         {
             cpt.set_probability(cond, state_value, p);
@@ -66,22 +66,20 @@ namespace  bn {
         }
 
         int parent_states_size(const std::string &name) {
-           auto it = parents_states.find(name);
-           if(it != parents_states.end())
-               return it->second;
+            auto it = parents_states.find(name);
+            if(it != parents_states.end())
+                return it->second;
 
-           return -1;  // doesn't throw on purpose
+            return -1;  // doesn't throw on purpose
         }
 
-        std::vector<std::string> parents_names () {
-          auto pnames = std::vector<std::string>{};
-          boost::copy(parents_states | boost::adaptors::map_keys,
-                                       std::back_inserter(pnames));
-          return pnames;
+        std::vector<std::string> parents_names () const {
+            auto pnames = std::vector<std::string>{};
+            boost::copy(parents_states | boost::adaptors::map_keys,
+                        std::back_inserter(pnames));
+            return pnames;
         }
-
     };
 } // namespace bn
-
 
 #endif //BAYLIB_RANDOM_VARIABLE_HPP

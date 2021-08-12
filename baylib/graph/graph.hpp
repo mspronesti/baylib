@@ -10,12 +10,11 @@
 
 namespace bn {
     template <typename Vertex>
-    using graph = boost::adjacency_list<boost::listS,
-                                        boost::vecS, // vertex list
+    using graph = boost::adjacency_list<boost::listS, // edge container
+                                        boost::vecS, // vertex container
                                         boost::bidirectionalS, // graph type
                                         Vertex // vertex type
                                         >;
-
     template <typename Vertex>
     using vertex = typename graph<Vertex>::vertex_descriptor;
 
