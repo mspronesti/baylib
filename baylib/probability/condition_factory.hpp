@@ -41,14 +41,13 @@ namespace  bn {
                 _parents = var.parents_names();
             }
             else{
-                auto tmp = std::vector<std::string>(parents);
-                // sort takes O(NlogN) while checking permutations
-                // checks O(N^2)
-                std::sort(tmp.begin(), tmp.end());
-                BAYLIB_ASSERT(tmp == rv.parents_names(),
-                              "provided parents don't match "
-                              "random variable " << rv.name() << " parents",
-                              std::runtime_error)
+                BAYLIB_ASSERT(
+                        _parents.size() == var.parents_names().size() &&
+                        !std::any_of(_parents.begin(), _parents.end(), [this](const auto &el){return var.parent_states_size(el) == -1;}),
+                        "provided parents don't match "
+                        "random variable " << rv.name() << " parents",
+                        std::runtime_error
+                        )
             }
 
             for (auto &parent : _parents) {
