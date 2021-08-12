@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    
+env:
+  global: BOOST_VERSION=1.65.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+     
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install boost
+      run:  sudo apt install libboost-all-dev
+    - name: Install OpenCL
+      run: |
+        sudo apt install ocl-icd-opencl-dev
+        sudo apt install mesa-opencl-icd
+    - name: Install gtest
+      run: |
+        git clone https://github.com/google/googletest
+        cd googletest
+        mkdir build
+        cd build
+        cmake ..
+        make
+        sudo make install
+    - name: Build
+      run: |
+        cmake .
+        make 
+    - name: Test
+      run: ctest .
+
