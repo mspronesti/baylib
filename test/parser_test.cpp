@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <baylib/parser/net_parser.hpp>
+#include <baylib/network/bayesian_utils.hpp>
 
 class parser_test : public ::testing::Test {
 protected:
@@ -73,11 +74,11 @@ TEST_F(parser_test, test_node_states){
 }
 
 TEST_F(parser_test, test_node_filled){
-    ASSERT_TRUE(net1["MetastCancer"].table().filled_out());
-    ASSERT_TRUE(net1["IncrSerCal"].table().filled_out());
-    ASSERT_TRUE(net1["BrainTumor"].table().filled_out());
-    ASSERT_TRUE(net1["SevHeadaches"].table().filled_out());
-    ASSERT_TRUE(net1["Coma"].table().filled_out());
+    ASSERT_TRUE(bn::cpt_filled_out(net1["MetastCancer"]));
+    ASSERT_TRUE(bn::cpt_filled_out(net1["IncrSerCal"]));
+    ASSERT_TRUE(bn::cpt_filled_out(net1["BrainTumor"]));
+    ASSERT_TRUE(bn::cpt_filled_out(net1["SevHeadaches"]));
+    ASSERT_TRUE(bn::cpt_filled_out(net1["Coma"]));
 }
 
 TEST_F(parser_test, test_node_cpt_root){
