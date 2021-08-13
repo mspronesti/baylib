@@ -15,6 +15,7 @@
 
 #include <baylib/network/bayesian_network.hpp>
 #include <baylib/network/bayesian_utils.hpp>
+#include <baylib/tools/threads/thread_pool.hpp>
 
 namespace bn {
     namespace compute = boost::compute;
@@ -29,16 +30,79 @@ namespace bn {
         }
     };
 
+	//TODO: Refactor partial_result to incapsulate a shared_ptr<map> instead of map. Fix all operators
+    template <typename Probability>
+	class partial_result {
+	private:
+        std::shared_ptr<std::map<bn::vertex<Probability>,std::vector<int>>> data;
+        int nsamples;
+    public:
+        partial_result(int ns) : nsamples(ns), data(std::make_shared<std::map<bn::vertex<Probability>,std::vector<int>>>()) {
+        }
+
+        partial_result &operator=(const partial_result &other) {
+            if (this == &other)
+                return *this;
+            *(other.data).swap(*this);
+            return *this;
+        }
+        void swap(partial_result &other) {
+            (*data).swap(*(other.data));
+        }
+
+        partial_result& operator+=(partial_result &other) {
+            for (const auto [k,v] : *(other.data)) {
+                BAYLIB_ASSERT(v.size() == nsamples,
+                              "samples vector size must agree",
+                              std::runtime_error);
+
+                if ((*data).count(k))
+                {
+                    for (int i = 0; i<v.size();i++)
+                        (*data)[k][i] += v[i];
+                }
+                else
+                    (*data)[k] = v;
+            }
+            return (*this);
+	    }
+
+	    partial_result operator+(partial_result &other) {
+            partial_result new_spr = (*this);
+            new_spr+=other;
+            return new_spr;
+        }
+        std::vector<int>& operator[](const bn::vertex<Probability> key) {
+            return (*data)[key];
+        }
+
+        std::map<bn::vertex<Probability>,std::vector<Probability>> compute_total_result() {
+            std::map<bn::vertex<Probability>,std::vector<Probability>> total_result;
+            Probability nsamples_p = Probability(nsamples);
+            for (auto &[k,v] : *data) {
+                for (int i: v)
+                    total_result[k].push_back(Probability(i)/nsamples_p);
+            }
+            return total_result;
+        }
+
+	};
+
+
     template <typename Probability>
     class logic_sampling {
         using prob_v = boost::compute::vector<Probability>;
 
     public:
-		explicit logic_sampling(const std::shared_ptr<bn::bayesian_network<Probability>> &bn,
+        explicit logic_sampling(const bn::bayesian_network<Probability> &bn,
                 const compute::device &device = compute::system::default_device())
                 : bn(bn), device(device)
         {
-		    BAYLIB_ASSERT(std::all_of(bn->variables().begin(), bn->variables().end(),
+		    for (auto v : bn.variables()) {
+		        std::cout << v.name() << '\n';
+		    }
+
+            BAYLIB_ASSERT(std::all_of(bn.variables().begin(), bn.variables().end(),
 		                              [](auto &var){ return bn::cpt_filled_out(var); }),
 		                   "conditional probability tables must be properly filled to"
                            " run logic_sampling inference algorithm",
@@ -53,20 +117,24 @@ namespace bn {
                                                  const std::vector<std::shared_ptr<bcvec>>& parents_result,
                                                  int dim = 10000,
                                                  int possible_states = 2);
+        std::map<bn::vertex<Probability>,std::vector<Probability>> compute_network_marginal_probabilities(size_t memory, int samples, int nthreads = 0);
+
 
     private:
 		compute::device device;
         compute::context context;
         compute::command_queue queue;
         std::unique_ptr<compute::default_random_engine> rand_eng;
-		std::shared_ptr<bn::bayesian_network<Probability>> bn;
+		bn::bayesian_network<Probability> bn;
 
         // private members
         std::vector<Probability> accumulate_cpt(std::vector<Probability> striped_cpt, int possible_states);
         std::pair<int, int> compute_result_binary(bcvec &res);
         std::vector<int> compute_result_general(bcvec &res);
         std::pair<int, int> calculate_iterations(int nthreads, size_t memory, int samples); // return <n_iterations, samples_in_iter>
-    };
+        partial_result<Probability> to_partial_result(std::shared_ptr< std::map< bn::vertex<Probability>, std::future< std::shared_ptr<bcvec> > > > results);
+
+        };
 
 
 #if DEBUG_MONTECARLO
@@ -103,7 +171,6 @@ namespace bn {
                                          int dim,
                                          int possible_states){
 
-
         std::vector<T> striped_cpt_accum = this->accumulate_cpt(striped_cpt, possible_states);
         std::shared_ptr<bcvec> result = std::make_shared<bcvec>(dim, context, possible_states);
         prob_v device_cpt(striped_cpt.size(), context);
@@ -113,7 +180,6 @@ namespace bn {
         compute::vector<int> index_vec(dim, context);
 
         compute::copy(striped_cpt_accum.begin(), striped_cpt_accum.end(), device_cpt.begin(), queue);
-
         if(parents_result.empty()){
             compute::fill(index_vec.begin(), index_vec.end(), 0, queue);
         }
@@ -156,6 +222,7 @@ namespace bn {
         print_vec(random_vec, "RANDOM", 10);
         print_vec(*result, "RESULT", 10);
 #endif
+        printf("Pre return\n");
         return result;
     }
 
@@ -186,8 +253,64 @@ namespace bn {
         return std::pair<int, int>(1, samples); //TODO implement calculation
     }
 
+    template<typename Probability>
+    std::map<bn::vertex<Probability>,std::vector<Probability>> logic_sampling<Probability>::compute_network_marginal_probabilities(
+            size_t memory,
+            int samples,
+            int nthreads) {
+        using uncompressed_partial_result = std::shared_ptr< std::map< bn::vertex<Probability>, std::future< std::shared_ptr<bcvec> > > >;
+
+        thread_pool tp(nthreads == 0 ? : nthreads);
+        auto vertex_queue = bn::sampling_order(bn);
+
+        std::pair<int, int> iterations = calculate_iterations(nthreads, memory, samples);
+
+        auto cnmp = [this](
+                uncompressed_partial_result results,
+                int samples, bn::vertex<Probability> v)-> std::shared_ptr<bn::bcvec> {
+            int possible_states =  bn[v].states().size();
+            std::vector<std::shared_ptr<bcvec>> parents_result;
+            for (auto p : bn.parents_of(v)) {
+                parents_result.push_back((*results)[p].get());
+            }
+            return simulate_node( bn[v].table().flat(), parents_result,samples, possible_states);
+        };
+        //Usato per debuggare senza thread_pool
+        auto debug_wrapper = [this,cnmp](uncompressed_partial_result results,
+                                    int samples, bn::vertex<Probability> v) {
+            std::promise<std::shared_ptr<bn::bcvec>> p;
+            auto res = cnmp(results,samples,v);
+            p.set_value(res);
+            return p.get_future();
+
+        };
+        partial_result<Probability> pr(iterations.second);
+        for (int i = 0; i<iterations.first; i++) {
+            uncompressed_partial_result results = std::make_shared<std::map< bn::vertex<Probability>, std::future< std::shared_ptr<bcvec> > >>();
+            for (bn::vertex<Probability> v: vertex_queue) {
+                //TODO: use result of calculate_iterations instead of samples
+                (*results)[v] = debug_wrapper(results,samples,v);
+                //(*results)[v] = tp.submit(cnmp, results, samples, v);
+            }
+            auto pr_results = to_partial_result(results);
+            pr += pr_results;
+        }
+        return pr.compute_total_result();
+    }
+
+    template<typename Probability>
+    partial_result<Probability> logic_sampling<Probability>::to_partial_result(std::shared_ptr< std::map< bn::vertex<Probability>, std::future< std::shared_ptr<bcvec> > > > results) {
+        int nsamples = (*results).begin()->second.get().get()->vec.size();
+        partial_result<Probability> pr(nsamples);
+        for (auto &[k,v] : (*results)) {
+            pr[k] = compute_result_general(*(v.get()));
+        }
+        return pr;
+    }
+
+
 
 } // namespace bn
 
 
-#endif //BAYESIAN_INFERRER_LOGIC_SAMPLING_HPP
+#endif //BAYLIB_LOGIC_SAMPLING_HPP
