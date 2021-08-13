@@ -21,32 +21,36 @@
 namespace  bn{
     /**
     * Applies ranking function to the DAG representing the
-    * bayesian network
+    * bayesian network to get the appropriate sampling order
+    *
     * @tparam Probability: the type expressing the probability
-    * @return              map containing node-rank as key-value couple
+    * @param  bn         : bayesian network
+    * @return            : vector containing variables sorted by rank
     */
-    template<typename Probability>
-    std::map<bn::vertex<Probability>, int> graph_rank(const std::shared_ptr<bn::bayesian_network<Probability>> &bn){
-        auto ranks = std::map<bn::vertex<Probability>, int>{};
-        auto vertices = bn->variables();
-        std::vector<bn::vertex<Probability>> roots;
+    template <typename Probability>
+    std::vector<bn::vertex<Probability>> sampling_order(const bn::bayesian_network<Probability> &bn){
+        using vertex_t = bn::vertex<Probability>;
 
-        // fill nodes map with 0s
-        for(auto & v : vertices) {
-            ranks[v.id()] = 0;
-            if(bn->is_root(v.name())) roots.push_back(v.id());
-        }
+        auto vertices = bn.variables();
 
-        if(roots.empty())
-            throw std::runtime_error("No root nodes found in graph.");
+        // initially, the all have rank 0
+        auto ranks = std::vector<vertex_t>(vertices.size(), 0);
+        auto roots = std::vector<vertex_t>{};
+
+        for(auto & v : vertices)
+            if(bn.is_root(v.name())) roots.push_back(v.id());
+
+        BAYLIB_ASSERT(!roots.empty(),
+                      "No root vertices found in graph",
+                      std::runtime_error)
 
         while(!roots.empty()) {
-            bn::vertex<Probability> curr_node = roots.back();
+            vertex_t curr_node = roots.back();
             roots.pop_back();
 
             for (auto v : vertices) {
                 auto vid = v.id();
-                if (!bn->has_dependency(curr_node, vid)) continue;
+                if (!bn.has_dependency(curr_node, vid)) continue;
 
                 if (ranks[curr_node] + 1 > ranks[vid]) {
                     ranks[vid] = ranks[curr_node] + 1;
@@ -55,35 +59,14 @@ namespace  bn{
             }
         }
 
-        return ranks;
-    }
+        auto order = std::vector<vertex_t>(vertices.size());
+        std::iota(order.begin(), order.end(), 0);
 
-    /**
-     *
-     * @tparam Probability: the type expressing the probability
-     * @param  bn         : bayesian network shared pointer
-     * @return            : vector containing variables sorted by rank
-     */
-    template <typename Probability>
-    std::vector<bn::vertex<Probability>> rank_order (const std::shared_ptr<bn::bayesian_network<Probability>> &bn){
-       using pair_t = std::pair<bn::vertex<Probability>, int>;
+        std::sort(order.begin(), order.end(), [&ranks](auto &a, auto&b){
+            return ranks[a] < ranks[b];
+        });
 
-       auto tmp = std::vector<pair_t>{};
-       auto rank_map = graph_rank(bn);
-       auto order = std::vector<bn::vertex<Probability>>{};
-
-       tmp.reserve(rank_map.size());
-       std::copy(rank_map.begin(), rank_map.end(), tmp.begin());
-
-       std::sort(tmp.begin(), tmp.end(), [](const pair_t &a, const pair_t &b){
-           return a.second < b.second;
-       });
-
-       std::transform(tmp.begin(), tmp.end(), std::back_inserter(order), [](auto p){
-           return p.second;
-       });
-
-       return order;
+        return order;
     }
 
     /**
@@ -113,15 +96,22 @@ namespace  bn{
         return marblank;
     }
 
+    /**
+     * check whether the given node's condition probability
+     * table is properly filled (proper number of entries
+     * and sum(row_i) == 1.0 with a tolerance of 1.0e-5)
+     * @tparam Probability : the type expressing the probability
+     * @param cpt_owner    : the node the cpt belongs to
+     * @return             : true if filled out, false otherwise
+     */
     template <typename Probability>
     bool cpt_filled_out(bn::random_variable<Probability> &cpt_owner)
     {
         bn::condition_factory factory(cpt_owner);
-        if(factory.combinations_number() != cpt_owner.table().size())
+        if(factory.number_of_combinations() != cpt_owner.table().size())
             return false;
 
         auto &cpt = cpt_owner.table();
-
         do {
             auto cond = factory.get();
             if(!cpt.has_entry_for(cond))

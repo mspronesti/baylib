@@ -1,6 +1,6 @@
 set(CMAKE_CXX_STANDARD 17)
 project(baylib)
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.10)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
@@ -18,11 +18,11 @@ find_package (Threads REQUIRED)
 
 find_package (Threads)
 add_subdirectory(baylib)
-add_subdirectory(test)
+
 enable_testing()
+add_subdirectory(test)
 
 add_executable(bnetlib main.cpp)
 
 target_link_libraries(bnetlib OpenCL::OpenCL pthread boost_thread)
-
 
