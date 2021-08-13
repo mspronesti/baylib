@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <baylib/network/bayesian_network.hpp>
 #include <baylib/probability/condition.hpp>
+#include <baylib/network/bayesian_utils.hpp>
 
 class cpt_tests : public ::testing::Test {
 protected:
@@ -88,6 +89,9 @@ TEST_F(cpt_tests, test_parents) {
     ASSERT_EQ(a_cpt[c1][F], 1 - .5);
     ASSERT_EQ(a_cpt[c1][T],  .5);
 
+    // (0,0) and (1,0) missing
+    ASSERT_FALSE(bn::cpt_filled_out(bn["a"]));
+
     c1.clear();
     c1.add("b", 0);
     c1.add("c", 0);
@@ -97,6 +101,15 @@ TEST_F(cpt_tests, test_parents) {
     ASSERT_EQ(a_cpt[c1][F], 1 - .25);
     ASSERT_EQ(a_cpt[c1][T],  .25);
 
+    // (1,0) missing
+    ASSERT_FALSE(bn::cpt_filled_out(bn["a"]));
+    c1.clear();
+    c1.add("b", 1);
+    c1.add("c", 0);
+    bn.set_variable_probability("a", T, c1, .023);
+    bn.set_variable_probability("a", F, c1, 1-.023);
+
+    ASSERT_TRUE(bn::cpt_filled_out(bn["a"]));
 
     c1.clear();
     c1.add("a", 1);
@@ -118,9 +131,29 @@ TEST_F(cpt_tests, test_no_parent) {
 
     // "b" is root, hence doesn't have any parent!
     ASSERT_ANY_THROW(bn.set_variable_probability("b", T, c, 0.5));
+    // "c" ain't "d"'s parent
+    ASSERT_ANY_THROW(bn.set_variable_probability("d", T, c, 0.5));
 }
 
+TEST_F(cpt_tests, test_wrong_line_sum) {
+    bn::condition c;
+    c.add("a", 1);
 
+    bn.set_variable_probability("d", T, c, 0.123);
+    // missing probability for state F and case a = 0
+    ASSERT_FALSE(bn::cpt_filled_out(bn["d"]));
+    bn.set_variable_probability("d", F, c, 1 - .123);
+
+    c.add("a", 0);
+    bn.set_variable_probability("d", T, c, .3);
+    bn.set_variable_probability("d", F, c, .65);
+
+    // row sum is != 1
+    ASSERT_FALSE(bn::cpt_filled_out(bn["d"]));
+    // now it sums to 1
+    bn.set_variable_probability("d", F, c, 1 - .3);
+    ASSERT_TRUE(bn::cpt_filled_out(bn["d"]));
+}
 
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);

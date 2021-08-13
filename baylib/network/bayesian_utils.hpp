@@ -8,6 +8,7 @@
 
 #include <baylib/network/bayesian_network.hpp>
 #include <unordered_set>
+#include <baylib/probability/condition_factory.hpp>
 
 /**
  * this file contains some useful algorithms
@@ -32,8 +33,8 @@ namespace  bn{
 
         // fill nodes map with 0s
         for(auto & v : vertices) {
-            ranks[v.id] = 0;
-            if(bn->is_root(v.name)) roots.push_back(v.id);
+            ranks[v.id()] = 0;
+            if(bn->is_root(v.name())) roots.push_back(v.id());
         }
 
         if(roots.empty())
@@ -44,11 +45,12 @@ namespace  bn{
             roots.pop_back();
 
             for (auto v : vertices) {
-                if (!bn->has_dependency(curr_node, v.id)) continue;
+                auto vid = v.id();
+                if (!bn->has_dependency(curr_node, vid)) continue;
 
-                if (ranks[curr_node] + 1 > ranks[v.id]) {
-                    ranks[v.id] = ranks[curr_node] + 1;
-                    roots.push_back(v.id);
+                if (ranks[curr_node] + 1 > ranks[vid]) {
+                    ranks[vid] = ranks[curr_node] + 1;
+                    roots.push_back(vid);
                 }
             }
         }
@@ -109,6 +111,31 @@ namespace  bn{
         }
 
         return marblank;
+    }
+
+    template <typename Probability>
+    bool cpt_filled_out(bn::random_variable<Probability> &cpt_owner)
+    {
+        bn::condition_factory factory(cpt_owner);
+        if(factory.combinations_number() != cpt_owner.table().size())
+            return false;
+
+        auto &cpt = cpt_owner.table();
+
+        do {
+            auto cond = factory.get();
+            if(!cpt.has_entry_for(cond))
+                return false;
+        } while(factory.has_next());
+
+        for(auto & row : cpt) {
+            Probability sum = std::accumulate(row.begin(), row.end(), 0.0);
+            if (abs(sum - 1.0) > 1.0e-5) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 } // namespace bn

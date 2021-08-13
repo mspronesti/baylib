@@ -2,8 +2,8 @@
 // Created by elle on 22/07/21.
 //
 
-#ifndef BAYESIAN_INFERRER_LOGIC_SAMPLING_HPP
-#define BAYESIAN_INFERRER_SAMPLING_HPP
+#ifndef BAYLIB_LOGIC_SAMPLING_HPP
+#define BAYLIB_LOGIC_SAMPLING_HPP
 
 #define DEBUG_MONTECARLO 0
 
@@ -14,6 +14,7 @@
 #include <boost/compute/device.hpp>
 
 #include <baylib/network/bayesian_network.hpp>
+#include <baylib/network/bayesian_utils.hpp>
 
 namespace bn {
     namespace compute = boost::compute;
@@ -37,6 +38,12 @@ namespace bn {
                 const compute::device &device = compute::system::default_device())
                 : bn(bn), device(device)
         {
+		    BAYLIB_ASSERT(std::all_of(bn->variables().begin(), bn->variables().end(),
+		                              [](auto &var){ return bn::cpt_filled_out(var); }),
+		                   "conditional probability tables must be properly filled to"
+                           " run logic_sampling inference algorithm",
+		                  std::runtime_error)
+
             this->context = compute::context(device);
             this->queue = compute::command_queue(context, device);
             this->rand_eng = std::make_unique<compute::default_random_engine>(queue);
