@@ -45,13 +45,16 @@ enum {
 };
 
 TEST_F(cpt_tests, test_root_1) {
-  bn::condition c; // empty condition
-  bn.set_variable_probability("b", T, c, .02);
-  bn.set_variable_probability("b", F, c, 1 - .02);
+    ASSERT_FALSE(bn::cpt_filled_out(bn["b"]));
 
-  auto& b_cpt = bn["b"].table();
-  ASSERT_EQ(b_cpt[c][F], 1 - .02);
-  ASSERT_EQ(b_cpt[c][T],  .02);
+    bn::condition c; // empty condition
+    bn.set_variable_probability("b", T, c, .02);
+    bn.set_variable_probability("b", F, c, 1 - .02);
+
+    auto& b_cpt = bn["b"].table();
+    ASSERT_EQ(b_cpt[c][F], 1 - .02);
+    ASSERT_EQ(b_cpt[c][T],  .02);
+    ASSERT_TRUE(bn::cpt_filled_out(bn["b"]));
 }
 
 

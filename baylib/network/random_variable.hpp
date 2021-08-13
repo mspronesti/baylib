@@ -17,18 +17,6 @@ namespace  bn {
 
     template<typename Probability>
     class random_variable {
-
-        std::string _name;
-        bn::cow::cpt<Probability> cpt;
-        std::vector <std::string> _states;
-        unsigned long _id{};
-
-        // stored to avoid passing the graph over and over
-        // when not needed
-        std::map<std::string, int> parents_states;
-
-        friend class bn::bayesian_network<Probability>;
-
     public:
         random_variable() = default;
 
@@ -41,9 +29,9 @@ namespace  bn {
         }
 
         void set_probability(
-                bn::state_t state_value,
-                const bn::condition &cond,
-                Probability p
+            bn::state_t state_value,
+            const bn::condition &cond,
+            Probability p
         )
         {
             cpt.set_probability(cond, state_value, p);
@@ -65,12 +53,14 @@ namespace  bn {
             return _id;
         }
 
-        int parent_states_size(const std::string &name) {
+        unsigned int parent_states_number(const std::string &name) {
             auto it = parents_states.find(name);
-            if(it != parents_states.end())
-                return it->second;
+            BAYLIB_ASSERT( it != parents_states.end(),
+                           name << " doesn't represent a"
+                          " valid parent for variable " << _name,
+                          std::logic_error)
 
-            return -1;  // doesn't throw on purpose
+            return it->second;
         }
 
         std::vector<std::string> parents_names () const {
@@ -79,6 +69,19 @@ namespace  bn {
                         std::back_inserter(pnames));
             return pnames;
         }
+
+    private:
+        friend class bn::bayesian_network<Probability>;
+
+        std::string _name;
+        bn::cow::cpt<Probability> cpt;
+        std::vector <std::string> _states;
+        unsigned long _id{};
+
+        // stored to avoid passing the graph over and over
+        // even when not needed
+        std::map<std::string, unsigned int> parents_states;
+
     };
 } // namespace bn
 

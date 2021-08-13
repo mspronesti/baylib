@@ -24,41 +24,43 @@ namespace  bn {
          * @param rv     : random variable
          * @param parents: the vector of rv's parents.
          *                 If a specific order of the parents is
-         *                 needed you can pass your vector,
-         *                 otherwise it employs the default vector taken from rv
+         *                 needed (e.g. to parse xdsl) you can pass
+         *                 your vector, otherwise it employs the default
+         *                 one, taken from rv
          */
-        explicit condition_factory
-                (
-                        const bn::random_variable<Probability> &rv,
-                        const std::vector<std::string>& parents = {}
-                )
-                : var(rv)
-                , condition_index(0)
-                , ncombinations(1)
-                , _parents(parents)
+        explicit condition_factory(
+             const bn::random_variable<Probability> &rv,
+             const std::vector<std::string>& parents = {}
+        )
+        : var(rv)
+        , condition_index(0)
+        , ncombinations(1)
+        , _parents(parents)
         {
-            if(parents.empty()) {
+            if(parents.empty())
                 _parents = var.parents_names();
-            }
-            else{
-                BAYLIB_ASSERT(
-                        _parents.size() == var.parents_names().size() &&
-                        !std::any_of(_parents.begin(), _parents.end(), [this](const auto &el){return var.parent_states_size(el) == -1;}),
-                        "provided parents don't match "
-                        "random variable " << rv.name() << " parents",
-                        std::runtime_error
-                        )
-            }
 
+            // load first condition and compute the number
+            // of combinations
             for (auto &parent : _parents) {
-                ncombinations *= var.parent_states_size(parent);
+                // parent_states_number throws if invalid
+                // parent, hence no extra check needed
+                c.add(parent, condition_index / ncombinations % var.parent_states_number(parent));
+                ncombinations *= var.parent_states_number(parent);
             }
-            produce_condition();
         }
 
         /**
-         * computes next condition (if any)
-         * employing an "hardware-like" strategy
+         * sets next condition (if any) employing
+         * the following formula:
+         *
+         *    f(i,j) = i / prod_{k=0}^{j-1} (ck) mod cj
+         *
+         * where i  = combination index
+         *       j  = random variable index
+         *       cj = j-th variable cardinality (number of parent states)
+         *       prod_{k=0}^{j-1} is the the product for k = {0, 1, ..., j-1}
+         *
          * @return true if new condition
          *         false otherwise
          */
@@ -66,7 +68,12 @@ namespace  bn {
             if (++condition_index >= ncombinations)
                 return false;
 
-            produce_condition();
+            // next condition
+            std::uint64_t cum_card = 1;
+            for (auto name : _parents) {
+                c.add(name, condition_index / cum_card % var.parent_states_number(name));
+                cum_card *= var.parent_states_number(name);
+            }
             return true;
         }
 
@@ -76,7 +83,7 @@ namespace  bn {
          * in his conditional probability table (CPT)
          * @return combinations number
          */
-        std::uint64_t combinations_number () const {
+        std::uint64_t number_of_combinations() const {
             return ncombinations;
         }
 
@@ -84,28 +91,11 @@ namespace  bn {
          * retrieves current condition
          * @return condition
          */
-        bn::condition get() {
+        bn::condition get() const {
             return c;
         }
 
     private:
-        /**
-         * produces a new condition employing
-         * the following formula
-         *   f(i,j) = i / prod_{k=0}^{j-1} (ck) mod cj
-         *
-         * where i  = combination index
-         *       j  = random variable index
-         *       cj = j-th variable cardinality (number of parents)
-         *       prod_{k=0}^{j-1} is the the product for k = {0, 1, ..., j-1}
-         */
-        void produce_condition() {
-            std::uint64_t cum_card = 1;
-            for (auto name : _parents) {
-                c.add(name, condition_index / cum_card % var.parent_states_size(name));
-                cum_card *= var.parent_states_size(name);
-            }
-        }
 
         bn::condition c;
         bn::random_variable<Probability> var;

@@ -113,15 +113,22 @@ namespace  bn{
         return marblank;
     }
 
+    /**
+     * check whether the given node's condition probability
+     * table is properly filled (proper number of entries
+     * and sum(row_i) == 1.0 with a tolerance of 1.0e-5)
+     * @tparam Probability : the type expressing the probability
+     * @param cpt_owner    : the node the cpt belongs to
+     * @return             : true if filled out, false otherwise
+     */
     template <typename Probability>
     bool cpt_filled_out(bn::random_variable<Probability> &cpt_owner)
     {
         bn::condition_factory factory(cpt_owner);
-        if(factory.combinations_number() != cpt_owner.table().size())
+        if(factory.number_of_combinations() != cpt_owner.table().size())
             return false;
 
         auto &cpt = cpt_owner.table();
-
         do {
             auto cond = factory.get();
             if(!cpt.has_entry_for(cond))
