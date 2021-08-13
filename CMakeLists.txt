@@ -18,8 +18,9 @@ find_package (Threads REQUIRED)
 
 find_package (Threads)
 add_subdirectory(baylib)
-add_subdirectory(test)
+
 enable_testing()
+add_subdirectory(test)
 
 add_executable(bnetlib main.cpp)
 
