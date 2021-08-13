@@ -7,6 +7,7 @@
 
 #include <baylib/probability/condition.hpp>
 #include <numeric>
+#include <vector>
 
 #include <baylib/tools/cow/shared_data.hpp>
 #include <baylib/tools/cow/shared_ptr.hpp>
@@ -20,7 +21,6 @@
 
 namespace bn{
     namespace cow {
-
         template<typename Probability>
         struct CPTData : public bn::cow::shared_data {
             /**
@@ -66,7 +66,7 @@ namespace bn{
                     bn::state_t state_val,
                     Probability p
             ) {
-                BAYLIB_ASSERT(state_val <= d->nstates,
+                BAYLIB_ASSERT(state_val < d->nstates,
                               "invalid state value"
                               + std::to_string(state_val),
                               std::runtime_error)

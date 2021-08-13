@@ -172,7 +172,7 @@ namespace bn {
             return boost::edge(v1, v2, *graph).second;
         }
 
-        bool is_root(bn::vertex<Probability> v){
+        bool is_root(bn::vertex<Probability> v) const {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -180,7 +180,7 @@ namespace bn {
             return boost::in_degree(v, *graph) == 0;
         }
 
-        bool is_root(const std::string &name){
+        bool is_root(const std::string &name) const {
             auto v  = index_of(name);
             return boost::in_degree(v, *graph) == 0;
         }
@@ -264,7 +264,7 @@ namespace bn {
             return boost::num_vertices(*graph) > v;
         }
 
-        bn::vertex<Probability> index_of(const std::string &name){
+        bn::vertex<Probability> index_of(const std::string &name) const {
             auto it = var_map.find(name);
             BAYLIB_ASSERT(it != var_map.end(),
                           "identifier " + name + " doesn't "
