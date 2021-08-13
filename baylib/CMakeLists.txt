@@ -1,6 +1,7 @@
 install(
         DIRECTORY ./
-        DESTINATION include/baylib/
+        DESTINATION include/baylib
         FILES_MATCHING PATTERN "*.hpp"
+                       PATTERN "*.h"
 )
 
