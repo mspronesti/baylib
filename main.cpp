@@ -3,7 +3,9 @@
 //
 #include <iostream>
 #include <baylib/inference/logic_sampling.hpp>
+#include <baylib/tools/threads/thread_pool.hpp>
 #include <baylib/parser/net_parser.hpp>
+
 /*void print_results(const std::vector<std::string>& names, std::vector<int> results){
     for (int i = 0; i < names.size(); ++i)
         std::cout << names[i] << ": " << results[i] << '\n';
@@ -70,12 +72,32 @@ void test_simulation_non_binary_multiple_parents(){
     acc_res = ls.compute_result_general(*expert_forecast);
     print_results({"Good", "Moderate", "Poor"}, acc_res);
 
-}*/
+}
 
+void test_thread_pool() {
+    bn::thread_pool tp;
+    int a = 10;
+    std::shared_ptr<std::vector<int>> v = std::make_shared<std::vector<int>>(3);
+    auto f = [](int a, std::shared_ptr<std::vector<int>> v) {
+        for (int i : *v)
+            a+=i;
+        return a;
+    };
+    auto res = tp.submit(f,a,v);
+    std::cout << res.get() << '\n';
+}
+*/
+
+using namespace bn;
 int main(){
     //test_simulation_chain();
     //test_simulation_non_binary_multiple_parents();
     bn::net_parser<float> parser;
     auto net = parser.load_from_xdsl("../xdls/Coma.xdsl");
     printf("HI");
+
+    logic_sampling<float> ls(net);
+    auto res = ls.compute_network_marginal_probabilities(CL_DEVICE_MAX_MEM_ALLOC_SIZE, 1000);
+
+
 }

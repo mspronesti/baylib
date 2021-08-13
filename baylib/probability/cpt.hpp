@@ -134,7 +134,7 @@ namespace bn{
 
                 for(auto &[cond, cond_id] : cond_map) {
                     auto cpt_row = d->table[cond_id];
-                    flat_cpt.insert(end(flat_cpt), begin(cpt_row), end(cpt_row));
+                    flat_cpt.insert(flat_cpt.end(), cpt_row.begin(), cpt_row.end());
                 }
 
                 return flat_cpt;
