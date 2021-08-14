@@ -30,14 +30,22 @@ protected:
 };
 
 TEST_F(logic_sampling_tests, Coma_errors){
-    auto fun = [this](){bn::logic_sampling<float> el = bn::logic_sampling<float>(net1);};
+    //auto fun = [this](){bn::logic_sampling<float> el = bn::logic_sampling<float>(net1);};
     bn::condition cond{};
     cond.add("IncrSerCal", 0);
     cond.add("BrainTumor", 0);
+    //SUMS of columns of cpt should make 1
     net1.set_variable_probability("Coma", 0, cond, .99);
-    ASSERT_ANY_THROW(fun());
-    net1.set_variable_probability("Coma", 0, cond, .001);
-    ASSERT_ANY_THROW(fun());
+    ASSERT_ANY_THROW(bn::logic_sampling<float>(this->net1));
+
+    bn::condition cond2{};
+    cond2.add("IncrSerCal", 0);
+    cond2.add("BrainTumor", 0);
+    net1.set_variable_probability("Coma", 0, cond2, .001);
+    ASSERT_ANY_THROW(bn::logic_sampling<float>(this->net1));
+
+    net1.remove_variable("Coma");
+    ASSERT_ANY_THROW(bn::logic_sampling<float>(this->net1));
 }
 
 
