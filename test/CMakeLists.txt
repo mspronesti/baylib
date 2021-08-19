@@ -10,13 +10,14 @@ set_target_properties( cpt_test PROPERTIES OUTPUT_NAME "cpt" )
 set_target_properties( parser_test PROPERTIES OUTPUT_NAME "parser")
 set_target_properties( logic_sampling_test PROPERTIES OUTPUT_NAME "logicsamp")
 # google test
-#find_package(GTest REQUIRED)
+find_package(GTest REQUIRED)
+
 
 target_link_libraries(bnet_test gtest gtest_main pthread)
 target_link_libraries(rank_test gtest gtest_main pthread OpenCL::OpenCL)
 target_link_libraries(cpt_test gtest gtest_main pthread)
 target_link_libraries(parser_test gtest gtest_main pthread)
-target_link_libraries(logic_sampling_test gtest gtest_main pthread OpenCL::OpenCL)
+target_link_libraries(logic_sampling_test gtest gtest_main pthread OpenCL::OpenCL boost_thread Boost::system Boost::thread)
 
 add_test( bnet_test bnet)
 add_test( rank_test rank)

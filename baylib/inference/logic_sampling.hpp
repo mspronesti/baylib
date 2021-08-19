@@ -6,6 +6,7 @@
 #define BAYLIB_LOGIC_SAMPLING_HPP
 
 #define DEBUG_MONTECARLO 0
+#define MEMORY_SLACK 0.7
 
 #ifndef BOOST_COMPUTE_THREAD_SAFE
 #define BOOST_COMPUTE_THREAD_SAFE
@@ -23,10 +24,10 @@
 
 namespace bn {
     namespace compute = boost::compute;
-	using boost::compute::lambda::_1;
+    using boost::compute::lambda::_1;
     using boost::compute::lambda::_2;
 
-	struct bcvec {
+    struct bcvec {
         compute::vector<int> vec;
         ushort cardinality;
         bcvec(int dim, const compute::context& context, ushort cardinality): cardinality(cardinality){
@@ -34,10 +35,10 @@ namespace bn {
         }
     };
 
-	//TODO: Refactor partial_result to incapsulate a shared_ptr<map> instead of map. Fix all operators
+    //TODO: Refactor partial_result to incapsulate a shared_ptr<map> instead of map. Fix all operators
     template <typename Probability>
-	class partial_result {
-	private:
+    class partial_result {
+    private:
         std::shared_ptr<std::map<bn::vertex<Probability>,std::vector<int>>> data;
         uint nsamples;
     public:
@@ -68,9 +69,9 @@ namespace bn {
                     (*data)[k] = v;
             }
             return (*this);
-	    }
+        }
 
-	    partial_result operator+(partial_result &other) {
+        partial_result operator+(partial_result &other) {
             partial_result new_spr = (*this);
             new_spr+=other;
             return new_spr;
@@ -89,7 +90,7 @@ namespace bn {
             return total_result;
         }
 
-	};
+    };
 
 
     template <typename Probability>
@@ -98,7 +99,7 @@ namespace bn {
 
     public:
         explicit logic_sampling(const bn::bayesian_network<Probability> &bn,
-                const compute::device &device = compute::system::default_device())
+                                const compute::device &device = compute::system::default_device())
                 : bn(bn), device(device), nsamples(0), nthreads(0), niter(0)
         {
             /*
@@ -107,14 +108,14 @@ namespace bn {
 		    }*/
             auto var = bn.variables();
             BAYLIB_ASSERT(std::all_of(var.begin(), var.end(),
-		                              [](auto &var){ return bn::cpt_filled_out(var); }),
-		                   "conditional probability tables must be properly filled to"
-                           " run logic_sampling inference algorithm",
-		                  std::runtime_error)
+                                      [](auto &var){ return bn::cpt_filled_out(var); }),
+                          "conditional probability tables must be properly filled to"
+                          " run logic_sampling inference algorithm",
+                          std::runtime_error)
             this->context = compute::context(device);
             this->queue = compute::command_queue(context, device);
             this->rand_eng = std::make_unique<compute::default_random_engine>(queue);
-		}
+        }
 
         std::shared_ptr<bn::bcvec> simulate_node(const std::vector<Probability>& striped_cpt,
                                                  const std::vector<std::shared_ptr<bcvec>>& parents_result,
@@ -123,15 +124,15 @@ namespace bn {
         std::map<bn::vertex<Probability>,std::vector<Probability>> compute_network_marginal_probabilities(size_t memory, int samples, int n_threads = 1);
 
     private:
-		compute::device device;
+        compute::device device;
         compute::context context;
         compute::command_queue queue;
         std::unique_ptr<compute::default_random_engine> rand_eng;
-		bn::bayesian_network<Probability> bn;
-		uint nsamples;
-		uint nthreads;
-		uint niter;
-		std::mutex lck;
+        bn::bayesian_network<Probability> bn;
+        uint nsamples;
+        uint nthreads;
+        uint niter;
+        std::mutex lck;
 
         // private members
         std::vector<Probability> accumulate_cpt(std::vector<Probability> striped_cpt, int possible_states);
@@ -141,7 +142,7 @@ namespace bn {
         partial_result<Probability> to_partial_result(std::shared_ptr< std::map< bn::vertex<Probability>, std::shared_future< std::shared_ptr<bcvec> > > > results);
         template<typename S>
         void print_vec(compute::vector<S> &vec, const std::string& message, int len);
-        };
+    };
 
 
 
@@ -308,8 +309,16 @@ namespace bn {
     template<typename Probability>
     void logic_sampling<Probability>::calculate_iterations(int n_threads, size_t memory, int samples) {
         this->nthreads = n_threads;
-        this->nsamples = samples;
-        this->niter = 1;
+
+        uint64_t sample_p = memory/(bn.number_of_variables()*sizeof(Probability)+3*sizeof(cl_ushort)*n_threads) * MEMORY_SLACK;
+        if(sample_p < samples){
+            this->nsamples = sample_p;
+            this->niter = samples / sample_p;
+        }
+        else {
+            this->nsamples = samples;
+            this->niter = 1;
+        }
         //TODO implement calculation
     }
 

@@ -10,7 +10,9 @@
 // TODO: to be implemented
 
 #define TOLERANCE .05
-#define THREADS 4
+#define THREADS 1
+#define MEMORY 5*(std::pow(2,20))
+#define SAMPLES 10000
 
 class logic_sampling_tests : public ::testing::Test {
 protected:
@@ -59,7 +61,7 @@ TEST_F(logic_sampling_tests, Coma_errors){
 
 TEST_F(logic_sampling_tests, big_bang_Coma){
     bn::logic_sampling<double> sampling(net1);
-    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, THREADS);
+    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
     ASSERT_NEAR(result[net1.index_of("MetastCancer")][0], .2, TOLERANCE);
     ASSERT_NEAR(result[net1.index_of("MetastCancer")][1], .8, TOLERANCE);
 
@@ -78,7 +80,7 @@ TEST_F(logic_sampling_tests, big_bang_Coma){
 
 TEST_F(logic_sampling_tests, big_bang_VentureBNExpanded){
     bn::logic_sampling<float> sampling(net2);
-    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, THREADS);
+    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
 
     ASSERT_NEAR(result[net2.index_of("Success")][0], .2, TOLERANCE);
     ASSERT_NEAR(result[net2.index_of("Success")][1], .8, TOLERANCE);
@@ -94,7 +96,7 @@ TEST_F(logic_sampling_tests, big_bang_VentureBNExpanded){
 
 TEST_F(logic_sampling_tests, big_bang_Credit){
     bn::logic_sampling<float> sampling(net3);
-    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, THREADS);
+    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
 
     ASSERT_NEAR(result[net3.index_of("PaymentHistory")][0], .25, TOLERANCE);
     ASSERT_NEAR(result[net3.index_of("PaymentHistory")][1], .25, TOLERANCE);
@@ -146,7 +148,7 @@ TEST_F(logic_sampling_tests, big_bang_Credit){
 
 TEST_F(logic_sampling_tests, big_bang_Asia){
     bn::logic_sampling<float> sampling(net4);
-    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, THREADS);
+    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
     ASSERT_NEAR(result[net4.index_of("Tuberculosis")][0], .99, TOLERANCE);
     ASSERT_NEAR(result[net4.index_of("Tuberculosis")][1], .01, TOLERANCE);
 
@@ -166,7 +168,7 @@ TEST_F(logic_sampling_tests, big_bang_Asia){
 
 TEST_F(logic_sampling_tests, big_bang_Hail){
     bn::logic_sampling<float> sampling(net5);
-    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, THREADS);
+    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
     ASSERT_NEAR(result[net5.index_of("R5Fcst")][0], 0.25, TOLERANCE);
     ASSERT_NEAR(result[net5.index_of("R5Fcst")][1], 0.44, TOLERANCE);
     ASSERT_NEAR(result[net5.index_of("R5Fcst")][2], 0.31, TOLERANCE);
