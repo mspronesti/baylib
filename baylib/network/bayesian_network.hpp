@@ -61,6 +61,9 @@ namespace bn {
         void remove_variable(const std::string &name){
             auto v = index_of(name);
             boost::remove_vertex(v, *graph);
+            var_map.erase(name);
+            for (auto elem: var_map)
+                (*graph)[elem.second].parents_states.erase(name);
         }
 
         void add_dependency(const std::string &src_name, const std::string &dest_name){
@@ -107,7 +110,6 @@ namespace bn {
 
         std::vector<bn::random_variable<Probability>> variables() const {
             auto vars = std::vector<bn::random_variable<Probability>>{};
-
             for(auto v : boost::make_iterator_range(boost::vertices(*graph)))
                 vars.push_back((*graph)[v]);
 
@@ -273,6 +275,7 @@ namespace bn {
 
             return it->second; // more efficient than calling "at"
         }
+
 
 
     private:

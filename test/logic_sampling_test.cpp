@@ -9,22 +9,29 @@
 #include <baylib/inference/logic_sampling.hpp>
 // TODO: to be implemented
 
-#define TOLERANCE .1
+#define TOLERANCE .05
+#define THREADS 4
 
 class logic_sampling_tests : public ::testing::Test {
 protected:
 
-    bn::bayesian_network<float> net1;
+    bn::bayesian_network<double> net1;
     bn::bayesian_network<float> net2;
     bn::bayesian_network<float> net3;
+    bn::bayesian_network<float> net4;
+    bn::bayesian_network<float> net5;
 
     void SetUp() override{
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
-        net1 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/Coma.xdsl");
+        net1 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Coma.xdsl");
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
         net2 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/VentureBNExpanded.xdsl");
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
         net3 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/Credit.xdsl");
+        //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
+        net4 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/AsiaDiagnosis.xdsl");
+        https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FHailfinder2.5.xdsl
+        net5 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/Hailfinder2.5.xdsl");
     }
 
 };
@@ -36,23 +43,23 @@ TEST_F(logic_sampling_tests, Coma_errors){
     cond.add("BrainTumor", 0);
     //SUMS of columns of cpt should make 1
     net1.set_variable_probability("Coma", 0, cond, .99);
-    ASSERT_ANY_THROW(bn::logic_sampling<float>(this->net1));
-
+    //std::cout << net1.variable("Coma").table() << '\n';
+    ASSERT_ANY_THROW(bn::logic_sampling<double>(this->net1));
     bn::condition cond2{};
     cond2.add("IncrSerCal", 0);
     cond2.add("BrainTumor", 0);
-    net1.set_variable_probability("Coma", 0, cond2, .001);
-    ASSERT_ANY_THROW(bn::logic_sampling<float>(this->net1));
+    net1.set_variable_probability("Coma", 0, cond2, .1);
 
-    net1.remove_variable("Coma");
-    ASSERT_ANY_THROW(bn::logic_sampling<float>(this->net1));
+    ASSERT_ANY_THROW(bn::logic_sampling<double>(this->net1));
+
+    net1.remove_variable("IncrSerCal");
+    ASSERT_ANY_THROW(bn::logic_sampling<double>(this->net1));
 }
 
 
 TEST_F(logic_sampling_tests, big_bang_Coma){
-    bn::logic_sampling<float> sampling(net1);
-    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, 2);
-
+    bn::logic_sampling<double> sampling(net1);
+    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, THREADS);
     ASSERT_NEAR(result[net1.index_of("MetastCancer")][0], .2, TOLERANCE);
     ASSERT_NEAR(result[net1.index_of("MetastCancer")][1], .8, TOLERANCE);
 
@@ -62,7 +69,7 @@ TEST_F(logic_sampling_tests, big_bang_Coma){
     ASSERT_NEAR(result[net1.index_of("Coma")][0], .32, TOLERANCE);
     ASSERT_NEAR(result[net1.index_of("Coma")][1], .68, TOLERANCE);
 
-    ASSERT_NEAR(result[net1.index_of("BrainTumor")][0], .8, TOLERANCE);
+    ASSERT_NEAR(result[net1.index_of("BrainTumor")][0], .08, TOLERANCE);
     ASSERT_NEAR(result[net1.index_of("BrainTumor")][1], .92, TOLERANCE);
 
     ASSERT_NEAR(result[net1.index_of("SevHeadaches")][0], .62, TOLERANCE);
@@ -71,7 +78,7 @@ TEST_F(logic_sampling_tests, big_bang_Coma){
 
 TEST_F(logic_sampling_tests, big_bang_VentureBNExpanded){
     bn::logic_sampling<float> sampling(net2);
-    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, 2);
+    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, THREADS);
 
     ASSERT_NEAR(result[net2.index_of("Success")][0], .2, TOLERANCE);
     ASSERT_NEAR(result[net2.index_of("Success")][1], .8, TOLERANCE);
@@ -87,7 +94,7 @@ TEST_F(logic_sampling_tests, big_bang_VentureBNExpanded){
 
 TEST_F(logic_sampling_tests, big_bang_Credit){
     bn::logic_sampling<float> sampling(net3);
-    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, 2);
+    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, THREADS);
 
     ASSERT_NEAR(result[net3.index_of("PaymentHistory")][0], .25, TOLERANCE);
     ASSERT_NEAR(result[net3.index_of("PaymentHistory")][1], .25, TOLERANCE);
@@ -134,6 +141,35 @@ TEST_F(logic_sampling_tests, big_bang_Credit){
 
     ASSERT_NEAR(result[net3.index_of("CreditWorthiness")][0], .54, TOLERANCE);
     ASSERT_NEAR(result[net3.index_of("CreditWorthiness")][1], .46, TOLERANCE);
+}
+
+
+TEST_F(logic_sampling_tests, big_bang_Asia){
+    bn::logic_sampling<float> sampling(net4);
+    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, THREADS);
+    ASSERT_NEAR(result[net4.index_of("Tuberculosis")][0], .99, TOLERANCE);
+    ASSERT_NEAR(result[net4.index_of("Tuberculosis")][1], .01, TOLERANCE);
+
+    ASSERT_NEAR(result[net4.index_of("TbOrCa")][0], .94, TOLERANCE);
+    ASSERT_NEAR(result[net4.index_of("TbOrCa")][1], .06, TOLERANCE);
+
+    ASSERT_NEAR(result[net4.index_of("XRay")][0], .89, TOLERANCE);
+    ASSERT_NEAR(result[net4.index_of("XRay")][1], .11, TOLERANCE);
+
+    ASSERT_NEAR(result[net4.index_of("Dyspnea")][0], .56, TOLERANCE);
+    ASSERT_NEAR(result[net4.index_of("Dyspnea")][1], .44, TOLERANCE);
+
+    ASSERT_NEAR(result[net4.index_of("Bronchitis")][0], .55, TOLERANCE);
+    ASSERT_NEAR(result[net4.index_of("Bronchitis")][1], .45, TOLERANCE);
+
+}
+
+TEST_F(logic_sampling_tests, big_bang_Hail){
+    bn::logic_sampling<float> sampling(net5);
+    auto result = sampling.compute_network_marginal_probabilities(5*2^20, 10000, THREADS);
+    ASSERT_NEAR(result[net5.index_of("R5Fcst")][0], 0.25, TOLERANCE);
+    ASSERT_NEAR(result[net5.index_of("R5Fcst")][1], 0.44, TOLERANCE);
+    ASSERT_NEAR(result[net5.index_of("R5Fcst")][2], 0.31, TOLERANCE);
 }
 
 

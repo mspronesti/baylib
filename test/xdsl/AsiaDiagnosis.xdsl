@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="Asia" numsamples="1000" discsamples="10000">
+	<nodes>
+		<cpt id="VisitToAsia" diagtype="observation" ranked="true">
+			<state id="NoVisit" label="F3" />
+			<state id="Visit" label="F4" />
+			<probabilities>0.99 0.01</probabilities>
+		</cpt>
+		<cpt id="Tuberculosis" diagtype="target" ranked="true">
+			<state id="Absent" label="F5" />
+			<state id="Present" label="F6" fault="true" />
+			<parents>VisitToAsia</parents>
+			<probabilities>0.99 0.01 0.95 0.05</probabilities>
+		</cpt>
+		<cpt id="Smoking" diagtype="observation" ranked="true">
+			<state id="NonSmoker" label="F7" />
+			<state id="Smoker" label="F8" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="LungCancer" diagtype="target" ranked="true">
+			<state id="Absent" label="F9" />
+			<state id="Present" label="F10" fault="true" />
+			<parents>Smoking</parents>
+			<probabilities>0.99 0.01 0.9 0.1</probabilities>
+		</cpt>
+		<deterministic id="TbOrCa">
+			<state id="Nothing" label="F11" />
+			<state id="CancerORTuberculosis" label="F12" />
+			<parents>Tuberculosis LungCancer</parents>
+			<resultingstates>Nothing CancerORTuberculosis CancerORTuberculosis CancerORTuberculosis</resultingstates>
+		</deterministic>
+		<cpt id="XRay" diagtype="observation" ranked="true">
+			<state id="Normal" label="F13" />
+			<state id="Abnormal" label="F14" />
+			<parents>TbOrCa</parents>
+			<probabilities>0.95 0.05 0.02 0.98</probabilities>
+		</cpt>
+		<cpt id="Bronchitis" diagtype="target" ranked="true">
+			<state id="Absent" label="F15" />
+			<state id="Present" label="F16" fault="true" />
+			<parents>Smoking</parents>
+			<probabilities>0.7 0.3 0.4 0.6</probabilities>
+		</cpt>
+		<cpt id="Dyspnea" diagtype="observation" ranked="true">
+			<state id="Absent" label="F17" />
+			<state id="Present" label="F18" />
+			<parents>TbOrCa Bronchitis</parents>
+			<probabilities>0.9 0.1 0.2 0.8 0.3 0.7 0.1 0.9</probabilities>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 2.2.2626.2 1d3af2fc8bc8c80" name="David Spiegelhalter&apos;s Asia network" faultnameformat="nodestate">
+			<comment>This is an example graphical model useful in demonstrating basics concepts of Bayesian networks in diagnosis.  This version of the model makes use of GeNIe diagnostic extensions.\nReference:\nThe Asia network first appeared in: Lauritzen, Steffen L. &amp; Spiegelhalter, David J. (1988). Local computations with probabilities on graphical structures and their application to expert systems, Journal of the Royal Statistical Society B, 50(2):157-224.</comment>
+			<node id="VisitToAsia">
+				<name>Visit To Asia?</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="8" />
+				<position>42 28 146 64</position>
+				<comment>The node models whether the individual in question visited Asia recently. This is considered to be a risk factor in tuberculosis.</comment>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<node id="Tuberculosis">
+				<name>Tuberculosis?</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="8" />
+				<position>44 120 145 154</position>
+				<comment>Presence or absence of tuberculosis.</comment>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<node id="Smoking">
+				<name>Smoking?</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="8" />
+				<position>270 28 350 64</position>
+				<comment>Does the individual smoke or not? This is a serious risk factor in both lung cancer and in bronchitis.</comment>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<node id="LungCancer">
+				<name>Lung Cancer?</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="8" />
+				<position>200 114 282 161</position>
+				<comment>Does the individual suffer from lung cancer?</comment>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<node id="TbOrCa">
+				<name>Tuberculosis or Lung Cancer?</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="8" />
+				<position>114 197 249 253</position>
+				<comment>Does the individual suffer from either tuberculosis or lung cancer? This node models in practice existence of changes in the lungs, such as presence of a condensed mass.</comment>
+				<barchart active="true" width="180" height="64" />
+			</node>
+			<node id="XRay">
+				<name>X-Ray Result</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="8" />
+				<position>45 292 143 328</position>
+				<comment>This node models the X-ray result. Both tuberculosis and lung cancer can be discovered on the X-ray because of presence of condensed mass in the lungs.</comment>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<node id="Bronchitis">
+				<name>Bronchitis?</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="8" />
+				<position>350 119 436 155</position>
+				<comment>Does the individual suffer from bronchitis?</comment>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<node id="Dyspnea">
+				<name>Dyspnea?</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="8" />
+				<position>272 292 348 328</position>
+				<comment>Does the individual suffer from dyspnea (shortness of breath)? Each of the diseases modeled can result in shortness of breath.</comment>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<textbox>
+				<caption>This is an example graphical model useful in demonstrating basics concepts of Bayesian networks in diagnosis.\nIt first appeared in:\nLauritzen, Steffen L. &amp; Spiegelhalter, David J. (1988). Local computations with probabilities on graphical structures and their application to expert systems, Journal of the Royal Statistical Society B, 50(2):157-224.\nThis version of the model makes use of GeNIe diagnostic extensions.</caption>
+				<font color="333399" name="Arial" size="12" bold="true" />
+				<position>485 31 803 259</position>
+			</textbox>
+		</genie>
+	</extensions>
+</smile>
