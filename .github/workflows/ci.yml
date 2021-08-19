@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: build
 
 on:
   push:
@@ -17,6 +17,7 @@ jobs:
         run:  sudo apt install libboost-all-dev
       - name: Install OpenCL
         run: |
+          sudo apt-get update
           sudo apt install ocl-icd-opencl-dev
           sudo apt install mesa-opencl-icd
       - name: Install gtest

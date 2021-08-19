@@ -17,7 +17,7 @@ Here's a list of the main requested features:
 
 ## Install Dependencies
 Under Linux or MacOS, you can use 
-the provided script [install_dependencies.sh](scripts/install.sh) as follows
+the provided script [install_dependencies.sh](scripts/install_dependencies.sh) as follows
 ```bash
  cd scripts/
  chmod u+x install_dependencies.sh
