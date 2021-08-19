@@ -45,7 +45,10 @@ sudo make install
 You can now include `baylib` in your projects.
 ## Usage
 Baylib allows to perform approximate inference on Bayesian Networks loaded from xdsl files
-or created by hand (either using named nodes or numeric identifiers).
+or created by hand (either using named nodes or numeric identifiers). 
+
+Please notice that the current release
+does not support inference when providing evidences.
 
 Have a look at [examples](examples) for more.
 
