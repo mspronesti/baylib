@@ -10,7 +10,7 @@ if(NOT TARGET Boost::boost)
     set(Boost_USE_MULTITHREADED ON)
     set(Boost_USE_STATIC_RUNTIME OFF)
     set(Boost_DEBUG 1)
-    find_package(Boost CONFIG REQUIRED COMPONENTS system thread)
+    find_package(Boost REQUIRED COMPONENTS system thread)
 endif()
 
 set(threading=multi)

@@ -104,9 +104,15 @@ namespace bn {
         using prob_v = boost::compute::vector<Probability>;
 
     public:
-        explicit logic_sampling(const bn::bayesian_network<Probability> &bn,
-                                const compute::device &device = compute::system::default_device())
-                : bn(bn), nsamples(0), nthreads(0), niter(0), seed(0)
+        explicit logic_sampling(
+            const bn::bayesian_network<Probability> &bn,
+            const compute::device &device = compute::system::default_device()
+        ) 
+        : bn(bn)
+        , nsamples(0)
+        , nthreads(0)
+        , niter(0)
+        , seed(0)
         {
             /*
 		    for (auto v : bn.variables()) {
@@ -167,7 +173,7 @@ namespace bn {
                 int samples, bn::vertex<Probability> v)-> std::pair<std::vector<int>, std::shared_ptr<bn::bcvec>> {
             int possible_states =  bn[v].states().size();
             std::vector<std::shared_ptr<bcvec>> parents_result;
-            std::vector<std::string> parents = bn[v].parents_names();
+            std::vector<std::string> parents = bn[v].parents_info.names();
             std::reverse(parents.begin(), parents.end());
             for (auto p : parents) {
                 auto par = results[bn.index_of(p)];

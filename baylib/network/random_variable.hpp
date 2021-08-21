@@ -53,34 +53,51 @@ namespace  bn {
             return _id;
         }
 
-        unsigned int parent_states_number(const std::string &name) {
-            auto it = parents_states.find(name);
-            BAYLIB_ASSERT( it != parents_states.end(),
-                           name << " doesn't represent a"
-                          " valid parent for variable " << _name,
-                          std::logic_error)
+        struct parents_info_t {
+            /**
+             * this struct stores the names and the number of
+             * states of each parent of the current node (random_variable)
+             * to avoid passing the graph over and over when not needed.
+             */
+        public:
+            void add (const std::string &name, ulong nstates) {
+                parents_map[name] = nstates;
+            }
 
-            return it->second;
-        }
+            void remove(const std::string &name){
+                parents_map.erase(name);
+            }
 
-        std::vector<std::string> parents_names () const {
-            auto pnames = std::vector<std::string>{};
-            boost::copy(parents_states | boost::adaptors::map_keys,
-                        std::back_inserter(pnames));
-            return pnames;
-        }
+            std::vector<std::string> names() {
+                auto pnames = std::vector<std::string>{};
+                boost::copy(parents_map | boost::adaptors::map_keys,
+                            std::back_inserter(pnames));
+                return pnames;
+            }
 
+            unsigned long num_states_of(const std::string &name){
+                auto it = parents_map.find(name);
+                BAYLIB_ASSERT( it != parents_map.end(),
+                               name << " doesn't represent a"
+                                       " valid parent for variable",
+                               std::logic_error)
+
+                return it->second;
+            }
+        private:
+            std::map<std::string, unsigned long> parents_map;
+        };
+
+        // public because encapsulation is performed inside
+        parents_info_t parents_info;
     private:
+
         friend class bn::bayesian_network<Probability>;
 
         std::string _name;
         bn::cow::cpt<Probability> cpt;
         std::vector <std::string> _states;
         unsigned long _id{};
-
-        // stored to avoid passing the graph over and over
-        // even when not needed
-        std::map<std::string, unsigned int> parents_states;
 
     };
 } // namespace bn
