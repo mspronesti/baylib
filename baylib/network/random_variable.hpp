@@ -9,6 +9,7 @@
 
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/algorithm/copy.hpp>
+#include <utility>
 
 namespace  bn {
     // forward declaration
@@ -21,11 +22,14 @@ namespace  bn {
         random_variable() = default;
 
         random_variable(std::string name, const std::vector <std::string> &states)
-                : _name(std::move(name)), cpt(states.size()), _states(states) {}
+                : _name(std::move(name))
+                , cpt(states.size())
+                , _states(states)
+                {}
 
         bool has_state(const std::string &state_name) const {
             return std::any_of(_states.begin(), _states.end(),
-                               [state_name](std::string state) { return state_name == state; });
+                               [state_name](const std::string& state) { return state_name == state; });
         }
 
         void set_probability(

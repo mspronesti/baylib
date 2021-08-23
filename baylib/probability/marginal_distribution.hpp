@@ -29,7 +29,7 @@ namespace bn {
                           << " ain't included in [0, 1]",
                           std::logic_error)
 
-                          mdistr[vid][state_value] = p;
+            mdistr[vid][state_value] = p;
         }
 
         std::vector<Probability> & operator [] (ulong vid){
@@ -38,7 +38,7 @@ namespace bn {
                           "distribution",
                           std::out_of_range)
 
-                          return mdistr[vid];
+            return mdistr[vid];
         }
 
         void operator /= (Probability value){
