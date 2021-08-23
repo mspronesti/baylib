@@ -6,12 +6,12 @@
 #define BAYLIB_GIBBS_SAMPLING_HPP
 
 #include <baylib/network/bayesian_network.hpp>
-#include <baylib/tools/threads/thread_pool.hpp>
 #include <baylib/probability/marginal_distribution.hpp>
 
 #include <algorithm>
 #include <random>
 #include <shared_mutex>
+#include <future>
 
 namespace bn {
     namespace inference {
@@ -177,7 +177,7 @@ namespace bn {
                               std::runtime_error)
             };
 
-            void inferenciate(
+            bn::marginal_distribution<Probability> inferenciate(
                     unsigned long nsamples,
                     unsigned int nthreads = 1
             )
@@ -185,32 +185,29 @@ namespace bn {
                 ulong nvars = bn.number_of_variables();
                 ulong samples_per_thread = nsamples / nthreads;
 
-                thread_pool tp(nthreads);
                 for(auto i = 0; i < nthreads - 1; ++i){
-                    assign_worker(tp, nvars, samples_per_thread);
+                    assign_worker(nvars, samples_per_thread);
                 }
 
                 // last thread (if nsamples % nthread != 0, last thread is gonna do the extra samples)
-                assign_worker(tp, nvars, nsamples - (nthreads - 1) * samples_per_thread);
+                assign_worker(nvars, nsamples - (nthreads - 1) * samples_per_thread);
 
-                tp.wait_for_tasks();
 
                 for(auto & res : results)
                 {
                     for(auto  [var_id, state_val] : res.get())
                         ++marginal_distr[var_id][state_val];
                 }
-
                 marginal_distr /= (Probability)nsamples;
-                            }
+                return marginal_distr;
+            }
 
-                            bn::marginal_distribution<Probability> inference_result() const {
+            bn::marginal_distribution<Probability> inference_result() const {
                 return marginal_distr;
             }
 
         private:
             void assign_worker(
-                thread_pool & tp,
                 ulong nvars,
                 ulong samples_per_thread
             )
@@ -220,7 +217,7 @@ namespace bn {
                     return worker.sample();
                 };
 
-                results.push_back(tp.submit(job, nvars, samples_per_thread));
+                results.push_back(std::async(job, nvars, samples_per_thread));
             }
 
             std::shared_mutex m;

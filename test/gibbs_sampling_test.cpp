@@ -6,23 +6,23 @@
 #include <baylib/network/bayesian_network.hpp>
 #include <baylib/network/bayesian_utils.hpp>
 #include <baylib/parser/net_parser.hpp>
-#include <baylib/inference/logic_sampling.hpp>
+#include <baylib/inference/gibbs_sampling.hpp>
 
-#define TOLERANCE .05
 #define THREADS 1
-#define MEMORY 20*(std::pow(2,20))
-#define SAMPLES 100000
+#define SAMPLES 10000
+#define TOLERANCE 0.05
 
 class logic_sampling_tests : public ::testing::Test {
 };
 
-TEST_F(logic_sampling_tests, big_bang_Coma){
-    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
 
+TEST_F(logic_sampling_tests, big_bang_Coma){
     bn::bayesian_network<double> net1;
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
     net1 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Coma.xdsl");
-    bn::logic_sampling<double> sampling(net1);
-    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
+    bn::inference::gibbs_sampling<double> sampling(net1);
+    sampling.inferenciate(SAMPLES, THREADS);
+    auto result = sampling.inference_result();
     ASSERT_NEAR(result[net1.index_of("MetastCancer")][0], .2, TOLERANCE);
     ASSERT_NEAR(result[net1.index_of("MetastCancer")][1], .8, TOLERANCE);
 
@@ -43,8 +43,9 @@ TEST_F(logic_sampling_tests, big_bang_VentureBNExpanded){
     bn::bayesian_network<float> net2;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
     net2 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/VentureBNExpanded.xdsl");
-    bn::logic_sampling<float> sampling(net2);
-    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
+    bn::inference::gibbs_sampling<float> sampling(net2);
+    sampling.inferenciate(SAMPLES, THREADS);
+    auto result = sampling.inference_result();
 
     ASSERT_NEAR(result[net2.index_of("Success")][0], .2, TOLERANCE);
     ASSERT_NEAR(result[net2.index_of("Success")][1], .8, TOLERANCE);
@@ -62,8 +63,9 @@ TEST_F(logic_sampling_tests, big_bang_Credit){
     bn::bayesian_network<float> net3;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
     net3 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/Credit.xdsl");
-    bn::logic_sampling<float> sampling(net3);
-    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
+    bn::inference::gibbs_sampling<float> sampling(net3);
+    sampling.inferenciate(SAMPLES, THREADS);
+    auto result = sampling.inference_result();
 
     ASSERT_NEAR(result[net3.index_of("PaymentHistory")][0], .25, TOLERANCE);
     ASSERT_NEAR(result[net3.index_of("PaymentHistory")][1], .25, TOLERANCE);
@@ -113,11 +115,14 @@ TEST_F(logic_sampling_tests, big_bang_Credit){
 }
 
 TEST_F(logic_sampling_tests, big_bang_Asia){
-    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
     bn::bayesian_network<float> net4;
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
     net4 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/AsiaDiagnosis.xdsl");
-    bn::logic_sampling<float> sampling(net4);
-    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
+
+    bn::inference::gibbs_sampling<float> sampling(net4);
+    sampling.inferenciate(SAMPLES, THREADS);
+    auto result = sampling.inference_result();
+
     ASSERT_NEAR(result[net4.index_of("Tuberculosis")][0], .99, TOLERANCE);
     ASSERT_NEAR(result[net4.index_of("Tuberculosis")][1], .01, TOLERANCE);
 
@@ -138,8 +143,11 @@ TEST_F(logic_sampling_tests, big_bang_Asia){
 TEST_F(logic_sampling_tests, big_bang_Hail){
     https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FHailfinder2.5.xdsl
     auto net5 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/Hailfinder2.5.xdsl");
-    bn::logic_sampling<float> sampling(net5);
-    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
+
+    bn::inference::gibbs_sampling<float> sampling(net5);
+    sampling.inferenciate(SAMPLES, THREADS);
+    auto result = sampling.inference_result();
+
     ASSERT_NEAR(result[net5.index_of("R5Fcst")][0], 0.25, TOLERANCE);
     ASSERT_NEAR(result[net5.index_of("R5Fcst")][1], 0.44, TOLERANCE);
     ASSERT_NEAR(result[net5.index_of("R5Fcst")][2], 0.31, TOLERANCE);
