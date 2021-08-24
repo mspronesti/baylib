@@ -7,15 +7,21 @@
 
 
 #include <baylib/network/bayesian_network.hpp>
-#include <unordered_set>
 #include <baylib/probability/condition_factory.hpp>
+
+#include <unordered_set>
+#include <mutex>
+#include <shared_mutex>
 
 /**
  * this file contains some useful algorithms
  * for bayesian network inference
  *  ! graph rank function for vectorization ordering
- *  ! graph rank direct ordering
  *  ! markov-blanket
+ *  ! CPT filled out checker
+ *
+ *  In addition, it contains utils to properly access
+ *  the graph and its components in a thread safe fashion
  */
 
 namespace  bn{
@@ -127,6 +133,22 @@ namespace  bn{
 
         return true;
     }
+
+    namespace thread_safe {
+        template <typename Probability>
+        bn::random_variable<Probability> & get_variable(
+                const bn::bayesian_network<Probability> &bn,
+                ulong vid,
+                std::shared_mutex & m
+        )
+        {
+            std::scoped_lock  sl{m};
+            return bn[vid];
+        }
+
+
+
+    } // namespace thread_safe
 
 } // namespace bn
 

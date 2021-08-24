@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: build
 
 on:
   push:
@@ -17,8 +17,15 @@ jobs:
         run:  sudo apt install libboost-all-dev
       - name: Install OpenCL
         run: |
+          sudo apt-get update
           sudo apt install ocl-icd-opencl-dev
           sudo apt install mesa-opencl-icd
+      - name: install drivers
+        run: |
+          # Install driver prerequisites
+          sudo apt install libnuma-dev lsb-core -y
+          chmod +x scripts/install_opencl_drivers.sh
+          scripts/install_opencl_drivers.sh
       - name: Install gtest
         run: |
           git clone https://github.com/google/googletest
@@ -37,4 +44,4 @@ jobs:
       - name: Test
         run: |
           cd build
-          ctest .
+          ctest --output-on-failure .

@@ -63,8 +63,13 @@ namespace bn {
                         if (attr != nullptr)
                             state_names.emplace_back(attr->value());
                     }
-                    else if (name == "resultingstates")
-                        resultingStates.emplace_back(pStates->value());
+                    else if (name == "resultingstates") {
+                        for (auto state:split<std::string>(pStates->value(), [](const std::string &t){return t;})) {
+                            int ix = std::find(state_names.begin(), state_names.end(), state) - state_names.begin();
+                            for (int i = 0; i < state_names.size(); ++i)
+                                probDistribution.emplace_back(i == ix ? 1. : 0.);
+                        }
+                    }
                     else if (name == "probabilities")
                         probDistribution = split<Probability>(pStates->value(), [](const std::string &t){return static_cast<Probability>(std::stod(t));});
                     else if (name == "parents")
@@ -76,18 +81,20 @@ namespace bn {
                 for (auto parent: parents)
                     net.add_dependency(parent, varname);
 
+
+
                 // fill CPTs
-                if(!probDistribution.empty()) {
-                    std::reverse(parents.begin(), parents.end());
-                    bn::condition_factory cf(net[varname], parents);
-                    unsigned int i = 0;
-                    do {
-                        auto cond = cf.get();
-                        for (int j = 0; j < state_names.size(); j++)
-                            net.set_variable_probability(varname, j, cond, probDistribution[i * state_names.size()  + j]);
-                        ++i;
-                    } while (cf.has_next());
-                }
+
+                std::reverse(parents.begin(), parents.end());
+                bn::condition_factory cf(net[varname], parents);
+                unsigned int i = 0;
+                do {
+                    auto cond = cf.get();
+                    for (int j = 0; j < state_names.size(); j++)
+                        net.set_variable_probability(varname, j, cond, probDistribution[i * state_names.size()  + j]);
+                    ++i;
+                } while (cf.has_next());
+
             }
             return net;
         }

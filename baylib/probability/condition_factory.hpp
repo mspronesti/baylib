@@ -38,15 +38,15 @@ namespace  bn {
         , _parents(parents)
         {
             if(parents.empty())
-                _parents = var.parents_names();
+                _parents = var.parents_info.names();
 
             // load first condition and compute the number
             // of combinations
             for (auto &parent : _parents) {
                 // parent_states_number throws if invalid
                 // parent, hence no extra check needed
-                c.add(parent, condition_index / ncombinations % var.parent_states_number(parent));
-                ncombinations *= var.parent_states_number(parent);
+                c.add(parent, condition_index / ncombinations % var.parents_info.num_states_of(parent));
+                ncombinations *= var.parents_info.num_states_of(parent);
             }
         }
 
@@ -71,8 +71,8 @@ namespace  bn {
             // next condition
             std::uint64_t cum_card = 1;
             for (auto name : _parents) {
-                c.add(name, condition_index / cum_card % var.parent_states_number(name));
-                cum_card *= var.parent_states_number(name);
+                c.add(name, condition_index / cum_card % var.parents_info.num_states_of(name));
+                cum_card *= var.parents_info.num_states_of(name);
             }
             return true;
         }

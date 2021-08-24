@@ -17,7 +17,7 @@ Here's a list of the main requested features:
 
 ## Install Dependencies
 Under Linux or MacOS, you can use 
-the provided script [install_dependencies.sh](scripts/install.sh) as follows
+the provided script [install_dependencies.sh](scripts/install_dependencies.sh) as follows
 ```bash
  cd scripts/
  chmod u+x install_dependencies.sh
@@ -45,7 +45,10 @@ sudo make install
 You can now include `baylib` in your projects.
 ## Usage
 Baylib allows to perform approximate inference on Bayesian Networks loaded from xdsl files
-or created by hand (either using named nodes or numeric identifiers).
+or created by hand (either using named nodes or numeric identifiers). 
+
+Please notice that the current release
+does not support inference when providing evidences.
 
 Have a look at [examples](examples) for more.
 

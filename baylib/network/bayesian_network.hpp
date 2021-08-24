@@ -17,6 +17,8 @@ namespace bn {
     template <typename Probability>
     class bayesian_network {
         typedef bn::graph<bn::random_variable<Probability>> graph_t;
+        typedef bn::vertex<Probability> vertex_id;
+
     public:
         bayesian_network() : graph(std::make_shared<graph_t>()){}
 
@@ -53,7 +55,7 @@ namespace bn {
                           + name + " already exists",
                           std::runtime_error )
 
-            bn::vertex<Probability> v = boost::add_vertex(bn::random_variable<Probability>{name, states}, *graph);
+            vertex_id v = boost::add_vertex(bn::random_variable<Probability>{name, states}, *graph);
             var_map[name] = v;
             variable(name)._id = v;
         }
@@ -61,6 +63,11 @@ namespace bn {
         void remove_variable(const std::string &name){
             auto v = index_of(name);
             boost::remove_vertex(v, *graph);
+
+            var_map.erase(name);
+            for (auto & var : variables())
+                if(has_dependency(name, var.name()))
+                    var.parents_info.remove(name);
         }
 
         void add_dependency(const std::string &src_name, const std::string &dest_name){
@@ -74,10 +81,10 @@ namespace bn {
                           std::logic_error )
 
             boost::add_edge(src._id, dest._id, *graph);
-            dest.parents_states[src_name] = src.states().size();
+            dest.parents_info.add(src_name, src.states().size());
         }
 
-        void add_dependency(const bn::vertex<Probability> &src_id, const bn::vertex<Probability> &dest_id){
+        void add_dependency(vertex_id src_id, vertex_id dest_id){
             BAYLIB_ASSERT(has_variable(src_id) && has_variable(dest_id),
                           "out of bound access to vertices",
                           std::out_of_range);
@@ -91,10 +98,22 @@ namespace bn {
             auto& dest = variable(dest_id);
 
             boost::add_edge(src_id, dest_id, *graph);
-            dest.parents_states[src._name] = src.states().size();
+            dest.parents_info.add(src._name, src.states().size());
         }
 
-        void remove_dependency(const bn::vertex<Probability> &src_id, const bn::vertex<Probability> &dest_id) {
+        void remove_dependency(const std::string &src_name, const std::string &dest_name){
+            BAYLIB_ASSERT(has_variable(src_name) && has_variable(dest_name),
+                          "out of bound access to graph",
+                          std::out_of_range)
+
+            auto& src = variable(src_name);
+            auto& dest = variable(dest_name);
+
+            boost::remove_edge(src._id, dest._id, *graph);
+            dest.parents_info.remove(src_name);
+        }
+
+        void remove_dependency(vertex_id src_id, vertex_id dest_id) {
             BAYLIB_ASSERT(has_variable(src_id) && has_variable(dest_id),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -102,12 +121,12 @@ namespace bn {
             auto src_name = variable(src_id)._name;
             auto &dest = variable(dest_id);
 
-            boost::remove_edge(src_id, dest_id);
+            boost::remove_edge(src_id, dest_id, *graph);
+            dest.parents_info.remove(src_name);
         }
 
         std::vector<bn::random_variable<Probability>> variables() const {
             auto vars = std::vector<bn::random_variable<Probability>>{};
-
             for(auto v : boost::make_iterator_range(boost::vertices(*graph)))
                 vars.push_back((*graph)[v]);
 
@@ -128,7 +147,7 @@ namespace bn {
             return (*graph)[v];
         }
 
-        bn::random_variable<Probability>& operator [] (bn::vertex<Probability> v) {
+        bn::random_variable<Probability>& operator [] (vertex_id v) {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -136,7 +155,7 @@ namespace bn {
             return (*graph)[v];
         }
 
-        bn::random_variable<Probability>& operator [] (bn::vertex<Probability> v) const{
+        bn::random_variable<Probability>& operator [] (vertex_id v) const{
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -149,7 +168,7 @@ namespace bn {
             return (*graph)[v];
         }
 
-        bn::random_variable<Probability> & variable(bn::vertex<Probability> v) {
+        bn::random_variable<Probability> & variable(vertex_id v) {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -164,7 +183,7 @@ namespace bn {
             return boost::edge(v1, v2, *graph).second;
         }
 
-        bool has_dependency(bn::vertex<Probability> v1, bn::vertex<Probability> v2) const {
+        bool has_dependency(vertex_id v1, vertex_id v2) const {
             BAYLIB_ASSERT(has_variable(v1) && has_variable(v2),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -172,38 +191,40 @@ namespace bn {
             return boost::edge(v1, v2, *graph).second;
         }
 
-        bool is_root(bn::vertex<Probability> v) const {
+        bool is_root(vertex_id v) const {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
 
-            return boost::in_degree(v, *graph) == 0;
+            return boost::in_degree(v, *graph) == 0
+                  && boost::out_degree(v, *graph) != 0;
         }
 
         bool is_root(const std::string &name) const {
             auto v  = index_of(name);
-            return boost::in_degree(v, *graph) == 0;
+            return boost::in_degree(v, *graph) == 0
+                   && boost::out_degree(v, *graph) != 0;
         }
 
-        std::vector<bn::vertex<Probability>> children_of(const std::string &name) {
+        std::vector<vertex_id> children_of(const std::string &name) {
             auto v  = index_of(name);
             auto it = boost::make_iterator_range(adjacent_vertices(v, *graph));
 
-            return std::vector<bn::vertex<Probability>>(it.begin(), it.end());
+            return std::vector<vertex_id>(it.begin(), it.end());
         }
 
-        std::vector<bn::vertex<Probability>> children_of(bn::vertex<Probability> v) {
+        std::vector<vertex_id> children_of(vertex_id v) {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
 
             auto it = boost::make_iterator_range(adjacent_vertices(v, *graph));
-            return std::vector<bn::vertex<Probability>>(it.begin(), it.end());
+            return std::vector<vertex_id>(it.begin(), it.end());
         }
 
-        std::vector<bn::vertex<Probability>> parents_of(const std::string &name) {
+        std::vector<vertex_id> parents_of(const std::string &name) {
             auto v = index_of(name);
-            std::vector<bn::vertex<Probability>> parents;
+            std::vector<vertex_id> parents;
 
             for(auto ed : boost::make_iterator_range(boost::in_edges(v, *graph)))
                 parents.push_back(boost::source(ed, *graph));
@@ -212,19 +233,18 @@ namespace bn {
         }
 
 
-        std::vector<bn::vertex<Probability>> parents_of(bn::vertex<Probability> v) {
+        std::vector<vertex_id> parents_of(vertex_id v) {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
 
-            std::vector<bn::vertex<Probability>> parents;
+            std::vector<vertex_id> parents;
 
             for(auto ed : boost::make_iterator_range(boost::in_edges(v, *graph)))
                 parents.push_back(boost::source(ed, *graph));
 
             return parents;
         }
-
 
         void set_variable_probability(
                 const std::string& var_name,
@@ -260,24 +280,24 @@ namespace bn {
             return var_map.find(name) != var_map.end();
         }
 
-        bool has_variable(bn::vertex<Probability> v) const {
+        bool has_variable(vertex_id v) const {
             return boost::num_vertices(*graph) > v;
         }
 
-        bn::vertex<Probability> index_of(const std::string &name) const {
+        vertex_id index_of(const std::string &name) const {
             auto it = var_map.find(name);
             BAYLIB_ASSERT(it != var_map.end(),
                           "identifier " + name + " doesn't "
                           "represent a random_variable",
                           std::runtime_error)
 
-            return it->second; // more efficient than calling "at"
+            return it->second;
         }
 
 
     private:
         std::shared_ptr<graph_t> graph;
-        std::map<std::string, vertex<Probability>> var_map;
+        std::map<std::string, vertex_id> var_map;
 
         /**
          * utility to detect whether a vertex introduces
@@ -286,13 +306,13 @@ namespace bn {
          * @param to  : edge's loader
          * @return true if introduces a loop, false otherwise
          */
-        bool introduces_loop(const bn::vertex<Probability> &from, const bn::vertex<Probability> &to){
+        bool introduces_loop(vertex_id from, vertex_id to){
             if(from == to) return true;
 
             auto const children = children_of(from);
             return std::any_of(
                     children.cbegin(), children.cend(),
-                    [this, &to](const bn::vertex<Probability> &next){
+                    [this, &to](vertex_id next){
                         return introduces_loop(next, to);
                     });
         }
