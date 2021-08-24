@@ -121,7 +121,8 @@ namespace bn{
             bool operator == (const cpt<Probability> &c) const {
                 // TODO: to be implemented
                 // useful for cow assign
-                return false;
+
+                return this->d.data()->table == c.d.data()->table;
             }
 
             std::uint64_t size() {

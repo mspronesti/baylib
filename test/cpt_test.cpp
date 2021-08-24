@@ -158,6 +158,20 @@ TEST_F(cpt_tests, test_wrong_line_sum) {
     ASSERT_TRUE(bn::cpt_filled_out(bn["d"]));
 }
 
+TEST_F(cpt_tests, test_cpt_equal){
+    bn::condition c;
+    bn.set_variable_probability("b", 0, c, 0.2);
+    bn.set_variable_probability("b", 0, c, 0.8);
+    bn.set_variable_probability("c", 0, c, 0.2);
+    bn.set_variable_probability("c", 0, c, 0.8);
+
+    ASSERT_TRUE(bn["c"].table() == bn["b"].table());
+
+    bn.set_variable_probability("b", 0, c, 0.4);
+
+    ASSERT_FALSE(bn["c"].table() == bn["b"].table());
+}
+
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
