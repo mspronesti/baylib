@@ -5,6 +5,7 @@
 #ifndef BAYLIB_CPT_HPP
 #define BAYLIB_CPT_HPP
 
+
 #include <baylib/probability/condition.hpp>
 #include <numeric>
 #include <vector>
@@ -19,7 +20,10 @@
  * copy-on-write
  */
 
+
 namespace bn{
+    template<typename Probability>
+    class bayesian_network;
     namespace cow {
         template<typename Probability>
         struct CPTData : public bn::cow::shared_data {
@@ -85,23 +89,16 @@ namespace bn{
                 }
             }
 
-            std::vector<Probability> &operator[](const bn::condition &cond) {
-                BAYLIB_ASSERT(has_entry_for(cond),
-                        "bad condition value",
-                        std::out_of_range)
-
-                return d->table[cond_map.at(cond)];
-            }
-
-            std::vector<Probability> &at(const bn::condition &cond) {
+            const std::vector<Probability> &operator[] (const bn::condition &cond) const{
                 BAYLIB_ASSERT(has_entry_for(cond),
                               "bad condition value",
                               std::out_of_range)
 
-                return d->table[cond_map.at(cond)];
+                              return d->table[cond_map.at(cond)];
             }
 
-            std::vector<Probability> const &at(const bn::condition &cond) const {
+
+            const std::vector<Probability>  &at(const bn::condition &cond) const{
                 BAYLIB_ASSERT(has_entry_for(cond),
                               "bad condition value",
                               std::out_of_range)
@@ -129,12 +126,12 @@ namespace bn{
                 return d->table.size();
             }
 
-            std::vector<Probability> flat() {
+            std::vector<Probability> flat() const{
                 auto flat_cpt = std::vector<Probability>{};
                 flat_cpt.reserve(d->table.size() * d->nstates);
 
                 for(auto &[cond, cond_id] : cond_map) {
-                    auto cpt_row = d->table[cond_id];
+                    const auto cpt_row = d->table[cond_id];
                     flat_cpt.insert(flat_cpt.end(), cpt_row.begin(), cpt_row.end());
                 }
 
@@ -160,6 +157,7 @@ namespace bn{
             }
 
         private:
+            friend class bn::bayesian_network<Probability>;
             bn::cow::shared_ptr<CPTData<Probability>> d;
             // assigns a condition its index in the cpt
             // ! key   : condition

@@ -180,7 +180,7 @@ namespace bn {
                 std::shared_ptr<bcvec> res = par.get().second;
                 parents_result.push_back(res);
             }
-            auto table = bn[v].table().flat();
+            const auto table = bn[v].table().flat();
             return simulate_node( table, parents_result, samples, possible_states);
         };
         //Usato per debuggare senza thread_pool

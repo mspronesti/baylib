@@ -11,7 +11,7 @@
 #define TOLERANCE .05
 #define THREADS 1
 #define MEMORY 500*(std::pow(2,30))
-#define SAMPLES 100000
+#define SAMPLES 10000
 
 // Basic starting test
 TEST(logic_sampling_tests, big_bang_Coma){

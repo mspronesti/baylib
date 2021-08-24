@@ -274,6 +274,15 @@ namespace bn {
                           std::runtime_error)
 
             this->variable(var_name).set_probability(state_value, cond, p);
+
+            if(cpt_filled_out(this->variable(var_name))){
+                for(random_variable<Probability> var:variables()){
+                    if(var.cpt == this->variable(var_name).cpt && var.id() != this->variable(var_name).id()){
+                        this->variable(var_name).cpt.d = var.cpt.d;
+                        break;
+                    }
+                }
+            }
         }
 
         bool has_variable(const std::string &name) const {

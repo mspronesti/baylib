@@ -171,6 +171,46 @@ TEST_F(cpt_tests, test_cpt_equal){
 
     ASSERT_FALSE(bn["c"].table() == bn["b"].table());
 }
+TEST_F(cpt_tests, cow){
+    bn::condition c;
+    bn.set_variable_probability("b", 0, c, 0.2);
+    bn.set_variable_probability("b", 1, c, 0.8);
+    bn.set_variable_probability("c", 0, c, 0.2);
+    bn.set_variable_probability("c", 1, c, 0.8);
+
+    const auto & a1 = bn["c"].table();
+    const auto & a2 = bn["b"].table();
+    const auto & a3 = a1[c];
+    const auto & a4 = a2.at(c);
+
+    ASSERT_EQ(std::addressof(a3), std::addressof(a4));
+
+    bn.set_variable_probability("c", 0, c, 0.3);
+    bn.set_variable_probability("c", 1, c, 0.7);
+
+    const auto & a5 = bn["c"].table();
+    const auto & a6 = bn["b"].table();
+    const auto & a7 = a1[c];
+    const auto & a8 = a2.at(c);
+
+    ASSERT_NE(std::addressof(a7), std::addressof(a8));
+}
+
+TEST_F(cpt_tests, cow_flat){
+    bn::condition c;
+    bn.set_variable_probability("b", 0, c, 0.2);
+    bn.set_variable_probability("b", 1, c, 0.8);
+    bn.set_variable_probability("c", 0, c, 0.2);
+    bn.set_variable_probability("c", 1, c, 0.8);
+
+    const auto & a1 = bn["c"].table();
+    const auto & a2 = bn["b"].table();
+    const auto & a3 = a1[c];
+    const auto & a4 = a2.at(c);
+    a1.flat();
+
+    ASSERT_EQ(std::addressof(a3), std::addressof(a4));
+}
 
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);

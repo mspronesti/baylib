@@ -113,7 +113,7 @@ namespace bn {
                             var_state_values[p]
                             );
 
-                auto& cpt = bn[n].table();
+                const auto& cpt = bn[n].table();
                 return  cpt[c][var_state_values[n]];
             }
 

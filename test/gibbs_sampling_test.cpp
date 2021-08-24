@@ -8,8 +8,8 @@
 #include <baylib/parser/net_parser.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
 
-#define THREADS 10
-#define SAMPLES 100000
+#define THREADS 8
+#define SAMPLES 10000
 #define TOLERANCE 0.05
 
 // Basic starting test
