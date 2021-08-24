@@ -16,15 +16,15 @@ protected:
 
     void SetUp() override {
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
-        net1 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Coma.xdsl");
+        net1 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/Coma.xdsl");
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBN.xdsl
-        net2 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/VentureBN.xdsl");
+        net2 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/VentureBN.xdsl");
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
-        net3 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/VentureBNExpanded.xdsl");
+        net3 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/VentureBNExpanded.xdsl");
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAnimals.xdsl
-        net4 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Animals.xdsl");
+        net4 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/Animals.xdsl");
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
-        net5 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Credit.xdsl");
+        net5 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/Credit.xdsl");
     }
 };
 

@@ -10,17 +10,15 @@
 
 #define TOLERANCE .05
 #define THREADS 1
-#define MEMORY 20*(std::pow(2,20))
+#define MEMORY 500*(std::pow(2,30))
 #define SAMPLES 100000
 
-class logic_sampling_tests : public ::testing::Test {
-};
-
-TEST_F(logic_sampling_tests, big_bang_Coma){
+// Basic starting test
+TEST(logic_sampling_tests, big_bang_Coma){
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
 
     bn::bayesian_network<double> net1;
-    net1 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Coma.xdsl");
+    net1 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/Coma.xdsl");
     bn::logic_sampling<double> sampling(net1);
     auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
     ASSERT_NEAR(result[net1.index_of("MetastCancer")][0], .2, TOLERANCE);
@@ -38,11 +36,11 @@ TEST_F(logic_sampling_tests, big_bang_Coma){
     ASSERT_NEAR(result[net1.index_of("SevHeadaches")][0], .62, TOLERANCE);
     ASSERT_NEAR(result[net1.index_of("SevHeadaches")][1], .38, TOLERANCE);
 }
-
-TEST_F(logic_sampling_tests, big_bang_VentureBNExpanded){
+// Test on non binary variables
+TEST(logic_sampling_tests, big_bang_VentureBNExpanded){
     bn::bayesian_network<float> net2;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
-    net2 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/VentureBNExpanded.xdsl");
+    net2 = bn::net_parser<float>().load_from_xdsl("../../examples/xdsl/VentureBNExpanded.xdsl");
     bn::logic_sampling<float> sampling(net2);
     auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
 
@@ -57,11 +55,11 @@ TEST_F(logic_sampling_tests, big_bang_VentureBNExpanded){
     ASSERT_NEAR(result[net2.index_of("Forecast")][1], .3, TOLERANCE);
     ASSERT_NEAR(result[net2.index_of("Forecast")][2], .47, TOLERANCE);
 }
-
-TEST_F(logic_sampling_tests, big_bang_Credit){
+// Test on medium size bayesian network
+TEST(logic_sampling_tests, big_bang_Credit){
     bn::bayesian_network<float> net3;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
-    net3 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/Credit.xdsl");
+    net3 = bn::net_parser<float>().load_from_xdsl("../../examples/xdsl/Credit.xdsl");
     bn::logic_sampling<float> sampling(net3);
     auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
 
@@ -111,11 +109,11 @@ TEST_F(logic_sampling_tests, big_bang_Credit){
     ASSERT_NEAR(result[net3.index_of("CreditWorthiness")][0], .54, TOLERANCE);
     ASSERT_NEAR(result[net3.index_of("CreditWorthiness")][1], .46, TOLERANCE);
 }
-
-TEST_F(logic_sampling_tests, big_bang_Asia){
+// Test on mixture between absolute and non absolute probabilities
+TEST(logic_sampling_tests, big_bang_Asia){
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
     bn::bayesian_network<float> net4;
-    net4 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/AsiaDiagnosis.xdsl");
+    net4 = bn::net_parser<float>().load_from_xdsl("../../examples/xdsl/AsiaDiagnosis.xdsl");
     bn::logic_sampling<float> sampling(net4);
     auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
     ASSERT_NEAR(result[net4.index_of("Tuberculosis")][0], .99, TOLERANCE);
@@ -134,10 +132,10 @@ TEST_F(logic_sampling_tests, big_bang_Asia){
     ASSERT_NEAR(result[net4.index_of("Bronchitis")][1], .45, TOLERANCE);
 
 }
-
-TEST_F(logic_sampling_tests, big_bang_Hail){
+// Test on Large network
+TEST(logic_sampling_tests, big_bang_Hail){
     https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FHailfinder2.5.xdsl
-    auto net5 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/Hailfinder2.5.xdsl");
+    auto net5 = bn::net_parser<float>().load_from_xdsl("../../examples/xdsl/Hailfinder2.5.xdsl");
     bn::logic_sampling<float> sampling(net5);
     auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
     ASSERT_NEAR(result[net5.index_of("R5Fcst")][0], 0.25, TOLERANCE);
@@ -145,6 +143,25 @@ TEST_F(logic_sampling_tests, big_bang_Hail){
     ASSERT_NEAR(result[net5.index_of("R5Fcst")][2], 0.31, TOLERANCE);
 }
 
+// Test on very large network
+TEST(logic_sampling_tests, big_bang_Link){
+    //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl
+    auto net6 = bn::net_parser<float>().load_from_xdsl("../../examples/xdsl/Link.xdsl");
+    bn::logic_sampling<float> sampling(net6);
+    auto result = sampling.compute_network_marginal_probabilities(MEMORY, SAMPLES, THREADS);
+
+    ASSERT_NEAR(result[net6.index_of("N59_d_g")][0], 0., TOLERANCE);
+    ASSERT_NEAR(result[net6.index_of("N59_d_g")][1], 0.01, TOLERANCE);
+    ASSERT_NEAR(result[net6.index_of("N59_d_g")][2], 0.99, TOLERANCE);
+
+    ASSERT_NEAR(result[net6.index_of("D0_56_a_f")][0], 0.25, TOLERANCE);
+    ASSERT_NEAR(result[net6.index_of("D0_56_a_f")][1], 0.25, TOLERANCE);
+    ASSERT_NEAR(result[net6.index_of("D0_56_a_f")][2], 0.25, TOLERANCE);
+    ASSERT_NEAR(result[net6.index_of("D0_56_a_f")][3], 0.25, TOLERANCE);
+
+    ASSERT_NEAR(result[net6.index_of("D0_56_d_p")][0], 0., TOLERANCE);
+    ASSERT_NEAR(result[net6.index_of("D0_56_d_p")][1], 1, TOLERANCE);
+}
 
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);
