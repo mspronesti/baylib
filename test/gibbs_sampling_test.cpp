@@ -8,15 +8,12 @@
 #include <baylib/parser/net_parser.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
 
-#define THREADS 1
+#define THREADS 10
 #define SAMPLES 10000
 #define TOLERANCE 0.05
 
-class logic_sampling_tests : public ::testing::Test {
-};
 
-
-TEST_F(logic_sampling_tests, big_bang_Coma){
+TEST(gibbs_sampling_tests, big_bang_Coma){
     bn::bayesian_network<double> net1;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
     net1 = bn::net_parser<double>().load_from_xdsl("../../test/xdsl/Coma.xdsl");
@@ -39,7 +36,7 @@ TEST_F(logic_sampling_tests, big_bang_Coma){
     ASSERT_NEAR(result[net1.index_of("SevHeadaches")][1], .38, TOLERANCE);
 }
 
-TEST_F(logic_sampling_tests, big_bang_VentureBNExpanded){
+TEST(gibbs_sampling_tests, big_bang_VentureBNExpanded){
     bn::bayesian_network<float> net2;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
     net2 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/VentureBNExpanded.xdsl");
@@ -59,7 +56,7 @@ TEST_F(logic_sampling_tests, big_bang_VentureBNExpanded){
     ASSERT_NEAR(result[net2.index_of("Forecast")][2], .47, TOLERANCE);
 }
 
-TEST_F(logic_sampling_tests, big_bang_Credit){
+TEST(gibbs_sampling_tests, big_bang_Credit){
     bn::bayesian_network<float> net3;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
     net3 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/Credit.xdsl");
@@ -114,7 +111,7 @@ TEST_F(logic_sampling_tests, big_bang_Credit){
     ASSERT_NEAR(result[net3.index_of("CreditWorthiness")][1], .46, TOLERANCE);
 }
 
-TEST_F(logic_sampling_tests, big_bang_Asia){
+TEST(gibbs_sampling_tests, big_bang_Asia){
     bn::bayesian_network<float> net4;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
     net4 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/AsiaDiagnosis.xdsl");
@@ -140,7 +137,7 @@ TEST_F(logic_sampling_tests, big_bang_Asia){
 
 }
 
-TEST_F(logic_sampling_tests, big_bang_Hail){
+TEST(gibbs_sampling_tests, big_bang_Hail){
     https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FHailfinder2.5.xdsl
     auto net5 = bn::net_parser<float>().load_from_xdsl("../../test/xdsl/Hailfinder2.5.xdsl");
 

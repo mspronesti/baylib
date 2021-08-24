@@ -36,21 +36,15 @@ namespace bn {
             : nsamples(nsamples)
             , bn(bn)
             , nvars(nvars)
-            {
-                // random initial state values
-                for(ulong i = 0; i < nvars; ++i)
-                    var_state_values.push_back(
-                            rand_from_distribution(0, bn[i].states().size())
-                    );
-            }
+            , var_state_values(std::vector<bn::state_t>(nvars, 0))
+            {}
 
             std::vector<std::pair<ulong,ulong>> sample(){
                 for(ulong i = 0; i < nsamples; ++i)
                     for(ulong n = 0; n < nvars; ++n)
                     {
-                        auto& var = thread_safe_get_var(n);
-                        auto children = thread_safe_var_children(n);
-                        auto res = sample_single_variable(var, children);
+                        auto& var = bn::thread_safe::get_variable(bn, n, m); //thread_safe_get_var(n);
+                        auto res = sample_single_variable(var);
                         marginal_pairs.push_back(res);
                     }
 
@@ -71,10 +65,7 @@ namespace bn {
             std::shared_mutex m;
 
             /** --- private members --- **/
-            std::pair<ulong, ulong> sample_single_variable(
-                    bn::random_variable<Probability> & var,
-                    const std::vector<ulong> &children
-            )
+            std::pair<ulong, ulong> sample_single_variable( bn::random_variable<Probability> & var )
             {
                 ulong index;
                 ulong states_size;
@@ -85,12 +76,10 @@ namespace bn {
                 }
 
                 auto samples = std::vector<Probability>(states_size, 0.0);
-                for(long i = 0; i < samples.size(); ++i){
+                for(ulong i = 0; i < samples.size(); ++i){
                     var_state_values[index] = i;
 
                     samples[i] = get_probability(index);
-                    for (auto child : children)
-                        samples[i] *= get_probability(child);
                 }
 
                 // normalize
@@ -100,7 +89,7 @@ namespace bn {
                 });
 
                 Probability prob = rand_from_distribution();
-                long j;
+                ulong j;
                 for (j = 0; j < samples.size() - 1; ++j) {
                     if (prob <= samples[j])
                         break;
@@ -116,6 +105,8 @@ namespace bn {
             {
                 std::scoped_lock sl{m};
                 bn::condition c;
+                // builds a condition using parents and
+                // their states
                 for(auto & p : bn.parents_of(n))
                     c.add(
                             bn[p].name(),
@@ -141,15 +132,6 @@ namespace bn {
                 return dist(gen, typename dist_type::param_type{from, to});
             }
 
-            bn::random_variable<Probability> & thread_safe_get_var(ulong vid){
-                std::scoped_lock sl{m};
-                return bn[vid];
-            }
-
-            std::vector<ulong> thread_safe_var_children(ulong vid){
-                std::scoped_lock sl{m};
-                return bn.children_of(vid);
-            }
         };
 
 
@@ -159,7 +141,7 @@ namespace bn {
          * inference algorithm for discrete Bayesian Networks.
          * It's based on the Gibbs sampler.
          * @tparam Probability : the type expressing the probability
-         * @tparam Generator : the random generator
+         * @tparam Generator  : the random generator
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template <typename Probability, typename Generator=std::mt19937>
