@@ -9,6 +9,7 @@
 #include <baylib/probability/condition.hpp>
 #include <numeric>
 #include <vector>
+#include <boost/functional/hash/hash.hpp>
 
 #include <baylib/tools/cow/shared_data.hpp>
 #include <baylib/tools/cow/shared_ptr.hpp>
@@ -155,6 +156,25 @@ namespace bn{
             auto end() const {
                 return d->table.end();
             }
+
+            size_t hash(){
+                const auto rows = d->table;
+                size_t seed = 0;
+                for(auto col: rows){
+                    for(auto el: col){
+                        auto const * p = reinterpret_cast<unsigned char const *>(&el) ;
+                        int n = 1;
+                        for(int i = 0; i < sizeof(Probability) - 1; i++){
+                            if(*(char *)&n == 1)
+                                boost::hash_combine(seed, p[i]);
+                            else
+                                boost::hash_combine(seed, p[sizeof(Probability) - 1 - i]);
+                        }
+                    }
+                }
+                return seed;
+            }
+
 
         private:
             friend class bn::bayesian_network<Probability>;

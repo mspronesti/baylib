@@ -276,7 +276,7 @@ namespace bn {
             this->variable(var_id).set_probability(state_value, cond, p);
 
             if(cpt_filled_out(this->variable(var_id)))
-                optimize_cpt(var_id);
+                optimize_cpt_memory_occupation(var_id);
         }
 
 
@@ -304,6 +304,7 @@ namespace bn {
     private:
         std::shared_ptr<graph_t> graph;
         std::map<std::string, vertex_id> var_map;
+        std::unordered_map<size_t, vertex_id> cpt_hash_map;
 
         /**
          * utility to detect whether a vertex introduces
@@ -324,18 +325,16 @@ namespace bn {
         }
 
 
-        void optimize_cpt(vertex_id id){
-            std::unordered_set<void*> un_cpt{};
-            for(random_variable<Probability> var:variables()){
-                const auto & el = var.cpt.d;
-                if(un_cpt.find((void*)std::addressof(*el)) != un_cpt.end())
-                    continue;
-                if(var._id != (*this)[id]._id && var.cpt == (*this)[id].cpt){
+        void optimize_cpt_memory_occupation(vertex_id id){
+            auto seed = (*this)[id].cpt.hash();
+            if(cpt_hash_map.find(seed) != cpt_hash_map.end()){
+                auto var = (*this)[cpt_hash_map[seed]];
+                if(var._id != id && var.cpt == (*this)[id].cpt){
                     (*this)[id].cpt.d = var.cpt.d;
-                    break;
+                    return;
                 }
-                un_cpt.insert((void*)std::addressof(*el));
             }
+            cpt_hash_map[seed] = id;
         }
     };
 } // namespace bn

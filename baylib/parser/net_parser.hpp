@@ -121,4 +121,4 @@ namespace bn {
 
 
 } // namespace bn
-#endif //BAYESIAN_INFERRER_NET_PARSER_HPP
+#endif //BAYLIB_NET_PARSER_HPP
