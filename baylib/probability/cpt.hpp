@@ -119,7 +119,7 @@ namespace bn{
                 // TODO: to be implemented
                 // useful for cow assign
 
-                return this->d.data()->table == c.d.data()->table;
+                return d->table == c.d->table;
             }
 
             std::uint64_t size() {

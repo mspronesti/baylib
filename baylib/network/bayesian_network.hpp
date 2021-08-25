@@ -253,8 +253,8 @@ namespace bn {
                 Probability p
         )
         {
-            [[maybe_unused]] auto var = index_of(var_name); // to assert var existence
-            auto nparents = parents_of(var).size();
+            vertex_id var_id = index_of(var_name); // to assert var existence
+            auto nparents = parents_of(var_id).size();
 
             // make sure the cardinality of parents is correct
             BAYLIB_ASSERT(cond.size() == nparents,
@@ -273,17 +273,14 @@ namespace bn {
                           + var_name,
                           std::runtime_error)
 
-            this->variable(var_name).set_probability(state_value, cond, p);
+            this->variable(var_id).set_probability(state_value, cond, p);
 
-            if(cpt_filled_out(this->variable(var_name))){
-                for(random_variable<Probability> var:variables()){
-                    if(var.cpt == this->variable(var_name).cpt && var.id() != this->variable(var_name).id()){
-                        this->variable(var_name).cpt.d = var.cpt.d;
-                        break;
-                    }
-                }
-            }
+            if(cpt_filled_out(this->variable(var_id)))
+                optimize_cpt(var_id);
         }
+
+
+
 
         bool has_variable(const std::string &name) const {
             return var_map.find(name) != var_map.end();
@@ -324,6 +321,21 @@ namespace bn {
                     [this, &to](vertex_id next){
                         return introduces_loop(next, to);
                     });
+        }
+
+
+        void optimize_cpt(vertex_id id){
+            std::unordered_set<void*> un_cpt{};
+            for(random_variable<Probability> var:variables()){
+                const auto & el = var.cpt.d;
+                if(un_cpt.find((void*)std::addressof(*el)) != un_cpt.end())
+                    continue;
+                if(var._id != (*this)[id]._id && var.cpt == (*this)[id].cpt){
+                    (*this)[id].cpt.d = var.cpt.d;
+                    break;
+                }
+                un_cpt.insert((void*)std::addressof(*el));
+            }
         }
     };
 } // namespace bn
