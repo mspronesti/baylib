@@ -5,7 +5,7 @@
 #ifndef BAYLIB_GIBBS_SAMPLING_HPP
 #define BAYLIB_GIBBS_SAMPLING_HPP
 
-#include <baylib/network/bayesian_network.hpp>
+#include <baylib/network/bayesian_utils.hpp>
 #include <baylib/probability/marginal_distribution.hpp>
 
 #include <algorithm>

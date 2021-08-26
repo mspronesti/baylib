@@ -5,7 +5,7 @@
 #ifndef BAYLIB_CONDITION_HPP
 #define BAYLIB_CONDITION_HPP
 
-#include <baylib/assert.h>
+#include <baylib/baylib_assert.h>
 
 namespace bn {
     using state_t = std::uint64_t;

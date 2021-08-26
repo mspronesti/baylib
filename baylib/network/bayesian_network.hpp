@@ -3,7 +3,7 @@
 
 #include <baylib/graph/graph.hpp>
 #include <baylib/network/random_variable.hpp>
-#include <baylib/assert.h>
+#include <baylib/baylib_assert.h>
 
 /**
  * ================ Bayesian Network ===================
@@ -253,8 +253,8 @@ namespace bn {
                 Probability p
         )
         {
-            vertex_id var_id = index_of(var_name); // to assert var existence
-            auto nparents = parents_of(var_id).size();
+            auto & var = variable(var_name);
+            auto nparents = parents_of(var._id).size();
 
             // make sure the cardinality of parents is correct
             BAYLIB_ASSERT(cond.size() == nparents,
@@ -273,14 +273,11 @@ namespace bn {
                           + var_name,
                           std::runtime_error)
 
-            this->variable(var_id).set_probability(state_value, cond, p);
+            var.set_probability(state_value, cond, p);
 
-            if(cpt_filled_out(this->variable(var_id)))
-                optimize_cpt_memory_occupation(var_id);
+            if(cpt_filled_out(var))
+                optimize_cpt_memory_occupation(var._id);
         }
-
-
-
 
         bool has_variable(const std::string &name) const {
             return var_map.find(name) != var_map.end();
@@ -326,11 +323,11 @@ namespace bn {
 
 
         void optimize_cpt_memory_occupation(vertex_id id){
-            auto seed = (*this)[id].cpt.hash();
+            auto seed = variable(id).cpt.hash();
             if(cpt_hash_map.find(seed) != cpt_hash_map.end()){
-                auto var = (*this)[cpt_hash_map[seed]];
-                if(var._id != id && var.cpt == (*this)[id].cpt){
-                    (*this)[id].cpt.d = var.cpt.d;
+                auto var = variable(cpt_hash_map[seed]);
+                if(var._id != id && var.cpt == variable(id).cpt){
+                    variable(id).cpt.d = var.cpt.d;
                     return;
                 }
             }

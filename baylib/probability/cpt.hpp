@@ -95,7 +95,7 @@ namespace bn{
                               "bad condition value",
                               std::out_of_range)
 
-                              return d->table[cond_map.at(cond)];
+                 return d->table[cond_map.at(cond)];
             }
 
 
@@ -117,9 +117,6 @@ namespace bn{
             }
 
             bool operator == (const cpt<Probability> &c) const {
-                // TODO: to be implemented
-                // useful for cow assign
-
                 return d->table == c.d->table;
             }
 

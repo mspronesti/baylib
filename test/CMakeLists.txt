@@ -1,3 +1,7 @@
+if(TARGET baylib)
+   add_subdirectory(../baylib build)
+endif()
+
 add_executable(bnet_test bnet_test.cpp)
 add_executable(rank_test rank_test.cpp)
 add_executable(cpt_test  cpt_test.cpp)
@@ -15,12 +19,12 @@ set_target_properties( gibbs_sampling_test PROPERTIES OUTPUT_NAME "gibbsamp")
 find_package(GTest REQUIRED)
 
 
-target_link_libraries(bnet_test gtest gtest_main pthread)
-target_link_libraries(rank_test gtest gtest_main pthread OpenCL::OpenCL)
-target_link_libraries(cpt_test gtest gtest_main pthread)
-target_link_libraries(parser_test gtest gtest_main pthread)
-target_link_libraries(logic_sampling_test gtest gtest_main pthread OpenCL::OpenCL boost_thread Boost::system Boost::thread)
-target_link_libraries(gibbs_sampling_test gtest gtest_main pthread boost_thread Boost::system Boost::thread)
+target_link_libraries(bnet_test gtest gtest_main baylib)
+target_link_libraries(rank_test gtest gtest_main baylib)
+target_link_libraries(cpt_test gtest gtest_main baylib)
+target_link_libraries(parser_test gtest gtest_main baylib)
+target_link_libraries(logic_sampling_test gtest gtest_main baylib)
+target_link_libraries(gibbs_sampling_test gtest gtest_main baylib)
 
 add_test( bnet_test bnet)
 add_test( rank_test rank)
