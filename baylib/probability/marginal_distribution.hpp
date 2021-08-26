@@ -19,10 +19,10 @@ namespace bn {
         void set(ulong vid, ulong state_value, Probability p)
         {
             BAYLIB_ASSERT(vid < mdistr.size() &&
-            state_value < mdistr[vid].size(),
-            "out of bound access to marginal "
-            "distribution",
-            std::out_of_range)
+                          state_value < mdistr[vid].size(),
+                          "out of bound access to marginal "
+                          "distribution",
+                          std::out_of_range)
 
             BAYLIB_ASSERT(p >= 0.0 && p <= 1.0,
                           "Probability value " << p

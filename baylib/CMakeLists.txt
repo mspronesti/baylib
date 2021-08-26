@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.13)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -22,7 +22,8 @@ if(NOT TARGET OpenCL::OpenCL)
 endif()
 find_package (Threads REQUIRED)
 
-set(required_external_libs
+
+set(BAYLIB_REQUIRED_LIBS
     OpenCL
     pthread
     boost_thread
@@ -48,7 +49,7 @@ set (src
     baylib_assert.h
 )
 
-set (required_includes ../baylib)
+set (BAYLIB_INCLUDE_LIBS ../baylib)
 
 if(NOT TARGET baylib)
     add_library(baylib STATIC ${src})
@@ -60,10 +61,10 @@ target_compile_options(baylib PUBLIC "-std=c++17")
 target_include_directories(baylib
         INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         INTERFACE $<INSTALL_INTERFACE:include>
-        PUBLIC ${required_includes}
+        PUBLIC ${BAYLIB_INCLUDE_LIBS}
         )
 
-target_link_libraries(baylib ${required_external_libs})
+target_link_libraries(baylib ${BAYLIB_REQUIRED_LIBS})
 
 install(DIRECTORY ./
         DESTINATION include/baylib
