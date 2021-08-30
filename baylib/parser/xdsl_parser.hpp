@@ -1,5 +1,6 @@
-#ifndef BAYLIB_NET_PARSER_HPP
-#define BAYLIB_NET_PARSER_HPP
+#ifndef BAYLIB_XDSL_PARSER_HPP
+#define BAYLIB_XDSL_PARSER_HPP
+
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -12,26 +13,23 @@
 
 using namespace rapidxml;
 
-//reader class for bayesian network stored in .xdsl files
-//the template parameter is used to define the precision of the probability red from the file
-
 namespace bn {
     template<typename Probability>
-    class net_parser {
+    class xdsl_parser {
     public:
-        net_parser() = default;
+        xdsl_parser() = default;
 
         //loads the bayesian network from the given file
-        bn::bayesian_network<Probability> load_from_xdsl(const std::string &fileName) {
+        bn::bayesian_network<Probability> deserialize(const std::string &fileName) {
 
-            bn::bayesian_network<Probability> net;
+            bn::bayesian_network<Probability> bn;
             auto doc = std::make_shared<xml_document<>>();
             std::ifstream inputFile(fileName);
 
             BAYLIB_ASSERT(inputFile,
-                    "file " << fileName
-                    << " does not exist",
-                    std::runtime_error)
+                          "file " << fileName << " was"
+                           " not found in current path",
+                           std::runtime_error)
 
             auto buffer = std::make_shared<std::stringstream>();
             *buffer << inputFile.rdbuf();
@@ -77,26 +75,23 @@ namespace bn {
                 }
 
                 // Build bayesian_network
-                net.add_variable(varname, state_names);
+                bn.add_variable(varname, state_names);
                 for (auto parent: parents)
-                    net.add_dependency(parent, varname);
-
-
+                    bn.add_dependency(parent, varname);
 
                 // fill CPTs
-
                 std::reverse(parents.begin(), parents.end());
-                bn::condition_factory cf(net[varname], parents);
+                bn::condition_factory cf(bn[varname], parents);
                 unsigned int i = 0;
                 do {
                     auto cond = cf.get();
                     for (int j = 0; j < state_names.size(); j++)
-                        net.set_variable_probability(varname, j, cond, probDistribution[i * state_names.size()  + j]);
+                        bn.set_variable_probability(varname, j, cond, probDistribution[i * state_names.size() + j]);
                     ++i;
                 } while (cf.has_next());
 
             }
-            return net;
+            return bn;
         }
 
     private:
@@ -117,8 +112,10 @@ namespace bn {
             result.emplace_back(mapper(text.substr(start, ix-start)));
             return result;
         }
+
+
     };
 
 
 } // namespace bn
-#endif //BAYLIB_NET_PARSER_HPP
+#endif //BAYLIB_XDSL_PARSER_HPP

@@ -3,14 +3,14 @@
 //
 #include <iostream>
 
-#include <baylib/parser/net_parser.hpp>
+#include <baylib/parser/xdsl_parser.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
 
 
 void test_gibbs(const std::string &filename, uint njobs = 1){
     std::cout << filename << '\n';
-    bn::net_parser<double> parser;
-    auto net = parser.load_from_xdsl("../../examples/xdsl/" + filename);
+    bn::xdsl_parser<double> parser;
+    auto net = parser.deserialize("../../examples/xdsl/" + filename);
 
     auto gibbs = bn::inference::gibbs_sampling<double>{net};
     gibbs.inferenciate(10000, njobs);

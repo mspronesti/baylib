@@ -11,9 +11,10 @@ namespace bn {
     template <typename Probability>
     class marginal_distribution {
     public:
-        explicit marginal_distribution(const std::vector<bn::random_variable<Probability>> &vars){
-            for(ulong i = 0; i < vars.size(); ++i)
-                mdistr.emplace_back(vars[i].states().size(), 0.0);
+        template <typename Container>
+        explicit marginal_distribution(const Container &vars){
+            for(auto & var : vars)
+                mdistr.emplace_back(var.states().size(), 0.0);
         }
 
         void set(ulong vid, ulong state_value, Probability p)
@@ -59,6 +60,17 @@ namespace bn {
                 os << '\n';
             }
             return os;
+        }
+
+        void normalize() {
+            for(auto & row : mdistr)
+            {
+                Probability sum = std::accumulate(row.begin(), row.end(), 0.0);
+                if(abs(sum) > 1.0e5)
+                    std::for_each(row.begin(), row.end(), [sum](auto &val){
+                        val /= sum;
+                    });
+            }
         }
 
     private:
