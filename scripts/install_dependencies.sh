@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "Installing baylib dependencies..."
 sudo apt update
 sudo apt install build-essential
 

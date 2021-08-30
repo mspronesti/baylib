@@ -1,7 +1,3 @@
-if(TARGET baylib)
-   add_subdirectory(../baylib build)
-endif()
-
 add_executable(bnet_test bnet_test.cpp)
 add_executable(rank_test rank_test.cpp)
 add_executable(cpt_test  cpt_test.cpp)

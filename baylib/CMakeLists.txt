@@ -22,7 +22,6 @@ if(NOT TARGET OpenCL::OpenCL)
 endif()
 find_package (Threads REQUIRED)
 
-
 set(BAYLIB_REQUIRED_LIBS
     OpenCL
     pthread
@@ -38,7 +37,7 @@ set (src
     network/bayesian_network.hpp
     network/bayesian_utils.hpp
     network/random_variable.hpp
-    parser/net_parser.hpp
+    parser/xdsl_parser.hpp
     probability/condition.hpp
     probability/condition_factory.hpp
     probability/cpt.hpp

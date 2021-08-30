@@ -3,6 +3,7 @@
  <img alt="cmake" src="https://img.shields.io/badge/cmake-v3.13+-green"/>
  <img alt="c++" src="https://img.shields.io/badge/C++-17 | 20-blue.svg?style=flat&logo=c%2B%2B"/> 
  <img alt="CI build" src="https://github.com/mspronesti/baylib/actions/workflows/ci.yml/badge.svg"/> 
+ <img alt="GPU build" src="https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg"/>
 </p>
 
 Baylib is a simple inference engine library for Bayesian networks developed as final project for System Programming class at PoliTO.
@@ -16,7 +17,7 @@ Here's a list of the main requested features:
 * cmake-based deployment
 
 ## Install Dependencies
-Under Linux or MacOS, you can use 
+Under Linux, you can use 
 the provided script [install_dependencies.sh](scripts/install_dependencies.sh) as follows
 ```bash
  cd scripts/
@@ -35,7 +36,6 @@ sudo ./install.sh
 alternatively, run the following commands
 (assuming you're in the root of the project):
 ```bash
-cd baylib
 mkdir build
 cd build
 cmake ..
