@@ -46,7 +46,8 @@ set (src
     tools/cow/shared_ptr.hpp
     tools/threads/thread_pool.hpp
     baylib_assert.h
-)
+    inference/abstract_inference_algorithm.h
+    tools/generator_wrapper.hpp)
 
 set (BAYLIB_INCLUDE_LIBS ../baylib)
 

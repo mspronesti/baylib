@@ -4,6 +4,7 @@
 #include <baylib/graph/graph.hpp>
 #include <baylib/network/random_variable.hpp>
 #include <baylib/baylib_assert.h>
+#include <baylib/network/bayesian_utils.hpp>
 
 /**
  * ================ Bayesian Network ===================
@@ -27,23 +28,10 @@ namespace bn {
             // TODO: to be implemented
         }
 
-        /*
-        bayesian_network(const bayesian_network &bn){
-            graph = bn.graph;
-        }
-        */
 
         ~bayesian_network() {
             graph.reset();
         }
-        /*
-        bayesian_network & operator = (const bayesian_network &bn){
-            if(this != &bn){
-                graph = bn.graph;
-            }
-            return *this;
-        }
-        */
 
         bool operator == (const bayesian_network &bn) const {
             return graph.get() == bn.graph.get();
@@ -206,14 +194,14 @@ namespace bn {
                    && boost::out_degree(v, *graph) != 0;
         }
 
-        std::vector<vertex_id> children_of(const std::string &name) {
+        std::vector<vertex_id> children_of(const std::string &name) const{
             auto v  = index_of(name);
             auto it = boost::make_iterator_range(adjacent_vertices(v, *graph));
 
             return std::vector<vertex_id>(it.begin(), it.end());
         }
 
-        std::vector<vertex_id> children_of(vertex_id v) {
+        std::vector<vertex_id> children_of(vertex_id v) const{
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -222,7 +210,7 @@ namespace bn {
             return std::vector<vertex_id>(it.begin(), it.end());
         }
 
-        std::vector<vertex_id> parents_of(const std::string &name) {
+        std::vector<vertex_id> parents_of(const std::string &name) const{
             auto v = index_of(name);
             std::vector<vertex_id> parents;
 
@@ -233,7 +221,7 @@ namespace bn {
         }
 
 
-        std::vector<vertex_id> parents_of(vertex_id v) {
+        std::vector<vertex_id> parents_of(vertex_id v) const{
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)

@@ -5,13 +5,14 @@
 #ifndef BAYLIB_GIBBS_SAMPLING_HPP
 #define BAYLIB_GIBBS_SAMPLING_HPP
 
-#include <baylib/network/bayesian_utils.hpp>
 #include <baylib/probability/marginal_distribution.hpp>
+#include <baylib/inference/abstract_inference_algorithm.h>
 
 #include <algorithm>
 #include <random>
 #include <shared_mutex>
 #include <future>
+#include <tools/generator_wrapper.hpp>
 
 namespace bn {
     namespace inference {
@@ -29,14 +30,16 @@ namespace bn {
              */
         public:
             gibbs_worker(
-                bn::bayesian_network<Probability> &bn,
+                const bn::bayesian_network<Probability> &bn,
                 ulong nvars,
-                ulong nsamples
+                ulong nsamples,
+                uint seed=0
             )
             : nsamples(nsamples)
             , bn(bn)
             , nvars(nvars)
             , var_state_values(std::vector<bn::state_t>(nvars, 0))
+            , gen(seed)
             {}
 
             std::vector<std::pair<ulong,ulong>> sample(){
@@ -59,7 +62,8 @@ namespace bn {
             // contains, for each variable, the current state value
             std::vector<bn::state_t> var_state_values;
 
-            bn::bayesian_network<Probability> &bn;
+            const bn::bayesian_network<Probability> &bn;
+            generator_wrapper<Probability, Generator> gen;
             ulong nsamples;
             ulong nvars;
             std::shared_mutex m;
@@ -88,7 +92,7 @@ namespace bn {
                     val /= sum;
                 });
 
-                Probability prob = rand_from_distribution();
+                Probability prob = gen();
                 ulong j;
                 for (j = 0; j < samples.size() - 1; ++j) {
                     if (prob <= samples[j])
@@ -116,22 +120,6 @@ namespace bn {
                 const auto& cpt = bn[n].table();
                 return  cpt[c][var_state_values[n]];
             }
-
-            Probability rand_from_distribution(Probability from = 0.0, Probability to = 1.0)
-            {
-                thread_local static Generator gen(std::random_device{}());
-
-                using dist_type = typename std::conditional
-                        <
-                        std::is_integral<Probability>::value
-                        , std::uniform_int_distribution<Probability>
-                        , std::uniform_real_distribution<Probability>
-                        >::type;
-
-                thread_local static dist_type dist;
-                return dist(gen, typename dist_type::param_type{from, to});
-            }
-
         };
 
 
@@ -145,34 +133,32 @@ namespace bn {
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template <typename Probability, typename Generator=std::mt19937>
-        class gibbs_sampling {
+        class gibbs_sampling : abstract_inference_algorithm<Probability>{
         public:
-            explicit gibbs_sampling(const bn::bayesian_network<Probability> &bn)
-            : bn(bn)
-            , marginal_distr(bn.variables())
+            explicit gibbs_sampling(ulong nsamples, uint nthreads, uint seed = 0)
+            : abstract_inference_algorithm<Probability>(nsamples, nthreads, seed), counter(0)
+            {};
+
+            bn::marginal_distribution<Probability> make_inference(
+                   const bayesian_network<Probability> &bn
+            ) override
             {
+                marginal_distribution<Probability> marginal_distr(bn.variables());
                 auto vars  = bn.variables();
                 BAYLIB_ASSERT(std::all_of(vars.begin(), vars.end(),
                                           [](auto &var){ return bn::cpt_filled_out(var); }),
                               "conditional probability tables must be properly filled to"
                               " run logic_sampling inference algorithm",
                               std::runtime_error)
-            };
-
-            bn::marginal_distribution<Probability> inferenciate(
-                    unsigned long nsamples,
-                    unsigned int nthreads = 1
-            )
-            {
                 ulong nvars = bn.number_of_variables();
-                ulong samples_per_thread = nsamples / nthreads;
+                ulong samples_per_thread = this->nsamples / this->nthreads;
 
-                for(auto i = 0; i < nthreads - 1; ++i){
-                    assign_worker(nvars, samples_per_thread);
+                for(auto i = 0; i < this->nthreads - 1; ++i){
+                    assign_worker(bn, nvars, samples_per_thread);
                 }
 
                 // last thread (if nsamples % nthread != 0, last thread is gonna do the extra samples)
-                assign_worker(nvars, nsamples - (nthreads - 1) * samples_per_thread);
+                assign_worker(bn, nvars, this->nsamples - (this->nthreads - 1) * samples_per_thread);
 
 
                 for(auto & res : results)
@@ -180,22 +166,20 @@ namespace bn {
                     for(auto  [var_id, state_val] : res.get())
                         ++marginal_distr[var_id][state_val];
                 }
-                marginal_distr /= (Probability)nsamples;
+                marginal_distr /= (Probability)this->nsamples;
                 return marginal_distr;
             }
 
-            bn::marginal_distribution<Probability> inference_result() const {
-                return marginal_distr;
-            }
 
         private:
             void assign_worker(
+                const bayesian_network<Probability> &bn,
                 ulong nvars,
                 ulong samples_per_thread
             )
             {
-                auto job = [this](ulong nvars, ulong samples_per_thread){
-                    auto worker = gibbs_worker<Probability, Generator>(bn, nvars, samples_per_thread);
+                auto job = [this, &bn](ulong nvars, ulong samples_per_thread){
+                    auto worker = gibbs_worker<Probability, Generator>(bn, nvars, samples_per_thread, (this->seed + counter++) * 2654435761 % 2^32);
                     return worker.sample();
                 };
 
@@ -203,11 +187,9 @@ namespace bn {
             }
 
             std::shared_mutex m;
-            bn::bayesian_network<Probability> bn;
-            bn::marginal_distribution<Probability> marginal_distr;
             std::vector<result> results;
+            uint counter;
         };
-    } // namespace inference
-} // namespace bn
+    } } // namespace bn
 
 #endif //BAYLIB_GIBBS_SAMPLING_HPP
