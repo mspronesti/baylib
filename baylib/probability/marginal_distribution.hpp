@@ -48,6 +48,27 @@ namespace bn {
                     entry /= value;
         }
 
+        marginal_distribution<Probability>& operator += (
+             const marginal_distribution<Probability> & other
+        )
+        {
+            BAYLIB_ASSERT(mdistr.size() == other.mdistr.size(),
+                          "Incompatible second operand of type"
+                          " marginal distribution",
+                          std::logic_error)
+
+            for(ulong i = 0; i < mdistr.size(); ++i){
+                BAYLIB_ASSERT(mdistr[i].size() == other.mdistr[i].size(),
+                              "Incompatible second operand of type"
+                              " marginal distribution",
+                              std::logic_error)
+
+                for(ulong j = 0 ; j < mdistr[i].size(); ++j)
+                    mdistr[i][j] += other.mdistr[i][j];
+            }
+            return *this;
+        }
+
         friend std::ostream & operator << (
                 std::ostream & os,
                 const marginal_distribution<Probability> &md

@@ -4,6 +4,7 @@ add_executable(cpt_test  cpt_test.cpp)
 add_executable(parser_test parser_test.cpp)
 add_executable(logic_sampling_test logic_sampling_test.cpp)
 add_executable(gibbs_sampling_test gibbs_sampling_test.cpp)
+add_executable(likelihood_weighting_test likelihood_weighting_test.cpp)
 
 set_target_properties( bnet_test PROPERTIES OUTPUT_NAME "bnet" )
 set_target_properties( rank_test PROPERTIES OUTPUT_NAME "rank" )
@@ -11,7 +12,7 @@ set_target_properties( cpt_test PROPERTIES OUTPUT_NAME "cpt" )
 set_target_properties( parser_test PROPERTIES OUTPUT_NAME "parser")
 set_target_properties( logic_sampling_test PROPERTIES OUTPUT_NAME "logic_sampling")
 set_target_properties( gibbs_sampling_test PROPERTIES OUTPUT_NAME "gibbs_sampling")
-
+set_target_properties( likelihood_weighting_test PROPERTIES OUTPUT_NAME "likelihood_weighting")
 # google test
 find_package(GTest REQUIRED)
 
@@ -26,3 +27,4 @@ add_gtest(cpt)
 add_gtest(parser)
 add_gtest(logic_sampling)
 add_gtest(gibbs_sampling)
+add_gtest(likelihood_weighting)
