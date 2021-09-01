@@ -79,23 +79,23 @@ namespace  bn{
      * Computes the Markov blanket reduction
      * given the bayesian network and a node
      * @tparam Probability : the type expressing the probability
-     * @param bn           : bayesian network shared pointer
+     * @param bn           : bayesian network
      * @param rv           : random variable node
      * @return             : unordered set containing the Markov blanket
      */
     template <typename Probability>
-    std::unordered_set<bn::random_variable<Probability>> markov_blanket
-     (  const std::shared_ptr<bn::bayesian_network<Probability>> &bn,
+    std::unordered_set<bn::vertex<Probability>> markov_blanket
+     (  const bn::bayesian_network<Probability> &bn,
         const bn::random_variable<Probability> &rv
      ) {
-        auto marblank = std::unordered_set<bn::random_variable<Probability>>{};
-        for(auto & pv : bn->parents_of(rv.name))
+        auto marblank = std::unordered_set<bn::vertex<Probability>>{};
+        for(auto & pv : bn.parents_of(rv.name()))
             marblank.insert(pv);
 
-        for(auto & cv : bn->children_of(rv.name)){
+        for(auto & cv : bn.children_of(rv.name())){
             marblank.insert(cv);
-            for(auto pv : bn->parents_of(cv))
-                if(cv.id != rv.id)
+            for(auto pv : bn.parents_of(cv))
+                if(cv.id() != rv.id())
                     marblank.insert(pv);
         }
 
@@ -114,10 +114,11 @@ namespace  bn{
     bool cpt_filled_out(bn::random_variable<Probability> &cpt_owner)
     {
         bn::condition_factory factory(cpt_owner);
-        if(factory.number_of_combinations() != cpt_owner.table().size())
+        auto &cpt = cpt_owner.table();
+
+        if(factory.number_of_combinations() != cpt.size())
             return false;
 
-        auto &cpt = cpt_owner.table();
         do {
             auto cond = factory.get();
             if(!cpt.has_entry_for(cond))
@@ -145,7 +146,6 @@ namespace  bn{
             std::scoped_lock  sl{m};
             return bn[vid];
         }
-
 
 
     } // namespace thread_safe

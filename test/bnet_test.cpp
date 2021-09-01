@@ -33,6 +33,7 @@ protected:
         bn.add_dependency("c", "d");
         bn.add_dependency("b", "d");
         bn.add_dependency("e", "c");
+
     }
 };
 
@@ -98,6 +99,7 @@ TEST_F(bnet_tests, test_invalid_varname){
 TEST_F(bnet_tests, test_invalid_edge){
     ASSERT_ANY_THROW(bn.add_dependency("a", "pippo"));
 }
+
 
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);

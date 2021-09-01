@@ -3,7 +3,8 @@
 
 #include <baylib/graph/graph.hpp>
 #include <baylib/network/random_variable.hpp>
-#include <baylib/assert.h>
+#include <baylib/baylib_assert.h>
+#include <baylib/network/bayesian_utils.hpp>
 
 /**
  * ================ Bayesian Network ===================
@@ -27,23 +28,10 @@ namespace bn {
             // TODO: to be implemented
         }
 
-        /*
-        bayesian_network(const bayesian_network &bn){
-            graph = bn.graph;
-        }
-        */
 
         ~bayesian_network() {
             graph.reset();
         }
-        /*
-        bayesian_network & operator = (const bayesian_network &bn){
-            if(this != &bn){
-                graph = bn.graph;
-            }
-            return *this;
-        }
-        */
 
         bool operator == (const bayesian_network &bn) const {
             return graph.get() == bn.graph.get();
@@ -206,14 +194,14 @@ namespace bn {
                    && boost::out_degree(v, *graph) != 0;
         }
 
-        std::vector<vertex_id> children_of(const std::string &name) {
+        std::vector<vertex_id> children_of(const std::string &name) const{
             auto v  = index_of(name);
             auto it = boost::make_iterator_range(adjacent_vertices(v, *graph));
 
             return std::vector<vertex_id>(it.begin(), it.end());
         }
 
-        std::vector<vertex_id> children_of(vertex_id v) {
+        std::vector<vertex_id> children_of(vertex_id v) const{
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -222,7 +210,7 @@ namespace bn {
             return std::vector<vertex_id>(it.begin(), it.end());
         }
 
-        std::vector<vertex_id> parents_of(const std::string &name) {
+        std::vector<vertex_id> parents_of(const std::string &name) const{
             auto v = index_of(name);
             std::vector<vertex_id> parents;
 
@@ -233,7 +221,7 @@ namespace bn {
         }
 
 
-        std::vector<vertex_id> parents_of(vertex_id v) {
+        std::vector<vertex_id> parents_of(vertex_id v) const{
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -253,8 +241,8 @@ namespace bn {
                 Probability p
         )
         {
-            [[maybe_unused]] auto var = index_of(var_name); // to assert var existence
-            auto nparents = parents_of(var).size();
+            auto & var = variable(var_name);
+            auto nparents = parents_of(var._id).size();
 
             // make sure the cardinality of parents is correct
             BAYLIB_ASSERT(cond.size() == nparents,
@@ -273,7 +261,10 @@ namespace bn {
                           + var_name,
                           std::runtime_error)
 
-            this->variable(var_name).set_probability(state_value, cond, p);
+            var.set_probability(state_value, cond, p);
+
+            if(cpt_filled_out(var))
+                optimize_cpt_memory_occupation(var._id);
         }
 
         bool has_variable(const std::string &name) const {
@@ -298,6 +289,7 @@ namespace bn {
     private:
         std::shared_ptr<graph_t> graph;
         std::map<std::string, vertex_id> var_map;
+        std::unordered_map<size_t, vertex_id> cpt_hash_map;
 
         /**
          * utility to detect whether a vertex introduces
@@ -315,6 +307,19 @@ namespace bn {
                     [this, &to](vertex_id next){
                         return introduces_loop(next, to);
                     });
+        }
+
+
+        void optimize_cpt_memory_occupation(vertex_id id){
+            auto seed = variable(id).cpt.hash();
+            if(cpt_hash_map.find(seed) != cpt_hash_map.end()){
+                auto var = variable(cpt_hash_map[seed]);
+                if(var._id != id && var.cpt == variable(id).cpt){
+                    variable(id).cpt.d = var.cpt.d;
+                    return;
+                }
+            }
+            cpt_hash_map[seed] = id;
         }
     };
 } // namespace bn

@@ -3,33 +3,14 @@
 //
 
 #include <gtest/gtest.h>
-#include <baylib/parser/net_parser.hpp>
+#include <baylib/parser/xdsl_parser.hpp>
 #include <baylib/network/bayesian_utils.hpp>
 
-class parser_test : public ::testing::Test {
-protected:
-    bn::bayesian_network<double> net1;
-    bn::bayesian_network<double> net2;
-    bn::bayesian_network<double> net3;
-    bn::bayesian_network<double> net4;
-    bn::bayesian_network<double> net5;
-
-    void SetUp() override {
-        //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
-        net1 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/Coma.xdsl");
-        //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBN.xdsl
-        net2 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/VentureBN.xdsl");
-        //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
-        net3 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/VentureBNExpanded.xdsl");
-        //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAnimals.xdsl
-        net4 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/Animals.xdsl");
-        //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
-        net5 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/Credit.xdsl");
-    }
-};
 
 
-TEST_F(parser_test, graph_root){
+TEST(parser_test, graph_root){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
+    auto net1 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Coma.xdsl");
     ASSERT_TRUE(net1.is_root("MetastCancer"));
     ASSERT_FALSE(net1.is_root("IncrSerCal"));
     ASSERT_FALSE(net1.is_root("BrainTumor"));
@@ -37,7 +18,10 @@ TEST_F(parser_test, graph_root){
     ASSERT_FALSE(net1.is_root("SevHeadaches"));
     }
 
-TEST_F(parser_test, graph_dependency){
+TEST(parser_test, graph_dependency){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
+    auto net1 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Coma.xdsl");
+
     ASSERT_TRUE(net1.has_dependency("MetastCancer", "IncrSerCal"));
     ASSERT_TRUE(net1.has_dependency("MetastCancer", "BrainTumor"));
     ASSERT_TRUE(net1.has_dependency("IncrSerCal", "Coma"));
@@ -56,7 +40,9 @@ TEST_F(parser_test, graph_dependency){
     ASSERT_FALSE(net1.has_dependency("BrainTumor", "IncrSerCal"));
 }
 
-TEST_F(parser_test, test_node_states){
+TEST(parser_test, test_node_states){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
+    auto net1 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Coma.xdsl");
     ASSERT_TRUE(net1["MetastCancer"].has_state("present"));
     ASSERT_TRUE(net1["MetastCancer"].has_state("absent"));
     ASSERT_TRUE(net1["IncrSerCal"].has_state("present"));
@@ -73,7 +59,9 @@ TEST_F(parser_test, test_node_states){
 
 }
 
-TEST_F(parser_test, test_node_filled){
+TEST(parser_test, test_node_filled){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
+    auto net1 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Coma.xdsl");
     ASSERT_TRUE(bn::cpt_filled_out(net1["MetastCancer"]));
     ASSERT_TRUE(bn::cpt_filled_out(net1["IncrSerCal"]));
     ASSERT_TRUE(bn::cpt_filled_out(net1["BrainTumor"]));
@@ -81,13 +69,17 @@ TEST_F(parser_test, test_node_filled){
     ASSERT_TRUE(bn::cpt_filled_out(net1["Coma"]));
 }
 
-TEST_F(parser_test, test_node_cpt_root){
+TEST(parser_test, test_node_cpt_root){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
+    auto net1 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Coma.xdsl");
     bn::condition cond;
     ASSERT_DOUBLE_EQ(net1["MetastCancer"].table().at(cond)[0], .2);
     ASSERT_DOUBLE_EQ(net1["MetastCancer"].table().at(cond)[1], .8);
 }
 
-TEST_F(parser_test, test_node_cpt_children){
+TEST(parser_test, test_node_cpt_children){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
+    auto net1 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Coma.xdsl");
     bn::condition cond;
     cond.add("MetastCancer", 0);
     ASSERT_DOUBLE_EQ(net1["BrainTumor"].table().at(cond)[0], .2);
@@ -120,7 +112,9 @@ TEST_F(parser_test, test_node_cpt_children){
     ASSERT_DOUBLE_EQ(net1["Coma"].table().at(cond)[1], .95);
 }
 
-TEST_F(parser_test, test_node_cpt_children2){
+TEST(parser_test, test_node_cpt_children2){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBN.xdsl
+    auto net2 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/VentureBN.xdsl");
     bn::condition cond;
     cond.add("Success", 0);
     ASSERT_DOUBLE_EQ(net2["Forecast"].table().at(cond)[0], .4);
@@ -132,7 +126,9 @@ TEST_F(parser_test, test_node_cpt_children2){
     ASSERT_DOUBLE_EQ(net2["Forecast"].table().at(cond)[1], .3);
     ASSERT_DOUBLE_EQ(net2["Forecast"].table().at(cond)[2], .6);
 }
-TEST_F(parser_test, test_node_cpt_children3){
+TEST(parser_test, test_node_cpt_children3){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
+    auto net3 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/VentureBNExpanded.xdsl");
     bn::condition cond;
     cond.add("Economy", 0);
     cond.add("Success", 0);
@@ -171,7 +167,9 @@ TEST_F(parser_test, test_node_cpt_children3){
     ASSERT_DOUBLE_EQ(net3["Forecast"].table().at(cond)[2], .4);
 }
 
-TEST_F(parser_test, test_node_cpt_children4){
+TEST(parser_test, test_node_cpt_children4){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAnimals.xdsl
+    auto net4 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Animals.xdsl");
     bn::condition cond;
 
     cond.add("Animal", 0);
@@ -200,7 +198,9 @@ TEST_F(parser_test, test_node_cpt_children4){
     ASSERT_DOUBLE_EQ(net4["Environment"].table().at(cond)[2], .5);
 }
 
-TEST_F(parser_test, test_node_cpt_children5) {
+TEST(parser_test, test_node_cpt_children5) {
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
+    auto net5 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Credit.xdsl");
     bn::condition cond;
     cond.add("Reliability", 0);
     cond.add("RatioDebInc", 0);
@@ -265,6 +265,29 @@ TEST_F(parser_test, test_node_cpt_children5) {
     ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[0], .001);
     ASSERT_DOUBLE_EQ(net5["CreditWorthiness"].table().at(cond)[1], .999);
 
+}
+
+TEST(parser_test, test_cow){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
+    auto net5 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Credit.xdsl");
+    //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl
+    auto net6 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Link.xdsl");
+    bn::condition c1;
+    std::cout << sizeof(net6);
+    const auto& e1 = net5["Income"].table();
+    const auto& e2 = net5["Assets"].table();
+
+    ASSERT_EQ(std::addressof(e1[c1][0]), std::addressof(e2[c1][0]));
+
+    bn::condition c2;
+    bn::condition c3;
+    c2.add("N58_d_f", 0);
+    c2.add("N58_d_m", 0);
+    c3.add("N57_d_f", 0);
+    c3.add("N57_d_m", 0);
+    const auto& e3 = net6["N58_d_g"].table();
+    const auto& e4 = net6["N57_d_g"].table();
+    ASSERT_EQ(std::addressof(e3[c2][0]), std::addressof(e4[c3][0]));
 }
 
 

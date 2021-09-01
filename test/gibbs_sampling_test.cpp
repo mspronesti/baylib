@@ -5,21 +5,21 @@
 #include <gtest/gtest.h>
 #include <baylib/network/bayesian_network.hpp>
 #include <baylib/network/bayesian_utils.hpp>
-#include <baylib/parser/net_parser.hpp>
+#include <baylib/parser/xdsl_parser.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
 
-#define THREADS 10
-#define SAMPLES 100000
+#define THREADS std::thread::hardware_concurrency()
+#define SAMPLES 10000
 #define TOLERANCE 0.05
 
 // Basic starting test
 TEST(gibbs_sampling_tests, big_bang_Coma){
     bn::bayesian_network<double> net1;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
-    net1 = bn::net_parser<double>().load_from_xdsl("../../examples/xdsl/Coma.xdsl");
-    bn::inference::gibbs_sampling<double> sampling(net1);
-    sampling.inferenciate(SAMPLES, THREADS);
-    auto result = sampling.inference_result();
+    net1 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Coma.xdsl");
+    bn::inference::gibbs_sampling<double> sampling(SAMPLES, THREADS);
+
+    auto result = sampling.make_inference(net1);
     ASSERT_NEAR(result[net1.index_of("MetastCancer")][0], .2, TOLERANCE);
     ASSERT_NEAR(result[net1.index_of("MetastCancer")][1], .8, TOLERANCE);
 
@@ -40,10 +40,9 @@ TEST(gibbs_sampling_tests, big_bang_Coma){
 TEST(gibbs_sampling_tests, big_bang_VentureBNExpanded){
     bn::bayesian_network<float> net2;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
-    net2 = bn::net_parser<float>().load_from_xdsl("../../examples/xdsl/VentureBNExpanded.xdsl");
-    bn::inference::gibbs_sampling<float> sampling(net2);
-    sampling.inferenciate(SAMPLES, THREADS);
-    auto result = sampling.inference_result();
+    net2 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/VentureBNExpanded.xdsl");
+    bn::inference::gibbs_sampling<float> sampling(SAMPLES, THREADS);
+    auto result = sampling.make_inference(net2);
 
     ASSERT_NEAR(result[net2.index_of("Success")][0], .2, TOLERANCE);
     ASSERT_NEAR(result[net2.index_of("Success")][1], .8, TOLERANCE);
@@ -61,10 +60,9 @@ TEST(gibbs_sampling_tests, big_bang_VentureBNExpanded){
 TEST(gibbs_sampling_tests, big_bang_Credit){
     bn::bayesian_network<float> net3;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
-    net3 = bn::net_parser<float>().load_from_xdsl("../../examples/xdsl/Credit.xdsl");
-    bn::inference::gibbs_sampling<float> sampling(net3);
-    sampling.inferenciate(SAMPLES, THREADS);
-    auto result = sampling.inference_result();
+    net3 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/Credit.xdsl");
+    bn::inference::gibbs_sampling<float> sampling(SAMPLES, THREADS);
+    auto result = sampling.make_inference(net3);
 
     ASSERT_NEAR(result[net3.index_of("PaymentHistory")][0], .25, TOLERANCE);
     ASSERT_NEAR(result[net3.index_of("PaymentHistory")][1], .25, TOLERANCE);
@@ -117,11 +115,10 @@ TEST(gibbs_sampling_tests, big_bang_Credit){
 TEST(gibbs_sampling_tests, big_bang_Asia){
     bn::bayesian_network<float> net4;
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
-    net4 = bn::net_parser<float>().load_from_xdsl("../../examples/xdsl/AsiaDiagnosis.xdsl");
+    net4 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/AsiaDiagnosis.xdsl");
 
-    bn::inference::gibbs_sampling<float> sampling(net4);
-    sampling.inferenciate(SAMPLES, THREADS);
-    auto result = sampling.inference_result();
+    bn::inference::gibbs_sampling<float> sampling(SAMPLES, THREADS);
+    auto result = sampling.make_inference(net4);
 
     ASSERT_NEAR(result[net4.index_of("Tuberculosis")][0], .99, TOLERANCE);
     ASSERT_NEAR(result[net4.index_of("Tuberculosis")][1], .01, TOLERANCE);
@@ -143,11 +140,10 @@ TEST(gibbs_sampling_tests, big_bang_Asia){
 // Test on Large network
 TEST(gibbs_sampling_tests, big_bang_Hail){
     https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FHailfinder2.5.xdsl
-    auto net5 = bn::net_parser<float>().load_from_xdsl("../../examples/xdsl/Hailfinder2.5.xdsl");
+    auto net5 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/Hailfinder2.5.xdsl");
 
-    bn::inference::gibbs_sampling<float> sampling(net5);
-    sampling.inferenciate(SAMPLES, THREADS);
-    auto result = sampling.inference_result();
+    bn::inference::gibbs_sampling<float> sampling(SAMPLES, THREADS);
+    auto result = sampling.make_inference(net5);
 
     ASSERT_NEAR(result[net5.index_of("R5Fcst")][0], 0.25, TOLERANCE);
     ASSERT_NEAR(result[net5.index_of("R5Fcst")][1], 0.44, TOLERANCE);
@@ -160,10 +156,9 @@ TEST(gibbs_sampling_tests, big_bang_Hail){
 // Test on very large network
 TEST(gibbs_sampling_tests, big_bang_Link){
     //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl
-    auto net6 = bn::net_parser<float>().load_from_xdsl("../../examples/xdsl/Link.xdsl");
-    bn::inference::gibbs_sampling<float> sampling(net6);
-    sampling.inferenciate(SAMPLES, THREADS);
-    auto result = sampling.inference_result();
+    auto net6 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/Link.xdsl");
+    bn::inference::gibbs_sampling<float> sampling(SAMPLES, THREADS);
+    auto result = sampling.make_inference(net6);
 
     ASSERT_NEAR(result[net6.index_of("N59_d_g")][0], 0., TOLERANCE);
     ASSERT_NEAR(result[net6.index_of("N59_d_g")][1], 0.01, TOLERANCE);

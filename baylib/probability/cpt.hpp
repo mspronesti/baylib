@@ -5,9 +5,11 @@
 #ifndef BAYLIB_CPT_HPP
 #define BAYLIB_CPT_HPP
 
+
 #include <baylib/probability/condition.hpp>
 #include <numeric>
 #include <vector>
+#include <boost/functional/hash/hash.hpp>
 
 #include <baylib/tools/cow/shared_data.hpp>
 #include <baylib/tools/cow/shared_ptr.hpp>
@@ -19,7 +21,10 @@
  * copy-on-write
  */
 
+
 namespace bn{
+    template<typename Probability>
+    class bayesian_network;
     namespace cow {
         template<typename Probability>
         struct CPTData : public bn::cow::shared_data {
@@ -85,23 +90,16 @@ namespace bn{
                 }
             }
 
-            std::vector<Probability> &operator[](const bn::condition &cond) {
-                BAYLIB_ASSERT(has_entry_for(cond),
-                        "bad condition value",
-                        std::out_of_range)
-
-                return d->table[cond_map.at(cond)];
-            }
-
-            std::vector<Probability> &at(const bn::condition &cond) {
+            const std::vector<Probability> &operator[] (const bn::condition &cond) const{
                 BAYLIB_ASSERT(has_entry_for(cond),
                               "bad condition value",
                               std::out_of_range)
 
-                return d->table[cond_map.at(cond)];
+                 return d->table[cond_map.at(cond)];
             }
 
-            std::vector<Probability> const &at(const bn::condition &cond) const {
+
+            const std::vector<Probability>  &at(const bn::condition &cond) const{
                 BAYLIB_ASSERT(has_entry_for(cond),
                               "bad condition value",
                               std::out_of_range)
@@ -119,21 +117,19 @@ namespace bn{
             }
 
             bool operator == (const cpt<Probability> &c) const {
-                // TODO: to be implemented
-                // useful for cow assign
-                return false;
+                return d->table == c.d->table;
             }
 
             std::uint64_t size() {
                 return d->table.size();
             }
 
-            std::vector<Probability> flat() {
+            std::vector<Probability> flat() const{
                 auto flat_cpt = std::vector<Probability>{};
                 flat_cpt.reserve(d->table.size() * d->nstates);
 
                 for(auto &[cond, cond_id] : cond_map) {
-                    auto cpt_row = d->table[cond_id];
+                    const auto cpt_row = d->table[cond_id];
                     flat_cpt.insert(flat_cpt.end(), cpt_row.begin(), cpt_row.end());
                 }
 
@@ -158,7 +154,27 @@ namespace bn{
                 return d->table.end();
             }
 
+            size_t hash(){
+                const auto rows = d->table;
+                size_t seed = 0;
+                for(auto col: rows){
+                    for(auto el: col){
+                        auto const * p = reinterpret_cast<unsigned char const *>(&el) ;
+                        int n = 1;
+                        for(int i = 0; i < sizeof(Probability) - 1; i++){
+                            if(*(char *)&n == 1)
+                                boost::hash_combine(seed, p[i]);
+                            else
+                                boost::hash_combine(seed, p[sizeof(Probability) - 1 - i]);
+                        }
+                    }
+                }
+                return seed;
+            }
+
+
         private:
+            friend class bn::bayesian_network<Probability>;
             bn::cow::shared_ptr<CPTData<Probability>> d;
             // assigns a condition its index in the cpt
             // ! key   : condition

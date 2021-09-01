@@ -4,9 +4,12 @@ if [[ "$EUID" -ne 0 ]]
   exit
 fi
 
+echo "Installing baylib..."
+
+cd $(dirname "$0")/..
+
 # compile
-cd ..
-mkdir -p build
+mkdir build
 cd build
 cmake ..
 make
