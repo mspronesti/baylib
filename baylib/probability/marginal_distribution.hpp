@@ -66,7 +66,7 @@ namespace bn {
             for(auto & row : mdistr)
             {
                 Probability sum = std::accumulate(row.begin(), row.end(), 0.0);
-                if(abs(sum) > 1.0e5)
+                if(abs(sum) > 1.0e-5)
                     std::for_each(row.begin(), row.end(), [sum](auto &val){
                         val /= sum;
                     });

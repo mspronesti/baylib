@@ -12,9 +12,9 @@ namespace bn::inference {
         * @tparam Probability
         */
         template <typename Probability>
-        class abstract_inference_algorithm {
+        class inference_algorithm {
         public:
-            explicit abstract_inference_algorithm(
+            explicit inference_algorithm(
                     unsigned long nsamples,
                     unsigned int nthreads = 1,
                     unsigned int seed = 0

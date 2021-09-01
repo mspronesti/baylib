@@ -32,6 +32,7 @@ set(BAYLIB_REQUIRED_LIBS
 
 set (src
     graph/graph.hpp
+    inference/inference_algorithm.h
     inference/gibbs_sampling.hpp
     inference/logic_sampling.hpp
     network/bayesian_network.hpp
@@ -45,9 +46,9 @@ set (src
     tools/cow/shared_data.hpp
     tools/cow/shared_ptr.hpp
     tools/threads/thread_pool.hpp
+    tools/random/random_generator.hpp
     baylib_assert.h
-    inference/abstract_inference_algorithm.h
-    tools/generator_wrapper.hpp)
+    )
 
 set (BAYLIB_INCLUDE_LIBS ../baylib)
 
