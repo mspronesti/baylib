@@ -12,7 +12,7 @@ namespace bn::inference {
         * @tparam Probability
         */
         template <typename Probability>
-        class inference_algorithm {
+        class inference_algorithm  {
         public:
             /**
              * The abstract inference algorithm
@@ -31,6 +31,8 @@ namespace bn::inference {
             , nthreads(nthreads)
             , seed(seed)
              { }
+
+             virtual ~inference_algorithm() = default;
 
              /**
               * Main method of the inference algorithm. Receives the bayesian network

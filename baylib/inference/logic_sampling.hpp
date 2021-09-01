@@ -5,7 +5,7 @@
 #ifndef BAYLIB_LOGIC_SAMPLING_HPP
 #define BAYLIB_LOGIC_SAMPLING_HPP
 
-
+#define CL_TARGET_OPENCL_VERSION 220
 #define MEMORY_SLACK 0.8
 
 #include <vector>
@@ -14,7 +14,7 @@
 #include <boost/compute.hpp>
 #include <boost/compute/device.hpp>
 
-#include <baylib/inference/inference_algorithm.h>
+#include <baylib/inference/abstract_inference_algorithm.hpp>
 
 namespace bn {
     namespace inference{

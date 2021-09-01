@@ -6,7 +6,7 @@
 #define BAYLIB_GIBBS_SAMPLING_HPP
 
 #include <baylib/probability/marginal_distribution.hpp>
-#include <baylib/inference/inference_algorithm.h>
+#include <baylib/inference/abstract_inference_algorithm.hpp>
 
 #include <algorithm>
 #include <random>
@@ -25,7 +25,7 @@ namespace bn {
              * This class represents a single worker
              * i.e. a thread performing a complete simulation
              * of the bayesian network graph nsamples time.
-             * Each Gibbs sampler is responsible of tot_nsamples/n_workers
+             * Each Gibbs sampler is responsible of n_total_samples/n_workers
              * simulations
              */
         public:
@@ -42,7 +42,7 @@ namespace bn {
             , rnd_gen(seed)
             { }
 
-            std::vector<std::pair<ulong,ulong>> sample(){
+            std::vector<std::pair<ulong, ulong>> sample(){
                 for(ulong i = 0; i < nsamples; ++i)
                     for(ulong n = 0; n < nvars; ++n)
                     {
@@ -57,7 +57,7 @@ namespace bn {
         private:
             // each pair contains the (vid, state_val) couple
             // to be incremented in the marginal distribution
-            std::vector<std::pair<ulong,ulong>> marginal_pairs;
+            vec_pair marginal_pairs;
 
             // contains, for each variable, the current state value
             std::vector<bn::state_t> var_state_values;
@@ -68,7 +68,7 @@ namespace bn {
             ulong nvars;
             std::shared_mutex m;
 
-            /** --- private members --- **/
+            /** private members **/
             std::pair<ulong, ulong> sample_single_variable( bn::random_variable<Probability> & var )
             {
                 ulong index;
@@ -139,7 +139,7 @@ namespace bn {
         public:
             explicit gibbs_sampling(
                   ulong nsamples,
-                  uint nthreads,
+                  uint nthreads = 1,
                   uint seed = 0
             )
             : inference_algorithm<Probability>(nsamples, nthreads, seed)
@@ -154,24 +154,21 @@ namespace bn {
                 BAYLIB_ASSERT(std::all_of(vars.begin(), vars.end(),
                                           [](auto &var){ return bn::cpt_filled_out(var); }),
                               "conditional probability tables must be properly filled to"
-                              " run logic_sampling inference algorithm",
+                              " run gibbs sampling inference algorithm",
                               std::runtime_error)
 
                 ulong nvars = bn.number_of_variables();
                 ulong samples_per_thread = this->nsamples / this->nthreads;
 
-                // produce seeds
-                std::seed_seq seq{this->seed};
-                std::vector<ulong> seeds(this->nthreads);
-                seq.generate(seeds.begin(), seeds.end());
+                bn::seed_factory<ulong> sf(this->nthreads, this->seed);
 
                 for(auto i = 0; i < this->nthreads - 1; ++i){
-                    assign_worker(bn, nvars, samples_per_thread, seeds[i]);
+                    assign_worker(bn, nvars, samples_per_thread, sf.get_new());
                 }
 
                 // last thread (if nsamples % nthread != 0, last thread is gonna do the extra samples)
                 auto left_samples = this->nsamples - (this->nthreads - 1) * samples_per_thread;
-                assign_worker(bn, nvars, left_samples, seeds.back());
+                assign_worker(bn, nvars, left_samples, sf.get_new());
 
                 for(auto & res : results)
                 {
@@ -192,7 +189,7 @@ namespace bn {
             )
             {
                 auto job = [this, &bn](ulong nvars, ulong samples_per_thread, ulong seed){
-                    auto worker = gibbs_worker<Probability, Generator>(bn, nvars, samples_per_thread, seed);
+                    auto worker = gibbs_worker(bn, nvars, samples_per_thread, seed);
                     return worker.sample();
                 };
 
