@@ -169,12 +169,17 @@ namespace bn {
         *
         * This class represents the Logic Sampling approximate
         * inference algorithm for discrete Bayesian Networks.
+        * The implementation uses boost::compute to exploit GPGPU optimization.
+        * All samples are simulated in parallel, for this reason the maximum memory usage
+        * tolerable must be specified to avoid filling up the memory of the device in case of large
+        * number of samples.
         * @tparam Probability : the type expressing the probability
         **/
         template <typename Probability>
         class logic_sampling : public inference_algorithm<Probability>{
             using prob_v = boost::compute::vector<Probability>;
         public:
+
             logic_sampling(
                  size_t memory,
                  ulong samples,
@@ -256,7 +261,7 @@ namespace bn {
 
                     auto res = simulate_node( bn[v].table().flat(),
                                               parents_result,
-                                              this->itersamples,
+                                              itersamples,
                                               bn[v].states().size(),
                                               rand_eng);
                     results.put(res, v, bn.children_of(v).size());
@@ -302,7 +307,7 @@ namespace bn {
          * @param flat_cpt CPT table in a contiguous format
          * @param parents_result output of parent nodes, if simulating source leave empty
          * @param dim number of samples to simulate, it must be consistent with parents simulation
-         * @return shared_ptr to result of simulation, use with other simulations or condense results with compute_result
+         * @return pair of result vector and accumulated result of simulation
          * @param possible_states cardinality of the discrete variable to simulate (e.g. 2 if binary variable)
          **/
         template <typename Probability>
@@ -366,12 +371,12 @@ namespace bn {
         {
             uint64_t sample_p = memory / (bn.number_of_variables() * sizeof(Probability) + 3 * sizeof(cl_ushort)) * MEMORY_SLACK;
             if(sample_p < this->nsamples){
-                this->itersamples = sample_p;
+                itersamples = sample_p;
                 niter = this->nsamples / sample_p;
             }
             else
             {
-                this->itersamples = this->nsamples;
+                itersamples = this->nsamples;
                 niter = 1;
             }
         }

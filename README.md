@@ -6,15 +6,15 @@
  <img alt="GPU build" src="https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg"/>
 </p>
 
-Baylib is a simple inference engine library for Bayesian networks developed as final project for System Programming class at PoliTO.
-The engine supports approximate inference algorithms.
+Baylib is a simple inference library for discrete Bayesian networks developed as final project for System Programming class at PoliTO.
+It supports approximate inference algorithms.
 
 ## Main features
 Here's a list of the main requested features:
 * Copy-On-Write semantics for the graph data structure, including the conditional probability table (CPT) of each node 
 * parallel implementation of the algorithms either using C++11 (or higher) threads or GPU computing with [boost compute](https://www.boost.org/doc/libs/1_66_0/libs/compute/doc/html/index.html)
 * template-based classes for probability format
-* input and output compatibility with the [XDSL format](https://support.bayesfusion.com/docs/) provided by the SMILE library
+* input compatibility with the [XDSL format](https://support.bayesfusion.com/docs/) provided by the SMILE library
 * cmake-based deployment
 
 ## Currently supported algorithms
@@ -59,7 +59,7 @@ find_package(baylib)
 target_link_libraries(<your_executable> baylib)
 ```
 ## Usage
-Baylib allows to perform approximate inference on Bayesian Networks loaded from xdsl files
+Baylib allows performing approximate inference on Bayesian Networks loaded from xdsl files
 or created by hand (either using named nodes or numeric identifiers). 
 
 Please notice that the current release

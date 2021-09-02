@@ -124,6 +124,7 @@ TEST_F(cow_tests, cow_bn_actions){
     net5.is_root("Income"); CHECK_NO_COPY;
     net5.has_dependency("Income", "Assets"); CHECK_NO_COPY;
     net5.parents_of("Income"); CHECK_NO_COPY;
+    for (auto var: bn){}; CHECK_NO_COPY;
     sampling_order(net5); CHECK_NO_COPY;
     bn::markov_blanket(net5, net5["Income"]); CHECK_NO_COPY;
     net5.set_variable_probability("HELLO WORLD", 0, c, 0.2); CHECK_NO_COPY;
@@ -147,6 +148,13 @@ TEST_F(cow_tests, cow_variable_actions){
     net5["Income"].set_probability(0, c, 0.99); CHECK_COPY;
 }
 
+TEST_F(cow_tests, cow_copy_network_not_cpt){
+    auto net5 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Credit.xdsl");
+    auto net6 = net5;
+    bn::condition c;
+    ASSERT_EQ(std::addressof(net6["Income"].table()[c][0]), std::addressof(net5["Income"].table()[c][0]));
+    ASSERT_EQ(std::addressof(net6["Income"].table()[c][0]), std::addressof(net5["Assets"].table()[c][0]));
+}
 
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);

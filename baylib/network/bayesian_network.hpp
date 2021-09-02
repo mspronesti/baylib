@@ -23,14 +23,6 @@ namespace bn {
     public:
         bayesian_network() : graph(std::make_shared<graph_t>()) { }
 
-        ~bayesian_network() {
-            graph.reset();
-        }
-
-        bool operator == (const bayesian_network &bn) const {
-            return graph.get() == bn.graph.get();
-        }
-
         // overloading begin and end to easily loop over random_variables
         // avoiding packing copies inside other facilities
         auto begin() const {

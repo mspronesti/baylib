@@ -5,6 +5,14 @@
 #include <baylib/network/bayesian_network.hpp>
 #include <iostream>
 
+/*
+ * The Bayesian Network Class is the main container of the baylib library.
+ * This data structure holds both the graph structure and the CPT of each variable inside the network.
+ * CPT memory usage is optimized with the integration of the Copy On Write paradigm (COW),
+ * each time a new CPT is added if a duplicate is found the new one is discarded and a reference to the original
+ * one is saved instead.
+*/
+
 int main(){
 
     // Network creation can be done manually
@@ -65,7 +73,8 @@ int main(){
     bn.set_variable_probability("d", 0, c, .9);
     bn.set_variable_probability("d", 1, c, .1);
 
-    for (auto &var: bn.variables()) {
+    // Bayesian network can be iterated over with a for loop
+    for (auto &var: bn) {
         std::cout << var.name() << '\n';
         std::cout << var.table() << '\n';
     }
