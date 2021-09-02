@@ -101,8 +101,6 @@ namespace bn {
             ulong nsamples;
             bn::vertex<Probability> nnodes;
         public:
-            //nsamples is not assigned from the constructor,
-            // it will get its value from uncompressed_results
             compressed_result(
                     ulong nsamples,
                     ulong nnodes
@@ -172,7 +170,7 @@ namespace bn {
         * This class represents the Logic Sampling approximate
         * inference algorithm for discrete Bayesian Networks.
         * @tparam Probability : the type expressing the probability
-        */
+        **/
         template <typename Probability>
         class logic_sampling : public inference_algorithm<Probability>{
             using prob_v = boost::compute::vector<Probability>;
@@ -207,6 +205,7 @@ namespace bn {
             compute::command_queue queue;
             size_t memory;
             ulong niter;
+            ulong itersamples;
             uint seed;
 
             std::vector<Probability> accumulate_cpt(
@@ -257,7 +256,7 @@ namespace bn {
 
                     auto res = simulate_node( bn[v].table().flat(),
                                               parents_result,
-                                              this->nsamples,
+                                              this->itersamples,
                                               bn[v].states().size(),
                                               rand_eng);
                     results.put(res, v, bn.children_of(v).size());
@@ -282,10 +281,11 @@ namespace bn {
             return flat_cpt;
         }
 
-
-        /// Accumulate simulation results for general case
-        /// \param res result from simulate node
-        /// \return vector for witch the i-th element is the number of occurrences of i
+        /**
+         * Accumulate simulation results for general case
+         * @param res result from simulate node
+         * @return vector for witch the i-th element is the number of occurrences of i
+         **/
         template <typename T>
         std::vector<ulong> logic_sampling<T>::compute_result_general(bcvec& res)
         {
@@ -296,14 +296,15 @@ namespace bn {
             return acc_res;
         }
 
-
-        /// Node Simulation with GPU parallelization
-        /// memory usage in GPU device: dim * (sizeof(Probability) + 3 * sizeof(ushort))) + cpt_len * sizeof(Probability)
-        /// \param flat_cpt CPT table in a contiguous format
-        /// \param parents_result output of parent nodes, if simulating source leave empty
-        /// \param dim number of samples to simulate, it must be consistent with parents simulation
-        /// \param possible_states cardinality of the discrete variable to simulate (e.g. 2 if binary variable)
-        /// \return shared_ptr to result of simulation, use with other simulations or condense results with compute_result
+        /**
+         * Node Simulation with GPU parallelization
+         * memory usage in GPU device: dim * (sizeof(Probability) + 3 * sizeof(ushort))) + cpt_len * sizeof(Probability)
+         * @param flat_cpt CPT table in a contiguous format
+         * @param parents_result output of parent nodes, if simulating source leave empty
+         * @param dim number of samples to simulate, it must be consistent with parents simulation
+         * @return shared_ptr to result of simulation, use with other simulations or condense results with compute_result
+         * @param possible_states cardinality of the discrete variable to simulate (e.g. 2 if binary variable)
+         **/
         template <typename Probability>
         std::pair<std::vector<ulong>, bcvec> logic_sampling<Probability>::simulate_node(
                 const std::vector<Probability> flat_cpt,
@@ -363,14 +364,14 @@ namespace bn {
         template<typename Probability>
         void logic_sampling<Probability>::calculate_iterations(const bayesian_network<Probability> &bn)
         {
-
             uint64_t sample_p = memory / (bn.number_of_variables() * sizeof(Probability) + 3 * sizeof(cl_ushort)) * MEMORY_SLACK;
             if(sample_p < this->nsamples){
-                this->nsamples = sample_p;
+                this->itersamples = sample_p;
                 niter = this->nsamples / sample_p;
             }
             else
             {
+                this->itersamples = this->nsamples;
                 niter = 1;
             }
         }
@@ -384,12 +385,12 @@ namespace bn {
             auto total_result = bn::marginal_distribution<Probability>(bn.begin(), bn.end());
             for (bn::vertex<Probability> v = 0; v< cr.num_nodes(); v++) {
                 for (bn::state_t s = 0; s < cr[v].size(); ++s)
-                    total_result.set(v,s,Probability(cr[v][s])/(this->nsamples * niter));
+                    total_result.set(v,s,Probability(cr[v][s])/(this->nsamples));
             }
             return total_result;
         }
     } // namespace inference
-} // namespace bayes_net
+} // namespace bn
 
 
 #endif //BAYLIB_LOGIC_SAMPLING_HPP
