@@ -54,7 +54,7 @@ namespace bn {
                     return parallel_step(bn, samples, seed);
                 };
 
-                bn::seed_factory<ulong> sf(this->nthreads, this->seed);
+                bn::seed_factory sf(this->nthreads, this->seed);
                 ulong samples_per_thread = this->nsamples/this->nthreads;
 
                 // assigning jobs

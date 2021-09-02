@@ -44,15 +44,20 @@ namespace bn {
        Generator gen;
     };
 
-    template <typename T>
+
+    /*
+     * Factory class to generate n seeds starting from a single seed, the class
+     * makes sure that the generated seeds are independent
+     * of the one provided in the constructor
+     */
     class seed_factory {
     private:
     public:
-        seed_factory(uint nseeds, uint seed = 0)
+        explicit seed_factory(uint nseeds, uint seed = 0)
         : next(0)
         {
             std::seed_seq seq{seed};
-            seeds = std::vector<ulong>(nseeds);
+            seeds = std::vector<uint>(nseeds);
             seq.generate(seeds.begin(), seeds.end());
         }
 
@@ -69,7 +74,7 @@ namespace bn {
         }
 
     private:
-        std::vector<T> seeds;
+        std::vector<uint> seeds;
         ulong next;
     };
 }

@@ -46,7 +46,7 @@ namespace bn {
                 for(ulong i = 0; i < nsamples; ++i)
                     for(ulong n = 0; n < nvars; ++n)
                     {
-                        auto& var = bn::thread_safe::get_variable(bn, n, m);
+                        auto& var = bn[n] ;
                         auto res = sample_single_variable(var);
                         marginal_pairs.push_back(res);
                     }
@@ -66,7 +66,6 @@ namespace bn {
             bn::random_generator<Probability, Generator> rnd_gen;
             ulong nsamples;
             ulong nvars;
-            std::shared_mutex m;
 
             /** private members **/
             std::pair<ulong, ulong> sample_single_variable( bn::random_variable<Probability> & var )
@@ -74,7 +73,6 @@ namespace bn {
                 ulong index;
                 ulong states_size;
                 {
-                    std::scoped_lock sl{m};
                     index = var.id();
                     states_size = var.states().size();
                 }
@@ -107,7 +105,6 @@ namespace bn {
 
             Probability get_probability ( const unsigned long n )
             {
-                std::scoped_lock sl{m};
                 bn::condition c;
                 // builds a condition using parents and
                 // their states
@@ -160,7 +157,7 @@ namespace bn {
                 ulong nvars = bn.number_of_variables();
                 ulong samples_per_thread = this->nsamples / this->nthreads;
 
-                bn::seed_factory<ulong> sf(this->nthreads, this->seed);
+                bn::seed_factory sf(this->nthreads, this->seed);
 
                 for(auto i = 0; i < this->nthreads - 1; ++i){
                     assign_worker(bn, nvars, samples_per_thread, sf.get_new());

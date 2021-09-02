@@ -135,21 +135,6 @@ namespace  bn{
         return true;
     }
 
-    namespace thread_safe {
-        template <typename Probability>
-        bn::random_variable<Probability> & get_variable(
-                const bn::bayesian_network<Probability> &bn,
-                ulong vid,
-                std::shared_mutex & m
-        )
-        {
-            std::scoped_lock  sl{m};
-            return bn[vid];
-        }
-
-
-    } // namespace thread_safe
-
 } // namespace bn
 
 #endif //BAYLIB_BAYESIAN_UTILS_HPP

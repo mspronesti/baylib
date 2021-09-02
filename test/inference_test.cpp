@@ -16,19 +16,20 @@
 #define TOLERANCE 0.05
 
 using namespace bn::inference;
+using Probability = double;
 
 class inference_tests : public ::testing::Test{
 protected:
 
-    std::vector<std::shared_ptr<inference_algorithm<float>>> algorithms;
+    std::vector<std::shared_ptr<inference_algorithm<Probability>>> algorithms;
 
     inference_tests() = default;
     ~inference_tests() override = default;
 
     void SetUp() override{
-        std::shared_ptr<inference_algorithm<float>> logic = std::make_shared<logic_sampling<float>>(MEMORY, SAMPLES);
-        std::shared_ptr<inference_algorithm<float>> gibbs = std::make_shared<gibbs_sampling<float>>(SAMPLES, THREADS);
-        std::shared_ptr<inference_algorithm<float>> likely = std::make_shared<likelihood_weighting<float>>(SAMPLES, THREADS);
+        auto logic = std::make_shared<logic_sampling<Probability>>(MEMORY, SAMPLES);
+        auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
+        auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
         algorithms = {gibbs, logic, likely};
     }
 };
@@ -37,7 +38,7 @@ protected:
 TEST_F(inference_tests, big_bang_Coma){
 
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
-    auto net1 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/Coma.xdsl");
+    auto net1 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Coma.xdsl");
 
     for(const auto& sampling : algorithms){
         auto result = sampling->make_inference(net1);
@@ -62,7 +63,7 @@ TEST_F(inference_tests, big_bang_Coma){
 TEST_F(inference_tests, big_bang_VentureBNExpanded){
 
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
-    auto net2 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/VentureBNExpanded.xdsl");
+    auto net2 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/VentureBNExpanded.xdsl");
 
 
     for(const auto& sampling : algorithms){
@@ -85,7 +86,7 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
     TEST_F(inference_tests, big_bang_Credit){
 
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
-        auto net3 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/Credit.xdsl");
+        auto net3 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Credit.xdsl");
 
         for(const auto& sampling : algorithms){
             auto result = sampling->make_inference(net3);
@@ -142,7 +143,7 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
     TEST_F(inference_tests, big_bang_Asia){
 
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
-        auto net4 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/AsiaDiagnosis.xdsl");
+        auto net4 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/AsiaDiagnosis.xdsl");
 
         for(const auto& sampling : algorithms){
             auto result = sampling->make_inference(net4);
@@ -168,7 +169,7 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
     TEST_F(inference_tests, big_bang_Hail){
 
         https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FHailfinder2.5.xdsl
-        auto net5 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/Hailfinder2.5.xdsl");
+        auto net5 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Hailfinder2.5.xdsl");
 
         for(const auto& sampling : algorithms){
             auto result = sampling->make_inference(net5);
@@ -186,7 +187,7 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
     TEST_F(inference_tests, big_bang_Link){
 
         //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl
-        auto net6 = bn::xdsl_parser<float>().deserialize("../../examples/xdsl/Link.xdsl");
+        auto net6 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Link.xdsl");
 
         for(const auto& sampling : algorithms){
             auto result = sampling->make_inference(net6);
