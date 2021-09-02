@@ -174,7 +174,7 @@ namespace bn {
         * @tparam Probability : the type expressing the probability
         */
         template <typename Probability>
-        class logic_sampling : inference_algorithm<Probability>{
+        class logic_sampling : public inference_algorithm<Probability>{
             using prob_v = boost::compute::vector<Probability>;
         public:
             logic_sampling(
