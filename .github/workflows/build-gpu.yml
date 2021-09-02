@@ -1,0 +1,21 @@
+name: build GPU
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+      - name: Test
+        run: |
+          cd build
+          ctest --output-on-failure .

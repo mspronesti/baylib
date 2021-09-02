@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="Animals" numsamples="1000" discsamples="10000">
+	<nodes>
+		<cpt id="Animal">
+			<state id="Monkey" />
+			<state id="Penguin" />
+			<state id="Platypus" />
+			<state id="Robin" />
+			<state id="Turtle" />
+			<probabilities>0.2 0.2 0.2 0.2 0.2</probabilities>
+		</cpt>
+		<deterministic id="BearsYoungAs">
+			<state id="Eggs" />
+			<state id="Live" />
+			<parents>Animal</parents>
+			<resultingstates>Live Eggs Eggs Eggs Eggs</resultingstates>
+		</deterministic>
+		<deterministic id="Class">
+			<state id="Bird" />
+			<state id="Mammal" />
+			<state id="Reptile" />
+			<parents>Animal</parents>
+			<resultingstates>Mammal Bird Mammal Bird Reptile</resultingstates>
+		</deterministic>
+		<cpt id="Environment">
+			<state id="Air" />
+			<state id="Land" />
+			<state id="Water" />
+			<parents>Animal</parents>
+			<probabilities>0 1 0 0 0.5 0.5 0 0 1 0.5 0.5 0 0 0.5 0.5</probabilities>
+		</cpt>
+		<deterministic id="BodyCovering">
+			<state id="Hair" />
+			<state id="Down" />
+			<state id="Scales" />
+			<parents>Class</parents>
+			<resultingstates>Down Hair Scales</resultingstates>
+		</deterministic>
+		<deterministic id="HasShell">
+			<state id="True" />
+			<state id="False" />
+			<parents>Class</parents>
+			<resultingstates>False False True</resultingstates>
+		</deterministic>
+		<deterministic id="WarmBlooded">
+			<state id="True" />
+			<state id="False" />
+			<parents>Class</parents>
+			<resultingstates>True True False</resultingstates>
+		</deterministic>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 2.2.2626.2 1d3af2fc8bc8c80" name="Animals" faultnameformat="nodestate">
+			<comment>A simple animal guessing game. The network will guess which of the five animals you have in mind, as you provide information about habitat and characteristics of the animal. The network illustrates well the interaction between probability and propositional logic.\nReference:\nGame modeled by and made available to the community by Noetic, Inc., the developers of Ergo.</comment>
+			<node id="Animal">
+				<name>Animal</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>201 51 277 87</position>
+				<barchart active="true" width="128" height="108" />
+			</node>
+			<node id="BearsYoungAs">
+				<name>Bears Young As</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>334 156 446 204</position>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<node id="Class">
+				<name>Class</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>201 162 277 198</position>
+				<barchart active="true" width="128" height="72" />
+			</node>
+			<node id="Environment">
+				<name>Environment</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>37 162 129 198</position>
+				<barchart active="true" width="128" height="72" />
+			</node>
+			<node id="BodyCovering">
+				<name>Body Covering</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>190 253 288 305</position>
+				<barchart active="true" width="128" height="72" />
+			</node>
+			<node id="HasShell">
+				<name>Has Shell</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>350 261 431 297</position>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<node id="WarmBlooded">
+				<name>Warm Blooded</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>34 255 133 304</position>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<textbox>
+				<caption>A simple animal guessing game modeled by and made available to the community by Noetic, Inc., the developers of Ergo.\nThe network will guess which of the five animals you have in mind, as you provide information about habitat and characteristics of the animal.\nThe network illustrates the interaction between probability and propositional logic.</caption>
+				<font color="333399" name="Arial" size="12" bold="true" />
+				<position>469 21 757 230</position>
+			</textbox>
+		</genie>
+	</extensions>
+</smile>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="VentureBNe" numsamples="1000" discsamples="10000">
+	<nodes>
+		<cpt id="Success">
+			<state id="Success" />
+			<state id="Failure" />
+			<probabilities>0.2 0.8</probabilities>
+		</cpt>
+		<cpt id="Economy">
+			<state id="Up" />
+			<state id="Flat" />
+			<state id="Down" />
+			<probabilities>0.2 0.7 0.1</probabilities>
+		</cpt>
+		<cpt id="Forecast">
+			<state id="Good" />
+			<state id="Moderate" />
+			<state id="Poor" />
+			<parents>Economy Success</parents>
+			<probabilities>0.7 0.2 0.1 0.2 0.3 0.5 0.6 0.3 0.1 0.1 0.3 0.6 0.5 0.3 0.2 0.2 0.4 0.4</probabilities>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 2.2.2626.2 1d3af2fc8bc8c80" name="Expanded Venture Bayesian Network" faultnameformat="nodestate">
+			<comment>An expanded Bayesian network, a subset of the Venture influence diagram.\nReference:\nBayesFusion, LLC</comment>
+			<node id="Success">
+				<name>Success of the venture</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>71 35 155 86</position>
+				<barchart active="true" width="165" height="64" />
+			</node>
+			<node id="Forecast">
+				<name>Expert forecast</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>171 161 238 211</position>
+				<barchart active="true" width="155" height="72" />
+			</node>
+			<node id="Economy">
+				<name>State of the Economy</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>296 41 380 92</position>
+				<barchart active="true" width="173" height="80" />
+			</node>
+			<textbox>
+				<caption>The expert&apos;s forecast is sensitive to the quality of the company but her judgments are also influenced by the overall state of the economy.</caption>
+				<font color="000080" name="Arial" size="12" bold="true" />
+				<position>316 132 558 227</position>
+			</textbox>
+		</genie>
+	</extensions>
+</smile>

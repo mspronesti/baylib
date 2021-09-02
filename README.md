@@ -1,34 +1,76 @@
-# Bayesian Inferrer
+# baylib C++ library
 <p align="center">
- <img alt="C++" src="https://img.shields.io/badge/cmake-v3.14.0-green"/>
- <img alt="developement" src="https://img.shields.io/badge/C++-17 | 20-blue.svg?style=flat&logo=c%2B%2B"/> 
+ <img alt="cmake" src="https://img.shields.io/badge/cmake-v3.13+-green"/>
+ <img alt="c++" src="https://img.shields.io/badge/C++-17 | 20-blue.svg?style=flat&logo=c%2B%2B"/> 
+ <img alt="CI build" src="https://github.com/mspronesti/baylib/actions/workflows/ci.yml/badge.svg"/> 
+ <img alt="GPU build" src="https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg"/>
 </p>
 
-Bayesian Inferrer is a simple inference engine library for Bayesian networks based on the [logic sampling algorithm](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/9b660beb-e839-4ee7-a30e-5bd6a12e56de/henrion1988.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210719%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210719T102930Z&X-Amz-Expires=86400&X-Amz-Signature=e2feeb58bb144451357355bccbcd2798e3a32a74d25f39a3432b10ed0efab4bc&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22henrion1988.pdf%22) characterized by the following features:
+Baylib is a simple inference library for discrete Bayesian networks developed as final project for System Programming class at PoliTO.
+It supports approximate inference algorithms.
+
+## Main features
+Here's a list of the main requested features:
 * Copy-On-Write semantics for the graph data structure, including the conditional probability table (CPT) of each node 
-* parallel implementation of the algorithm 
-* template-based classes 
-* allocation policy based on `std::pmr::polymorphic_allocator`
-* input and output compatible with the [XDSL format](https://support.bayesfusion.com/docs/) prived by the SMILE library
+* parallel implementation of the algorithms either using C++11 (or higher) threads or GPU computing with [boost compute](https://www.boost.org/doc/libs/1_66_0/libs/compute/doc/html/index.html)
+* template-based classes for probability format
+* input compatibility with the [XDSL format](https://support.bayesfusion.com/docs/) provided by the SMILE library
 * cmake-based deployment
 
-## Abstract
-A Bayesian Network (BN) is a probabilistic graphical model for representing knowledge about an uncertain domain where each node corresponds to a random variable and each edge represents the conditional probability for the corresponding random variables.
+## Currently supported algorithms
+* Gibbs Sampling - C++17 threads
+* Likelihood Weighting - C++17 threads
+* Logic Sampling - GPGPU with boost compute
 
-The graphical model measures the conditional dependence structure of a set of random variables based on the [Bayes theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem).
+## Install Dependencies
+Under Linux, you can use 
+the provided script [install_dependencies.sh](scripts/install_dependencies.sh) as follows
+```bash
+ cd scripts/
+ chmod u+x install_dependencies.sh
+./install_dependencies.sh
+```
 
+## Install baylib
+Under Linux or MacOS, you can 
+run the provided script [install.sh](scripts/install.sh) as follows
+```bash
+cd scripts/
+chmod u+x install.sh
+sudo ./install.sh
+```
+alternatively, run the following commands
+(assuming you're in the root of the project):
+```bash
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+```
+You can now include `baylib` in your projects.
 
-The problem requires to model the casual dependency between the variables and to build a direct, acyclic graph. Besides, it requires to identify for each variable a subset of states and probabilities.  
+Make sure your `CMakeLists.txt` looks like this
+```cmake
+find_package(baylib)
+# create your executable 
+# and whatever you need for
+# your project ...
+target_link_libraries(<your_executable> baylib)
+```
+## Usage
+Baylib allows performing approximate inference on Bayesian Networks loaded from xdsl files
+or created by hand (either using named nodes or numeric identifiers). 
 
-Once the engine produces the graph, inference algorithms process the conditional probabilities traversing the graph.
- 
-## The Algorithm
-Logic Sampling generates possible scenarios with a random number generator and calculates a realization of all the network. After computing enough scenarios, the queries are answered with a frequentist approach and simple probability formulas. We integrate evidence by adding a validation step where we simply throw out scenarios that are not consistent with the evidence
+Please notice that the current release
+does not support inference when providing evidences.
 
-**NOTICE:** When dealing with very low probabilities, the algorithm might introduce serious errors as certain cases might be ignored.
+Have a look at [examples](examples) for more.
 
-Moreover, the more evidence we add, the worst the model performs.
-
-## Deployment
-
-
+## External references
+* [copy-on-write](https://doc.qt.io/qt-5/qsharedpointer.html)
+* [thread pool](https://github.com/bshoshany/thread-pool)
+* [gibbs sampling](http://vision.psych.umn.edu/users/schrater/schrater_lab/courses/AI2/gibbs.pdf)
+* [likelihood weighting](https://arxiv.org/pdf/1304.1504.pdf)
+* [likelihood weighting pseudo-code](https://github.com/aimacode/aima-pseudocode/blob/master/md/Likelihood-Weighting.md)
+* [logic sampling](https://www.academia.edu/35954159/Propagating_Uncertainty_in_Bayesian_Networks_by_Probabilistic_Logic_Sampling)
