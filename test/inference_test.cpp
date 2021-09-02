@@ -20,8 +20,8 @@ using Probability = double;
 
 class inference_tests : public ::testing::Test{
 protected:
-
-    std::vector<std::shared_ptr<inference_algorithm<Probability>>> algorithms;
+    typedef std::shared_ptr<inference_algorithm<Probability>> algorithm_ptr;
+    std::vector<algorithm_ptr> algorithms;
 
     inference_tests() = default;
     ~inference_tests() override = default;
@@ -30,7 +30,10 @@ protected:
         auto logic = std::make_shared<logic_sampling<Probability>>(MEMORY, SAMPLES);
         auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
         auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
-        algorithms = {gibbs, logic, likely};
+
+        algorithms = { gibbs,
+                       logic,
+                       likely};
     }
 };
 
@@ -183,7 +186,7 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         }
     }
 
-    // Test on very large network
+    // Test on very large network (200 000 nodes)
     TEST_F(inference_tests, big_bang_Link){
 
         //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl

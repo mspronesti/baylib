@@ -273,7 +273,7 @@ TEST(parser_test, test_cow){
     //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl
     auto net6 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Link.xdsl");
     bn::condition c1;
-    std::cout << sizeof(net6);
+
     const auto& e1 = net5["Income"].table();
     const auto& e2 = net5["Assets"].table();
 
