@@ -229,14 +229,13 @@ namespace bn {
                 const bn::bayesian_network<Probability> &bn
         )
         {
-            calculate_iterations(bn);
-            auto var = bn.variables();
-            BAYLIB_ASSERT(std::all_of(var.begin(), var.end(),
+            BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
                                       [](auto &var){ return bn::cpt_filled_out(var); }),
                           "conditional probability tables must be properly filled to"
                           " run logic_sampling inference algorithm",
                           std::runtime_error)
 
+            calculate_iterations(bn);
             auto vertex_queue = bn::sampling_order(bn);
             compute::default_random_engine rand_eng = compute::default_random_engine (queue, seed);
             compressed_result<Probability> pr(this->nsamples, vertex_queue.size());
@@ -382,7 +381,7 @@ namespace bn {
                 compressed_result<Probability> &cr
         )
         {
-            bn::marginal_distribution<Probability> total_result(bn.variables());
+            auto total_result = bn::marginal_distribution<Probability>(bn.begin(), bn.end());
             for (bn::vertex<Probability> v = 0; v< cr.num_nodes(); v++) {
                 for (bn::state_t s = 0; s < cr[v].size(); ++s)
                     total_result.set(v,s,Probability(cr[v][s])/(this->nsamples * niter));

@@ -7,12 +7,11 @@
 
 #include <baylib/probability/marginal_distribution.hpp>
 #include <baylib/inference/abstract_inference_algorithm.hpp>
+#include <baylib/tools/random/random_generator.hpp>
 
 #include <algorithm>
-#include <random>
-#include <shared_mutex>
 #include <future>
-#include <tools/random/random_generator.hpp>
+
 
 namespace bn {
     namespace inference {
@@ -70,12 +69,8 @@ namespace bn {
             /** private members **/
             std::pair<ulong, ulong> sample_single_variable( bn::random_variable<Probability> & var )
             {
-                ulong index;
-                ulong states_size;
-                {
-                    index = var.id();
-                    states_size = var.states().size();
-                }
+                ulong index = var.id();
+                ulong states_size = var.states().size();
 
                 auto samples = std::vector<Probability>(states_size, 0.0);
                 for(ulong i = 0; i < samples.size(); ++i){
@@ -146,13 +141,13 @@ namespace bn {
                    const bayesian_network<Probability> &bn
             ) override
             {
-                marginal_distribution<Probability> marginal_distr(bn.variables());
-                auto vars  = bn.variables();
-                BAYLIB_ASSERT(std::all_of(vars.begin(), vars.end(),
+                BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
                                           [](auto &var){ return bn::cpt_filled_out(var); }),
                               "conditional probability tables must be properly filled to"
                               " run gibbs sampling inference algorithm",
                               std::runtime_error)
+
+                marginal_distribution<Probability> marginal_distr(bn.begin(), bn.end());
 
                 ulong nvars = bn.number_of_variables();
                 ulong samples_per_thread = this->nsamples / this->nthreads;

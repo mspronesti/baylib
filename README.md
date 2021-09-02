@@ -9,12 +9,18 @@
 Baylib is a simple inference engine library for Bayesian networks developed as final project for System Programming class at PoliTO.
 The engine supports approximate inference algorithms.
 
+## Main features
 Here's a list of the main requested features:
 * Copy-On-Write semantics for the graph data structure, including the conditional probability table (CPT) of each node 
-* parallel implementation of the algorithms 
+* parallel implementation of the algorithms either using C++11 (or higher) threads or GPU computing with [boost compute](https://www.boost.org/doc/libs/1_66_0/libs/compute/doc/html/index.html)
 * template-based classes for probability format
-* input and output compatible with the [XDSL format](https://support.bayesfusion.com/docs/) provided by the SMILE library
+* input and output compatibility with the [XDSL format](https://support.bayesfusion.com/docs/) provided by the SMILE library
 * cmake-based deployment
+
+## Currently supported algorithms
+* Gibbs Sampling - C++17 threads
+* Likelihood Weighting - C++17 threads
+* Logic Sampling - GPGPU with boost compute
 
 ## Install Dependencies
 Under Linux, you can use 
@@ -64,3 +70,7 @@ Have a look at [examples](examples) for more.
 ## External references
 * [copy-on-write](https://doc.qt.io/qt-5/qsharedpointer.html)
 * [thread pool](https://github.com/bshoshany/thread-pool)
+* [gibbs sampling](http://vision.psych.umn.edu/users/schrater/schrater_lab/courses/AI2/gibbs.pdf)
+* [likelihood weighting](https://arxiv.org/pdf/1304.1504.pdf)
+* [likelihood weighting pseudo-code](https://github.com/aimacode/aima-pseudocode/blob/master/md/Likelihood-Weighting.md)
+* [logic sampling](https://www.academia.edu/35954159/Propagating_Uncertainty_in_Bayesian_Networks_by_Probabilistic_Logic_Sampling)

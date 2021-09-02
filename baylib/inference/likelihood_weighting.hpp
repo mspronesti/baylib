@@ -40,14 +40,13 @@ namespace bn {
                     const bayesian_network<Probability> &bn
             ) override
             {
-                auto vars  = bn.variables();
-                BAYLIB_ASSERT(std::all_of(vars.begin(), vars.end(),
+                BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
                                            [](auto &var){ return bn::cpt_filled_out(var); }),
                               "conditional probability tables must be properly filled to"
                               " run likelihood weighting inference algorithm",
                               std::runtime_error)
 
-                bn::marginal_distribution<Probability> inference_result(bn.variables());
+                bn::marginal_distribution<Probability> inference_result(bn.begin(), bn.end());
                 std::vector<result> results;
 
                 auto job = [this, &bn](ulong samples, uint seed){
@@ -81,7 +80,7 @@ namespace bn {
                  uint seed
              )
             {
-                bn::marginal_distribution<Probability> mdistr(bn.variables());
+                bn::marginal_distribution<Probability> mdistr(bn.begin(), bn.end());
                 bn::random_generator<Probability, Generator> rnd_gen(seed);
 
                 for(ulong i=0; i<nsamples; i++){

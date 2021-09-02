@@ -20,8 +20,8 @@
  *  ! markov-blanket
  *  ! CPT filled out checker
  *
- *  In addition, it contains utils to properly access
- *  the graph and its components in a thread safe fashion
+ *  Other utils might be added in case of future support
+ *  of exact inference algorithms
  */
 
 namespace  bn{
@@ -36,15 +36,15 @@ namespace  bn{
     template <typename Probability>
     std::vector<bn::vertex<Probability>> sampling_order(const bn::bayesian_network<Probability> &bn){
         using vertex_t = bn::vertex<Probability>;
-
-        auto vertices = bn.variables();
+        ulong nvars = bn.number_of_variables();
 
         // initially, the all have rank 0
-        auto ranks = std::vector<vertex_t>(vertices.size(), 0);
+        auto ranks = std::vector<vertex_t>(nvars, 0);
         auto roots = std::vector<vertex_t>{};
 
-        for(auto & v : vertices)
-            if(bn.is_root(v.name())) roots.push_back(v.id());
+        for(ulong vid = 0; vid < nvars; ++vid)
+            if(bn.is_root(vid))
+                roots.push_back(vid);
 
         BAYLIB_ASSERT(!roots.empty(),
                       "No root vertices found in graph",
@@ -54,8 +54,7 @@ namespace  bn{
             vertex_t curr_node = roots.back();
             roots.pop_back();
 
-            for (auto v : vertices) {
-                auto vid = v.id();
+            for(ulong vid = 0; vid < nvars; ++vid) {
                 if (!bn.has_dependency(curr_node, vid)) continue;
 
                 if (ranks[curr_node] + 1 > ranks[vid]) {
@@ -65,7 +64,7 @@ namespace  bn{
             }
         }
 
-        auto order = std::vector<vertex_t>(vertices.size());
+        auto order = std::vector<vertex_t>(nvars);
         std::iota(order.begin(), order.end(), 0);
 
         std::sort(order.begin(), order.end(), [&ranks](auto &a, auto&b){
@@ -88,14 +87,15 @@ namespace  bn{
      (  const bn::bayesian_network<Probability> &bn,
         const bn::random_variable<Probability> &rv
      ) {
+        auto rv_id = rv.id();
         auto marblank = std::unordered_set<bn::vertex<Probability>>{};
-        for(auto & pv : bn.parents_of(rv.name()))
+        for(auto & pv : bn.parents_of(rv_id))
             marblank.insert(pv);
 
-        for(auto & cv : bn.children_of(rv.name())){
-            marblank.insert(cv);
-            for(auto pv : bn.parents_of(cv))
-                if(cv.id() != rv.id())
+        for(auto & vid : bn.children_of(rv_id)){
+            marblank.insert(vid);
+            for(auto pv : bn.parents_of(vid))
+                if(vid != rv_id)
                     marblank.insert(pv);
         }
 
@@ -111,10 +111,10 @@ namespace  bn{
      * @return             : true if filled out, false otherwise
      */
     template <typename Probability>
-    bool cpt_filled_out(bn::random_variable<Probability> &cpt_owner)
+    bool cpt_filled_out(const bn::random_variable<Probability> &cpt_owner)
     {
         bn::condition_factory factory(cpt_owner);
-        auto &cpt = cpt_owner.table();
+        const auto &cpt = cpt_owner.table();
 
         if(factory.number_of_combinations() != cpt.size())
             return false;

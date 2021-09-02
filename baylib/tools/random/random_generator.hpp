@@ -6,11 +6,12 @@
 #define BAYLIB_RANDOM_GENERATOR_HPP
 
 #define AVALANCHE_FACTOR 0x45D9F3B // from papers and experiments
+#include <random>
 
 namespace bn {
     /**
-     * Random generator wrapper for sampling-based algorithms
-     * Customization offered features:
+     * Random generator wrapper for sampling-based inference algorithms
+     * Offered customization capabilities:
      * - custom generator
      * - custom seed
      * - custom type for the random number
@@ -32,6 +33,7 @@ namespace bn {
             dist_type dist;
             return dist(gen, typename dist_type::param_type{from, to});
         }
+
     private:
        uint prime(uint seed)
        {
@@ -45,10 +47,11 @@ namespace bn {
     };
 
 
-    /*
-     * Factory class to generate n seeds starting from a single seed, the class
-     * makes sure that the generated seeds are independent
-     * of the one provided in the constructor
+    /**
+     * Factory class to generate N seeds starting from a single seed,
+     * employing std::seed_seq.
+     * This class makes sure that the generated seeds are independent
+     * with respect to the one passed to the constructor
      */
     class seed_factory {
     private:
