@@ -12,8 +12,16 @@ namespace bn::inference {
         * @tparam Probability
         */
         template <typename Probability>
-        class inference_algorithm {
+        class inference_algorithm  {
         public:
+            /**
+             * The abstract inference algorithm
+             * only receives hyperparameters in the
+             * constructor
+             * @param nsamples : number of samples
+             * @param nthreads : number of threads (default: 1)
+             * @param seed     : custom seed for the generator (default: 0)
+             */
             explicit inference_algorithm(
                     unsigned long nsamples,
                     unsigned int nthreads = 1,
@@ -24,6 +32,16 @@ namespace bn::inference {
             , seed(seed)
              { }
 
+             virtual ~inference_algorithm() = default;
+
+             /**
+              * Main method of the inference algorithm. Receives the bayesian network
+              * but doesn't store it anywhere. It only uses its facilities to perform
+              * inference thus avoiding unwanted copies and allowing reusability of the
+              * same algorithm object
+              * @param bn  : bayesian network
+              * @return    : the marginal distributions
+              */
             virtual bn::marginal_distribution<Probability> make_inference(
                     const bn::bayesian_network<Probability> & bn
             ) = 0;

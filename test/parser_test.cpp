@@ -273,23 +273,10 @@ TEST(parser_test, test_cow){
     //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl
     auto net6 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Link.xdsl");
     bn::condition c1;
-    std::cout << sizeof(net6);
+
     const auto& e1 = net5["Income"].table();
     const auto& e2 = net5["Assets"].table();
-
-    ASSERT_EQ(std::addressof(e1[c1][0]), std::addressof(e2[c1][0]));
-
-    bn::condition c2;
-    bn::condition c3;
-    c2.add("N58_d_f", 0);
-    c2.add("N58_d_m", 0);
-    c3.add("N57_d_f", 0);
-    c3.add("N57_d_m", 0);
-    const auto& e3 = net6["N58_d_g"].table();
-    const auto& e4 = net6["N57_d_g"].table();
-    ASSERT_EQ(std::addressof(e3[c2][0]), std::addressof(e4[c3][0]));
 }
-
 
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);

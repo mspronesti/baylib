@@ -15,12 +15,13 @@
 #include <baylib/tools/cow/shared_ptr.hpp>
 
 /**
- * ================ CPT Table ===================
- * Using custom shared_ptr from bn::cow namespace
+ * ========= Conditional Probability Table ==========
+ * This class models the conditional probability table
+ * associated to each variable of the bayesian network.
+ * Employs custom shared_ptr from bn::cow namespace
  * adapted from Qt library source code to implement
  * copy-on-write
  */
-
 
 namespace bn{
     template<typename Probability>
@@ -33,12 +34,12 @@ namespace bn{
              * vector using a map because this struct is used for
              * copy-on-write
              * (only probability values are actually shared, regardless
-             * of condition entry so that cow is used for two tables
-             * having the very same probability entries of different
-             *  conditions )
+             * of the condition entry so that COW is used for two tables
+             * having the very same probability entries even if they refer
+             * to different conditions )
              */
             std::vector<std::vector<Probability>> table;
-            unsigned int nstates{};
+            unsigned long nstates{};
         };
 
         template<typename Probability>
@@ -52,7 +53,7 @@ namespace bn{
             *  bn::condition c = {{"var1": 1}, {"var2": 3}}
             *  bn::cow::cpt cpt{n}
             *  ...
-            *  std::vector<Probability> probs = cpt[c]
+            *  auto & probs = cpt[c]
             *
             *  probs[0] :  P(var3=0 | var1=1, var2=3)
             *  probs[1] :  P(var3=1 | var1=1, var2=3)
@@ -61,7 +62,7 @@ namespace bn{
             *  probs[n] :  P(var3=n | var=1, var2=3)
             */
         public:
-            explicit cpt(unsigned int nstates = 2) {
+            explicit cpt(unsigned long nstates = 2) {
                 d = new CPTData<Probability>();
                 d->nstates = nstates;
             }
@@ -120,7 +121,7 @@ namespace bn{
                 return d->table == c.d->table;
             }
 
-            std::uint64_t size() {
+            unsigned long size() const {
                 return d->table.size();
             }
 
@@ -179,7 +180,7 @@ namespace bn{
             // assigns a condition its index in the cpt
             // ! key   : condition
             // ! value : row index
-            std::map<bn::condition, std::uint64_t> cond_map;
+            std::map<bn::condition, unsigned long> cond_map;
         };
 
 

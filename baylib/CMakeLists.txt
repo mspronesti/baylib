@@ -32,8 +32,9 @@ set(BAYLIB_REQUIRED_LIBS
 
 set (src
     graph/graph.hpp
-    inference/inference_algorithm.h
+    inference/abstract_inference_algorithm.hpp
     inference/gibbs_sampling.hpp
+    inference/likelihood_weighting.hpp
     inference/logic_sampling.hpp
     network/bayesian_network.hpp
     network/bayesian_utils.hpp

@@ -21,11 +21,14 @@ namespace  bn {
     public:
         random_variable() = default;
 
-        random_variable(std::string name, const std::vector <std::string> &states)
-                : _name(std::move(name))
-                , cpt(states.size())
-                , _states(states)
-                {}
+        random_variable(
+            std::string name,
+            const std::vector <std::string> &states
+        )
+        : _name(std::move(name))
+        , cpt(states.size())
+        , _states(states)
+        { }
 
         bool has_state(const std::string &state_name) const {
             return std::any_of(_states.begin(), _states.end(),
@@ -50,6 +53,10 @@ namespace  bn {
         }
 
         bn::cow::cpt<Probability> &table() {
+            return cpt;
+        }
+
+        const  bn::cow::cpt<Probability> &table() const {
             return cpt;
         }
 

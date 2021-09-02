@@ -5,6 +5,13 @@
 #include <baylib/parser/xdsl_parser.hpp>
 #include <iostream>
 
+/*
+ * Model exploration is supported by enabling modifications after initialization of both the network
+ * structure or the contents of the CPTs. CPTs contents are copied only when needed after a modification.
+ * Networks obtained through copying manifest the same behavior regarding CPT optimization, the content of the CPT
+ * will not be really copied until an explicit modification is made.
+ */
+
 int main(){
     bn::xdsl_parser<double> parser;
     auto network = parser.deserialize("../../examples/xdsl/Coma.xdsl");
@@ -22,9 +29,9 @@ int main(){
         std::cout << state << '\n';
 
     // Access is supported both by single element and iterators
-    for (auto &probi: var.table()) {
-        for(auto &probj: probi)
-            std::cout << probj << ' ';
+    for (auto &prob_i: var.table()) {
+        for(auto &prob_j: prob_i)
+            std::cout << prob_j << ' ';
         std::cout << '\n';
     }
 

@@ -8,7 +8,7 @@
 
 /**
  * ================ Bayesian Network ===================
- * This class represents a Bayesian Network allowing both
+ * This class models a Bayesian Network allowing both
  * index and name based access to its facilities for a better
  * user experience
  */
@@ -21,20 +21,16 @@ namespace bn {
         typedef bn::vertex<Probability> vertex_id;
 
     public:
-        bayesian_network() : graph(std::make_shared<graph_t>()){}
+        bayesian_network() : graph(std::make_shared<graph_t>()) { }
 
-        // constructor from xdls file
-        explicit bayesian_network(const std::string & xdls_filename) {
-            // TODO: to be implemented
+        // overloading begin and end to easily loop over random_variables
+        // avoiding packing copies inside other facilities
+        auto begin() const {
+            return bn::bundles(*graph).begin();
         }
 
-
-        ~bayesian_network() {
-            graph.reset();
-        }
-
-        bool operator == (const bayesian_network &bn) const {
-            return graph.get() == bn.graph.get();
+        auto end() const {
+            return bn::bundles(*graph).end();
         }
 
         void add_variable(const std::string &name, const std::vector<std::string> &states){
@@ -53,7 +49,7 @@ namespace bn {
             boost::remove_vertex(v, *graph);
 
             var_map.erase(name);
-            for (auto & var : variables())
+            for (auto & var : *this)
                 if(has_dependency(name, var.name()))
                     var.parents_info.remove(name);
         }
@@ -111,14 +107,6 @@ namespace bn {
 
             boost::remove_edge(src_id, dest_id, *graph);
             dest.parents_info.remove(src_name);
-        }
-
-        std::vector<bn::random_variable<Probability>> variables() const {
-            auto vars = std::vector<bn::random_variable<Probability>>{};
-            for(auto v : boost::make_iterator_range(boost::vertices(*graph)))
-                vars.push_back((*graph)[v]);
-
-            return vars;
         }
 
         std::uint64_t number_of_variables() const {
@@ -284,7 +272,6 @@ namespace bn {
 
             return it->second;
         }
-
 
     private:
         std::shared_ptr<graph_t> graph;

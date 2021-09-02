@@ -41,8 +41,8 @@ protected:
 TEST_F(bnet_tests, test_names){
     std::vector<std::string> e{"a", "b", "c", "d", "e"};
     std::uint8_t i = 0;
-    for(auto & a : bn.variables())
-        EXPECT_EQ(e[i++], a.name());
+    for(auto & var : bn)
+        EXPECT_EQ(e[i++], var.name());
 }
 
 TEST_F(bnet_tests, test_root){

@@ -9,8 +9,7 @@
 #include <baylib/probability/cpt.hpp>
 
 #include <boost/range/adaptors.hpp>
-#include <boost/range/algorithm.hpp>
-#include <boost/range/algorithm_ext.hpp>
+
 
 namespace bn {
     template <typename Vertex>
@@ -23,11 +22,13 @@ namespace bn {
     using vertex = typename graph<Vertex>::vertex_descriptor;
 
     /**
-     * retrieves bundled properties (custom vertices list)
-     * from the given boost graph
+     * retrieves bundled properties (custom vertices) range
+     * from the given boost graph transforming boost "vertices"
+     * iterator
+     * Useful to overload iterators in bn::bayesian_network<Probability>
      * @tparam Graph : the boost graph descriptor
-     * @param _g     : the boost graph
-     * @return       : bundled properties list
+     * @param _g     : the boost graph const reference
+     * @return       : bundled properties range
      */
     template <typename Vertex>
     auto bundles(const graph<Vertex> & _g)  {
@@ -36,12 +37,7 @@ namespace bn {
             return map[vid];
         };
 
-        auto make_view = [=](auto range) {
-            return std::vector<Vertex>(
-                    boost::begin(range), boost::end(range));
-        };
-
-        return make_view(make_iterator_range(boost::vertices(_g) | transformed(accessor)));
+        return boost::vertices(_g) | transformed(accessor);
     }
 
 
