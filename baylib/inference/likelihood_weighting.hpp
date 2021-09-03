@@ -109,7 +109,6 @@ namespace bn {
                     auto & var = bn[vid];
                     bn::condition parent_state;
 
-                    // evidences not handled hence skipping check
                     for(auto par : bn.parents_of(vid))
                         parent_state.add(
                                 bn[par].name(),
@@ -117,11 +116,16 @@ namespace bn {
                         );
 
                     const auto & cpt = var.table();
-
-                    pattern[vid] = make_random_by_weight(
-                            rnd_gen.get_random(),
-                            cpt[parent_state]
-                    );
+                    if(var.is_evidence()) {
+                        ulong evidence_state = var.state_value();
+                        weight *= cpt[parent_state][evidence_state];
+                        pattern[vid] = evidence_state;
+                    } else {
+                        pattern[vid] = make_random_by_weight(
+                                rnd_gen.get_random(),
+                                cpt[parent_state]
+                        );
+                    }
                 }
 
                 return std::make_pair(pattern, weight);

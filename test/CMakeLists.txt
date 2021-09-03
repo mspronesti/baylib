@@ -4,7 +4,7 @@ add_executable(cpt_test  cpt_test.cpp)
 add_executable(parser_test parser_test.cpp)
 add_executable(cow_test cow_test.cpp)
 add_executable(inference_test inference_test.cpp)
-
+add_executable(evidence_test evidence_test.cpp)
 
 set_target_properties( bnet_test PROPERTIES OUTPUT_NAME "bnet" )
 set_target_properties( rank_test PROPERTIES OUTPUT_NAME "rank" )
@@ -12,6 +12,7 @@ set_target_properties( cpt_test PROPERTIES OUTPUT_NAME "cpt" )
 set_target_properties( parser_test PROPERTIES OUTPUT_NAME "parser")
 set_target_properties( cow_test PROPERTIES OUTPUT_NAME "cow")
 set_target_properties( inference_test PROPERTIES OUTPUT_NAME "inference")
+set_target_properties( evidence_test PROPERTIES OUTPUT_NAME "evidence")
 
 
 # google test
@@ -28,3 +29,4 @@ add_gtest(cpt)
 add_gtest(parser)
 add_gtest(cow)
 add_gtest(inference)
+add_gtest(evidence)
