@@ -50,16 +50,16 @@ namespace bn {
         class uncompressed_result {
         public:
             explicit uncompressed_result(bn::vertex<Probability> nnodes):
-            data(std::vector<std::pair<std::vector<ulong>, std::optional<bcvec>>>(nnodes)),
+            data(std::vector<std::optional<bcvec>>(nnodes)),
             use_count(std::vector<ulong>(nnodes, 0))
             {}
 
-            void put(const std::pair<std::vector<ulong>, std::optional<bcvec>>& entry, bn::vertex<Probability> edge, ulong uses) {
+            void put(const std::optional<bcvec>& entry, bn::vertex<Probability> edge, ulong uses) {
                 data[edge] = entry;
                 use_count[edge] = uses;
             }
 
-            std::pair<std::vector<ulong>, std::optional<bcvec>> get(const bn::vertex<Probability> v) {
+            bcvec get(const bn::vertex<Probability> v) {
                 auto res = data[v];
                 BAYLIB_ASSERT(use_count[v] > 0,
                               "Function get has been called on node "
@@ -68,16 +68,13 @@ namespace bn {
 
                 use_count[v]--;
                 if (use_count[v] == 0)
-                    data[v].second.reset();
-                return res;
-            }
+                    data[v].reset();
 
-            std::vector<ulong>& get_compressed(const bn::vertex<Probability> v) {
-                return data[v].first;
+                return res.value();
             }
 
         private:
-            std::vector<std::pair<std::vector<ulong>, std::optional<bcvec>>> data;
+            std::vector<std::optional<bcvec>> data;
             std::vector<ulong> use_count;
 
             std::pair<std::vector<ulong>,bcvec> & operator[] (const bn::vertex<Probability> v)
@@ -86,84 +83,6 @@ namespace bn {
             }
         };
 
-        /**
-         * This class models the result in reduced form
-         * (number of realizations of a specific state)
-         * Can be added to other compressed_results.
-         * Can add data from uncompressed_result
-         * Used to compute marginal_distribution
-         * @tparam Probability : the type modeling probability
-         **/
-        template <typename Probability>
-        class compressed_result {
-        private:
-            std::vector<std::vector<ulong>> data;
-            ulong nsamples;
-            bn::vertex<Probability> nnodes;
-        public:
-            compressed_result(
-                    ulong nsamples,
-                    ulong nnodes
-            )
-            : nsamples(nsamples)
-            , nnodes(nnodes)
-            , data(std::vector<std::vector<ulong>>(nnodes) )
-            { }
-
-            compressed_result &operator=(const compressed_result &other) {
-                if (this == &other)
-                    return *this;
-                other.data.swap(*this);
-                return *this;
-            }
-
-            void swap(compressed_result &other) {
-                data.swap(other.data);
-            }
-
-            compressed_result& operator+=(compressed_result &other) {
-                BAYLIB_ASSERT(other.nsamples == nsamples,
-                              "Samples vector size does not agree.",
-                              std::runtime_error)
-
-                BAYLIB_ASSERT(other.nnodes == nnodes,
-                               "Edge number does not agree.",
-                               std::runtime_error)
-
-                for (bn::vertex<Probability> i = 0; i < nnodes; i++) {
-                    for (bn::state_t j = 0; j<data[i].size(); j++) {
-                        data[i][j] += other.data[i][j];
-                    }
-                }
-                return (*this);
-            }
-
-            compressed_result operator + (compressed_result &other) {
-                compressed_result new_spr = (*this);
-                new_spr+=other;
-                return new_spr;
-            }
-
-            std::vector<ulong>& operator[](const bn::vertex<Probability> key) {
-                return data[key];
-            }
-
-            compressed_result& operator+=(uncompressed_result<Probability> &other) {
-                for (bn::vertex<Probability> i = 0; i< data.size();i++) {
-                    if (data[i].size() == 0) {
-                        data[i] = std::vector<ulong>(other.get_compressed(i).size(), 0);
-                    }
-                    for (bn::state_t j = 0; j<data[i].size();j++) {
-                        data[i][j] += other.get_compressed(i)[j];
-                    }
-                }
-                return (*this);
-            }
-
-            ulong num_nodes() {
-                return nnodes;
-            }
-        };
 
         /** ===== Logic Sampling Algorithm ===
         *
@@ -194,10 +113,9 @@ namespace bn {
             { }
 
             std::pair<std::vector<ulong>, bcvec> simulate_node(
-                    std::vector<Probability> flat_cpt,
+                    const bn::random_variable<Probability> &var,
                     const std::vector<bcvec>& parents_result,
                     int dim,
-                    int possible_states,
                     compute::default_random_engine rand_eng
             );
 
@@ -208,10 +126,12 @@ namespace bn {
         private:
             compute::context context;
             compute::command_queue queue;
+            //compute::vector<bool> validity;
             size_t memory;
             ulong niter;
             ulong itersamples;
             uint seed;
+
 
             std::vector<Probability> accumulate_cpt(
                     std::vector<Probability> flat_cpt,
@@ -222,10 +142,6 @@ namespace bn {
 
             void calculate_iterations(const bayesian_network<Probability> &bn);
 
-            bn::marginal_distribution<Probability> compute_total_result(
-                    const bayesian_network<Probability> &bn,
-                    compressed_result <Probability> &cr
-            );
         };
 
         template<typename Probability>
@@ -242,10 +158,11 @@ namespace bn {
             calculate_iterations(bn);
             auto vertex_queue = bn::sampling_order(bn);
             compute::default_random_engine rand_eng = compute::default_random_engine (queue, seed);
-            compressed_result<Probability> pr(this->nsamples, vertex_queue.size());
-
+            marginal_distribution<Probability> marginal_result(bn.begin(), bn.end());
             for (ulong i = 0; i< niter; i++) {
-                uncompressed_result<Probability> results(vertex_queue.size());
+                uncompressed_result<Probability> result_container(vertex_queue.size());
+                marginal_distribution<Probability> temp(bn.begin(), bn.end());
+                //validity = compute::vector<bool>(itersamples, context);
 
                 for(bn::vertex<Probability> v : vertex_queue) {
 
@@ -254,23 +171,22 @@ namespace bn {
                     std::reverse(parents.begin(), parents.end());
 
                     for (auto p : parents) {
-                        std::pair<std::vector<ulong>, std::optional<bcvec>> par = results.get(bn.index_of(p));
-                        bcvec par_res = par.second.value();
-                        parents_result.push_back(par_res);
+                        parents_result.push_back(result_container.get(bn.index_of(p)));
                     }
 
-                    auto res = simulate_node( bn[v].table().flat(),
+                    auto res = simulate_node( bn[v],
                                               parents_result,
                                               itersamples,
-                                              bn[v].states().size(),
                                               rand_eng);
-                    results.put(res, v, bn.children_of(v).size());
+
+                    for(int ix=0; ix<res.first.size(); ix++)
+                        marginal_result[v][ix] += res.first[ix];
+
+                    result_container.put(res.second, v, bn.children_of(v).size());
                 }
-
-                pr += results;
             }
-
-            return compute_total_result(bn, pr);
+            marginal_result.normalize();
+            return marginal_result;
         }
 
 
@@ -312,15 +228,14 @@ namespace bn {
          **/
         template <typename Probability>
         std::pair<std::vector<ulong>, bcvec> logic_sampling<Probability>::simulate_node(
-                const std::vector<Probability> flat_cpt,
+                const bn::random_variable<Probability> &var,
                 const std::vector<bcvec>& parents_result,
                 int dim,
-                int possible_states,
                 compute::default_random_engine rand_eng
         )
         {
-            std::vector<Probability> flat_cpt_accum = accumulate_cpt(flat_cpt, possible_states);
-            bcvec result = bcvec(dim, context, queue, possible_states);
+            std::vector<Probability> flat_cpt_accum = accumulate_cpt(var.table().flat(), var.states().size());
+            bcvec result = bcvec(dim, context, queue, var.states().size());
             prob_v device_cpt(flat_cpt_accum.size(), context);
             prob_v threshold_vec(dim, context);
             prob_v random_vec(dim, context);
@@ -333,7 +248,7 @@ namespace bn {
             }
             else
             {
-                int coeff = possible_states;
+                int coeff = var.states().size();
                 for (int i = 0; i < parents_result.size(); i++) {
                     if (i == 0)
                         compute::transform(parents_result[i].vec.begin(), parents_result[i].vec.end(),
@@ -350,7 +265,7 @@ namespace bn {
 
             distribution.generate(random_vec.begin(), random_vec.end(), rand_eng, queue);
             compute::transform(random_vec.begin(), random_vec.end(), threshold_vec.begin(), result.vec.begin(), _1 > _2, queue);
-            for(int i = 0; i + 2 < possible_states ; i++){
+            for(int i = 0; i + 2 < var.states().size() ; i++){
                 compute::vector<int> temp(dim, context);
                 compute::transform(index_vec.begin(), index_vec.end(),
                                    index_vec.begin(), _1 + 1, queue);
@@ -361,7 +276,12 @@ namespace bn {
                 compute::transform(temp.begin(), temp.end(), result.vec.begin(),
                                    result.vec.begin(), _1 + _2, queue);
             }
-
+            /*if(var.is_evidence()){
+                compute::transform(validity.begin(), validity.end(),
+                                   result.vec.begin(), result.vec.end(),
+                                   (_2 == var.state_value()) && _1,
+                                   queue);
+            }*/
             std::vector<ulong> compr_res = compute_result_general(result);
             return {compr_res, result};
         }
@@ -381,19 +301,6 @@ namespace bn {
             }
         }
 
-        template<typename Probability>
-        bn::marginal_distribution<Probability> logic_sampling<Probability>::compute_total_result(
-                const bayesian_network<Probability> &bn,
-                compressed_result<Probability> &cr
-        )
-        {
-            auto total_result = bn::marginal_distribution<Probability>(bn.begin(), bn.end());
-            for (bn::vertex<Probability> v = 0; v< cr.num_nodes(); v++) {
-                for (bn::state_t s = 0; s < cr[v].size(); ++s)
-                    total_result.set(v,s,Probability(cr[v][s])/(this->nsamples));
-            }
-            return total_result;
-        }
     } // namespace inference
 } // namespace bn
 
