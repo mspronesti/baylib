@@ -40,7 +40,9 @@ protected:
     }
 };
 
-// Basic starting test
+/**
+ * Basic test on a quite small network
+ */
 TEST_F(inference_tests, big_bang_Coma){
 
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
@@ -65,7 +67,9 @@ TEST_F(inference_tests, big_bang_Coma){
     }
 }
 
-// Test on non binary variables
+/**
+ * Test with networks with non-binary variables
+ */
 TEST_F(inference_tests, big_bang_VentureBNExpanded){
 
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
@@ -88,7 +92,9 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         }
     }
 
-    // Test on medium size bayesian network
+    /**
+     * Test on medium-size bayesian network
+     */
     TEST_F(inference_tests, big_bang_Credit){
 
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
@@ -145,7 +151,9 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         }
     }
 
-    // Test on mixture between absolute and non absolute probabilities
+    /**
+     * Test on mixture between absolute and non absolute probabilities
+     */
     TEST_F(inference_tests, big_bang_Asia){
 
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
@@ -171,7 +179,9 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         }
     }
 
-    // Test on Large network
+    /**
+     * Test a quite large network
+     */
     TEST_F(inference_tests, big_bang_Hail){
 
         https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FHailfinder2.5.xdsl
@@ -189,7 +199,9 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         }
     }
 
-    // Test on very large network (200 000 nodes)
+    /**
+     * Test on a quite large network (~ 200 000)
+     */
     TEST_F(inference_tests, big_bang_Link){
 
         //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl

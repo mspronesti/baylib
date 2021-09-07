@@ -5,7 +5,6 @@
 #ifndef BAYLIB_GIBBS_SAMPLING_HPP
 #define BAYLIB_GIBBS_SAMPLING_HPP
 
-#include <baylib/probability/marginal_distribution.hpp>
 #include <baylib/inference/abstract_inference_algorithm.hpp>
 #include <baylib/tools/random/random_generator.hpp>
 
@@ -29,10 +28,10 @@ namespace bn {
              */
         public:
             gibbs_worker(
-                const bn::bayesian_network<Probability> &bn,
-                ulong nvars,
-                ulong nsamples,
-                uint seed=0
+                    const bn::bayesian_network<Probability> &bn,
+                    ulong nvars,
+                    ulong nsamples,
+                    uint seed=0
             )
             : nsamples(nsamples)
             , bn(bn)
@@ -70,13 +69,26 @@ namespace bn {
             std::pair<ulong, ulong> sample_single_variable( bn::random_variable<Probability> & var )
             {
                 ulong index = var.id();
-                ulong states_size = var.states().size();
+                if(var.is_evidence()) {
+                    var_state_values[index] = var.evidence_state();
+                    return {index, var.evidence_state()};
+                }
 
-                auto samples = std::vector<Probability>(states_size, 0.0);
+                auto samples = std::vector<Probability>(var.states().size(), 0.0);
                 for(ulong i = 0; i < samples.size(); ++i){
                     var_state_values[index] = i;
-
+                    // here we evaluate P(Xi | x_t, t = 1, 2, ..., i-1, 1+1, ..., n)
+                    // which is P(Xi | markov_blanket(Xi))
+                    // which is proportional to
+                    //  P(Xi | parents(Xi)) * prod_{j=1}^{k} P(Yj | parents(Yj))
+                    //
+                    // where
+                    // - prod is the product from j = 1 to k
+                    // - k is the number of children of Xi
+                    // - Yj is the j-th child of X
                     samples[i] = get_probability(index);
+                    for(ulong j : bn.children_of(index))
+                        samples[i] *= get_probability(j);
                 }
 
                 // normalize
@@ -87,13 +99,13 @@ namespace bn {
 
                 Probability prob = rnd_gen.get_random();
                 ulong j;
-                for (j = 0; j < samples.size() - 1; ++j) {
-                    if (prob <= samples[j])
+                for(j = 0; j < samples.size() - 1; ++j)
+                {
+                    if(prob <= samples[j])
                         break;
                     else
                         prob -= samples[j];
                 }
-
                 var_state_values[index] = j;
                 return {index, j};
             }
@@ -105,9 +117,9 @@ namespace bn {
                 // their states
                 for(auto & p : bn.parents_of(n))
                     c.add(
-                            bn[p].name(),
-                            var_state_values[p]
-                            );
+                       bn[p].name(),
+                       var_state_values[p]
+                    );
 
                 const auto& cpt = bn[n].table();
                 return  cpt[c][var_state_values[n]];
@@ -122,6 +134,9 @@ namespace bn {
          * It's based on the Gibbs sampler.
          * It offers the possibility to use a custom generator and
          * an initial seed
+         * NOTICE: Gibbs sampling should not be used for bayesian networks
+         *         with deterministic nodes, i.e. nodes with some entry
+         *         in the cpt equal to 1.0
          * @tparam Probability : the type expressing the probability
          * @tparam Generator  : the random generator
          *                     (default Mersenne Twister pseudo-random generator)
@@ -130,15 +145,15 @@ namespace bn {
         class gibbs_sampling : public inference_algorithm<Probability>{
         public:
             explicit gibbs_sampling(
-                  ulong nsamples,
-                  uint nthreads = 1,
-                  uint seed = 0
+                    ulong nsamples,
+                    uint nthreads = 1,
+                    uint seed = 0
             )
             : inference_algorithm<Probability>(nsamples, nthreads, seed)
             { };
 
             bn::marginal_distribution<Probability> make_inference (
-                   const bayesian_network<Probability> &bn
+                    const bayesian_network<Probability> &bn
             ) override
             {
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
@@ -167,17 +182,20 @@ namespace bn {
                     for(auto  [var_id, state_val] : res.get())
                         ++marginal_distr[var_id][state_val];
                 }
-                marginal_distr /= (Probability)this->nsamples;
+
+                marginal_distr.normalize();
+                // cleaning in case of future usage
+                results.clear();
                 return marginal_distr;
             }
 
 
         private:
             void assign_worker(
-                const bayesian_network<Probability> &bn,
-                ulong nvars,
-                ulong samples_per_thread,
-                ulong seed
+                    const bayesian_network<Probability> &bn,
+                    ulong nvars,
+                    ulong samples_per_thread,
+                    ulong seed
             )
             {
                 auto job = [this, &bn](ulong nvars, ulong samples_per_thread, ulong seed){

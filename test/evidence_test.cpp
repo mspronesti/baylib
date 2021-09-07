@@ -33,7 +33,7 @@ protected:
         auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
 
         algorithms = { likely
-                     //, gibbs
+                      , gibbs
                      //, logic
         };
     }
@@ -63,7 +63,7 @@ TEST_F(evidence_test, evidence_coma){
         ASSERT_NEAR(result[net1.index_of("SevHeadaches")][1], .36, TOLERANCE);
     }
 
-    net1["Coma"].reset_evidence();
+    net1["Coma"].clear_evidence();
     net1["IncrSerCal"].set_as_evidence(0);
     net1["SevHeadaches"].set_as_evidence(1);
 
@@ -86,7 +86,8 @@ TEST_F(evidence_test, evidence_coma){
     }
 }
 
-// Barley has very big cpts, this means that this test could take some time
+// Barley is quite a heavy network with very big CPTs,
+// hence  this test might take some time
 TEST_F(evidence_test, evidence_barley){
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FBarleyWeed.xdsl
     auto net = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/BarleyWeed.xdsl");
