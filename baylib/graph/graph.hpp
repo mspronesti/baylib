@@ -31,7 +31,7 @@ namespace bn {
      * @return       : bundled properties range
      */
     template <typename Vertex>
-    auto bundles(const graph<Vertex> & _g)  {
+    auto bundles(graph<Vertex> & _g)  {
         using boost::adaptors::transformed;
         auto accessor = [map = get(boost::vertex_bundle, _g)](auto vid) -> auto& {
             return map[vid];

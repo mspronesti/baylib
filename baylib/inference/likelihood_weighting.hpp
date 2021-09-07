@@ -117,7 +117,7 @@ namespace bn {
 
                     const auto & cpt = var.table();
                     if(var.is_evidence()) {
-                        ulong evidence_state = var.state_value();
+                        ulong evidence_state = var.evidence_state();
                         weight *= cpt[parent_state][evidence_state];
                         pattern[vid] = evidence_state;
                     } else {

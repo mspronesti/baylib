@@ -25,8 +25,16 @@ namespace bn {
 
         // overloading begin and end to easily loop over random_variables
         // avoiding packing copies inside other facilities
+        auto begin(){
+            return bn::bundles(*graph).begin();
+        }
+
         auto begin() const {
             return bn::bundles(*graph).begin();
+        }
+
+        auto end() {
+            return bn::bundles(*graph).end();
         }
 
         auto end() const {
@@ -48,10 +56,11 @@ namespace bn {
             auto v = index_of(name);
             boost::remove_vertex(v, *graph);
 
-            var_map.erase(name);
             for (auto & var : *this)
-                if(has_dependency(name, var.name()))
+                if (has_dependency(name, var.name()))
                     var.parents_info.remove(name);
+
+            var_map.erase(name);
         }
 
         void add_dependency(const std::string &src_name, const std::string &dest_name){
@@ -235,9 +244,9 @@ namespace bn {
             // make sure the cardinality of parents is correct
             BAYLIB_ASSERT(cond.size() == nparents,
                           "condition contains "
-                          + std::to_string(cond.size())
-                          + " while " + var_name + " has "
-                          + std::to_string(nparents),
+                          << cond.size() << " while "
+                          << var_name << " has "
+                          << nparents,
                           std::logic_error)
 
             // make sure the parents are actually correct

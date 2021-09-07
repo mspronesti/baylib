@@ -75,7 +75,7 @@ namespace  bn {
             _is_evidence = true;
         }
 
-        void reset_evidence() {
+        void clear_evidence() {
             _is_evidence = false;
         }
 
@@ -83,7 +83,7 @@ namespace  bn {
             return _is_evidence;
         }
 
-        unsigned long state_value() const {
+        unsigned long evidence_state() const {
             BAYLIB_ASSERT(_is_evidence,
                           "Random variable " << _name
                           << " is not an evidence",

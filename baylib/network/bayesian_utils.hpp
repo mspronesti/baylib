@@ -141,11 +141,11 @@ namespace  bn{
      * @param bn            : the Bayesian network model
      */
     template <typename Probability>
-    void reset_network_evidences(const bn::bayesian_network<Probability> &bn)
+    void clear_network_evidences(bn::bayesian_network<Probability> &bn)
     {
-        std::for_each(bn.begin(), bn.end(), [](auto & var){
+        std::for_each(bn.begin(), bn.end(), [](bn::random_variable<Probability> & var){
             if(var.is_evidence())
-                var.reset_evidence();
+                var.clear_evidence();
         });
     }
 
