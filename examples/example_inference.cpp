@@ -59,7 +59,7 @@ void example_likelihood_weighing(const bn::bayesian_network<double>& net){
 
 int main(){
     bn::xdsl_parser<double> parser;
-    auto network = parser.deserialize("../../examples/xdsl/Hailfinder2.5.xdsl");
+    auto network = parser.deserialize("../../examples/xdsl/Credit.xdsl");
     example_logic_sampling(network),
     example_gibbs_sampling(network);
     example_likelihood_weighing(network);

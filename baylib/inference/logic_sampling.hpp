@@ -126,7 +126,6 @@ namespace bn {
         private:
             compute::context context;
             compute::command_queue queue;
-            //compute::vector<bool> validity;
             size_t memory;
             ulong niter;
             ulong itersamples;
@@ -276,12 +275,6 @@ namespace bn {
                 compute::transform(temp.begin(), temp.end(), result.vec.begin(),
                                    result.vec.begin(), _1 + _2, queue);
             }
-            /*if(var.is_evidence()){
-                compute::transform(validity.begin(), validity.end(),
-                                   result.vec.begin(), result.vec.end(),
-                                   (_2 == var.state_value()) && _1,
-                                   queue);
-            }*/
             std::vector<ulong> compr_res = compute_result_general(result);
             return {compr_res, result};
         }

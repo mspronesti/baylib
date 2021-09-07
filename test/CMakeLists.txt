@@ -5,6 +5,7 @@ add_executable(parser_test parser_test.cpp)
 add_executable(cow_test cow_test.cpp)
 add_executable(inference_test inference_test.cpp)
 add_executable(evidence_test evidence_test.cpp)
+add_executable(regression_test regression_inference_test.cpp)
 
 set_target_properties( bnet_test PROPERTIES OUTPUT_NAME "bnet" )
 set_target_properties( rank_test PROPERTIES OUTPUT_NAME "rank" )
@@ -13,7 +14,7 @@ set_target_properties( parser_test PROPERTIES OUTPUT_NAME "parser")
 set_target_properties( cow_test PROPERTIES OUTPUT_NAME "cow")
 set_target_properties( inference_test PROPERTIES OUTPUT_NAME "inference")
 set_target_properties( evidence_test PROPERTIES OUTPUT_NAME "evidence")
-
+set_target_properties( regression_test PROPERTIES OUTPUT_NAME "regression")
 
 # google test
 find_package(GTest REQUIRED)
@@ -30,3 +31,4 @@ add_gtest(parser)
 add_gtest(cow)
 add_gtest(inference)
 add_gtest(evidence)
+add_gtest(regression)

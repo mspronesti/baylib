@@ -85,3 +85,22 @@ TEST_F(evidence_test, evidence_coma){
         ASSERT_NEAR(result[net1.index_of("SevHeadaches")][1], 1, TOLERANCE);
     }
 }
+
+// Barley has very big cpts, this means that this test could take some time
+TEST_F(evidence_test, evidence_barley){
+    //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FBarleyWeed.xdsl
+    auto net = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/BarleyWeed.xdsl");
+    net["frspsum"].set_as_evidence(0);
+    for(const auto& sampling : algorithms){
+        auto result = sampling->make_inference(net);
+        ASSERT_NEAR(result[net.index_of("udbr")][0], .16, TOLERANCE);
+        ASSERT_NEAR(result[net.index_of("udbr")][1], .03, TOLERANCE);
+        ASSERT_NEAR(result[net.index_of("udbr")][2], .07, TOLERANCE);
+        ASSERT_NEAR(result[net.index_of("udbr")][3], .09, TOLERANCE);
+        ASSERT_NEAR(result[net.index_of("udbr")][4], .14, TOLERANCE);
+        ASSERT_NEAR(result[net.index_of("udbr")][5], .18, TOLERANCE);
+        ASSERT_NEAR(result[net.index_of("udbr")][6], .21, TOLERANCE);
+        ASSERT_NEAR(result[net.index_of("udbr")][7], .10, TOLERANCE);
+        ASSERT_NEAR(result[net.index_of("udbr")][8], .01, TOLERANCE);
+    }
+}

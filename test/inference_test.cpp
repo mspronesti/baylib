@@ -22,6 +22,7 @@ class inference_tests : public ::testing::Test{
 protected:
     typedef std::shared_ptr<inference_algorithm<Probability>> algorithm_ptr;
     std::vector<algorithm_ptr> algorithms;
+    std::vector<algorithm_ptr> algorithms_det;
 
     inference_tests() = default;
     ~inference_tests() override = default;
@@ -33,6 +34,8 @@ protected:
 
         algorithms = { gibbs,
                        logic,
+                       likely};
+        algorithms_det = { logic,
                        likely};
     }
 };
@@ -148,7 +151,7 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
         auto net4 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/AsiaDiagnosis.xdsl");
 
-        for(const auto& sampling : algorithms){
+        for(const auto& sampling : algorithms_det){
             auto result = sampling->make_inference(net4);
 
             ASSERT_NEAR(result[net4.index_of("Tuberculosis")][0], .99, TOLERANCE);
@@ -174,7 +177,7 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FHailfinder2.5.xdsl
         auto net5 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Hailfinder2.5.xdsl");
 
-        for(const auto& sampling : algorithms){
+        for(const auto& sampling : algorithms_det){
             auto result = sampling->make_inference(net5);
 
             ASSERT_NEAR(result[net5.index_of("R5Fcst")][0], 0.25, TOLERANCE);
@@ -192,7 +195,7 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl
         auto net6 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Link.xdsl");
 
-        for(const auto& sampling : algorithms){
+        for(const auto& sampling : algorithms_det){
             auto result = sampling->make_inference(net6);
 
             ASSERT_NEAR(result[net6.index_of("N59_d_g")][0], 0., TOLERANCE);
