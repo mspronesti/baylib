@@ -36,6 +36,7 @@ set (src
     inference/gibbs_sampling.hpp
     inference/likelihood_weighting.hpp
     inference/logic_sampling.hpp
+    inference/rejection_sampling.hpp
     network/bayesian_network.hpp
     network/bayesian_utils.hpp
     network/random_variable.hpp

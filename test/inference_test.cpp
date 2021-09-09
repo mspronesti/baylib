@@ -8,6 +8,7 @@
 #include <baylib/inference/gibbs_sampling.hpp>
 #include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
+#include <baylib/inference/rejection_sampling.hpp>
 
 
 #define THREADS std::thread::hardware_concurrency()
@@ -31,12 +32,18 @@ protected:
         auto logic = std::make_shared<logic_sampling<Probability>>(MEMORY, SAMPLES);
         auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
         auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
+        auto rejection = std::make_shared<rejection_sampling<Probability, std::default_random_engine>>(SAMPLES, THREADS);
 
         algorithms = { gibbs,
                        logic,
-                       likely};
+                       likely,
+                       rejection
+                       };
+
         algorithms_det = { logic,
-                       likely};
+                           likely,
+                           rejection
+                          };
     }
 };
 
@@ -200,7 +207,7 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
     }
 
     /**
-     * Test on a quite large network (~ 200 000)
+     * Test on a large network (~ 200 000)
      */
     TEST_F(inference_tests, big_bang_Link){
 

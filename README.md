@@ -21,6 +21,7 @@ Here's a list of the main requested features:
 * Gibbs Sampling - C++17 threads
 * Likelihood Weighting - C++17 threads
 * Logic Sampling - GPGPU with boost compute
+* Rejection Sampling - C++17 threads
 
 ## Install Dependencies
 Under Linux, you can use 
@@ -62,9 +63,6 @@ target_link_libraries(<your_executable> baylib)
 Baylib allows performing approximate inference on Bayesian Networks loaded from xdsl files
 or created by hand (either using named nodes or numeric identifiers). 
 
-Please notice that the current release
-does not support inference when providing evidences.
-
 Have a look at [examples](examples) for more.
 
 ## External references
@@ -74,3 +72,4 @@ Have a look at [examples](examples) for more.
 * [likelihood weighting](https://arxiv.org/pdf/1304.1504.pdf)
 * [likelihood weighting pseudo-code](https://github.com/aimacode/aima-pseudocode/blob/master/md/Likelihood-Weighting.md)
 * [logic sampling](https://www.academia.edu/35954159/Propagating_Uncertainty_in_Bayesian_Networks_by_Probabilistic_Logic_Sampling)
+* [rejection sampling pseudo-code](https://github.com/aimacode/aima-pseudocode/blob/master/md/Rejection-Sampling.md)

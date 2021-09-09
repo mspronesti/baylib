@@ -8,7 +8,7 @@
 #include <baylib/inference/gibbs_sampling.hpp>
 #include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
-
+#include <baylib/inference/rejection_sampling.hpp>
 
 #define THREADS std::thread::hardware_concurrency()
 #define SAMPLES 10000
@@ -28,14 +28,14 @@ protected:
     ~evidence_test() override = default;
 
     void SetUp() override{
-        auto logic = std::make_shared<logic_sampling<Probability>>(MEMORY, SAMPLES);
         auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
         auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
+        auto rejection = std::make_shared<rejection_sampling<Probability>>(SAMPLES, THREADS);
 
         algorithms = { likely
                       , gibbs
-                     //, logic
-        };
+                      , rejection
+                    };
     }
 };
 
