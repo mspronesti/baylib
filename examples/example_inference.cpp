@@ -1,66 +1,57 @@
-//
-// Created by paolo on 31/08/21.
-//
-
 #include <baylib/parser/xdsl_parser.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
 #include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
 #include <iostream>
 
+// Evidences in a bayesian network are a way to include posteriori knowledge
+// about the state of the network and analyze how this knowledge affects the
+// rest of the network
 
-/*
- * Inference algorithms are the main feature of the baylib library, they are all located under
- * the bn::inference namespace, and they all inherit from the abstract class inference_algorithm.
- * All algorithms have 2 methods:
- * - The constructor that takes in input the hyperparameters and settings of the algorithm
- * - The make_inference method that takes in input a reference of the bayesian network and returns a marginal_probability structure
- */
-
-void example_logic_sampling(const bn::bayesian_network<double>& net){
-    /*
-     * Logic sampling is a simple sampling algorithm, the implementation uses openCL to make
-     * the relevant computations on GPGPU if it's available; custom openCL devices can also be used
-     * by passing them through the constructor.
-     * The algorithm is nearly invariant to the number of samples requested as long as enough memory
-     * on the device is available, for this reason in the constructor you must specify how much memory
-     * the algorithm can use, if not enough memory is provided for the requested number of samples
-     * the algorithm still works but can perform slower than expected.
-    */
-    bn::inference::logic_sampling<double> logic(2*std::pow(2,30), 100000);
-    auto result = logic.make_inference(net);
-    std::cout << "LOGIC SAMPLING:\n";
-    std::cout << result;
-}
-
-void example_gibbs_sampling(const bn::bayesian_network<double>& net){
-    /*
-     * Gibbs sampling is a simple MCMC algorithm, the implementation is based on multithreading using
-     * std::async from c++11, for low number of samples this algorithm or likelihood sampling is
-     * preferable to logic_sampling
-     */
-    bn::inference::gibbs_sampling<double> gibbs(10000, 4);
-    auto result = gibbs.make_inference(net);
-    std::cout << "GIBBS SAMPLING:\n";
-    std::cout << result;
-}
-
-void example_likelihood_weighing(const bn::bayesian_network<double>& net){
-    /*
-     * Likelihood sampling is a simple sampling algorithm, the implementation is based on multithreading using
-     * std::async from c++11, for networks without evidence this algorithm is conceptually very similar to logic_sampling,
-     * this can be used for making benchmarks on performance of multithreading approach vs GPGPU.
-     */
-    bn::inference::likelihood_weighting<double> likely(10000, 4);
-    auto result = likely.make_inference(net);
-    std::cout << "LIKELIHOOD WEIGHTING:\n";
-    std::cout << result;
-}
-
-int main(){
+int main(int argc, char** argv){
+    // Evidences can be applied to all types of networks, we use Credit as an example
+    // https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
     bn::xdsl_parser<double> parser;
     auto network = parser.deserialize("../../examples/xdsl/Credit.xdsl");
-    example_logic_sampling(network),
-    example_gibbs_sampling(network);
-    example_likelihood_weighing(network);
+
+    // Here we declare the Gibbs sampling algorithm to perform approximate inference
+    // PLEASE NOTICE: Gibbs Sampling fails with bayesian networks with deterministic nodes
+    //                (it computes wrong marginal probabilities, it's a well known theoretical
+    //                limit of this sampling approach) hence it should not be used in such cases
+    bn::inference::gibbs_sampling<double> gibbs_sample(10000, 4);
+
+    // getting the output only takes passing the bayesian network to the make_inference
+    // method. Every algorithm has this method
+    std::cout << gibbs_sample.make_inference(network);
+
+    // Let's now assume we know, as evidence, the values of "Debit" and "Income"
+    // to see how to inference simulation behaves
+    network["Debit"].set_as_evidence(0);
+    network["Income"].set_as_evidence(1);
+
+    // To detect if a node was set as evidence you can use the is_evidence and evidence_state methods
+    if(network["Debit"].is_evidence())
+        std::cout << network["Debit"].evidence_state() << '\n';
+
+    // The algorithm will automatically detect all evidences set and use them in the inferences
+    std::cout << gibbs_sample.make_inference(network) << '\n';
+
+    // To clear the evidences use the clear_evidence on the desired nodes or use the util clear_network_evidences
+    // to clean all the network from evidences
+    network["Debit"].clear_evidence();
+    clear_network_evidences(network);
+
+    // The network now should be on its base state
+    // Let's know try with a different algorithm to see if the results are coherent
+    // with gibbs sampling: likelihood weighting
+    bn::inference::likelihood_weighting<double> likely_weigh(10000, 4);
+    std::cout << likely_weigh.make_inference(network) << '\n';
+
+    // Different evidences can now be specified
+    // let's see how likelihood-weighting behaves
+    network["Debit"].set_as_evidence(1);
+    network["Income"].set_as_evidence(0);
+
+    std::cout << likely_weigh.make_inference(network) << '\n';
+    return 0;
 }
