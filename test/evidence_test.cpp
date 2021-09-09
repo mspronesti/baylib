@@ -13,7 +13,7 @@
 #define THREADS std::thread::hardware_concurrency()
 #define SAMPLES 10000
 #define MEMORY 500*(std::pow(2,30))
-#define TOLERANCE 0.05
+#define TOLERANCE 0.06
 
 using namespace bn::inference;
 using Probability = double;
