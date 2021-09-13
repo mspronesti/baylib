@@ -174,7 +174,7 @@ namespace bn{
             }
 
 
-        private:
+        protected:
             friend class bn::bayesian_network<Probability>;
             bn::cow::shared_ptr<CPTData<Probability>> d;
             // assigns a condition its index in the cpt

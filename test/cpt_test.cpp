@@ -6,6 +6,7 @@
 #include <baylib/network/bayesian_network.hpp>
 #include <baylib/probability/condition.hpp>
 #include <baylib/network/bayesian_utils.hpp>
+#include <baylib/probability/icpt.hpp>
 
 class cpt_tests : public ::testing::Test {
 protected:
@@ -194,6 +195,22 @@ TEST_F(cpt_tests, cow){
     const auto & a8 = a2.at(c);
 
     ASSERT_NE(std::addressof(a7), std::addressof(a8));
+}
+
+
+TEST_F(cpt_tests, icp){
+    bn::icpt<double> icpt({2, 2}, 2);
+    ASSERT_DOUBLE_EQ(icpt[0][0], 0.5);
+    ASSERT_DOUBLE_EQ(icpt[0][1], 0.5);
+    ASSERT_DOUBLE_EQ(icpt[1][0], 0.5);
+    ASSERT_DOUBLE_EQ(icpt[1][1], 0.5);
+
+    icpt[0][0] = 0.2;
+    auto value = icpt[{0, 0}][0];
+    ASSERT_DOUBLE_EQ(value, 0.2);
+
+    icpt[0][1] = 0.4;
+    icpt[1][0] = 0.2;
 }
 
 

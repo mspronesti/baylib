@@ -9,6 +9,7 @@
 #include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
 #include <baylib/inference/rejection_sampling.hpp>
+#include <baylib/inference/adaptive_importance_sampling.hpp>
 
 
 #define THREADS std::thread::hardware_concurrency()
@@ -33,16 +34,19 @@ protected:
         auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
         auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
         auto rejection = std::make_shared<rejection_sampling<Probability, std::default_random_engine>>(SAMPLES, THREADS);
+        auto adaptive =  std::make_shared<adaptive_importance_sampling<Probability>>(SAMPLES, THREADS);
 
-        algorithms = { gibbs,
+        algorithms = { /*gibbs,
                        logic,
                        likely,
-                       rejection
+                       rejection*/ adaptive
                        };
 
-        algorithms_det = { logic,
+        algorithms_det = { /*logic,
                            likely,
                            rejection
+                           */
+                            adaptive
                           };
     }
 };

@@ -9,9 +9,10 @@
 #include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
 #include <baylib/inference/rejection_sampling.hpp>
+#include <baylib/inference/adaptive_importance_sampling.hpp>
 
 #define THREADS std::thread::hardware_concurrency()
-#define SAMPLES 10000
+#define SAMPLES 50000
 #define MEMORY 500*(std::pow(2,30))
 #define TOLERANCE 0.06
 
@@ -31,13 +32,27 @@ protected:
         auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
         auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
         auto rejection = std::make_shared<rejection_sampling<Probability>>(SAMPLES, THREADS);
+        auto adaptive =  std::make_shared<adaptive_importance_sampling<Probability>>(SAMPLES, THREADS);
 
-        algorithms = { likely
+        algorithms = { /*likely
                       , gibbs
-                      , rejection
+                      , rejection*/
+                        adaptive
                     };
     }
 };
+
+TEST_F(evidence_test, evidence_noisy){
+    auto net1 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/VentureBN.xdsl");
+    net1["Forecast"].set_as_evidence(0);
+    for(const auto& sampling : algorithms){
+        auto result = sampling->make_inference(net1);
+        ASSERT_NEAR(result[net1.index_of("Success")][0], .5, TOLERANCE);
+        ASSERT_NEAR(result[net1.index_of("Success")][1], .5, TOLERANCE);
+
+        ASSERT_NEAR(result[net1.index_of("Forecast")][0], 1, TOLERANCE);
+    }
+}
 
 TEST_F(evidence_test, evidence_coma){
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl

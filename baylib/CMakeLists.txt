@@ -50,7 +50,8 @@ set (src
     tools/threads/thread_pool.hpp
     tools/random/random_generator.hpp
     baylib_assert.h
-    )
+    inference/adaptive_importance_sampling.hpp
+    probability/icpt.hpp)
 
 set (BAYLIB_INCLUDE_LIBS ../baylib)
 
