@@ -1,10 +1,15 @@
 #ifndef BAYLIB_ABSTRACT_INFERENCE_ALGORITHM_HPP
 #define BAYLIB_ABSTRACT_INFERENCE_ALGORITHM_HPP
 
+#define CL_TARGET_OPENCL_VERSION 220
+
 #include <baylib/network/bayesian_utils.hpp>
 #include <baylib/probability/marginal_distribution.hpp>
 #include <baylib/tools/random/random_generator.hpp>
-
+#include <baylib/tools/gpu/gpu_utils.hpp>
+#include <boost/compute/core.hpp>
+#include <boost/compute.hpp>
+#include <boost/compute/device.hpp>
 #include <future>
 
 namespace bn {
@@ -70,8 +75,7 @@ namespace bn {
                     unsigned int nthreads = 1,
                     unsigned int seed = 0
             )
-            : inference_algorithm<Probability>(nsamples, seed)
-            {
+                    : inference_algorithm<Probability>(nsamples, seed) {
                 set_number_of_threads(nthreads);
             }
 
@@ -84,8 +88,7 @@ namespace bn {
              */
             bn::marginal_distribution<Probability> make_inference(
                     const bn::bayesian_network<Probability> &bn
-            ) override
-            {
+            ) override {
                 typedef std::future<bn::marginal_distribution<Probability>> result;
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
                                           [](auto &var) { return bn::cpt_filled_out(var); }),
@@ -119,8 +122,7 @@ namespace bn {
                 return inference_result;
             }
 
-            void set_number_of_threads(unsigned int _nthreads)
-            {
+            void set_number_of_threads(unsigned int _nthreads) {
                 nthreads = _nthreads >= std::thread::hardware_concurrency() ?
                            std::thread::hardware_concurrency() : _nthreads > 0 ?
                                                                  _nthreads : 1;
@@ -139,15 +141,115 @@ namespace bn {
         /**
          * This class models an approximate inference algorithm
          * vectorized with a GPGPU approach.
-         * <further details here @paolo>
+         * the method simulate_node samples a node given the results of
+         * previous simulations of its parents nodes
          * @tparam Probability  : the type expressing probability
          */
-        template <typename Probability>
-        class vectorized_inference_algorithm /*: public inference_algorithm<Probability>*/ {
-         // TODO: to be implemented (@paolo)
+        namespace compute = boost::compute;
+        using boost::compute::lambda::_1;
+        using boost::compute::lambda::_2;
+
+        template<typename Probability>
+        class vectorized_inference_algorithm : public inference_algorithm<Probability> {
+
+
         public:
+            vectorized_inference_algorithm(ulong n_samples, size_t memory, uint seed = 0,
+                                           const compute::device &device = compute::system::default_device()) :
+                                           inference_algorithm<Probability>(n_samples, seed),
+                                           memory(memory), device(device), context(device),
+                                           queue(context, device), rand(queue, seed) {}
+
+            using prob_v = boost::compute::vector<Probability>;
+            using r_vec = boost::compute::vector<cl_short>;
+
         protected:
+
+            compute::device device;
+            compute::context context;
+            compute::command_queue queue;
+            compute::default_random_engine rand;
             size_t memory;
+
+            std::vector<Probability> accumulate_cpt(bn::cow::cpt<Probability> cpt) {
+                std::vector<Probability> flat_cpt = cpt.flat();
+                for (bn::state_t i = 0; i < flat_cpt.size(); i += cpt.number_of_states())
+                    for (bn::state_t j = 1; j < cpt.number_of_states() - 1; j++)
+                        flat_cpt[i + j] += flat_cpt[i + j - 1];
+                return flat_cpt;
+            }
+
+            r_vec simulate_node(
+                    const cow::cpt<Probability> &cpt,
+                    std::vector<bcvec> &parents_result,
+                    int dim) {
+
+                std::vector<Probability> flat_cpt_accum = accumulate_cpt(cpt);
+                r_vec result(dim, context);
+                prob_v device_cpt(flat_cpt_accum.size(), context);
+                prob_v threshold_vec(dim, context);
+                prob_v random_vec(dim, context);
+                compute::uniform_real_distribution<Probability> distribution(0, 1);
+                compute::vector<cl_short> index_vec(dim, cl_short(0), queue);
+                compute::future<void> copy = compute::copy_async(flat_cpt_accum.begin(),
+                                                                 flat_cpt_accum.end(),
+                                                                 device_cpt.begin(), queue);
+
+                if (!parents_result.empty()) {
+                    uint coeff = cpt.number_of_states();
+                    for (int i = 0; i < parents_result.size(); i++) {
+                        if (i == 0)
+                            compute::transform(parents_result[i].get_states().begin(),
+                                               parents_result[i].get_states().end(),
+                                               index_vec.begin(),
+                                               _1 * coeff, queue);
+                        else
+                            compute::transform(parents_result[i].get_states().begin(),
+                                               parents_result[i].get_states().end(),
+                                               index_vec.begin(),
+                                               index_vec.begin(),
+                                               _1 * coeff + _2, queue);
+                        coeff *= parents_result[i].cardinality;
+                    }
+                }
+
+                copy.get();
+                compute::gather(index_vec.begin(),
+                                index_vec.end(),
+                                device_cpt.begin(),
+                                threshold_vec.begin(), queue);
+
+                distribution.generate(random_vec.begin(),
+                                      random_vec.end(),
+                                      rand, queue);
+                compute::transform(random_vec.begin(), random_vec.end(), threshold_vec.begin(), result.begin(), _1 > _2,
+                                   queue);
+                for (int i = 0; i + 2 < cpt.number_of_states(); i++) {
+                    compute::vector<int> temp(dim, context);
+                    compute::transform(index_vec.begin(),
+                                       index_vec.end(),
+                                       index_vec.begin(),
+                                       _1 + 1, queue);
+                    compute::gather(index_vec.begin(),
+                                    index_vec.end(),
+                                    device_cpt.begin(),
+                                    threshold_vec.begin(), queue);
+                    compute::transform(random_vec.begin(),
+                                       random_vec.end(),
+                                       threshold_vec.begin(),
+                                       temp.begin(),
+                                       _1 > _2, queue);
+                    compute::transform(temp.begin(),
+                                       temp.end(),
+                                       result.begin(),
+                                       result.begin(),
+                                       _1 + _2, queue);
+                }
+
+                return result;
+            }
+
+
         };
 
     } // namespace inference

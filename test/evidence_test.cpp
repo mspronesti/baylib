@@ -10,6 +10,7 @@
 #include <baylib/inference/likelihood_weighting.hpp>
 #include <baylib/inference/rejection_sampling.hpp>
 #include <baylib/inference/adaptive_importance_sampling.hpp>
+#include <baylib/network/bayesian_utils.hpp>
 
 #define THREADS std::thread::hardware_concurrency()
 #define SAMPLES 50000
@@ -99,6 +100,28 @@ TEST_F(evidence_test, evidence_coma){
         ASSERT_NEAR(result[net1.index_of("SevHeadaches")][0], 0, TOLERANCE);
         ASSERT_NEAR(result[net1.index_of("SevHeadaches")][1], 1, TOLERANCE);
     }
+
+    bn::clear_network_evidences(net1);
+    net1["SevHeadaches"].set_as_evidence(1);
+
+    for(const auto& sampling : algorithms){
+        auto result = sampling->make_inference(net1);
+        ASSERT_NEAR(result[net1.index_of("MetastCancer")][0], .19, TOLERANCE);
+        ASSERT_NEAR(result[net1.index_of("MetastCancer")][1], .81, TOLERANCE);
+
+        ASSERT_NEAR(result[net1.index_of("IncrSerCal")][0], .31, TOLERANCE);
+        ASSERT_NEAR(result[net1.index_of("IncrSerCal")][1], .69, TOLERANCE);
+
+        ASSERT_NEAR(result[net1.index_of("Coma")][0], .30, TOLERANCE);
+        ASSERT_NEAR(result[net1.index_of("Coma")][1], .70, TOLERANCE);
+
+        ASSERT_NEAR(result[net1.index_of("BrainTumor")][0], .04, TOLERANCE);
+        ASSERT_NEAR(result[net1.index_of("BrainTumor")][1], .96, TOLERANCE);
+
+        ASSERT_NEAR(result[net1.index_of("SevHeadaches")][0], 0, TOLERANCE);
+        ASSERT_NEAR(result[net1.index_of("SevHeadaches")][1], 1, TOLERANCE);
+    }
+
 }
 
 // Barley is quite a heavy network with very big CPTs,

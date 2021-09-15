@@ -173,6 +173,10 @@ namespace bn{
                 return seed;
             }
 
+            [[nodiscard]] unsigned long number_of_states() const{ return d->nstates;}
+
+            [[nodiscard]] unsigned long number_of_conditions() const{ return d.data()->table.size();}
+
 
         protected:
             friend class bn::bayesian_network<Probability>;

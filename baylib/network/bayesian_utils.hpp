@@ -149,6 +149,32 @@ namespace  bn{
         });
     }
 
+    template <typename Probability>
+    std::vector<ulong> ancestors_of_evidence(const bn::bayesian_network<Probability> &bn){
+        std::vector<bool> result(bn.number_of_variables(), false);
+        for (uint i = 0; i < bn.number_of_variables(); ++i) {
+            if(bn[i].is_evidence())
+                mark_ancestors(bn, i, result);
+        }
+        std::vector<ulong> ordered_result;
+        for (auto vertex: sampling_order(bn)) {
+            if(result[vertex])
+                ordered_result.emplace_back(vertex);
+        }
+        return ordered_result;
+    }
+
+    template <typename Probability>
+    static void mark_ancestors(const bn::bayesian_network<Probability> &bn, ulong v_id, std::vector<bool> &ancestor){
+        ancestor[v_id] = true;
+        for (ulong p_id: bn.parents_of(v_id)) {
+            if(ancestor[p_id])
+                continue;
+            ancestor[p_id] = true;
+            mark_ancestors(bn, p_id, ancestor);
+        }
+    }
+
 } // namespace bn
 
 #endif //BAYLIB_BAYESIAN_UTILS_HPP

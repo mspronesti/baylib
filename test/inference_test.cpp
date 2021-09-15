@@ -13,7 +13,7 @@
 
 
 #define THREADS std::thread::hardware_concurrency()
-#define SAMPLES 10000
+#define SAMPLES 20000
 #define MEMORY 500*(std::pow(2,30))
 #define TOLERANCE 0.05
 
@@ -30,23 +30,23 @@ protected:
     ~inference_tests() override = default;
 
     void SetUp() override{
-        auto logic = std::make_shared<logic_sampling<Probability>>(MEMORY, SAMPLES);
+        auto logic = std::make_shared<logic_sampling<Probability>>(SAMPLES, MEMORY);
         auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
         auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
         auto rejection = std::make_shared<rejection_sampling<Probability, std::default_random_engine>>(SAMPLES, THREADS);
         auto adaptive =  std::make_shared<adaptive_importance_sampling<Probability>>(SAMPLES, THREADS);
 
-        algorithms = { /*gibbs,
+        algorithms = { gibbs,
                        logic,
                        likely,
-                       rejection*/ adaptive
+                       rejection,
+                       adaptive
                        };
 
-        algorithms_det = { /*logic,
+        algorithms_det = { logic,
                            likely,
-                           rejection
-                           */
-                            adaptive
+                           rejection,
+                           adaptive
                           };
     }
 };

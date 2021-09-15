@@ -19,7 +19,6 @@ namespace bn{
         explicit icpt(cow::cpt<Probability>& cpt, bool empty=false):
         bn::cow::cpt<Probability>(cpt){
             if(empty){
-
                 for(int i=0; i < this->size(); i++){
                     for(int j=0; j < (*this)[i].size(); j++)
                         (*this)[i][j] = 0;
@@ -47,12 +46,16 @@ namespace bn{
             }
         }
 
-        void absorb(const icpt<Probability>& other, float learning_rate){
+        double absorb(const icpt<Probability>& other, float learning_rate){
+            double tot_difference = 0.;
             for (int i = 0; i < this->size(); ++i) {
                 for(int j = 0; j < (*this)[i].size(); ++j){
-                    (*this)[i][j] += learning_rate*(other[i][j] - (*this)[i][j]);
+                    double difference = other[i][j] - (*this)[i][j];
+                    tot_difference += std::pow(learning_rate * difference, 2);
+                    (*this)[i][j] += learning_rate*(difference);
                 }
             }
+            return sqrt(tot_difference);
         }
 
     };
