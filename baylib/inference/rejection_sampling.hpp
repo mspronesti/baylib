@@ -26,26 +26,15 @@ namespace bn{
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template<typename Probability = double, typename Generator = std::mt19937>
-        class rejection_sampling : public inference_algorithm<Probability> {
+        class rejection_sampling : public parallel_inference_algorithm<Probability> {
         public:
             explicit rejection_sampling(
                     ulong nsamples,
                     uint nthreads = 1,
                     uint seed = 0
             )
-            : inference_algorithm<Probability>(nsamples, nthreads, seed)
+            : parallel_inference_algorithm<Probability>(nsamples, nthreads, seed)
             { };
-
-            bn::marginal_distribution<Probability> make_inference (
-                    const bayesian_network<Probability> &bn
-            ) override
-            {
-                auto job = [this, &bn](ulong samples, uint seed){
-                    return sample_step(bn, samples, seed);
-                };
-
-                return assign_and_compute(bn, job, this->nsamples, this->nthreads, this->seed);
-            }
 
 
         private:
@@ -53,7 +42,7 @@ namespace bn{
                 const bn::bayesian_network<Probability> & bn,
                 ulong nsamples,
                 uint seed
-            )
+            ) override
             {
                 std::vector<bn::state_t> var_state_values;
                 Generator rnd_gen(seed);

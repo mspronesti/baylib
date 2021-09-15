@@ -23,7 +23,7 @@ namespace bn {
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template<typename Probability = double, typename Generator = std::mt19937>
-        class likelihood_weighting : public inference_algorithm<Probability>
+        class likelihood_weighting : public parallel_inference_algorithm<Probability>
         {
             typedef std::vector<ulong> pattern_t;
         public:
@@ -32,26 +32,15 @@ namespace bn {
                     uint nthreads = 1,
                     uint seed = 0
             )
-            : inference_algorithm<Probability>(nsamples, nthreads, seed)
+            : parallel_inference_algorithm<Probability>(nsamples, nthreads, seed)
             { };
-
-            bn::marginal_distribution<Probability> make_inference (
-                    const bayesian_network<Probability> &bn
-            ) override
-            {
-                auto job = [this, &bn](ulong samples, uint seed){
-                    return sample_step(bn, samples, seed);
-                };
-
-                return assign_and_compute(bn, job, this->nsamples, this->nthreads, this->seed);
-            }
 
         private:
             bn::marginal_distribution<Probability> sample_step(
                  const bn::bayesian_network<Probability> &bn,
                  ulong nsamples,
                  uint seed
-             )
+            ) override
             {
                 bn::marginal_distribution<Probability> mdistr(bn.begin(), bn.end());
                 bn::random_generator<Probability, Generator> rnd_gen(seed);

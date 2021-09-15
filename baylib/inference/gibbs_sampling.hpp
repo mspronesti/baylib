@@ -134,26 +134,25 @@ namespace bn {
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template <typename Probability = double, typename Generator=std::mt19937>
-        class gibbs_sampling : public inference_algorithm<Probability>{
+        class gibbs_sampling : public parallel_inference_algorithm<Probability>{
         public:
             explicit gibbs_sampling(
                     ulong nsamples,
                     uint nthreads = 1,
                     uint seed = 0
             )
-            : inference_algorithm<Probability>(nsamples, nthreads, seed)
+            : parallel_inference_algorithm<Probability>(nsamples, nthreads, seed)
             { };
 
-            bn::marginal_distribution<Probability> make_inference (
-                    const bayesian_network<Probability> &bn
+        private:
+            bn::marginal_distribution<Probability> sample_step(
+                    const bn::bayesian_network<Probability> & bn,
+                    unsigned long nsamples,
+                    unsigned int seed
             ) override
             {
-                auto job = [&bn](ulong samples_per_thread, uint seed){
-                    auto worker = gibbs_worker(bn, samples_per_thread, seed);
-                    return worker.sample();
-                };
-
-                return assign_and_compute(bn, job, this->nsamples, this->nthreads, this->seed);
+                auto worker = gibbs_worker(bn, nsamples, seed);
+                return worker.sample();
             }
         };
 

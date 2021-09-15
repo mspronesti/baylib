@@ -7,15 +7,16 @@
 
 #include <future>
 
-namespace bn::inference {
+namespace bn {
+    namespace inference {
         /**
         * This class models a generic approximate
         * inference algorithm for discrete Bayesian
         * networks
         * @tparam Probability
         */
-        template <typename Probability>
-        class inference_algorithm  {
+        template<typename Probability>
+        class inference_algorithm {
         public:
             /**
              * The abstract inference algorithm
@@ -27,86 +28,129 @@ namespace bn::inference {
              */
             explicit inference_algorithm(
                     unsigned long nsamples,
-                    unsigned int nthreads = 1,
                     unsigned int seed = 0
             )
-            : nsamples(nsamples)
-            , nthreads(nthreads)
-            , seed(seed)
-             { }
+                    : nsamples(nsamples), seed(seed) {}
 
-             virtual ~inference_algorithm() = default;
+            virtual ~inference_algorithm() = default;
 
-             /**
-              * Main method of the inference algorithm. Receives the bayesian network
-              * but doesn't store it anywhere. It only uses its facilities to perform
-              * inference thus avoiding unwanted copies and allowing reusability of the
-              * same algorithm object
-              * @param bn  : bayesian network
-              * @return    : the marginal distributions
-              */
+            /**
+             * Main method of the inference algorithm. Receives the bayesian network
+             * but doesn't store it anywhere. It only uses its facilities to perform
+             * inference thus avoiding unwanted copies and allowing reusability of the
+             * same algorithm object
+             * @param bn  : bayesian network
+             * @return    : the marginal distributions
+             */
             virtual bn::marginal_distribution<Probability> make_inference(
-                    const bn::bayesian_network<Probability> & bn
+                    const bn::bayesian_network<Probability> &bn
             ) = 0;
+
+            void set_number_of_samples(unsigned long _nsamples) { nsamples = _nsamples; }
+
+            void set_seed(unsigned int _seed) { seed = _seed; }
 
         protected:
             unsigned long nsamples;
-            unsigned int nthreads;
             unsigned int seed;
         };
 
         /**
-         * Utility to split sampling jobs to given number of threads
-         * and eventually sum their results.
-         * Used by approximate inference algorithms.
-         * @tparam Probability  : the type expressing the probability
-         * @tparam F            : function type
-         * @param bn            : bayesian network
-         * @param nsamples      : total number of samples
-         * @param nthreads      : total number of threads
-         * @param seed          : initial seed
-         * @param job           : job to perform for each thread
-         * @return              : final marginal distribution (inference result)
+         * This class models an approximate inference algorithm
+         * parallelized with C++ threads.
+         * Its make_inference employs the well-known approach of splitting
+         * the sampling work over the number of threads and merging the results
+         * @tparam Probability  : the type expressing probability
          */
-        template <typename Probability, typename F>
-        bn::marginal_distribution<Probability> assign_and_compute(
-            const bn::bayesian_network<Probability> & bn,
-            const F & job,
-            ulong nsamples,
-            uint nthreads,
-            uint seed
-        )
-        {
-            typedef std::future<bn::marginal_distribution<Probability>> result;
-            BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
-                                   [](auto &var){ return bn::cpt_filled_out(var); }),
-                       "conditional probability tables must be properly filled to"
-                       " run gibbs sampling inference algorithm",
-                       std::runtime_error)
+        template<typename Probability>
+        class parallel_inference_algorithm : public inference_algorithm<Probability> {
+        public:
+            explicit parallel_inference_algorithm(
+                    unsigned long nsamples,
+                    unsigned int nthreads = 1,
+                    unsigned int seed = 0
+            )
+            : inference_algorithm<Probability>(nsamples, seed)
+            {
+                set_number_of_threads(nthreads);
+            }
 
-            bn::marginal_distribution<Probability> inference_result(bn.begin(), bn.end());
-            std::vector<result> results;
-            bn::seed_factory sf(nthreads, seed);
+            /**
+             * Models the standard approach towards MCMC parallelization,
+             * i.e. assigns the sampling step to the number of available threads
+             * and eventually merges the results
+             * @param bn : bayesian network graph
+             * @return   : the marginal distribution of the variables post inference
+             */
+            bn::marginal_distribution<Probability> make_inference(
+                    const bn::bayesian_network<Probability> &bn
+            ) override
+            {
+                typedef std::future<bn::marginal_distribution<Probability>> result;
+                BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
+                                          [](auto &var) { return bn::cpt_filled_out(var); }),
+                              "conditional probability tables must be properly filled to"
+                              " run gibbs sampling inference algorithm",
+                              std::runtime_error)
 
-            ulong samples_per_thread = nsamples / nthreads;
+                bn::marginal_distribution<Probability> inference_result(bn.begin(), bn.end());
+                std::vector<result> results;
+                bn::seed_factory sf(nthreads, this->seed);
 
-            // assigning jobs
-            for(uint i = 0; i < nthreads - 1; ++i)
-                results.emplace_back(std::async(job, samples_per_thread, sf.get_new() ));
+                auto job = [this, &bn](ulong samples_per_thread, uint seed) {
+                    return sample_step(bn, samples_per_thread, seed);
+                };
 
-            // last thread (doing the extra samples if nsamples % nthreads != 0)
-            ulong left_samples = nsamples - (nthreads - 1) * samples_per_thread;
-            results.emplace_back(std::async(job, samples_per_thread, sf.get_new() ));
+                ulong samples_per_thread = this->nsamples / nthreads;
+                // assigning jobs
+                for (uint i = 0; i < nthreads - 1; ++i)
+                    results.emplace_back(std::async(job, samples_per_thread, sf.get_new()));
 
-            // accumulate results of each parallel execution
-            for(auto & res: results)
-                inference_result += res.get();
+                // last thread (doing the extra samples if nsamples % nthreads != 0)
+                ulong left_samples = this->nsamples - (nthreads - 1) * samples_per_thread;
+                results.emplace_back(std::async(job, samples_per_thread, sf.get_new()));
 
-            // normalize the distribution before retrieving it
-            inference_result.normalize();
-            return inference_result;
-        }
-    }
+                // accumulate results of each parallel execution
+                for (auto &res: results)
+                    inference_result += res.get();
 
+                // normalize the distribution before retrieving it
+                inference_result.normalize();
+                return inference_result;
+            }
+
+            void set_number_of_threads(unsigned int _nthreads)
+            {
+                nthreads = _nthreads >= std::thread::hardware_concurrency() ?
+                           std::thread::hardware_concurrency() : _nthreads > 0 ?
+                                                                 _nthreads : 1;
+            }
+
+        protected:
+            virtual bn::marginal_distribution<Probability> sample_step(
+                    const bn::bayesian_network<Probability> &bn,
+                    unsigned long nsamples_per_step,
+                    unsigned int seed
+            ) = 0;
+
+            unsigned int nthreads;
+        };
+
+        /**
+         * This class models an approximate inference algorithm
+         * vectorized with a GPGPU approach.
+         * <further details here @paolo>
+         * @tparam Probability  : the type expressing probability
+         */
+        template <typename Probability>
+        class vectorized_inference_algorithm /*: public inference_algorithm<Probability>*/ {
+         // TODO: to be implemented (@paolo)
+        public:
+        protected:
+            size_t memory;
+        };
+
+    } // namespace inference
+} // namespace bn
 
 #endif //BAYLIB_ABSTRACT_INFERENCE_ALGORITHM_HPP
