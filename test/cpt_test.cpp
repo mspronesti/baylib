@@ -198,21 +198,6 @@ TEST_F(cpt_tests, cow){
 }
 
 
-TEST_F(cpt_tests, icp){
-    bn::icpt<double> icpt({2, 2}, 2);
-    ASSERT_DOUBLE_EQ(icpt[0][0], 0.5);
-    ASSERT_DOUBLE_EQ(icpt[0][1], 0.5);
-    ASSERT_DOUBLE_EQ(icpt[1][0], 0.5);
-    ASSERT_DOUBLE_EQ(icpt[1][1], 0.5);
-
-    icpt[0][0] = 0.2;
-    auto value = icpt[{0, 0}][0];
-    ASSERT_DOUBLE_EQ(value, 0.2);
-
-    icpt[0][1] = 0.4;
-    icpt[1][0] = 0.2;
-}
-
 
 int main(int argc, char** argv){
     testing::InitGoogleTest(&argc, argv);

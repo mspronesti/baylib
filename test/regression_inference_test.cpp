@@ -7,6 +7,8 @@
 #include <baylib/inference/gibbs_sampling.hpp>
 #include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
+#include <baylib/inference/rejection_sampling.hpp>
+#include <baylib/inference/adaptive_importance_sampling.hpp>
 
 #define THREADS std::thread::hardware_concurrency()
 #define SAMPLES 10000
@@ -21,15 +23,18 @@ typedef std::vector<algo_ptr> algo_vector;
 
 algo_vector get_alg(){
     auto alg = algo_vector();
-    alg.emplace_back(std::move(std::make_unique<logic_sampling<double>>(MEMORY, SAMPLES)));
+    alg.emplace_back(std::move(std::make_unique<logic_sampling<double>>(SAMPLES, MEMORY)));
     alg.emplace_back(std::move(std::make_unique<likelihood_weighting<double>>(SAMPLES, THREADS)));
     alg.emplace_back(std::move(std::make_unique<gibbs_sampling<double>>(SAMPLES, THREADS)));
+    alg.emplace_back(std::move(std::make_unique<rejection_sampling<double>>(SAMPLES, THREADS)));
+    alg.emplace_back(std::move(std::make_unique<adaptive_importance_sampling<double>>(SAMPLES, MEMORY, THREADS)));
+
     return alg;
 }
 
 algo_vector get_alg_not_det(){
     auto alg = std::vector<std::unique_ptr<inference_algorithm<double>>>();
-    alg.emplace_back(std::move(std::make_unique<logic_sampling<double>>(MEMORY, SAMPLES)));
+    alg.emplace_back(std::move(std::make_unique<logic_sampling<double>>(SAMPLES, MEMORY)));
     alg.emplace_back(std::move(std::make_unique<likelihood_weighting<double>>(SAMPLES, THREADS)));
     return alg;
 }

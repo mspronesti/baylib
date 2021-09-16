@@ -33,12 +33,13 @@ protected:
         auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
         auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
         auto rejection = std::make_shared<rejection_sampling<Probability>>(SAMPLES, THREADS);
-        auto adaptive =  std::make_shared<adaptive_importance_sampling<Probability>>(SAMPLES, THREADS);
+        auto adaptive =  std::make_shared<adaptive_importance_sampling<Probability>>(SAMPLES, MEMORY, THREADS);
 
-        algorithms = { /*likely
+        algorithms = { likely
                       , gibbs
-                      , rejection*/
-                        adaptive
+                      , rejection
+                      , likely
+                      , adaptive
                     };
     }
 };

@@ -6,7 +6,7 @@
 #define BAYLIB_LOGIC_SAMPLING_HPP
 
 #define CL_TARGET_OPENCL_VERSION 220
-#define MEMORY_SLACK 0.8
+
 
 #include <vector>
 
@@ -55,7 +55,7 @@ namespace bn {
                               " run logic_sampling inference algorithm",
                               std::runtime_error);
 
-                calculate_iterations(bn);
+                auto [iter_samples, niter] = this->calculate_iterations(bn);
                 auto vertex_queue = bn::sampling_order(bn);
                 marginal_distribution<Probability> marginal_result(bn.begin(), bn.end());
                 for (ulong i = 0; i< niter; i++) {
@@ -74,7 +74,7 @@ namespace bn {
                             parents_result.push_back(result_container[bn.index_of(p)]);
                         }
 
-                        auto result = this->simulate_node(bn[v].table(), parents_result, itersamples);
+                        auto result = this->simulate_node(bn[v].table(), parents_result, iter_samples);
 
                         // Save result in the data structure with the correct expiration date
                         result_container[v] = bcvec(result, bn[v].states().size(), bn.children_of(v).size());
@@ -94,24 +94,6 @@ namespace bn {
 
 
         private:
-
-            ulong niter;
-            ulong itersamples;
-
-
-            void calculate_iterations(const bayesian_network<Probability> &bn)
-            {
-                uint64_t sample_p = this->memory / (bn.number_of_variables() * sizeof(Probability) + 3 * sizeof(cl_ushort)) * MEMORY_SLACK;
-                if(sample_p < this->nsamples){
-                    itersamples = sample_p;
-                    niter = this->nsamples / sample_p;
-                }
-                else
-                {
-                    itersamples = this->nsamples;
-                    niter = 1;
-                }
-            }
 
             /**
             * Accumulate simulation results for general case

@@ -2,6 +2,7 @@
 #define BAYLIB_ABSTRACT_INFERENCE_ALGORITHM_HPP
 
 #define CL_TARGET_OPENCL_VERSION 220
+#define MEMORY_SLACK 0.9
 
 #include <baylib/network/bayesian_utils.hpp>
 #include <baylib/probability/marginal_distribution.hpp>
@@ -171,7 +172,22 @@ namespace bn {
             compute::default_random_engine rand;
             size_t memory;
 
-            std::vector<Probability> accumulate_cpt(bn::cow::cpt<Probability> cpt) {
+            /**
+             * calculate the number of iterations needed for a complete simulation without exceeding the boundary set
+             * by the user
+             * @param bn network
+             * @return pair<number of samples per iteration, number of iteration>
+             */
+            std::pair<ulong, ulong> calculate_iterations(const bayesian_network<Probability> &bn)
+            {
+                ulong sample_p = this->memory / (bn.number_of_variables() * sizeof(Probability) + 3 * sizeof(cl_ushort)) * MEMORY_SLACK;
+                if(sample_p < this->nsamples)
+                    return {sample_p, this->nsamples / sample_p};
+                else
+                    return {this->nsamples, 1};
+            }
+
+            static std::vector<Probability> accumulate_cpt(bn::cow::cpt<Probability> cpt) {
                 std::vector<Probability> flat_cpt = cpt.flat();
                 for (bn::state_t i = 0; i < flat_cpt.size(); i += cpt.number_of_states())
                     for (bn::state_t j = 1; j < cpt.number_of_states() - 1; j++)
@@ -179,6 +195,13 @@ namespace bn {
                 return flat_cpt;
             }
 
+            /**
+             * Simulations of a specific node using opencl
+             * @param cpt cpt of the node
+             * @param parents_result results of previous simulate_node calls
+             * @param dim dimension of the simulation
+             * @return result of the simulation
+             */
             r_vec simulate_node(
                     const cow::cpt<Probability> &cpt,
                     std::vector<bcvec> &parents_result,
@@ -191,10 +214,13 @@ namespace bn {
                 prob_v random_vec(dim, context);
                 compute::uniform_real_distribution<Probability> distribution(0, 1);
                 compute::vector<cl_short> index_vec(dim, cl_short(0), queue);
+
+                // Async copy of the cpt in gpu memory
                 compute::future<void> copy = compute::copy_async(flat_cpt_accum.begin(),
                                                                  flat_cpt_accum.end(),
                                                                  device_cpt.begin(), queue);
 
+                // cycle for deducing the row of the cpt given the parents state in the previous simulation
                 if (!parents_result.empty()) {
                     uint coeff = cpt.number_of_states();
                     for (int i = 0; i < parents_result.size(); i++) {
@@ -214,16 +240,21 @@ namespace bn {
                 }
 
                 copy.get();
+                // get the threshold corresponding to the specific row of the cpt for every single simulation
                 compute::gather(index_vec.begin(),
                                 index_vec.end(),
                                 device_cpt.begin(),
                                 threshold_vec.begin(), queue);
 
+                // generate random vector
                 distribution.generate(random_vec.begin(),
                                       random_vec.end(),
                                       rand, queue);
+                // confront the random vector with the threshold
                 compute::transform(random_vec.begin(), random_vec.end(), threshold_vec.begin(), result.begin(), _1 > _2,
                                    queue);
+
+                // generalization in case of more than 2 states
                 for (int i = 0; i + 2 < cpt.number_of_states(); i++) {
                     compute::vector<int> temp(dim, context);
                     compute::transform(index_vec.begin(),
