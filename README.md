@@ -22,6 +22,16 @@ Here's a list of the main requested features:
 * Likelihood Weighting - C++17 threads
 * Logic Sampling - GPGPU with boost compute
 * Rejection Sampling - C++17 threads
+* Adaptive importance sampling - C++17 threads, GPGPU with boost compute
+
+### Algorithm features
+|       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| gpgpu 	|
+|:------------------------------:|--------------|-----------------------|-------------------|-----------|
+| gibbs sampling       	         |    [X]   	|                     	|        [X]       	|       	|
+| likelihood weighting 	         |    [X]   	|        [X]          	|        [X]       	|       	|
+| logic sampling       	         |          	|        [X]  	        |                	|   [X]   	|
+| rejection sampling  	         |    [X]  	    |        [X]  	        |        [X]        |         	|
+| adaptive importance_sampling   |    [X]     	|        [X]  	        |        [X]       	|   [X]   	|
 
 ## Install Dependencies
 Under Linux, you can use 
