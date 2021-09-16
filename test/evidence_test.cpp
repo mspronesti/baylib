@@ -33,9 +33,9 @@ protected:
         auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
         auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
         auto rejection = std::make_shared<rejection_sampling<Probability>>(SAMPLES, THREADS);
-        auto adaptive =  std::make_shared<adaptive_importance_sampling<Probability>>(SAMPLES, MEMORY, THREADS);
+        auto adaptive =  std::make_shared<adaptive_importance_sampling<Probability>>(SAMPLES, MEMORY);
 
-        algorithms = { likely
+        algorithms = {  likely
                       , gibbs
                       , rejection
                       , likely
@@ -78,6 +78,7 @@ TEST_F(evidence_test, evidence_coma){
 
         ASSERT_NEAR(result[net1.index_of("SevHeadaches")][0], .64, TOLERANCE);
         ASSERT_NEAR(result[net1.index_of("SevHeadaches")][1], .36, TOLERANCE);
+
     }
 
     net1["Coma"].clear_evidence();

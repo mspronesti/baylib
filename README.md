@@ -24,14 +24,13 @@ Here's a list of the main requested features:
 * Rejection Sampling - C++17 threads
 * Adaptive importance sampling - C++17 threads, GPGPU with boost compute
 
-### Algorithm features
-|       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| gpgpu 	|
+|       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| GPGPU 	|
 |:------------------------------:|--------------|-----------------------|-------------------|-----------|
-| gibbs sampling       	         |    [X]   	|                     	|        [X]       	|       	|
-| likelihood weighting 	         |    [X]   	|        [X]          	|        [X]       	|       	|
-| logic sampling       	         |          	|        [X]  	        |                	|   [X]   	|
-| rejection sampling  	         |    [X]  	    |        [X]  	        |        [X]        |         	|
-| adaptive importance_sampling   |    [X]     	|        [X]  	        |        [X]       	|   [X]   	|
+| gibbs sampling       	         |    :heavy_check_mark:   	|                       	|     :heavy_check_mark:    |                       	|
+| likelihood weighting 	         |    :heavy_check_mark:   	|    :heavy_check_mark:    	|     :heavy_check_mark:    |                       	|
+| logic sampling       	         |                      	|    :heavy_check_mark:     |                        	|   :heavy_check_mark:   	|
+| rejection sampling  	         |    :heavy_check_mark:    |    :heavy_check_mark:     |     :heavy_check_mark:    |                       	|
+| adaptive importance_sampling   |    :heavy_check_mark:  	|    :heavy_check_mark:     |     :heavy_check_mark:    |   :heavy_check_mark:   	|
 
 ## Install Dependencies
 Under Linux, you can use 

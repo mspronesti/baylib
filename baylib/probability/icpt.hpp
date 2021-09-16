@@ -11,8 +11,9 @@
 namespace bn{
     namespace cow{
         template <typename Probability>
-        struct icpt: public bn::cow::cpt<Probability>{
+        class icpt: public bn::cow::cpt<Probability>{
 
+        public:
             icpt()= default;
 
             icpt(const std::vector<ulong> &parents_size, uint states): icpt(parents_size, states, 1/static_cast<Probability>(states)){};

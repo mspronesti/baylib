@@ -14,6 +14,9 @@ sudo apt install libboost-all-dev
 sudo apt install ocl-icd-opencl-dev
 sudo apt install mesa-opencl-icd
 
+# TBB
+sudo apt install libtbb-dev
+
 # google test
 git clone https://github.com/google/googletest
 cd googletest
@@ -23,5 +26,3 @@ cmake ..
 make
 sudo make install
 
-# TBB
-sudo apt install libtbb-dev

@@ -38,17 +38,20 @@ namespace bn {
         public:
 
             logic_sampling(
-                    ulong samples,
-                    size_t memory,
-                    uint seed = 0,
-                    const compute::device &device = compute::system::default_device()
-            )
-                    : vectorized_inference_algorithm<Probability>(samples, memory, seed, device)
-            { }
+                ulong samples,
+                size_t memory,
+                uint seed = 0,
+                const compute::device &device = compute::system::default_device()
+                )
+                : vectorized_inference_algorithm<Probability>(samples, memory, seed, device){ }
 
 
 
-            marginal_distribution<Probability> make_inference (const bn::bayesian_network<Probability> &bn){
+            marginal_distribution<Probability> make_inference (
+                const bn::bayesian_network<Probability> &bn
+                )
+                {
+
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
                                           [](auto &var){ return bn::cpt_filled_out(var); }),
                               "conditional probability tables must be properly filled to"
@@ -65,27 +68,23 @@ namespace bn {
 
                     for(ulong v : vertex_queue) {
 
-                        std::vector<bcvec> parents_result;
+                        std::vector<bcvec*> parents_result;
 
                         // Build parents result vector in the correct order
                         auto parents = bn[v].parents_info.names();
                         std::reverse(parents.begin(), parents.end());
                         for (auto p : parents) {
-                            parents_result.push_back(result_container[bn.index_of(p)]);
+                            parents_result.push_back(&result_container[bn.index_of(p)]);
                         }
 
-                        auto result = this->simulate_node(bn[v].table(), parents_result, iter_samples);
+                        result_container[v] = this->simulate_node(bn[v].table(), parents_result, iter_samples);
 
                         // Save result in the data structure with the correct expiration date
-                        result_container[v] = bcvec(result, bn[v].states().size(), bn.children_of(v).size());
                         auto accumulated_result = compute_result_general(result_container[v]);
 
                         for(int ix=0; ix< accumulated_result.size(); ix++)
                             marginal_result[v][ix] += accumulated_result[ix];
 
-                        for(auto p: parents){
-                            result_container[bn.index_of(p)].set_use();
-                        }
                     }
                 }
                 marginal_result.normalize();
@@ -104,7 +103,7 @@ namespace bn {
             {
                 std::vector<ulong> acc_res(res.cardinality);
                 for (bn::state_t i = 0; i < res.cardinality; ++i) {
-                    acc_res[i] = compute::count(res.get_states().begin(), res.get_states().end(), i, this->queue);
+                    acc_res[i] = compute::count(res.state.begin(), res.state.end(), i, this->queue);
                 }
                 return acc_res;
             }

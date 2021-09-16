@@ -35,8 +35,8 @@ namespace bn {
             explicit inference_algorithm(
                     unsigned long nsamples,
                     unsigned int seed = 0
-            )
-                    : nsamples(nsamples), seed(seed) {}
+                            )
+                            : nsamples(nsamples), seed(seed) {}
 
             virtual ~inference_algorithm() = default;
 
@@ -50,7 +50,7 @@ namespace bn {
              */
             virtual bn::marginal_distribution<Probability> make_inference(
                     const bn::bayesian_network<Probability> &bn
-            ) = 0;
+                    ) = 0;
 
             void set_number_of_samples(unsigned long _nsamples) { nsamples = _nsamples; }
 
@@ -75,8 +75,8 @@ namespace bn {
                     unsigned long nsamples,
                     unsigned int nthreads = 1,
                     unsigned int seed = 0
-            )
-                    : inference_algorithm<Probability>(nsamples, seed) {
+                            )
+                            : inference_algorithm<Probability>(nsamples, seed) {
                 set_number_of_threads(nthreads);
             }
 
@@ -89,7 +89,7 @@ namespace bn {
              */
             bn::marginal_distribution<Probability> make_inference(
                     const bn::bayesian_network<Probability> &bn
-            ) override {
+                    ) override {
                 typedef std::future<bn::marginal_distribution<Probability>> result;
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
                                           [](auto &var) { return bn::cpt_filled_out(var); }),
@@ -97,7 +97,7 @@ namespace bn {
                               " run gibbs sampling inference algorithm",
                               std::runtime_error)
 
-                bn::marginal_distribution<Probability> inference_result(bn.begin(), bn.end());
+                              bn::marginal_distribution<Probability> inference_result(bn.begin(), bn.end());
                 std::vector<result> results;
                 bn::seed_factory sf(nthreads, this->seed);
 
@@ -125,8 +125,8 @@ namespace bn {
 
             void set_number_of_threads(unsigned int _nthreads) {
                 nthreads = _nthreads >= std::thread::hardware_concurrency() ?
-                           std::thread::hardware_concurrency() : _nthreads > 0 ?
-                                                                 _nthreads : 1;
+                        std::thread::hardware_concurrency() : _nthreads > 0 ?
+                        _nthreads : 1;
             }
 
         protected:
@@ -134,7 +134,7 @@ namespace bn {
                     const bn::bayesian_network<Probability> &bn,
                     unsigned long nsamples_per_step,
                     unsigned int seed
-            ) = 0;
+                    ) = 0;
 
             unsigned int nthreads;
         };
@@ -161,8 +161,8 @@ namespace bn {
                                            memory(memory), device(device), context(device),
                                            queue(context, device), rand(queue, seed) {}
 
-            using prob_v = boost::compute::vector<Probability>;
-            using r_vec = boost::compute::vector<cl_short>;
+                                           using prob_v = boost::compute::vector<Probability>;
+            using r_vec = boost::compute::vector<int>;
 
         protected:
 
@@ -202,56 +202,62 @@ namespace bn {
              * @param dim dimension of the simulation
              * @return result of the simulation
              */
-            r_vec simulate_node(
+            bcvec simulate_node(
                     const cow::cpt<Probability> &cpt,
-                    std::vector<bcvec> &parents_result,
+                    std::vector<bcvec*> &parents_result,
                     int dim) {
 
                 std::vector<Probability> flat_cpt_accum = accumulate_cpt(cpt);
-                r_vec result(dim, context);
+                bcvec result(dim, cpt.number_of_states(), context);
                 prob_v device_cpt(flat_cpt_accum.size(), context);
                 prob_v threshold_vec(dim, context);
                 prob_v random_vec(dim, context);
                 compute::uniform_real_distribution<Probability> distribution(0, 1);
-                compute::vector<cl_short> index_vec(dim, cl_short(0), queue);
+                compute::vector<int> index_vec(dim, context);
 
+                //std::cerr << std::setprecision(2) << std::fixed;
                 // Async copy of the cpt in gpu memory
-                compute::future<void> copy = compute::copy_async(flat_cpt_accum.begin(),
-                                                                 flat_cpt_accum.end(),
-                                                                 device_cpt.begin(), queue);
+                compute::copy(flat_cpt_accum.begin(), flat_cpt_accum.end(), device_cpt.begin(), queue);
 
                 // cycle for deducing the row of the cpt given the parents state in the previous simulation
-                if (!parents_result.empty()) {
+                if(parents_result.empty())
+                    compute::fill(index_vec.begin(), index_vec.end(), 0, queue);
+                else {
                     uint coeff = cpt.number_of_states();
                     for (int i = 0; i < parents_result.size(); i++) {
                         if (i == 0)
-                            compute::transform(parents_result[i].get_states().begin(),
-                                               parents_result[i].get_states().end(),
+                            compute::transform(parents_result[i]->state.begin(),
+                                               parents_result[i]->state.end(),
                                                index_vec.begin(),
                                                _1 * coeff, queue);
                         else
-                            compute::transform(parents_result[i].get_states().begin(),
-                                               parents_result[i].get_states().end(),
+                            compute::transform(parents_result[i]->state.begin(),
+                                               parents_result[i]->state.end(),
                                                index_vec.begin(),
                                                index_vec.begin(),
                                                _1 * coeff + _2, queue);
-                        coeff *= parents_result[i].cardinality;
+                        coeff *= parents_result[i]->cardinality;
                     }
                 }
 
-                copy.get();
                 // get the threshold corresponding to the specific row of the cpt for every single simulation
                 compute::gather(index_vec.begin(),
                                 index_vec.end(),
                                 device_cpt.begin(),
                                 threshold_vec.begin(), queue);
 
+
                 // generate random vector
                 distribution.generate(random_vec.begin(),
                                       random_vec.end(),
                                       rand, queue);
+
                 // confront the random vector with the threshold
-                compute::transform(random_vec.begin(), random_vec.end(), threshold_vec.begin(), result.begin(), _1 > _2,
+                compute::transform(random_vec.begin(),
+                                   random_vec.end(),
+                                   threshold_vec.begin(),
+                                   result.state.begin(),
+                                   _1 > _2,
                                    queue);
 
                 // generalization in case of more than 2 states
@@ -272,8 +278,8 @@ namespace bn {
                                        _1 > _2, queue);
                     compute::transform(temp.begin(),
                                        temp.end(),
-                                       result.begin(),
-                                       result.begin(),
+                                       result.state.begin(),
+                                       result.state.begin(),
                                        _1 + _2, queue);
                 }
 

@@ -124,7 +124,6 @@ TEST_F(cpt_tests, test_parents) {
     ASSERT_EQ(b_cpt[c1][F], 1 - .5);
     ASSERT_EQ(b_cpt[c1][T],  .5);
 
-    std::cout << a_cpt;
 }
 
 
