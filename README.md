@@ -26,12 +26,13 @@ Here's a list of the main requested features:
 
 |       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| GPGPU 	|
 |:------------------------------:|--------------|-----------------------|-------------------|-----------|
-| gibbs sampling       	         |    :heavy_check_mark:   	|                       	|     :heavy_check_mark:    |                       	|
-| likelihood weighting 	         |    :heavy_check_mark:   	|    :heavy_check_mark:    	|     :heavy_check_mark:    |                       	|
-| logic sampling       	         |                      	|    :heavy_check_mark:     |                        	|   :heavy_check_mark:   	|
-| rejection sampling  	         |    :heavy_check_mark:    |    :heavy_check_mark:     |     :heavy_check_mark:    |                       	|
-| adaptive importance_sampling   |    :heavy_check_mark:  	|    :heavy_check_mark:     |     :heavy_check_mark:    |   :heavy_check_mark:   	|
+| gibbs sampling       	         |    &check;   |     *                 |     &check;       |           |
+| likelihood weighting 	         |    &check;   |     &check;           |     &check;       |           |
+| logic sampling       	         |              |     &check;           |                   |  &check;  |
+| rejection sampling  	         |    &check;   |     &check;           |     &check;       |           |
+| adaptive importance sampling   |    &check;  	|     &check;           |     &check;       |  &check;  |
 
+*It's a very well-known limitation of the Gibbs sampling approach
 ## Install Dependencies
 Under Linux, you can use 
 the provided script [install_dependencies.sh](scripts/install_dependencies.sh) as follows
@@ -82,3 +83,4 @@ Have a look at [examples](examples) for more.
 * [likelihood weighting pseudo-code](https://github.com/aimacode/aima-pseudocode/blob/master/md/Likelihood-Weighting.md)
 * [logic sampling](https://www.academia.edu/35954159/Propagating_Uncertainty_in_Bayesian_Networks_by_Probabilistic_Logic_Sampling)
 * [rejection sampling pseudo-code](https://github.com/aimacode/aima-pseudocode/blob/master/md/Rejection-Sampling.md)
+* [adaptive importance sampling](https://arxiv.org/abs/1106.0253)
