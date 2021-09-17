@@ -26,15 +26,13 @@ namespace bn {
                 mdistr.emplace_back(var.states().size(), 0.0);
         }
 
-        template <typename Iterator>
-        marginal_distribution(Iterator begin, Iterator end)
-        {
-            for(auto it = begin; it != end; ++it)
+        template<typename Iterator>
+        marginal_distribution(Iterator begin, Iterator end) {
+            for (auto it = begin; it != end; ++it)
                 mdistr.emplace_back((*it).states().size(), 0.0);
         }
 
-        void set(ulong vid, ulong state_value, Probability p)
-        {
+        void set(ulong vid, ulong state_value, Probability p) {
             BAYLIB_ASSERT(vid < mdistr.size() &&
                           state_value < mdistr[vid].size(),
                           "out of bound access to marginal "
@@ -49,7 +47,7 @@ namespace bn {
             mdistr[vid][state_value] = p;
         }
 
-        std::vector<Probability> & operator [] (ulong vid){
+        std::vector<Probability> &operator[](ulong vid) {
             BAYLIB_ASSERT(vid < mdistr.size(),
                           "out of bound access to marginal "
                           "distribution",
@@ -58,53 +56,50 @@ namespace bn {
             return mdistr[vid];
         }
 
-        void operator /= (Probability value){
-            for(auto & row : mdistr)
-                for(auto & entry : row)
+        void operator/=(Probability value) {
+            for (auto &row : mdistr)
+                for (auto &entry : row)
                     entry /= value;
         }
 
-        marginal_distribution<Probability>& operator += (
-             const marginal_distribution<Probability> & other
-        )
-        {
+        marginal_distribution<Probability> &operator+=(
+                const marginal_distribution<Probability> &other
+        ) {
             BAYLIB_ASSERT(mdistr.size() == other.mdistr.size(),
                           "Incompatible second operand of type"
                           " marginal distribution",
                           std::logic_error)
 
-            for(ulong i = 0; i < mdistr.size(); ++i){
+            for (ulong i = 0; i < mdistr.size(); ++i) {
                 BAYLIB_ASSERT(mdistr[i].size() == other.mdistr[i].size(),
                               "Incompatible second operand of type"
                               " marginal distribution",
                               std::logic_error)
 
-                for(ulong j = 0 ; j < mdistr[i].size(); ++j)
+                for (ulong j = 0; j < mdistr[i].size(); ++j)
                     mdistr[i][j] += other.mdistr[i][j];
             }
             return *this;
         }
 
-        friend std::ostream & operator << (
-                std::ostream & os,
+        friend std::ostream &operator<<(
+                std::ostream &os,
                 const marginal_distribution<Probability> &md
-        )
-        {
-            for(auto & row : md.mdistr){
-                os <<  " | ";
-                for(auto & p : row)
-                    os <<  ' ' << p << " | ";
+        ) {
+            for (auto &row : md.mdistr) {
+                os << " | ";
+                for (auto &p : row)
+                    os << ' ' << p << " | ";
                 os << '\n';
             }
             return os;
         }
 
         void normalize() {
-            for(auto & row : mdistr)
-            {
+            for (auto &row : mdistr) {
                 Probability sum = std::accumulate(row.begin(), row.end(), 0.0);
-                if(abs(sum) > 1.0e-5)
-                    std::for_each(row.begin(), row.end(), [sum](auto &val){
+                if (abs(sum) > 1.0e-5)
+                    std::for_each(row.begin(), row.end(), [sum](auto &val) {
                         val /= sum;
                     });
             }

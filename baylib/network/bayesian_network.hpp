@@ -25,15 +25,23 @@ namespace bn {
 
         // overloading begin and end to easily loop over random_variables
         // avoiding packing copies inside other facilities
+        auto begin(){
+            return bn::bundles(*graph).begin();
+        }
+
         auto begin() const {
             return bn::bundles(*graph).begin();
+        }
+
+        auto end() {
+            return bn::bundles(*graph).end();
         }
 
         auto end() const {
             return bn::bundles(*graph).end();
         }
 
-        void add_variable(const std::string &name, const std::vector<std::string> &states){
+        vertex_id add_variable(const std::string &name, const std::vector<std::string> &states){
             BAYLIB_ASSERT(!has_variable(name),
                           "random_variable with name "
                           + name + " already exists",
@@ -42,33 +50,28 @@ namespace bn {
             vertex_id v = boost::add_vertex(bn::random_variable<Probability>{name, states}, *graph);
             var_map[name] = v;
             variable(name)._id = v;
+            return v;
         }
 
         void remove_variable(const std::string &name){
             auto v = index_of(name);
             boost::remove_vertex(v, *graph);
 
-            var_map.erase(name);
             for (auto & var : *this)
-                if(has_dependency(name, var.name()))
+                if (has_dependency(name, var.name()))
                     var.parents_info.remove(name);
+
+            var_map.erase(name);
         }
 
         void add_dependency(const std::string &src_name, const std::string &dest_name){
-            auto& src = variable(src_name);
-            auto& dest = variable(dest_name);
+            auto src_id = index_of(src_name);
+            auto dest_id = index_of(dest_name);
 
-            BAYLIB_ASSERT(!introduces_loop(dest._id, src._id),
-                          "adding conditional dependency "
-                          + src_name + " to " + dest_name +
-                          " would introduce a loop",
-                          std::logic_error )
-
-            boost::add_edge(src._id, dest._id, *graph);
-            dest.parents_info.add(src_name, src.states().size());
+            add_dependency(src_id, dest_id);
         }
 
-        void add_dependency(vertex_id src_id, vertex_id dest_id){
+        void add_dependency(vertex_id src_id, vertex_id dest_id) {
             BAYLIB_ASSERT(has_variable(src_id) && has_variable(dest_id),
                           "out of bound access to vertices",
                           std::out_of_range);
@@ -86,15 +89,10 @@ namespace bn {
         }
 
         void remove_dependency(const std::string &src_name, const std::string &dest_name){
-            BAYLIB_ASSERT(has_variable(src_name) && has_variable(dest_name),
-                          "out of bound access to graph",
-                          std::out_of_range)
+            auto src_id = index_of(src_name);
+            auto dest_id = index_of(dest_name);
 
-            auto& src = variable(src_name);
-            auto& dest = variable(dest_name);
-
-            boost::remove_edge(src._id, dest._id, *graph);
-            dest.parents_info.remove(src_name);
+            remove_dependency(src_id, dest_id);
         }
 
         void remove_dependency(vertex_id src_id, vertex_id dest_id) {
@@ -184,9 +182,7 @@ namespace bn {
 
         std::vector<vertex_id> children_of(const std::string &name) const{
             auto v  = index_of(name);
-            auto it = boost::make_iterator_range(adjacent_vertices(v, *graph));
-
-            return std::vector<vertex_id>(it.begin(), it.end());
+            return children_of(v);
         }
 
         std::vector<vertex_id> children_of(vertex_id v) const{
@@ -200,12 +196,7 @@ namespace bn {
 
         std::vector<vertex_id> parents_of(const std::string &name) const{
             auto v = index_of(name);
-            std::vector<vertex_id> parents;
-
-            for(auto ed : boost::make_iterator_range(boost::in_edges(v, *graph)))
-                parents.push_back(boost::source(ed, *graph));
-
-            return parents;
+            return parents_of(v);
         }
 
 
@@ -235,9 +226,9 @@ namespace bn {
             // make sure the cardinality of parents is correct
             BAYLIB_ASSERT(cond.size() == nparents,
                           "condition contains "
-                          + std::to_string(cond.size())
-                          + " while " + var_name + " has "
-                          + std::to_string(nparents),
+                          << cond.size() << " while "
+                          << var_name << " has "
+                          << nparents,
                           std::logic_error)
 
             // make sure the parents are actually correct

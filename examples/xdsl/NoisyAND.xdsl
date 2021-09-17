@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smile version="1.0" id="NoisyAND" numsamples="1000" discsamples="10000">
+	<nodes>
+		<cpt id="EquipmentFailure">
+			<state id="NoFailure" />
+			<state id="Failure" />
+			<probabilities>0.98 0.02</probabilities>
+		</cpt>
+		<cpt id="HumanError">
+			<state id="NoError" />
+			<state id="Error" />
+			<probabilities>0.9 0.1</probabilities>
+		</cpt>
+		<noisymax id="Accident">
+			<state id="NoAccident" />
+			<state id="Accident" />
+			<parents>EquipmentFailure HumanError</parents>
+			<strengths>0 1 0 1</strengths>
+			<parameters>0.8 0.2 0 1 0.9 0.1 0 1 0.05000000000000004 0.95</parameters>
+		</noisymax>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 3.0.6003.8 1d6c9905dc9fb00" name="Noisy AND example network">
+			<comment>A simple network demonstrating the Noisy AND gate.\nReference:\nBayesFusion, LLC</comment>
+			<node id="EquipmentFailure">
+				<name>Equipment Failure</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>46 37 145 84</position>
+				<barchart active="true" width="144" height="64" />
+			</node>
+			<node id="HumanError">
+				<name>Human Error</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>220 39 293 84</position>
+				<barchart active="true" width="128" height="64" />
+			</node>
+			<node id="Accident">
+				<name>Accident</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000080" name="Arial" size="10" bold="true" />
+				<position>135 147 213 182</position>
+				<barchart active="true" width="149" height="64" />
+			</node>
+			<textbox>
+				<caption>A simple model demonstrating the use of the Noisy AND gate in GeNIe.\n\nPlease note that each of the nodes has its states reversed so that Noisy AND can be implemented by means of a Noisy OR with negation, according to the De Morgan laws.</caption>
+				<font color="000080" name="Arial" size="12" bold="true" />
+				<position>280 105 574 257</position>
+			</textbox>
+		</genie>
+	</extensions>
+</smile>

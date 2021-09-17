@@ -4,15 +4,15 @@
  <img alt="c++" src="https://img.shields.io/badge/C++-17 | 20-blue.svg?style=flat&logo=c%2B%2B"/> 
  <img alt="CI build" src="https://github.com/mspronesti/baylib/actions/workflows/ci.yml/badge.svg"/> 
  <img alt="GPU build" src="https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg"/>
+ <img alt="License" src="https://img.shields.io/github/license/mspronesti/baylib"/>
 </p>
 
-Baylib is a simple inference library for discrete Bayesian networks developed as final project for System Programming class at PoliTO.
-It supports approximate inference algorithms.
+Baylib is a parallel inference library for discrete Bayesian networks supporting approximate inference algorithms both in CPU and GPU.
 
 ## Main features
 Here's a list of the main requested features:
 * Copy-On-Write semantics for the graph data structure, including the conditional probability table (CPT) of each node 
-* parallel implementation of the algorithms either using C++11 (or higher) threads or GPU computing with [boost compute](https://www.boost.org/doc/libs/1_66_0/libs/compute/doc/html/index.html)
+* parallel implementation of the algorithms either using C++17 threads or GPU computing with [boost compute](https://www.boost.org/doc/libs/1_66_0/libs/compute/doc/html/index.html)
 * template-based classes for probability format
 * input compatibility with the [XDSL format](https://support.bayesfusion.com/docs/) provided by the SMILE library
 * cmake-based deployment
@@ -21,7 +21,18 @@ Here's a list of the main requested features:
 * Gibbs Sampling - C++17 threads
 * Likelihood Weighting - C++17 threads
 * Logic Sampling - GPGPU with boost compute
+* Rejection Sampling - C++17 threads
+* Adaptive importance sampling - C++17 threads, GPGPU with boost compute
 
+|       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| GPGPU 	|
+|:------------------------------:|--------------|-----------------------|-------------------|-----------|
+| gibbs sampling       	         |    &check;   |     *                 |     &check;       |           |
+| likelihood weighting 	         |    &check;   |     &check;           |     &check;       |           |
+| logic sampling       	         |              |     &check;           |                   |  &check;  |
+| rejection sampling  	         |    &check;   |     &check;           |     &check;       |           |
+| adaptive importance sampling   |    &check;  	|     &check;           |     &check;       |  &check;  |
+
+*It's a very well-known limitation of the Gibbs sampling approach
 ## Install Dependencies
 Under Linux, you can use 
 the provided script [install_dependencies.sh](scripts/install_dependencies.sh) as follows
@@ -62,9 +73,6 @@ target_link_libraries(<your_executable> baylib)
 Baylib allows performing approximate inference on Bayesian Networks loaded from xdsl files
 or created by hand (either using named nodes or numeric identifiers). 
 
-Please notice that the current release
-does not support inference when providing evidences.
-
 Have a look at [examples](examples) for more.
 
 ## External references
@@ -74,3 +82,5 @@ Have a look at [examples](examples) for more.
 * [likelihood weighting](https://arxiv.org/pdf/1304.1504.pdf)
 * [likelihood weighting pseudo-code](https://github.com/aimacode/aima-pseudocode/blob/master/md/Likelihood-Weighting.md)
 * [logic sampling](https://www.academia.edu/35954159/Propagating_Uncertainty_in_Bayesian_Networks_by_Probabilistic_Logic_Sampling)
+* [rejection sampling pseudo-code](https://github.com/aimacode/aima-pseudocode/blob/master/md/Rejection-Sampling.md)
+* [adaptive importance sampling](https://arxiv.org/abs/1106.0253)

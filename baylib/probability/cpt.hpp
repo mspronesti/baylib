@@ -173,8 +173,12 @@ namespace bn{
                 return seed;
             }
 
+            [[nodiscard]] unsigned long number_of_states() const{ return d->nstates;}
 
-        private:
+            [[nodiscard]] unsigned long number_of_conditions() const{ return d.data()->table.size();}
+
+
+        protected:
             friend class bn::bayesian_network<Probability>;
             bn::cow::shared_ptr<CPTData<Probability>> d;
             // assigns a condition its index in the cpt

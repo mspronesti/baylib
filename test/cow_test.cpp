@@ -8,6 +8,7 @@
 #include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
+#include <baylib/inference/adaptive_importance_sampling.hpp>
 
 #define THREADS std::thread::hardware_concurrency()
 #define SAMPLES 10000
@@ -96,10 +97,11 @@ TEST_F(cow_tests, cow_inference){
     auto net5 = bn::xdsl_parser<double>().deserialize("../../examples/xdsl/Credit.xdsl");
 
     bn::condition c;
-    auto logic = logic_sampling<double>(MEMORY, SAMPLES);
+    auto logic = logic_sampling<double>(SAMPLES, MEMORY);
     auto gibbs = gibbs_sampling<double>(SAMPLES, THREADS);
     auto likely = likelihood_weighting<double>(SAMPLES, THREADS);
-    std::vector<inference_algorithm<double>*> algorithms = {&gibbs, &logic, &likely};
+    auto adaptive = adaptive_importance_sampling<double>(SAMPLES, MEMORY);
+    std::vector<inference_algorithm<double>*> algorithms = {&gibbs, &logic, &likely, &adaptive};
     const auto& e1 = net5["Income"].table();
     const auto& e2 = net5["Assets"].table();
 

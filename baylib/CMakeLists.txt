@@ -20,7 +20,8 @@ if(NOT TARGET OpenCL::OpenCL)
     find_package(OpenCL REQUIRED)
     set_target_properties(OpenCL::OpenCL PROPERTIES INTERFACE_COMPILE_DEFINITIONS CL_TARGET_OPENCL_VERSION=220)
 endif()
-find_package (Threads REQUIRED)
+find_package(Threads REQUIRED)
+find_package(TBB REQUIRED)
 
 set(BAYLIB_REQUIRED_LIBS
     OpenCL
@@ -28,6 +29,7 @@ set(BAYLIB_REQUIRED_LIBS
     boost_thread
     boost_system
     boost_thread
+    tbb
 )
 
 set (src
@@ -36,6 +38,7 @@ set (src
     inference/gibbs_sampling.hpp
     inference/likelihood_weighting.hpp
     inference/logic_sampling.hpp
+    inference/rejection_sampling.hpp
     network/bayesian_network.hpp
     network/bayesian_utils.hpp
     network/random_variable.hpp
@@ -49,7 +52,9 @@ set (src
     tools/threads/thread_pool.hpp
     tools/random/random_generator.hpp
     baylib_assert.h
-    )
+    inference/adaptive_importance_sampling.hpp
+    probability/icpt.hpp
+    tools/gpu/gpu_utils.hpp)
 
 set (BAYLIB_INCLUDE_LIBS ../baylib)
 

@@ -8,10 +8,12 @@
 #include <baylib/inference/gibbs_sampling.hpp>
 #include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
+#include <baylib/inference/rejection_sampling.hpp>
+#include <baylib/inference/adaptive_importance_sampling.hpp>
 
 
 #define THREADS std::thread::hardware_concurrency()
-#define SAMPLES 10000
+#define SAMPLES 20000
 #define MEMORY 500*(std::pow(2,30))
 #define TOLERANCE 0.05
 
@@ -22,22 +24,36 @@ class inference_tests : public ::testing::Test{
 protected:
     typedef std::shared_ptr<inference_algorithm<Probability>> algorithm_ptr;
     std::vector<algorithm_ptr> algorithms;
+    std::vector<algorithm_ptr> algorithms_det;
 
     inference_tests() = default;
     ~inference_tests() override = default;
 
     void SetUp() override{
-        auto logic = std::make_shared<logic_sampling<Probability>>(MEMORY, SAMPLES);
+        auto logic = std::make_shared<logic_sampling<Probability>>(SAMPLES, MEMORY);
         auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
         auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
+        auto rejection = std::make_shared<rejection_sampling<Probability, std::default_random_engine>>(SAMPLES, THREADS);
+        auto adaptive =  std::make_shared<adaptive_importance_sampling<Probability>>(SAMPLES, MEMORY);
 
         algorithms = { gibbs,
                        logic,
-                       likely};
+                       likely,
+                       rejection,
+                       adaptive
+                       };
+
+        algorithms_det = { logic,
+                           likely,
+                           rejection,
+                           adaptive
+                          };
     }
 };
 
-// Basic starting test
+/**
+ * Basic test on a quite small network
+ */
 TEST_F(inference_tests, big_bang_Coma){
 
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
@@ -62,7 +78,9 @@ TEST_F(inference_tests, big_bang_Coma){
     }
 }
 
-// Test on non binary variables
+/**
+ * Test with networks with non-binary variables
+ */
 TEST_F(inference_tests, big_bang_VentureBNExpanded){
 
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
@@ -85,7 +103,9 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         }
     }
 
-    // Test on medium size bayesian network
+    /**
+     * Test on medium-size bayesian network
+     */
     TEST_F(inference_tests, big_bang_Credit){
 
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
@@ -142,13 +162,15 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         }
     }
 
-    // Test on mixture between absolute and non absolute probabilities
+    /**
+     * Test on mixture between absolute and non absolute probabilities
+     */
     TEST_F(inference_tests, big_bang_Asia){
 
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
         auto net4 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/AsiaDiagnosis.xdsl");
 
-        for(const auto& sampling : algorithms){
+        for(const auto& sampling : algorithms_det){
             auto result = sampling->make_inference(net4);
 
             ASSERT_NEAR(result[net4.index_of("Tuberculosis")][0], .99, TOLERANCE);
@@ -168,13 +190,15 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         }
     }
 
-    // Test on Large network
+    /**
+     * Test a quite large network
+     */
     TEST_F(inference_tests, big_bang_Hail){
 
         https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FHailfinder2.5.xdsl
         auto net5 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Hailfinder2.5.xdsl");
 
-        for(const auto& sampling : algorithms){
+        for(const auto& sampling : algorithms_det){
             auto result = sampling->make_inference(net5);
 
             ASSERT_NEAR(result[net5.index_of("R5Fcst")][0], 0.25, TOLERANCE);
@@ -186,13 +210,15 @@ TEST_F(inference_tests, big_bang_VentureBNExpanded){
         }
     }
 
-    // Test on very large network (200 000 nodes)
+    /**
+     * Test on a large network (~ 200 000)
+     */
     TEST_F(inference_tests, big_bang_Link){
 
         //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl
         auto net6 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Link.xdsl");
 
-        for(const auto& sampling : algorithms){
+        for(const auto& sampling : algorithms_det){
             auto result = sampling->make_inference(net6);
 
             ASSERT_NEAR(result[net6.index_of("N59_d_g")][0], 0., TOLERANCE);

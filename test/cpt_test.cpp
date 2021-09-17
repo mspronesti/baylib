@@ -6,6 +6,7 @@
 #include <baylib/network/bayesian_network.hpp>
 #include <baylib/probability/condition.hpp>
 #include <baylib/network/bayesian_utils.hpp>
+#include <baylib/probability/icpt.hpp>
 
 class cpt_tests : public ::testing::Test {
 protected:
@@ -123,7 +124,6 @@ TEST_F(cpt_tests, test_parents) {
     ASSERT_EQ(b_cpt[c1][F], 1 - .5);
     ASSERT_EQ(b_cpt[c1][T],  .5);
 
-    std::cout << a_cpt;
 }
 
 
@@ -195,6 +195,7 @@ TEST_F(cpt_tests, cow){
 
     ASSERT_NE(std::addressof(a7), std::addressof(a8));
 }
+
 
 
 int main(int argc, char** argv){

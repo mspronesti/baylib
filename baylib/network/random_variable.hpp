@@ -28,6 +28,8 @@ namespace  bn {
         : _name(std::move(name))
         , cpt(states.size())
         , _states(states)
+        , _is_evidence(false)
+        , _state_value(0)
         { }
 
         bool has_state(const std::string &state_name) const {
@@ -62,6 +64,32 @@ namespace  bn {
 
         unsigned long id() const {
             return _id;
+        }
+
+        void set_as_evidence(unsigned long value){
+            BAYLIB_ASSERT(value < _states.size(),
+                          "Invalid value for random"
+                          " variable" << _name,
+                          std::runtime_error)
+            _state_value = value;
+            _is_evidence = true;
+        }
+
+        void clear_evidence() {
+            _is_evidence = false;
+        }
+
+        bool is_evidence() const {
+            return _is_evidence;
+        }
+
+        unsigned long evidence_state() const {
+            BAYLIB_ASSERT(_is_evidence,
+                          "Random variable " << _name
+                          << " is not an evidence",
+                          std::logic_error)
+
+            return _state_value;
         }
 
         struct parents_info_t {
@@ -108,6 +136,8 @@ namespace  bn {
         std::string _name;
         bn::cow::cpt<Probability> cpt;
         std::vector <std::string> _states;
+        bool _is_evidence{};
+        unsigned long _state_value;
         unsigned long _id{};
 
     };

@@ -22,63 +22,25 @@ namespace bn {
          * @tparam Generator  : the random generator
          *                     (default Mersenne Twister pseudo-random generator)
          */
-        template<typename Probability, typename Generator = std::mt19937>
-        class likelihood_weighting : public inference_algorithm<Probability>
+        template<typename Probability = double, typename Generator = std::mt19937>
+        class likelihood_weighting : public parallel_inference_algorithm<Probability>
         {
             typedef std::vector<ulong> pattern_t;
-            typedef std::future<bn::marginal_distribution<Probability>> result;
         public:
             explicit likelihood_weighting(
                     ulong nsamples,
                     uint nthreads = 1,
                     uint seed = 0
             )
-            : inference_algorithm<Probability>(nsamples, nthreads, seed)
+            : parallel_inference_algorithm<Probability>(nsamples, nthreads, seed)
             { };
 
-            bn::marginal_distribution<Probability> make_inference (
-                    const bayesian_network<Probability> &bn
-            ) override
-            {
-                BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
-                                           [](auto &var){ return bn::cpt_filled_out(var); }),
-                              "conditional probability tables must be properly filled to"
-                              " run likelihood weighting inference algorithm",
-                              std::runtime_error)
-
-                bn::marginal_distribution<Probability> inference_result(bn.begin(), bn.end());
-                std::vector<result> results;
-
-                auto job = [this, &bn](ulong samples, uint seed){
-                    return parallel_step(bn, samples, seed);
-                };
-
-                bn::seed_factory sf(this->nthreads, this->seed);
-                ulong samples_per_thread = this->nsamples/this->nthreads;
-
-                // assigning jobs
-                for(uint i = 0; i < this->nthreads - 1; ++i)
-                     results.emplace_back(std::async(job, samples_per_thread, sf.get_new() ));
-
-                // last thread (doing the extra samples if nsamples % nthreads != 0)
-                ulong left_samples = this->nsamples - (this->nthreads - 1) * samples_per_thread;
-                results.emplace_back(std::async(job, samples_per_thread, sf.get_new() ));
-
-                // accumulate results of each parallel execution
-                for(auto & res: results)
-                    inference_result += res.get();
-
-                // normalize the distribution before retrieving it
-                inference_result.normalize();
-                return inference_result;
-            }
-
         private:
-            bn::marginal_distribution<Probability> parallel_step(
+            bn::marginal_distribution<Probability> sample_step(
                  const bn::bayesian_network<Probability> &bn,
                  ulong nsamples,
                  uint seed
-             )
+            ) override
             {
                 bn::marginal_distribution<Probability> mdistr(bn.begin(), bn.end());
                 bn::random_generator<Probability, Generator> rnd_gen(seed);
@@ -94,7 +56,7 @@ namespace bn {
                 return mdistr;
             }
 
-            // private members
+
             std::pair<pattern_t , Probability> weighted_sample(
                 const  bn::bayesian_network<Probability> &bn,
                 bn::random_generator<Probability> & rnd_gen
@@ -109,7 +71,6 @@ namespace bn {
                     auto & var = bn[vid];
                     bn::condition parent_state;
 
-                    // evidences not handled hence skipping check
                     for(auto par : bn.parents_of(vid))
                         parent_state.add(
                                 bn[par].name(),
@@ -117,11 +78,16 @@ namespace bn {
                         );
 
                     const auto & cpt = var.table();
-
-                    pattern[vid] = make_random_by_weight(
-                            rnd_gen.get_random(),
-                            cpt[parent_state]
-                    );
+                    if(var.is_evidence()) {
+                        ulong evidence_state = var.evidence_state();
+                        weight *= cpt[parent_state][evidence_state];
+                        pattern[vid] = evidence_state;
+                    } else {
+                        pattern[vid] = make_random_by_weight(
+                                rnd_gen.get_random(),
+                                cpt[parent_state]
+                        );
+                    }
                 }
 
                 return std::make_pair(pattern, weight);

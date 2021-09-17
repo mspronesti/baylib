@@ -34,6 +34,10 @@ namespace bn {
             return dist(gen, typename dist_type::param_type{from, to});
         }
 
+        T operator () (T from = 0., T to = 1.) {
+            return get_random(from, to);
+        }
+
     private:
        uint prime(uint seed)
        {
