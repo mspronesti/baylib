@@ -2,7 +2,13 @@ name: build GPU
 
 on:
   push:
+    branches:
+      - master
+      - develop
   pull_request:
+    branches:
+      - master
+      - develop
 
 jobs:
   build:
@@ -13,7 +19,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake ..
+          cmake .. -DBUILD_TESTS=ON
           make
       - name: Test
         run: |

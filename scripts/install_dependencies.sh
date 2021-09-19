@@ -17,12 +17,3 @@ sudo apt install mesa-opencl-icd
 # TBB
 sudo apt install libtbb-dev
 
-# google test
-git clone https://github.com/google/googletest
-cd googletest
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
-

@@ -1,6 +1,5 @@
 # baylib C++ library
 <p align="center">
- <img alt="cmake" src="https://img.shields.io/badge/cmake-v3.13+-green"/>
  <img alt="c++" src="https://img.shields.io/badge/C++-17 | 20-blue.svg?style=flat&logo=c%2B%2B"/> 
  <img alt="CI build" src="https://github.com/mspronesti/baylib/actions/workflows/ci.yml/badge.svg"/> 
  <img alt="GPU build" src="https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg"/>

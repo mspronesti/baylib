@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 2.8)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -39,6 +39,7 @@ set (src
     inference/likelihood_weighting.hpp
     inference/logic_sampling.hpp
     inference/rejection_sampling.hpp
+    inference/adaptive_importance_sampling.hpp
     network/bayesian_network.hpp
     network/bayesian_utils.hpp
     network/random_variable.hpp
@@ -46,15 +47,15 @@ set (src
     probability/condition.hpp
     probability/condition_factory.hpp
     probability/cpt.hpp
+    probability/icpt.hpp
     probability/marginal_distribution.hpp
     tools/cow/shared_data.hpp
     tools/cow/shared_ptr.hpp
+    tools/gpu/gpu_utils.hpp
     tools/threads/thread_pool.hpp
     tools/random/random_generator.hpp
     baylib_assert.h
-    inference/adaptive_importance_sampling.hpp
-    probability/icpt.hpp
-    tools/gpu/gpu_utils.hpp)
+)
 
 set (BAYLIB_INCLUDE_LIBS ../baylib)
 
@@ -75,7 +76,8 @@ target_link_libraries(baylib ${BAYLIB_REQUIRED_LIBS})
 
 install(DIRECTORY ./
         DESTINATION include/baylib
-        FILES_MATCHING PATTERN "*.hpp"
+        FILES_MATCHING
+        PATTERN "*.hpp"
         PATTERN "*.h"
 )
 
