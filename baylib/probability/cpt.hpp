@@ -15,6 +15,11 @@
 #include <baylib/tools/cow/shared_ptr.hpp>
 
 /**
+ * @file cpt.hpp
+ * @brief CPT class with COW optimization
+ */
+
+/**
  * ========= Conditional Probability Table ==========
  * This class models the conditional probability table
  * associated to each variable of the bayesian network.

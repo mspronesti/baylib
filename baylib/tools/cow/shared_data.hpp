@@ -10,6 +10,11 @@
 #include <utility>
 
 /**
+ * @file shared_data.hpp
+ * @brief implementation of qshareddata.h from Qt library
+ */
+
+/**
  * Adapted version of qshareddata.h from Qt library
  * (which already implements the copy on write in an
  * efficient way)

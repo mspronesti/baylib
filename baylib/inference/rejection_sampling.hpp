@@ -8,6 +8,9 @@
 #include <baylib/inference/abstract_inference_algorithm.hpp>
 #include <baylib/tools/random/random_generator.hpp>
 
+//! \file rejection_sampling.hpp
+//! \brief Rejection Sampling implementation with multi-thread support
+
 namespace bn{
     namespace inference {
         /**

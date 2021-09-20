@@ -7,6 +7,9 @@
 
 #include <baylib/baylib_assert.h>
 
+//! @file condition.hpp
+//! @brief Condition class used for CPT indexing
+
 namespace bn {
     using state_t = std::uint64_t;
 
@@ -28,6 +31,11 @@ namespace bn {
                 cmap[k] = v;
         }
 
+        /**
+         * copy operator
+         * @param other : condition to be copied
+         * @return      : new condition
+         */
         condition &operator=(const condition &other) {
             if (this == &other)
                 return *this;
@@ -36,10 +44,20 @@ namespace bn {
             return *this;
         }
 
+        /**
+         * Add a new pair of node name + value of node
+         * @param node_name : name of node
+         * @param val       : value of node
+         */
         void add(const std::string &node_name, state_t val) {
             cmap[node_name] = val;
         }
 
+        /**
+         * Operator to retrieve the state of a given node
+         * @param node_name : node name
+         * @return          : state
+         */
         state_t &operator[](const std::string &node_name) {
             BAYLIB_ASSERT(contains(node_name),
                     "condition doesn't contain node"
@@ -49,6 +67,11 @@ namespace bn {
             return cmap[node_name];
         }
 
+        /**
+        * Operator to retrieve the state of a given node
+        * @param node_name : node name
+        * @return          : state
+        */
         const state_t &operator[](const std::string &node_name) const {
             BAYLIB_ASSERT(contains(node_name),
                           "condition doesn't contain node"
@@ -58,34 +81,66 @@ namespace bn {
             return cmap.at(node_name);
         }
 
+        /**
+         * utility to swap content of two conditions
+         * @param other : other condition
+         */
         void swap(condition &other) {
             cmap.swap(other.cmap);
         }
 
+        /**
+         * empty the condition of its contents
+         */
         void clear() {
             cmap.clear();
         }
 
+        /**
+         * check if a node was set in the condition
+         * @param node_name : node name
+         * @return          : true if node_name corresponds to a set state in the condition
+         */
         bool contains(const std::string &node_name) const {
             return cmap.find(node_name) != cmap.end();
         }
 
-        auto  begin() const {
+        /**
+         * begin iterator of condition contents
+         * @return : iterator
+         */
+        auto begin() const {
             return cmap.begin();
         }
 
+        /**
+         * end iterator of condition contents
+         * @return : iterator
+         */
         auto end() const {
             return cmap.end();
         }
 
+        /**
+         * begin reverse iterator of condition contents
+         * @return : iterator
+         */
         auto rbegin() const {
             return cmap.rbegin();
         }
 
+        /**
+         * end reverse iterator of condition contents
+         * @return : iterator
+         */
         auto rend() const {
             return cmap.rend();
         }
 
+        /**
+         * get the number of set nodes in the condition
+         * @return size of condition
+         */
         unsigned int size() const {
             return cmap.size();
         }
@@ -114,6 +169,12 @@ namespace bn {
             }
         }
 
+        /**
+         * operator for printing the condition on stream
+         * @param os : stream
+         * @param c  : condition
+         * @return   : stream
+         */
         friend std::ostream& operator << (std::ostream &os, const condition &c)
         {
           for(auto & [k,v] : c.cmap)

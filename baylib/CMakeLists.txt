@@ -28,7 +28,6 @@ set(BAYLIB_REQUIRED_LIBS
     pthread
     boost_thread
     boost_system
-    boost_thread
     tbb
 )
 

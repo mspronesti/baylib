@@ -13,6 +13,9 @@
 #include <boost/compute/device.hpp>
 #include <future>
 
+//! \file abstract_inference_algorithm.hpp
+//! \brief Abstract classes for stocastic algorithms
+
 namespace bn {
     namespace inference {
         /**
@@ -75,8 +78,9 @@ namespace bn {
                     unsigned long nsamples,
                     unsigned int nthreads = 1,
                     unsigned int seed = 0
-                            )
-                            : inference_algorithm<Probability>(nsamples, seed) {
+            )
+            : inference_algorithm<Probability>(nsamples, seed)
+            {
                 set_number_of_threads(nthreads);
             }
 
@@ -155,14 +159,20 @@ namespace bn {
 
 
         public:
-            vectorized_inference_algorithm(ulong n_samples, size_t memory, uint seed = 0,
-                                           const compute::device &device = compute::system::default_device()) :
-                                           inference_algorithm<Probability>(n_samples, seed),
-                                           memory(memory), device(device), context(device),
-                                           queue(context, device), rand(queue, seed) {}
+            vectorized_inference_algorithm(
+                    ulong n_samples, size_t memory
+                    ,uint seed = 0
+                    ,const compute::device &device = compute::system::default_device()
+            )
+            : inference_algorithm<Probability>(n_samples, seed)
+            , memory(memory)
+            , device(device)
+            , context(device)
+            , queue(context, device)
+            , rand(queue, seed)
+            {}
 
-                                           using prob_v = boost::compute::vector<Probability>;
-            using r_vec = boost::compute::vector<int>;
+            using prob_v = boost::compute::vector<Probability>;
 
         protected:
 
@@ -199,14 +209,15 @@ namespace bn {
              * Simulations of a specific node using opencl
              * @param cpt cpt of the node
              * @param parents_result results of previous simulate_node calls
-             * @param dim dimension of the simulation
+             * @param dim number of samples of the simulation
              * @return result of the simulation
              */
             bcvec simulate_node(
                     const cow::cpt<Probability> &cpt,
                     std::vector<bcvec*> &parents_result,
-                    int dim) {
-
+                    int dim
+            )
+            {
                 std::vector<Probability> flat_cpt_accum = accumulate_cpt(cpt);
                 bcvec result(dim, cpt.number_of_states(), context);
                 prob_v device_cpt(flat_cpt_accum.size(), context);
@@ -215,7 +226,6 @@ namespace bn {
                 compute::uniform_real_distribution<Probability> distribution(0, 1);
                 compute::vector<int> index_vec(dim, context);
 
-                //std::cerr << std::setprecision(2) << std::fixed;
                 // Async copy of the cpt in gpu memory
                 compute::copy(flat_cpt_accum.begin(), flat_cpt_accum.end(), device_cpt.begin(), queue);
 
@@ -285,10 +295,7 @@ namespace bn {
 
                 return result;
             }
-
-
         };
-
     } // namespace inference
 } // namespace bn
 

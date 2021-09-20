@@ -8,26 +8,61 @@
 #include <probability/cpt.hpp>
 #include <utility>
 
+/**
+ * @file icpt.hpp
+ * @brief ICPT class for learning CPTs distribution
+ */
+
+
 namespace bn{
     namespace cow{
+        /**
+         * ICPT is a child class of CPT that enables learning of unknown distributions starting from
+         * a known CPT or an empty table
+         * @tparam Probability : type of ICPT entry
+         */
         template <typename Probability>
         class icpt: public bn::cow::cpt<Probability>{
 
         public:
             icpt()= default;
 
-            icpt(const std::vector<ulong> &parents_size, uint states): icpt(parents_size, states, 1/static_cast<Probability>(states)){};
+            /**
+             * icpt constructor, builds a new table given the cardinality of the parents and the number
+             * of states of the variable, the distribution is automatically set to an uniform one
+             * @param parents_size : vector of sizes of the parents
+             * @param states       : number of states
+             */
+            explicit icpt(
+                    const std::vector<ulong> &parents_size,
+                    uint states
+            )
+            : icpt(parents_size, states, 1/static_cast<Probability>(states))
+            { };
 
-            explicit icpt(cow::cpt<Probability>& cpt, bool empty=false):
-            bn::cow::cpt<Probability>(cpt){
+            /**
+             * constructor that builds an icpt given a cpt, optionally it empties the entries
+             * @param cpt   : cpt that is copied
+             * @param empty : if set true the icpt is filled with zeros
+             */
+            explicit icpt(
+                    cow::cpt<Probability>& cpt,
+                    bool empty=false
+            )
+            : bn::cow::cpt<Probability>(cpt)
+            {
                 if(empty){
-                    for(int i=0; i < this->size(); i++){
-                        for(int j=0; j < (*this)[i].size(); j++)
-                            (*this)[i][j] = 0;
+                    for(auto& row: this->d->table){
+                        row = std::vector<Probability>(row.size(), 0.);
                     }
                 }
             }
 
+            /**
+             * operator that returns the distribution of a specific realization of the parents
+             * @param cond : condition
+             * @return     : probability distribution
+            */
             std::vector<Probability> &operator[] (const bn::condition &cond){
                 return this->d->table[this->cond_map.at(cond)];
             }
@@ -37,10 +72,18 @@ namespace bn{
                 return this->d.data()->table[index];
             }
 
+            /**
+             * operator that returns the row of a cpt given the index
+             * @param index : index
+             * @return      : row of cpt
+             */
             const std::vector<Probability>& operator[](uint index) const{
                 return this->d.data()->table[index];
             }
 
+            /**
+             * modifies the content of the icpt by dividing each row by its sum
+             */
             void normalize(){
                 for(std::vector<Probability>& row: this->d.data()->table){
                     Probability sum = std::accumulate(row.begin(), row.end(), 0.0);

@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <future>
 
+//! \file gibbs_sampling.hpp
+//! \brief Gibbs Sampling implementation with multi-thread support
 
 namespace bn {
     namespace inference {
@@ -57,7 +59,7 @@ namespace bn {
             const bn::bayesian_network<Probability> &bn;
             bn::random_generator<Probability, Generator> rnd_gen;
             ulong nsamples;
-
+            
             std::pair<ulong, ulong> sample_single_variable( bn::random_variable<Probability> & var )
             {
                 ulong index = var.id();
@@ -102,6 +104,11 @@ namespace bn {
                 return {index, j};
             }
 
+            /**
+             * Get the probability of the current realization of a specific node
+             * @param n : numerical identifier of node
+             * @return  : Probability of the current realization of n
+             */
             Probability get_probability ( const unsigned long n )
             {
                 bn::condition c;
@@ -142,7 +149,7 @@ namespace bn {
                     uint seed = 0
             )
             : parallel_inference_algorithm<Probability>(nsamples, nthreads, seed)
-            { };
+            { }
 
         private:
             bn::marginal_distribution<Probability> sample_step(

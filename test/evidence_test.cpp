@@ -35,11 +35,15 @@ protected:
         auto rejection = std::make_shared<rejection_sampling<Probability>>(SAMPLES, THREADS);
         auto adaptive =  std::make_shared<adaptive_importance_sampling<Probability>>(SAMPLES, MEMORY);
 
+        // Logic Sampling has some difficulties with unlikely evidences, for this reason we have to use more samples
+        // to have accurate results
+        auto logic = std::make_shared<logic_sampling<Probability>>(SAMPLES*200, MEMORY);
+
         algorithms = {  likely
                       , gibbs
                       , rejection
-                      , likely
                       , adaptive
+                      , logic
                     };
     }
 };
@@ -144,4 +148,9 @@ TEST_F(evidence_test, evidence_barley){
         ASSERT_NEAR(result[net.index_of("udbr")][7], .10, TOLERANCE);
         ASSERT_NEAR(result[net.index_of("udbr")][8], .01, TOLERANCE);
     }
+}
+
+int main(int argc, char** argv){
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

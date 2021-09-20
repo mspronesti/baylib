@@ -10,6 +10,9 @@
 
 #include <boost/range/adaptors.hpp>
 
+//! \file graph.hpp
+//! \brief
+
 
 namespace bn {
     template <typename Vertex>
