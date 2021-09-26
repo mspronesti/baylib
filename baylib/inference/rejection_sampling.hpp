@@ -54,11 +54,12 @@ namespace bn{
                 ulong nvars =  bn.number_of_variables();
 
                 var_state_values = std::vector<bn::state_t>(nvars, 0);
+                std::vector<bn::state_t> samples;
                 for(ulong i = 0; i < nsamples; ++i) {
-                    std::vector<bn::state_t> tmp;
                     bool reject = false;
                     for (ulong n = 0; n < nvars; ++n) {
                         bn::state_t state_val = prior_sample(n, bn, var_state_values, rnd_gen);
+                        // if evidences are not sampled accordingly, discard the samples
                         if(bn[n].is_evidence() && bn[n].evidence_state() != state_val)
                         {
                             reject = true;
@@ -66,16 +67,16 @@ namespace bn{
                         }
 
                         var_state_values[n] = state_val;
-                        tmp.push_back(state_val);
+                        samples.push_back(state_val);
                     }
 
-                    if(!reject){
+                    if(!reject) {
                         ulong vid = 0;
-                        for(ulong s : tmp)
+                        for(ulong s : samples)
                             ++marginal_distr[vid++][s];
                     }
 
-                    tmp.clear();
+                    samples.clear();
                 }
 
                 return marginal_distr;

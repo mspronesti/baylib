@@ -93,7 +93,8 @@ namespace bn {
              */
             bn::marginal_distribution<Probability> make_inference(
                     const bn::bayesian_network<Probability> &bn
-                    ) override {
+            ) override
+            {
                 typedef std::future<bn::marginal_distribution<Probability>> result;
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
                                           [](auto &var) { return bn::cpt_filled_out(var); }),
@@ -138,11 +139,15 @@ namespace bn {
                     const bn::bayesian_network<Probability> &bn,
                     unsigned long nsamples_per_step,
                     unsigned int seed
-                    ) = 0;
+            ) = 0;
 
             unsigned int nthreads;
         };
 
+
+        namespace compute = boost::compute;
+        using boost::compute::lambda::_1;
+        using boost::compute::lambda::_2;
         /**
          * This class models an approximate inference algorithm
          * vectorized with a GPGPU approach.
@@ -150,19 +155,13 @@ namespace bn {
          * previous simulations of its parents nodes
          * @tparam Probability  : the type expressing probability
          */
-        namespace compute = boost::compute;
-        using boost::compute::lambda::_1;
-        using boost::compute::lambda::_2;
-
         template<typename Probability>
         class vectorized_inference_algorithm : public inference_algorithm<Probability> {
-
-
         public:
             vectorized_inference_algorithm(
-                    ulong n_samples, size_t memory
-                    ,uint seed = 0
-                    ,const compute::device &device = compute::system::default_device()
+                    ulong n_samples, size_t memory,
+                    uint seed = 0,
+                    const compute::device &device = compute::system::default_device()
             )
             : inference_algorithm<Probability>(n_samples, seed)
             , memory(memory)
@@ -175,7 +174,6 @@ namespace bn {
             using prob_v = boost::compute::vector<Probability>;
 
         protected:
-
             compute::device device;
             compute::context context;
             compute::command_queue queue;
