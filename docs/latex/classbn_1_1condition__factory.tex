@@ -1,0 +1,92 @@
+\hypertarget{classbn_1_1condition__factory}{}\doxysection{bn\+::condition\+\_\+factory\texorpdfstring{$<$}{<} Probability \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1condition__factory}\index{bn::condition\_factory$<$ Probability $>$@{bn::condition\_factory$<$ Probability $>$}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbn_1_1condition__factory_ae899f6a4b47777c4a9a32cb0db2e3bca}{condition\+\_\+factory}} (const \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \&rv, const std\+::vector$<$ std\+::string $>$ \&parents=\{\})
+\item 
+bool \mbox{\hyperlink{classbn_1_1condition__factory_afb6c28c041f40fd9c916ad25eeb98ec6}{has\+\_\+next}} ()
+\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{classbn_1_1condition__factory_abec2a596316802d7aede04ac7fcee4f7}{number\+\_\+of\+\_\+combinations}} () const
+\item 
+\mbox{\hyperlink{classbn_1_1condition}{bn\+::condition}} \mbox{\hyperlink{classbn_1_1condition__factory_a98f87e544c9f0d74b27fda6ba8f331fb}{get}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbn_1_1condition__factory_a5b67510087dce14f1715d74eb012230a}\label{classbn_1_1condition__factory_a5b67510087dce14f1715d74eb012230a}} 
+\mbox{\hyperlink{classbn_1_1condition}{bn\+::condition}} {\bfseries c}
+\item 
+\mbox{\Hypertarget{classbn_1_1condition__factory_af8eaefd7d54a1ccc29b89277e3d8dc31}\label{classbn_1_1condition__factory_af8eaefd7d54a1ccc29b89277e3d8dc31}} 
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ {\bfseries var}
+\item 
+\mbox{\Hypertarget{classbn_1_1condition__factory_a373cc77d67197a62e9ed19def46c15d3}\label{classbn_1_1condition__factory_a373cc77d67197a62e9ed19def46c15d3}} 
+std\+::vector$<$ std\+::string $>$ {\bfseries \+\_\+parents}
+\item 
+\mbox{\Hypertarget{classbn_1_1condition__factory_aff67d52f713aa7f5d6491e210a2a986b}\label{classbn_1_1condition__factory_aff67d52f713aa7f5d6491e210a2a986b}} 
+std\+::uint64\+\_\+t {\bfseries condition\+\_\+index}
+\item 
+\mbox{\Hypertarget{classbn_1_1condition__factory_a8feb53286d8afb38645fd1400e91e8d3}\label{classbn_1_1condition__factory_a8feb53286d8afb38645fd1400e91e8d3}} 
+std\+::uint64\+\_\+t {\bfseries ncombinations}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classbn_1_1condition__factory_ae899f6a4b47777c4a9a32cb0db2e3bca}\label{classbn_1_1condition__factory_ae899f6a4b47777c4a9a32cb0db2e3bca}} 
+\index{bn::condition\_factory$<$ Probability $>$@{bn::condition\_factory$<$ Probability $>$}!condition\_factory@{condition\_factory}}
+\index{condition\_factory@{condition\_factory}!bn::condition\_factory$<$ Probability $>$@{bn::condition\_factory$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{condition\_factory()}{condition\_factory()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1condition__factory}{bn\+::condition\+\_\+factory}}$<$ Probability $>$\+::\mbox{\hyperlink{classbn_1_1condition__factory}{condition\+\_\+factory}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \&}]{rv,  }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{parents = {\ttfamily \{\}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+this class produces all the combinations for a given random variable of a bayesian network to fill its conditional probability table builts a condition factory 
+\begin{DoxyParams}{Parameters}
+{\em rv} & \+: random variable \\
+\hline
+{\em parents} & the vector of rv\textquotesingle{}s parents. If a specific order of the parents is needed (e.\+g. to parse xdsl) you can pass your vector, otherwise it employs the default one, taken from rv \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbn_1_1condition__factory_a98f87e544c9f0d74b27fda6ba8f331fb}\label{classbn_1_1condition__factory_a98f87e544c9f0d74b27fda6ba8f331fb}} 
+\index{bn::condition\_factory$<$ Probability $>$@{bn::condition\_factory$<$ Probability $>$}!get@{get}}
+\index{get@{get}!bn::condition\_factory$<$ Probability $>$@{bn::condition\_factory$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1condition}{bn\+::condition}} \mbox{\hyperlink{classbn_1_1condition__factory}{bn\+::condition\+\_\+factory}}$<$ Probability $>$\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+retrieves current condition \begin{DoxyReturn}{Returns}
+condition 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1condition__factory_afb6c28c041f40fd9c916ad25eeb98ec6}\label{classbn_1_1condition__factory_afb6c28c041f40fd9c916ad25eeb98ec6}} 
+\index{bn::condition\_factory$<$ Probability $>$@{bn::condition\_factory$<$ Probability $>$}!has\_next@{has\_next}}
+\index{has\_next@{has\_next}!bn::condition\_factory$<$ Probability $>$@{bn::condition\_factory$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{has\_next()}{has\_next()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+bool \mbox{\hyperlink{classbn_1_1condition__factory}{bn\+::condition\+\_\+factory}}$<$ Probability $>$\+::has\+\_\+next (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+sets next condition (if any) employing the following formula\+:
+
+f(i,j) = i / prod\+\_\+\{k=0\}$^\wedge$\{j-\/1\} (ck) mod cj
+
+where i = combination index j = random variable index cj = j-\/th variable cardinality (number of parent states) prod\+\_\+\{k=0\}$^\wedge$\{j-\/1\} is the the product for k = \{0, 1, ..., j-\/1\}
+
+\begin{DoxyReturn}{Returns}
+true if new condition false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1condition__factory_abec2a596316802d7aede04ac7fcee4f7}\label{classbn_1_1condition__factory_abec2a596316802d7aede04ac7fcee4f7}} 
+\index{bn::condition\_factory$<$ Probability $>$@{bn::condition\_factory$<$ Probability $>$}!number\_of\_combinations@{number\_of\_combinations}}
+\index{number\_of\_combinations@{number\_of\_combinations}!bn::condition\_factory$<$ Probability $>$@{bn::condition\_factory$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{number\_of\_combinations()}{number\_of\_combinations()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+std\+::uint64\+\_\+t \mbox{\hyperlink{classbn_1_1condition__factory}{bn\+::condition\+\_\+factory}}$<$ Probability $>$\+::number\+\_\+of\+\_\+combinations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+retrieves the number of total combinations for the given node, i.\+e. the number of rows in his conditional probability table (CPT) \begin{DoxyReturn}{Returns}
+combinations number 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/probability/\mbox{\hyperlink{condition__factory_8hpp}{condition\+\_\+factory.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,299 @@
+\hypertarget{bayesian__network_8hpp_source}{}\doxysection{bayesian\+\_\+network.\+hpp}
+\label{bayesian__network_8hpp_source}\index{/home/mspronesti/Desktop/baylib/baylib/network/bayesian\_network.hpp@{/home/mspronesti/Desktop/baylib/baylib/network/bayesian\_network.hpp}}
+\mbox{\hyperlink{bayesian__network_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef BAYLIB\_BAYESIAN\_NETWORK\_HPP}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define BAYLIB\_BAYESIAN\_NETWORK\_HPP}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{graph_8hpp}{baylib/graph/graph.hpp}}>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{random__variable_8hpp}{baylib/network/random\_variable.hpp}}>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <baylib/baylib\_assert.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{bayesian__utils_8hpp}{baylib/network/bayesian\_utils.hpp}}>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{20     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability>}
+\DoxyCodeLine{21     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1bayesian__network}{bayesian\_network}} \{}
+\DoxyCodeLine{22         \textcolor{keyword}{typedef} bn::graph<bn::random\_variable<Probability>> graph\_t;}
+\DoxyCodeLine{23         \textcolor{keyword}{typedef} bn::vertex<Probability> vertex\_id;}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25     \textcolor{keyword}{public}:}
+\DoxyCodeLine{26         \mbox{\hyperlink{classbn_1_1bayesian__network}{bayesian\_network}}() : graph(std::make\_shared<graph\_t>()) \{ \}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28         \textcolor{comment}{// overloading begin and end to easily loop over random\_variables}}
+\DoxyCodeLine{29         \textcolor{comment}{// avoiding packing copies inside other facilities}}
+\DoxyCodeLine{30         \textcolor{keyword}{auto} begin()\{}
+\DoxyCodeLine{31             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespacebn_aabfeec14957a6a84112596fc4aa18a9f}{bn::bundles}}(*graph).begin();}
+\DoxyCodeLine{32         \}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34         \textcolor{keyword}{auto} begin()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{35             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespacebn_aabfeec14957a6a84112596fc4aa18a9f}{bn::bundles}}(*graph).begin();}
+\DoxyCodeLine{36         \}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38         \textcolor{keyword}{auto} end() \{}
+\DoxyCodeLine{39             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespacebn_aabfeec14957a6a84112596fc4aa18a9f}{bn::bundles}}(*graph).end();}
+\DoxyCodeLine{40         \}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42         \textcolor{keyword}{auto} end()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{43             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespacebn_aabfeec14957a6a84112596fc4aa18a9f}{bn::bundles}}(*graph).end();}
+\DoxyCodeLine{44         \}}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{52         vertex\_id \mbox{\hyperlink{classbn_1_1bayesian__network_ab58b6530e9dace81e381b6f6334aecb2}{add\_variable}}(\textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} std::vector<std::string> \&states)\{}
+\DoxyCodeLine{53             BAYLIB\_ASSERT(!\mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(name),}
+\DoxyCodeLine{54                           \textcolor{stringliteral}{"{}random\_variable with name "{}}}
+\DoxyCodeLine{55                           + name + \textcolor{stringliteral}{"{} already exists"{}},}
+\DoxyCodeLine{56                           std::runtime\_error )}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58             vertex\_id v = boost::add\_vertex(\mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability>}}\{name, states\}, *graph);}
+\DoxyCodeLine{59             var\_map[name] = v;}
+\DoxyCodeLine{60             \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(name).\_id = v;}
+\DoxyCodeLine{61             \textcolor{keywordflow}{return} v;}
+\DoxyCodeLine{62         \}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{68         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1bayesian__network_a01b2241819f2d678f6e60c0bc78aefe7}{remove\_variable}}(\textcolor{keyword}{const} std::string \&name)\{}
+\DoxyCodeLine{69             \textcolor{keyword}{auto} v = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(name);}
+\DoxyCodeLine{70             boost::remove\_vertex(v, *graph);}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& var : *\textcolor{keyword}{this})}
+\DoxyCodeLine{73                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{classbn_1_1bayesian__network_a4f8923ccbabb8428ce8d88c4bccb3372}{has\_dependency}}(name, var.name()))}
+\DoxyCodeLine{74                     var.parents\_info.remove(name);}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76             var\_map.erase(name);}
+\DoxyCodeLine{77         \}}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{84         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1bayesian__network_ab328c6f81a571f048c0757620c7b890f}{add\_dependency}}(\textcolor{keyword}{const} std::string \&src\_name, \textcolor{keyword}{const} std::string \&dest\_name)\{}
+\DoxyCodeLine{85             \textcolor{keyword}{auto} src\_id = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(src\_name);}
+\DoxyCodeLine{86             \textcolor{keyword}{auto} dest\_id = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(dest\_name);}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88             \mbox{\hyperlink{classbn_1_1bayesian__network_ab328c6f81a571f048c0757620c7b890f}{add\_dependency}}(src\_id, dest\_id);}
+\DoxyCodeLine{89         \}}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{96         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1bayesian__network_a84f6a03e0e4f47ba957522d155cf71c4}{add\_dependency}}(vertex\_id src\_id, vertex\_id dest\_id) \{}
+\DoxyCodeLine{97             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(src\_id) \&\& \mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(dest\_id),}
+\DoxyCodeLine{98                           \textcolor{stringliteral}{"{}out of bound access to vertices"{}},}
+\DoxyCodeLine{99                           std::out\_of\_range);}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101             BAYLIB\_ASSERT(!\mbox{\hyperlink{classbn_1_1bayesian__network_a36ac526bdc72d7625921432a09305bad}{introduces\_loop}}(dest\_id, src\_id),}
+\DoxyCodeLine{102                           \textcolor{stringliteral}{"{}adding conditional dependency "{}}}
+\DoxyCodeLine{103                           \textcolor{stringliteral}{"{} would introduce a loop"{}},}
+\DoxyCodeLine{104                           std::logic\_error )}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106             \textcolor{keyword}{auto}\& src = \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(src\_id);}
+\DoxyCodeLine{107             \textcolor{keyword}{auto}\& dest = \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(dest\_id);}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109             boost::add\_edge(src\_id, dest\_id, *graph);}
+\DoxyCodeLine{110             dest.parents\_info.add(src.\_name, src.states().size());}
+\DoxyCodeLine{111         \}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{118         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1bayesian__network_aea1a871c59a12470ae659a39f3011a12}{remove\_dependency}}(\textcolor{keyword}{const} std::string \&src\_name, \textcolor{keyword}{const} std::string \&dest\_name)\{}
+\DoxyCodeLine{119             \textcolor{keyword}{auto} src\_id = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(src\_name);}
+\DoxyCodeLine{120             \textcolor{keyword}{auto} dest\_id = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(dest\_name);}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122             \mbox{\hyperlink{classbn_1_1bayesian__network_aea1a871c59a12470ae659a39f3011a12}{remove\_dependency}}(src\_id, dest\_id);}
+\DoxyCodeLine{123         \}}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{130         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1bayesian__network_aaebeffb462234f8f5fe1db4eff8abc55}{remove\_dependency}}(vertex\_id src\_id, vertex\_id dest\_id) \{}
+\DoxyCodeLine{131             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(src\_id) \&\& \mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(dest\_id),}
+\DoxyCodeLine{132                           \textcolor{stringliteral}{"{}out of bound access to graph"{}},}
+\DoxyCodeLine{133                           std::out\_of\_range)}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135             \textcolor{keyword}{auto} src\_name = \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(src\_id).\_name;}
+\DoxyCodeLine{136             \textcolor{keyword}{auto} \&dest = \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(dest\_id);}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138             boost::remove\_edge(src\_id, dest\_id, *graph);}
+\DoxyCodeLine{139             dest.parents\_info.remove(src\_name);}
+\DoxyCodeLine{140         \}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{146         std::uint64\_t \mbox{\hyperlink{classbn_1_1bayesian__network_af81e3c85d44ac89d7b774b4b82e0f200}{number\_of\_variables}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{147             \textcolor{keywordflow}{return} boost::num\_vertices(*graph);}
+\DoxyCodeLine{148         \}}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{155         \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability>}}\& \mbox{\hyperlink{classbn_1_1bayesian__network_a19f9f791537afae60bfe1032fa46846c}{operator [] }}(\textcolor{keyword}{const} std::string \&name)\{}
+\DoxyCodeLine{156             \textcolor{keyword}{auto} v  = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(name);}
+\DoxyCodeLine{157             \textcolor{keywordflow}{return} (*graph)[v];}
+\DoxyCodeLine{158         \}}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{165         \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability>}}\& \mbox{\hyperlink{classbn_1_1bayesian__network_a19f9f791537afae60bfe1032fa46846c}{operator [] }}(\textcolor{keyword}{const} std::string \&name)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{166             \textcolor{keyword}{auto} v  = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(name);}
+\DoxyCodeLine{167             \textcolor{keywordflow}{return} (*graph)[v];}
+\DoxyCodeLine{168         \}}
+\DoxyCodeLine{169 }
+\DoxyCodeLine{175         \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability>}}\& \mbox{\hyperlink{classbn_1_1bayesian__network_a19f9f791537afae60bfe1032fa46846c}{operator [] }}(vertex\_id v) \{}
+\DoxyCodeLine{176             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(v),}
+\DoxyCodeLine{177                           \textcolor{stringliteral}{"{}out of bound access to graph"{}},}
+\DoxyCodeLine{178                           std::out\_of\_range)}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180             \textcolor{keywordflow}{return} (*graph)[v];}
+\DoxyCodeLine{181         \}}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{188         \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability>}}\& \mbox{\hyperlink{classbn_1_1bayesian__network_a19f9f791537afae60bfe1032fa46846c}{operator [] }}(vertex\_id v)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{189             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(v),}
+\DoxyCodeLine{190                           \textcolor{stringliteral}{"{}out of bound access to graph"{}},}
+\DoxyCodeLine{191                           std::out\_of\_range)}
+\DoxyCodeLine{192 }
+\DoxyCodeLine{193             \textcolor{keywordflow}{return} (*graph)[v];}
+\DoxyCodeLine{194         \}}
+\DoxyCodeLine{195 }
+\DoxyCodeLine{201         \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability>}} \& \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(\textcolor{keyword}{const} std::string \&name)\{}
+\DoxyCodeLine{202             \textcolor{keyword}{auto} v  = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(name);}
+\DoxyCodeLine{203             \textcolor{keywordflow}{return} (*graph)[v];}
+\DoxyCodeLine{204         \}}
+\DoxyCodeLine{205 }
+\DoxyCodeLine{211         \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability>}} \& \mbox{\hyperlink{classbn_1_1bayesian__network_a1d9cbfa27b809d6f12d1acb4b731acfd}{variable}}(vertex\_id v) \{}
+\DoxyCodeLine{212             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(v),}
+\DoxyCodeLine{213                           \textcolor{stringliteral}{"{}out of bound access to graph"{}},}
+\DoxyCodeLine{214                           std::out\_of\_range)}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216             \textcolor{keywordflow}{return} (*graph)[v];}
+\DoxyCodeLine{217         \}}
+\DoxyCodeLine{218 }
+\DoxyCodeLine{225         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1bayesian__network_a4f8923ccbabb8428ce8d88c4bccb3372}{has\_dependency}}(\textcolor{keyword}{const} std::string \&name1, \textcolor{keyword}{const} std::string \&name2)  \{}
+\DoxyCodeLine{226             \textcolor{keyword}{auto} v1  = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(name1);}
+\DoxyCodeLine{227             \textcolor{keyword}{auto} v2  = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(name2);}
+\DoxyCodeLine{228 }
+\DoxyCodeLine{229             \textcolor{keywordflow}{return} boost::edge(v1, v2, *graph).second;}
+\DoxyCodeLine{230         \}}
+\DoxyCodeLine{231 }
+\DoxyCodeLine{238         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1bayesian__network_af86626625cf7763d00a7a66ccf592ec7}{has\_dependency}}(vertex\_id v1, vertex\_id v2)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{239             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(v1) \&\& \mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(v2),}
+\DoxyCodeLine{240                           \textcolor{stringliteral}{"{}out of bound access to graph"{}},}
+\DoxyCodeLine{241                           std::out\_of\_range)}
+\DoxyCodeLine{242 }
+\DoxyCodeLine{243             \textcolor{keywordflow}{return} boost::edge(v1, v2, *graph).second;}
+\DoxyCodeLine{244         \}}
+\DoxyCodeLine{245 }
+\DoxyCodeLine{251         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1bayesian__network_aaa0790c57412c3ef4b94dcca21216abe}{is\_root}}(vertex\_id v)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{252             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(v),}
+\DoxyCodeLine{253                           \textcolor{stringliteral}{"{}out of bound access to graph"{}},}
+\DoxyCodeLine{254                           std::out\_of\_range)}
+\DoxyCodeLine{255 }
+\DoxyCodeLine{256             \textcolor{keywordflow}{return} boost::in\_degree(v, *graph) == 0}
+\DoxyCodeLine{257                   \&\& boost::out\_degree(v, *graph) != 0;}
+\DoxyCodeLine{258         \}}
+\DoxyCodeLine{259 }
+\DoxyCodeLine{265         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1bayesian__network_a5b0d52baa2c08d12b2f63c86b085ce3c}{is\_root}}(\textcolor{keyword}{const} std::string \&name)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{266             \textcolor{keyword}{auto} v  = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(name);}
+\DoxyCodeLine{267             \textcolor{keywordflow}{return} boost::in\_degree(v, *graph) == 0}
+\DoxyCodeLine{268                    \&\& boost::out\_degree(v, *graph) != 0;}
+\DoxyCodeLine{269         \}}
+\DoxyCodeLine{270 }
+\DoxyCodeLine{276         std::vector<vertex\_id> \mbox{\hyperlink{classbn_1_1bayesian__network_a28d22bd40a216ebc8d28c41e7d9dc9a3}{children\_of}}(\textcolor{keyword}{const} std::string \&name)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{277             \textcolor{keyword}{auto} v  = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(name);}
+\DoxyCodeLine{278             \textcolor{keywordflow}{return} \mbox{\hyperlink{classbn_1_1bayesian__network_a28d22bd40a216ebc8d28c41e7d9dc9a3}{children\_of}}(v);}
+\DoxyCodeLine{279         \}}
+\DoxyCodeLine{280 }
+\DoxyCodeLine{286         std::vector<vertex\_id> \mbox{\hyperlink{classbn_1_1bayesian__network_a5d4423f4603e76efd16a2f8f4c864346}{children\_of}}(vertex\_id v)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{287             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(v),}
+\DoxyCodeLine{288                           \textcolor{stringliteral}{"{}out of bound access to graph"{}},}
+\DoxyCodeLine{289                           std::out\_of\_range)}
+\DoxyCodeLine{290 }
+\DoxyCodeLine{291             \textcolor{keyword}{auto} it = boost::make\_iterator\_range(adjacent\_vertices(v, *graph));}
+\DoxyCodeLine{292             \textcolor{keywordflow}{return} std::vector<vertex\_id>(it.begin(), it.end());}
+\DoxyCodeLine{293         \}}
+\DoxyCodeLine{294 }
+\DoxyCodeLine{300         std::vector<vertex\_id> \mbox{\hyperlink{classbn_1_1bayesian__network_a41e228b141e17d61c39e5a8037b87bff}{parents\_of}}(\textcolor{keyword}{const} std::string \&name)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{301             \textcolor{keyword}{auto} v = \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(name);}
+\DoxyCodeLine{302             \textcolor{keywordflow}{return} \mbox{\hyperlink{classbn_1_1bayesian__network_a41e228b141e17d61c39e5a8037b87bff}{parents\_of}}(v);}
+\DoxyCodeLine{303         \}}
+\DoxyCodeLine{304 }
+\DoxyCodeLine{305 }
+\DoxyCodeLine{311         std::vector<vertex\_id> \mbox{\hyperlink{classbn_1_1bayesian__network_af1661623cd493bb64031f8ff89a69bad}{parents\_of}}(vertex\_id v)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{312             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(v),}
+\DoxyCodeLine{313                           \textcolor{stringliteral}{"{}out of bound access to graph"{}},}
+\DoxyCodeLine{314                           std::out\_of\_range)}
+\DoxyCodeLine{315 }
+\DoxyCodeLine{316             std::vector<vertex\_id> parents;}
+\DoxyCodeLine{317 }
+\DoxyCodeLine{318             \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} ed : boost::make\_iterator\_range(boost::in\_edges(v, *graph)))}
+\DoxyCodeLine{319                 parents.push\_back(boost::source(ed, *graph));}
+\DoxyCodeLine{320 }
+\DoxyCodeLine{321             \textcolor{keywordflow}{return} parents;}
+\DoxyCodeLine{322         \}}
+\DoxyCodeLine{323 }
+\DoxyCodeLine{331         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1bayesian__network_a35aff3294508ac41670768d89c36738e}{set\_variable\_probability}}(}
+\DoxyCodeLine{332                 \textcolor{keyword}{const} std::string\& var\_name,}
+\DoxyCodeLine{333                 bn::state\_t state\_value,}
+\DoxyCodeLine{334                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}}\& cond,}
+\DoxyCodeLine{335                 Probability p}
+\DoxyCodeLine{336         )}
+\DoxyCodeLine{337         \{}
+\DoxyCodeLine{338             \textcolor{keyword}{auto} \& var = \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(var\_name);}
+\DoxyCodeLine{339             \textcolor{keyword}{auto} nparents = \mbox{\hyperlink{classbn_1_1bayesian__network_a41e228b141e17d61c39e5a8037b87bff}{parents\_of}}(var.\_id).size();}
+\DoxyCodeLine{340 }
+\DoxyCodeLine{341             \textcolor{comment}{// make sure the cardinality of parents is correct}}
+\DoxyCodeLine{342             BAYLIB\_ASSERT(cond.\mbox{\hyperlink{classbn_1_1condition_aed53588d848d44a4f8b9d4fbeb93f472}{size}}() == nparents,}
+\DoxyCodeLine{343                           \textcolor{stringliteral}{"{}condition contains "{}}}
+\DoxyCodeLine{344                           << cond.\mbox{\hyperlink{classbn_1_1condition_aed53588d848d44a4f8b9d4fbeb93f472}{size}}() << \textcolor{stringliteral}{"{} while "{}}}
+\DoxyCodeLine{345                           << var\_name << \textcolor{stringliteral}{"{} has "{}}}
+\DoxyCodeLine{346                           << nparents,}
+\DoxyCodeLine{347                           std::logic\_error)}
+\DoxyCodeLine{348 }
+\DoxyCodeLine{349             \textcolor{comment}{// make sure the parents are actually correct}}
+\DoxyCodeLine{350             BAYLIB\_ASSERT(std::all\_of(cond.\mbox{\hyperlink{classbn_1_1condition_adf8a1082874d74df924d46957fe30da0}{begin}}(), cond.\mbox{\hyperlink{classbn_1_1condition_a5a74ad63c485e07ba2485940cda2a627}{end}}(),}
+\DoxyCodeLine{351                                       [\textcolor{keyword}{this}, var\_name](\textcolor{keyword}{const} \textcolor{keyword}{auto}\&c)\{}
+\DoxyCodeLine{352                                           return has\_dependency(c.first, var\_name);}
+\DoxyCodeLine{353                                       \}),}
+\DoxyCodeLine{354                           \textcolor{stringliteral}{"{}no such parent for variable "{}}}
+\DoxyCodeLine{355                           + var\_name,}
+\DoxyCodeLine{356                           std::runtime\_error)}
+\DoxyCodeLine{357 }
+\DoxyCodeLine{358             var.set\_probability(state\_value, cond, p);}
+\DoxyCodeLine{359 }
+\DoxyCodeLine{360             \textcolor{keywordflow}{if}(\mbox{\hyperlink{namespacebn_acc5dce26e8f0ea7d4ec84de1c194998a}{cpt\_filled\_out}}(var))}
+\DoxyCodeLine{361                 \mbox{\hyperlink{classbn_1_1bayesian__network_a8111ce19d5cd331fdb3f611909d096a5}{optimize\_cpt\_memory\_occupation}}(var.\_id);}
+\DoxyCodeLine{362         \}}
+\DoxyCodeLine{363 }
+\DoxyCodeLine{369         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\_variable}}(\textcolor{keyword}{const} std::string \&name)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{370             \textcolor{keywordflow}{return} var\_map.find(name) != var\_map.end();}
+\DoxyCodeLine{371         \}}
+\DoxyCodeLine{372 }
+\DoxyCodeLine{378         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1bayesian__network_a3617d5b2fb86771e03c682fb4d996c31}{has\_variable}}(vertex\_id v)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{379             \textcolor{keywordflow}{return} boost::num\_vertices(*graph) > v;}
+\DoxyCodeLine{380         \}}
+\DoxyCodeLine{381 }
+\DoxyCodeLine{382 }
+\DoxyCodeLine{388         vertex\_id \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\_of}}(\textcolor{keyword}{const} std::string \&name)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{389             \textcolor{keyword}{auto} it = var\_map.find(name);}
+\DoxyCodeLine{390             BAYLIB\_ASSERT(it != var\_map.end(),}
+\DoxyCodeLine{391                           \textcolor{stringliteral}{"{}identifier "{}} + name + \textcolor{stringliteral}{"{} doesn't "{}}}
+\DoxyCodeLine{392                           \textcolor{stringliteral}{"{}represent a random\_variable"{}},}
+\DoxyCodeLine{393                           std::runtime\_error)}
+\DoxyCodeLine{394 }
+\DoxyCodeLine{395             \textcolor{keywordflow}{return} it-\/>second;}
+\DoxyCodeLine{396         \}}
+\DoxyCodeLine{397 }
+\DoxyCodeLine{398     \textcolor{keyword}{private}:}
+\DoxyCodeLine{399         std::shared\_ptr<graph\_t> graph;}
+\DoxyCodeLine{400         std::map<std::string, vertex\_id> var\_map;}
+\DoxyCodeLine{401         std::unordered\_map<size\_t, vertex\_id> cpt\_hash\_map;}
+\DoxyCodeLine{402 }
+\DoxyCodeLine{410         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1bayesian__network_a36ac526bdc72d7625921432a09305bad}{introduces\_loop}}(vertex\_id from, vertex\_id to)\{}
+\DoxyCodeLine{411             \textcolor{keywordflow}{if}(from == to) \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{412 }
+\DoxyCodeLine{413             \textcolor{keyword}{auto} \textcolor{keyword}{const} children = \mbox{\hyperlink{classbn_1_1bayesian__network_a28d22bd40a216ebc8d28c41e7d9dc9a3}{children\_of}}(from);}
+\DoxyCodeLine{414             \textcolor{keywordflow}{return} std::any\_of(}
+\DoxyCodeLine{415                     children.cbegin(), children.cend(),}
+\DoxyCodeLine{416                     [\textcolor{keyword}{this}, \&to](vertex\_id next)\{}
+\DoxyCodeLine{417                         return introduces\_loop(next, to);}
+\DoxyCodeLine{418                     \});}
+\DoxyCodeLine{419         \}}
+\DoxyCodeLine{420 }
+\DoxyCodeLine{421 }
+\DoxyCodeLine{429         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1bayesian__network_a8111ce19d5cd331fdb3f611909d096a5}{optimize\_cpt\_memory\_occupation}}(vertex\_id \textcolor{keywordtype}{id})\{}
+\DoxyCodeLine{430             \textcolor{keyword}{auto} seed = \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(\textcolor{keywordtype}{id}).cpt.hash();}
+\DoxyCodeLine{431             \textcolor{keywordflow}{if}(cpt\_hash\_map.find(seed) != cpt\_hash\_map.end())\{}
+\DoxyCodeLine{432                 \textcolor{keyword}{auto} var = \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(cpt\_hash\_map[seed]);}
+\DoxyCodeLine{433                 \textcolor{keywordflow}{if}(var.\_id != \textcolor{keywordtype}{id} \&\& var.cpt == \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(\textcolor{keywordtype}{id}).cpt)\{}
+\DoxyCodeLine{434                     \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}}(\textcolor{keywordtype}{id}).cpt.d = var.cpt.d;}
+\DoxyCodeLine{435                     \textcolor{keywordflow}{return};}
+\DoxyCodeLine{436                 \}}
+\DoxyCodeLine{437             \}}
+\DoxyCodeLine{438             cpt\_hash\_map[seed] = id;}
+\DoxyCodeLine{439         \}}
+\DoxyCodeLine{440     \};}
+\DoxyCodeLine{441 \} \textcolor{comment}{// namespace bn}}
+\DoxyCodeLine{442 }
+\DoxyCodeLine{443 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_BAYESIAN\_NETWORK\_HPP}}
+
+\end{DoxyCode}

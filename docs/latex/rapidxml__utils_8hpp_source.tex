@@ -1,0 +1,111 @@
+\hypertarget{rapidxml__utils_8hpp_source}{}\doxysection{rapidxml\+\_\+utils.\+hpp}
+\label{rapidxml__utils_8hpp_source}\index{/home/mspronesti/Desktop/baylib/baylib/parser/rapidxml/rapidxml\_utils.hpp@{/home/mspronesti/Desktop/baylib/baylib/parser/rapidxml/rapidxml\_utils.hpp}}
+\mbox{\hyperlink{rapidxml__utils_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef RAPIDXML\_UTILS\_HPP\_INCLUDED}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define RAPIDXML\_UTILS\_HPP\_INCLUDED}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{comment}{// Copyright (C) 2006, 2009 Marcin Kalicinski}}
+\DoxyCodeLine{5 \textcolor{comment}{// Version 1.13}}
+\DoxyCodeLine{6 \textcolor{comment}{// Revision \$DateTime: 2009/05/13 01:46:17 \$}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{rapidxml_8hpp}{rapidxml.hpp}}"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <stdexcept>}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{namespace }rapidxml}
+\DoxyCodeLine{17 \{}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{20     \textcolor{keyword}{template}<\textcolor{keyword}{class} Ch = \textcolor{keywordtype}{char}>}
+\DoxyCodeLine{21     \textcolor{keyword}{class }\mbox{\hyperlink{classrapidxml_1_1file}{file}}}
+\DoxyCodeLine{22     \{}
+\DoxyCodeLine{23         }
+\DoxyCodeLine{24     \textcolor{keyword}{public}:}
+\DoxyCodeLine{25         }
+\DoxyCodeLine{28         \mbox{\hyperlink{classrapidxml_1_1file_ae881a3cab1fe7152d45c92a8d7606cb3}{file}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *filename)}
+\DoxyCodeLine{29         \{}
+\DoxyCodeLine{30             \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32             \textcolor{comment}{// Open stream}}
+\DoxyCodeLine{33             basic\_ifstream<Ch> stream(filename, ios::binary);}
+\DoxyCodeLine{34             \textcolor{keywordflow}{if} (!stream)}
+\DoxyCodeLine{35                 \textcolor{keywordflow}{throw} runtime\_error(\textcolor{keywordtype}{string}(\textcolor{stringliteral}{"{}cannot open file "{}}) + filename);}
+\DoxyCodeLine{36             stream.unsetf(ios::skipws);}
+\DoxyCodeLine{37             }
+\DoxyCodeLine{38             \textcolor{comment}{// Determine stream size}}
+\DoxyCodeLine{39             stream.seekg(0, ios::end);}
+\DoxyCodeLine{40             \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classrapidxml_1_1file_aacd451b3def3ad056fe8342dccee35cd}{size}} = stream.tellg();}
+\DoxyCodeLine{41             stream.seekg(0);   }
+\DoxyCodeLine{42             }
+\DoxyCodeLine{43             \textcolor{comment}{// Load data and add terminating 0}}
+\DoxyCodeLine{44             m\_data.resize(\mbox{\hyperlink{classrapidxml_1_1file_aacd451b3def3ad056fe8342dccee35cd}{size}} + 1);}
+\DoxyCodeLine{45             stream.read(\&m\_data.front(), \textcolor{keyword}{static\_cast<}streamsize\textcolor{keyword}{>}(\mbox{\hyperlink{classrapidxml_1_1file_aacd451b3def3ad056fe8342dccee35cd}{size}}));}
+\DoxyCodeLine{46             m\_data[\mbox{\hyperlink{classrapidxml_1_1file_aacd451b3def3ad056fe8342dccee35cd}{size}}] = 0;}
+\DoxyCodeLine{47         \}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{51         \mbox{\hyperlink{classrapidxml_1_1file_a90707ccd991cc392dcf4bef37eed9d1f}{file}}(std::basic\_istream<Ch> \&stream)}
+\DoxyCodeLine{52         \{}
+\DoxyCodeLine{53             \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55             \textcolor{comment}{// Load data and add terminating 0}}
+\DoxyCodeLine{56             stream.unsetf(ios::skipws);}
+\DoxyCodeLine{57             m\_data.assign(istreambuf\_iterator<Ch>(stream), istreambuf\_iterator<Ch>());}
+\DoxyCodeLine{58             \textcolor{keywordflow}{if} (stream.fail() || stream.bad())}
+\DoxyCodeLine{59                 \textcolor{keywordflow}{throw} runtime\_error(\textcolor{stringliteral}{"{}error reading stream"{}});}
+\DoxyCodeLine{60             m\_data.push\_back(0);}
+\DoxyCodeLine{61         \}}
+\DoxyCodeLine{62         }
+\DoxyCodeLine{65         Ch *\mbox{\hyperlink{classrapidxml_1_1file_ac22c109f867f436ca0107a349d3b49c7}{data}}()}
+\DoxyCodeLine{66         \{}
+\DoxyCodeLine{67             \textcolor{keywordflow}{return} \&m\_data.front();}
+\DoxyCodeLine{68         \}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{72         \textcolor{keyword}{const} Ch *\mbox{\hyperlink{classrapidxml_1_1file_abdde870b80d811e2deb9194d88d12542}{data}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{73 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{74             \textcolor{keywordflow}{return} \&m\_data.front();}
+\DoxyCodeLine{75         \}}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{79         std::size\_t \mbox{\hyperlink{classrapidxml_1_1file_aacd451b3def3ad056fe8342dccee35cd}{size}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{80 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{81             \textcolor{keywordflow}{return} m\_data.size();}
+\DoxyCodeLine{82         \}}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84     \textcolor{keyword}{private}:}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86         std::vector<Ch> m\_data;   \textcolor{comment}{// File data}}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88     \};}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{92     \textcolor{keyword}{template}<\textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{93     \textcolor{keyword}{inline} std::size\_t \mbox{\hyperlink{rapidxml__utils_8hpp_a21c1cf2814019385e6b8d09e75af1d34}{count\_children}}(\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node)}
+\DoxyCodeLine{94     \{}
+\DoxyCodeLine{95         \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *child = node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_aee9b7ecb01034f1857a5387af7e50e23}{first\_node}}();}
+\DoxyCodeLine{96         std::size\_t count = 0;}
+\DoxyCodeLine{97         \textcolor{keywordflow}{while} (child)}
+\DoxyCodeLine{98         \{}
+\DoxyCodeLine{99             ++count;}
+\DoxyCodeLine{100             child = child-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_ab7e5fd4052e4151757895c9914f5f320}{next\_sibling}}();}
+\DoxyCodeLine{101         \}}
+\DoxyCodeLine{102         \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{103     \}}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{107     \textcolor{keyword}{template}<\textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{108     \textcolor{keyword}{inline} std::size\_t \mbox{\hyperlink{rapidxml__utils_8hpp_a6255d15e5d8ad12ebcd7c60da51c97e2}{count\_attributes}}(\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node)}
+\DoxyCodeLine{109     \{}
+\DoxyCodeLine{110         \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\_attribute<Ch>}} *attr = node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a9a2e633c7717a4426612e236c627b908}{first\_attribute}}();}
+\DoxyCodeLine{111         std::size\_t count = 0;}
+\DoxyCodeLine{112         \textcolor{keywordflow}{while} (attr)}
+\DoxyCodeLine{113         \{}
+\DoxyCodeLine{114             ++count;}
+\DoxyCodeLine{115             attr = attr-\/>\mbox{\hyperlink{classrapidxml_1_1xml__attribute_a055de22bb0d2221a99bd8fd12d6e2fa8}{next\_attribute}}();}
+\DoxyCodeLine{116         \}}
+\DoxyCodeLine{117         \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{118     \}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120 \}}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

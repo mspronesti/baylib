@@ -27,7 +27,7 @@ Here's a list of the main requested features:
 |:------------------------------:|--------------|-----------------------|-------------------|-----------|
 | gibbs sampling       	         |    &check;   |     *                 |     &check;       |           |
 | likelihood weighting 	         |    &check;   |     &check;           |     &check;       |           |
-| logic sampling       	         |              |     &check;           |                   |  &check;  |
+| logic sampling       	         |    &check;   |     &check;           |                   |  &check;  |
 | rejection sampling  	         |    &check;   |     &check;           |     &check;       |           |
 | adaptive importance sampling   |    &check;  	|     &check;           |     &check;       |  &check;  |
 

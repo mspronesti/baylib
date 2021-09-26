@@ -1,0 +1,268 @@
+\hypertarget{thread__pool_8hpp_source}{}\doxysection{thread\+\_\+pool.\+hpp}
+\label{thread__pool_8hpp_source}\index{/home/mspronesti/Desktop/baylib/baylib/tools/threads/thread\_pool.hpp@{/home/mspronesti/Desktop/baylib/baylib/tools/threads/thread\_pool.hpp}}
+\mbox{\hyperlink{thread__pool_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{// Created by elle on 22/07/21.}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#ifndef BAYESIAN\_INFERRER\_THREAD\_POOL\_HPP}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#define BAYESIAN\_INFERRER\_THREAD\_POOL\_HPP}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <atomic>}      \textcolor{comment}{// std::atomic}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include <chrono>}      \textcolor{comment}{// std::chrono}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <cstdint>}     \textcolor{comment}{// std::int\_fast64\_t, std::uint\_fast32\_t}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include <functional>}  \textcolor{comment}{// std::function}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include <future>}      \textcolor{comment}{// std::future, std::promise}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#include <iostream>}    \textcolor{comment}{// std::cout, std::ostream}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#include <memory>}      \textcolor{comment}{// std::shared\_ptr, std::unique\_ptr}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#include <mutex>}       \textcolor{comment}{// std::mutex, std::scoped\_lock}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#include <queue>}       \textcolor{comment}{// std::queue}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#include <thread>}      \textcolor{comment}{// std::this\_thread, std::thread}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include <type\_traits>} \textcolor{comment}{// std::decay\_t, std::enable\_if\_t, std::is\_void\_v, std::invoke\_result\_t}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#include <utility>}     \textcolor{comment}{// std::move, std::swap}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{comment}{// ============================================================================================= //}}
+\DoxyCodeLine{35 \textcolor{comment}{//                                    Begin class thread\_pool                                    //}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{40 \textcolor{keyword}{class }\mbox{\hyperlink{classthread__pool}{thread\_pool}}}
+\DoxyCodeLine{41 \{}
+\DoxyCodeLine{42     \textcolor{keyword}{typedef} std::uint\_fast32\_t ui32;}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{keyword}{public}:}
+\DoxyCodeLine{45     \textcolor{comment}{// ============================}}
+\DoxyCodeLine{46     \textcolor{comment}{// Constructors and destructors}}
+\DoxyCodeLine{47     \textcolor{comment}{// ============================}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{54     \textcolor{keyword}{explicit} \mbox{\hyperlink{classthread__pool_afc887e2c84ebe8176ce44a9065d780b5}{thread\_pool}}(\textcolor{keyword}{const} ui32 \&\_thread\_count = std::thread::hardware\_concurrency())}
+\DoxyCodeLine{55             : \mbox{\hyperlink{classthread__pool_a4eb87a055bf8762d9a6186d06db2730f}{thread\_count}}(\_thread\_count ? \_thread\_count : std::thread::hardware\_concurrency()), \mbox{\hyperlink{classthread__pool_a59c590c4b97bb05c59c22c40bbac43ed}{threads}}(new std::thread[\_thread\_count ? \_thread\_count : std::thread::hardware\_concurrency()])}
+\DoxyCodeLine{56     \{}
+\DoxyCodeLine{57         \mbox{\hyperlink{classthread__pool_a9c1e1a00bf0f12c5e4c1422d5eadca94}{create\_threads}}();}
+\DoxyCodeLine{58     \}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{63     \mbox{\hyperlink{classthread__pool_ac9d8f108fa2419441aba432f8ca98eae}{\string~thread\_pool}}()}
+\DoxyCodeLine{64     \{}
+\DoxyCodeLine{65         \mbox{\hyperlink{classthread__pool_a887cef533635b8c52834b23be3ab1c68}{wait\_for\_tasks}}();}
+\DoxyCodeLine{66         \mbox{\hyperlink{classthread__pool_a25218460dba3f28dd14cade108ccbaa1}{running}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{67         \mbox{\hyperlink{classthread__pool_a7ceb7a2d9745499649a4e32ea5fcb72b}{destroy\_threads}}();}
+\DoxyCodeLine{68     \}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70     \textcolor{comment}{// =======================}}
+\DoxyCodeLine{71     \textcolor{comment}{// Public member functions}}
+\DoxyCodeLine{72     \textcolor{comment}{// =======================}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{79     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classthread__pool_a88d94c6c8cdf115a9d2e7501d92aea31}{get\_tasks\_queued}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{80 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{81         \textcolor{keyword}{const} std::scoped\_lock lock(\mbox{\hyperlink{classthread__pool_afdf641af037cd483998f0f830d7db21f}{queue\_mutex}});}
+\DoxyCodeLine{82         \textcolor{keywordflow}{return} \mbox{\hyperlink{classthread__pool_a0aef9354f74dba9b469084ba17feb5e1}{tasks}}.size();}
+\DoxyCodeLine{83     \}}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{90     ui32 \mbox{\hyperlink{classthread__pool_af2b7074a626d50f846e75119421567f1}{get\_tasks\_running}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{91 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{92         \textcolor{keywordflow}{return} \mbox{\hyperlink{classthread__pool_aaadd54679f33196ff289db30604a0032}{tasks\_total}} -\/ (ui32)\mbox{\hyperlink{classthread__pool_a88d94c6c8cdf115a9d2e7501d92aea31}{get\_tasks\_queued}}();}
+\DoxyCodeLine{93     \}}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{100     ui32 \mbox{\hyperlink{classthread__pool_ac2f208d87fb7cc624097b6316f65fac4}{get\_tasks\_total}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{101 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{102         \textcolor{keywordflow}{return} \mbox{\hyperlink{classthread__pool_aaadd54679f33196ff289db30604a0032}{tasks\_total}};}
+\DoxyCodeLine{103     \}}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{110     ui32 \mbox{\hyperlink{classthread__pool_a9878745e655fa3db5c7c16af9766fc59}{get\_thread\_count}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{111 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{112         \textcolor{keywordflow}{return} \mbox{\hyperlink{classthread__pool_a4eb87a055bf8762d9a6186d06db2730f}{thread\_count}};}
+\DoxyCodeLine{113     \}}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{125     \textcolor{keyword}{template} <\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} F>}
+\DoxyCodeLine{126     \textcolor{keywordtype}{void} \mbox{\hyperlink{classthread__pool_affc0a6e9a59d7a2464ae4c454d4271a8}{parallelize\_loop}}(T first\_index, T last\_index, \textcolor{keyword}{const} F \&loop, ui32 num\_tasks = 0)}
+\DoxyCodeLine{127     \{}
+\DoxyCodeLine{128         \textcolor{keywordflow}{if} (num\_tasks == 0)}
+\DoxyCodeLine{129             num\_tasks = \mbox{\hyperlink{classthread__pool_a4eb87a055bf8762d9a6186d06db2730f}{thread\_count}};}
+\DoxyCodeLine{130         \textcolor{keywordflow}{if} (last\_index < first\_index)}
+\DoxyCodeLine{131             std::swap(last\_index, first\_index);}
+\DoxyCodeLine{132         \textcolor{keywordtype}{size\_t} total\_size = last\_index -\/ first\_index + 1;}
+\DoxyCodeLine{133         \textcolor{keywordtype}{size\_t} block\_size = total\_size / num\_tasks;}
+\DoxyCodeLine{134         \textcolor{keywordflow}{if} (block\_size == 0)}
+\DoxyCodeLine{135         \{}
+\DoxyCodeLine{136             block\_size = 1;}
+\DoxyCodeLine{137             num\_tasks = (ui32)total\_size > 1 ? (ui32)total\_size : 1;}
+\DoxyCodeLine{138         \}}
+\DoxyCodeLine{139         std::atomic<ui32> blocks\_running = 0;}
+\DoxyCodeLine{140         \textcolor{keywordflow}{for} (ui32 t = 0; t < num\_tasks; t++)}
+\DoxyCodeLine{141         \{}
+\DoxyCodeLine{142             T start = (T)(t * block\_size + first\_index);}
+\DoxyCodeLine{143             T end = (t == num\_tasks -\/ 1) ? last\_index : (T)((t + 1) * block\_size + first\_index -\/ 1);}
+\DoxyCodeLine{144             blocks\_running++;}
+\DoxyCodeLine{145             \mbox{\hyperlink{classthread__pool_a3e9d8436b3eb525ae5fee597740a86f4}{push\_task}}([start, end, \&loop, \&blocks\_running]}
+\DoxyCodeLine{146                       \{}
+\DoxyCodeLine{147                           \textcolor{keywordflow}{for} (T i = start; i <= end; i++)}
+\DoxyCodeLine{148                               loop(i);}
+\DoxyCodeLine{149                           blocks\_running-\/-\/;}
+\DoxyCodeLine{150                       \});}
+\DoxyCodeLine{151         \}}
+\DoxyCodeLine{152         \textcolor{keywordflow}{while} (blocks\_running != 0)}
+\DoxyCodeLine{153         \{}
+\DoxyCodeLine{154             \mbox{\hyperlink{classthread__pool_afc980adc973c19cb64857b34e4759866}{sleep\_or\_yield}}();}
+\DoxyCodeLine{155         \}}
+\DoxyCodeLine{156     \}}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{164     \textcolor{keyword}{template} <\textcolor{keyword}{typename} F>}
+\DoxyCodeLine{165     \textcolor{keywordtype}{void} \mbox{\hyperlink{classthread__pool_a3e9d8436b3eb525ae5fee597740a86f4}{push\_task}}(\textcolor{keyword}{const} F \&task)}
+\DoxyCodeLine{166     \{}
+\DoxyCodeLine{167         \mbox{\hyperlink{classthread__pool_aaadd54679f33196ff289db30604a0032}{tasks\_total}}++;}
+\DoxyCodeLine{168         \{}
+\DoxyCodeLine{169             \textcolor{keyword}{const} std::scoped\_lock lock(\mbox{\hyperlink{classthread__pool_afdf641af037cd483998f0f830d7db21f}{queue\_mutex}});}
+\DoxyCodeLine{170             \mbox{\hyperlink{classthread__pool_a0aef9354f74dba9b469084ba17feb5e1}{tasks}}.push(std::function<\textcolor{keywordtype}{void}()>(task));}
+\DoxyCodeLine{171         \}}
+\DoxyCodeLine{172     \}}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{183     \textcolor{keyword}{template} <\textcolor{keyword}{typename} F, \textcolor{keyword}{typename}... A>}
+\DoxyCodeLine{184     \textcolor{keywordtype}{void} \mbox{\hyperlink{classthread__pool_ae37f7cf895480503583a852c30947794}{push\_task}}(\textcolor{keyword}{const} F \&task, \textcolor{keyword}{const} A \&...args)}
+\DoxyCodeLine{185     \{}
+\DoxyCodeLine{186         \mbox{\hyperlink{classthread__pool_a3e9d8436b3eb525ae5fee597740a86f4}{push\_task}}([task, args...]}
+\DoxyCodeLine{187                   \{ task(args...); \});}
+\DoxyCodeLine{188     \}}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{195     \textcolor{keywordtype}{void} \mbox{\hyperlink{classthread__pool_aa5926f83dde427afac052f4d72237b18}{reset}}(\textcolor{keyword}{const} ui32 \&\_thread\_count = std::thread::hardware\_concurrency())}
+\DoxyCodeLine{196     \{}
+\DoxyCodeLine{197         \textcolor{keywordtype}{bool} was\_paused = \mbox{\hyperlink{classthread__pool_a69128e62f8197d0ed578d6baa0553ce8}{paused}};}
+\DoxyCodeLine{198         \mbox{\hyperlink{classthread__pool_a69128e62f8197d0ed578d6baa0553ce8}{paused}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{199         \mbox{\hyperlink{classthread__pool_a887cef533635b8c52834b23be3ab1c68}{wait\_for\_tasks}}();}
+\DoxyCodeLine{200         \mbox{\hyperlink{classthread__pool_a25218460dba3f28dd14cade108ccbaa1}{running}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{201         \mbox{\hyperlink{classthread__pool_a7ceb7a2d9745499649a4e32ea5fcb72b}{destroy\_threads}}();}
+\DoxyCodeLine{202         \mbox{\hyperlink{classthread__pool_a4eb87a055bf8762d9a6186d06db2730f}{thread\_count}} = \_thread\_count ? \_thread\_count : std::thread::hardware\_concurrency();}
+\DoxyCodeLine{203         \mbox{\hyperlink{classthread__pool_a59c590c4b97bb05c59c22c40bbac43ed}{threads}}.reset(\textcolor{keyword}{new} std::thread[\mbox{\hyperlink{classthread__pool_a4eb87a055bf8762d9a6186d06db2730f}{thread\_count}}]);}
+\DoxyCodeLine{204         \mbox{\hyperlink{classthread__pool_a69128e62f8197d0ed578d6baa0553ce8}{paused}} = was\_paused;}
+\DoxyCodeLine{205         \mbox{\hyperlink{classthread__pool_a9c1e1a00bf0f12c5e4c1422d5eadca94}{create\_threads}}();}
+\DoxyCodeLine{206         \mbox{\hyperlink{classthread__pool_a25218460dba3f28dd14cade108ccbaa1}{running}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{207     \}}
+\DoxyCodeLine{208 }
+\DoxyCodeLine{218     \textcolor{keyword}{template} <\textcolor{keyword}{typename} F, \textcolor{keyword}{typename}... A, \textcolor{keyword}{typename} = std::enable\_if\_t<std::is\_void\_v<std::invoke\_result\_t<std::decay\_t<F>, std::decay\_t<A>...>>>>}
+\DoxyCodeLine{219     std::future<bool> \mbox{\hyperlink{classthread__pool_a132ec56ca21d1517b6851ab6d798ee0f}{submit}}(\textcolor{keyword}{const} F \&task, \textcolor{keyword}{const} A \&...args)}
+\DoxyCodeLine{220     \{}
+\DoxyCodeLine{221         std::shared\_ptr<std::promise<bool>> promise(\textcolor{keyword}{new} std::promise<bool>);}
+\DoxyCodeLine{222         std::future<bool> future = promise-\/>get\_future();}
+\DoxyCodeLine{223         \mbox{\hyperlink{classthread__pool_a3e9d8436b3eb525ae5fee597740a86f4}{push\_task}}([task, args..., promise]}
+\DoxyCodeLine{224                   \{}
+\DoxyCodeLine{225                       task(args...);}
+\DoxyCodeLine{226                       promise-\/>set\_value(true);}
+\DoxyCodeLine{227                   \});}
+\DoxyCodeLine{228         \textcolor{keywordflow}{return} future;}
+\DoxyCodeLine{229     \}}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{241     \textcolor{keyword}{template} <\textcolor{keyword}{typename} F, \textcolor{keyword}{typename}... A, \textcolor{keyword}{typename} R = std::invoke\_result\_t<std::decay\_t<F>, std::decay\_t<A>...>, \textcolor{keyword}{typename} = std::enable\_if\_t<!std::is\_void\_v<R>>>}
+\DoxyCodeLine{242     std::future<R> \mbox{\hyperlink{classthread__pool_a57c26beb0b0f6985b72ab98317ce9b09}{submit}}(\textcolor{keyword}{const} F \&task, \textcolor{keyword}{const} A \&...args)}
+\DoxyCodeLine{243     \{}
+\DoxyCodeLine{244         std::shared\_ptr<std::promise<R>> promise(\textcolor{keyword}{new} std::promise<R>);}
+\DoxyCodeLine{245         std::future<R> future = promise-\/>get\_future();}
+\DoxyCodeLine{246         \mbox{\hyperlink{classthread__pool_a3e9d8436b3eb525ae5fee597740a86f4}{push\_task}}([task, args..., promise]}
+\DoxyCodeLine{247                   \{ promise-\/>set\_value(task(args...)); \});}
+\DoxyCodeLine{248         \textcolor{keywordflow}{return} future;}
+\DoxyCodeLine{249     \}}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{254     \textcolor{keywordtype}{void} \mbox{\hyperlink{classthread__pool_a887cef533635b8c52834b23be3ab1c68}{wait\_for\_tasks}}()}
+\DoxyCodeLine{255     \{}
+\DoxyCodeLine{256         \textcolor{keywordflow}{while} (\textcolor{keyword}{true})}
+\DoxyCodeLine{257         \{}
+\DoxyCodeLine{258             \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classthread__pool_a69128e62f8197d0ed578d6baa0553ce8}{paused}})}
+\DoxyCodeLine{259             \{}
+\DoxyCodeLine{260                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{classthread__pool_aaadd54679f33196ff289db30604a0032}{tasks\_total}} == 0)}
+\DoxyCodeLine{261                     \textcolor{keywordflow}{break};}
+\DoxyCodeLine{262             \}}
+\DoxyCodeLine{263             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{264             \{}
+\DoxyCodeLine{265                 \textcolor{keywordflow}{if} (\mbox{\hyperlink{classthread__pool_af2b7074a626d50f846e75119421567f1}{get\_tasks\_running}}() == 0)}
+\DoxyCodeLine{266                     \textcolor{keywordflow}{break};}
+\DoxyCodeLine{267             \}}
+\DoxyCodeLine{268             \mbox{\hyperlink{classthread__pool_afc980adc973c19cb64857b34e4759866}{sleep\_or\_yield}}();}
+\DoxyCodeLine{269         \}}
+\DoxyCodeLine{270     \}}
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272     \textcolor{comment}{// ===========}}
+\DoxyCodeLine{273     \textcolor{comment}{// Public data}}
+\DoxyCodeLine{274     \textcolor{comment}{// ===========}}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{279     std::atomic<bool> \mbox{\hyperlink{classthread__pool_a69128e62f8197d0ed578d6baa0553ce8}{paused}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{280 }
+\DoxyCodeLine{284     ui32 \mbox{\hyperlink{classthread__pool_aa0bd5e834e1c8358cd24d2c5743b95a8}{sleep\_duration}} = 1000;}
+\DoxyCodeLine{285 }
+\DoxyCodeLine{286 \textcolor{keyword}{private}:}
+\DoxyCodeLine{287     \textcolor{comment}{// ========================}}
+\DoxyCodeLine{288     \textcolor{comment}{// Private member functions}}
+\DoxyCodeLine{289     \textcolor{comment}{// ========================}}
+\DoxyCodeLine{290 }
+\DoxyCodeLine{294     \textcolor{keywordtype}{void} \mbox{\hyperlink{classthread__pool_a9c1e1a00bf0f12c5e4c1422d5eadca94}{create\_threads}}()}
+\DoxyCodeLine{295     \{}
+\DoxyCodeLine{296         \textcolor{keywordflow}{for} (ui32 i = 0; i < \mbox{\hyperlink{classthread__pool_a4eb87a055bf8762d9a6186d06db2730f}{thread\_count}}; i++)}
+\DoxyCodeLine{297         \{}
+\DoxyCodeLine{298             \mbox{\hyperlink{classthread__pool_a59c590c4b97bb05c59c22c40bbac43ed}{threads}}[i] = std::thread(\&\mbox{\hyperlink{classthread__pool_a38b0cb91a6f87146fd8c194b3ee87638}{thread\_pool::worker}}, \textcolor{keyword}{this});}
+\DoxyCodeLine{299         \}}
+\DoxyCodeLine{300     \}}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{305     \textcolor{keywordtype}{void} \mbox{\hyperlink{classthread__pool_a7ceb7a2d9745499649a4e32ea5fcb72b}{destroy\_threads}}()}
+\DoxyCodeLine{306     \{}
+\DoxyCodeLine{307         \textcolor{keywordflow}{for} (ui32 i = 0; i < \mbox{\hyperlink{classthread__pool_a4eb87a055bf8762d9a6186d06db2730f}{thread\_count}}; i++)}
+\DoxyCodeLine{308         \{}
+\DoxyCodeLine{309             \mbox{\hyperlink{classthread__pool_a59c590c4b97bb05c59c22c40bbac43ed}{threads}}[i].join();}
+\DoxyCodeLine{310         \}}
+\DoxyCodeLine{311     \}}
+\DoxyCodeLine{312 }
+\DoxyCodeLine{319     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classthread__pool_aa156bf8fb5803cb0e56b4b5f4f6f2010}{pop\_task}}(std::function<\textcolor{keywordtype}{void}()> \&task)}
+\DoxyCodeLine{320     \{}
+\DoxyCodeLine{321         \textcolor{keyword}{const} std::scoped\_lock lock(\mbox{\hyperlink{classthread__pool_afdf641af037cd483998f0f830d7db21f}{queue\_mutex}});}
+\DoxyCodeLine{322         \textcolor{keywordflow}{if} (\mbox{\hyperlink{classthread__pool_a0aef9354f74dba9b469084ba17feb5e1}{tasks}}.empty())}
+\DoxyCodeLine{323             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{324         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{325         \{}
+\DoxyCodeLine{326             task = std::move(\mbox{\hyperlink{classthread__pool_a0aef9354f74dba9b469084ba17feb5e1}{tasks}}.front());}
+\DoxyCodeLine{327             \mbox{\hyperlink{classthread__pool_a0aef9354f74dba9b469084ba17feb5e1}{tasks}}.pop();}
+\DoxyCodeLine{328             \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{329         \}}
+\DoxyCodeLine{330     \}}
+\DoxyCodeLine{331 }
+\DoxyCodeLine{336     \textcolor{keywordtype}{void} \mbox{\hyperlink{classthread__pool_afc980adc973c19cb64857b34e4759866}{sleep\_or\_yield}}()}
+\DoxyCodeLine{337     \{}
+\DoxyCodeLine{338         \textcolor{keywordflow}{if} (\mbox{\hyperlink{classthread__pool_aa0bd5e834e1c8358cd24d2c5743b95a8}{sleep\_duration}})}
+\DoxyCodeLine{339             std::this\_thread::sleep\_for(std::chrono::microseconds(\mbox{\hyperlink{classthread__pool_aa0bd5e834e1c8358cd24d2c5743b95a8}{sleep\_duration}}));}
+\DoxyCodeLine{340         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{341             std::this\_thread::yield();}
+\DoxyCodeLine{342     \}}
+\DoxyCodeLine{343 }
+\DoxyCodeLine{347     \textcolor{keywordtype}{void} \mbox{\hyperlink{classthread__pool_a38b0cb91a6f87146fd8c194b3ee87638}{worker}}()}
+\DoxyCodeLine{348     \{}
+\DoxyCodeLine{349         \textcolor{keywordflow}{while} (\mbox{\hyperlink{classthread__pool_a25218460dba3f28dd14cade108ccbaa1}{running}})}
+\DoxyCodeLine{350         \{}
+\DoxyCodeLine{351             std::function<void()> task;}
+\DoxyCodeLine{352             \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classthread__pool_a69128e62f8197d0ed578d6baa0553ce8}{paused}} \&\& \mbox{\hyperlink{classthread__pool_aa156bf8fb5803cb0e56b4b5f4f6f2010}{pop\_task}}(task))}
+\DoxyCodeLine{353             \{}
+\DoxyCodeLine{354                 task();}
+\DoxyCodeLine{355                 \mbox{\hyperlink{classthread__pool_aaadd54679f33196ff289db30604a0032}{tasks\_total}}-\/-\/;}
+\DoxyCodeLine{356             \}}
+\DoxyCodeLine{357             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{358             \{}
+\DoxyCodeLine{359                 \mbox{\hyperlink{classthread__pool_afc980adc973c19cb64857b34e4759866}{sleep\_or\_yield}}();}
+\DoxyCodeLine{360             \}}
+\DoxyCodeLine{361         \}}
+\DoxyCodeLine{362     \}}
+\DoxyCodeLine{363 }
+\DoxyCodeLine{364     \textcolor{comment}{// ============}}
+\DoxyCodeLine{365     \textcolor{comment}{// Private data}}
+\DoxyCodeLine{366     \textcolor{comment}{// ============}}
+\DoxyCodeLine{367 }
+\DoxyCodeLine{371     \textcolor{keyword}{mutable} std::mutex \mbox{\hyperlink{classthread__pool_afdf641af037cd483998f0f830d7db21f}{queue\_mutex}};}
+\DoxyCodeLine{372 }
+\DoxyCodeLine{376     std::atomic<bool> \mbox{\hyperlink{classthread__pool_a25218460dba3f28dd14cade108ccbaa1}{running}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{377 }
+\DoxyCodeLine{381     std::queue<std::function<void()>> \mbox{\hyperlink{classthread__pool_a0aef9354f74dba9b469084ba17feb5e1}{tasks}};}
+\DoxyCodeLine{382 }
+\DoxyCodeLine{386     ui32 \mbox{\hyperlink{classthread__pool_a4eb87a055bf8762d9a6186d06db2730f}{thread\_count}};}
+\DoxyCodeLine{387 }
+\DoxyCodeLine{391     std::unique\_ptr<std::thread[]> \mbox{\hyperlink{classthread__pool_a59c590c4b97bb05c59c22c40bbac43ed}{threads}};}
+\DoxyCodeLine{392 }
+\DoxyCodeLine{396     std::atomic<ui32> \mbox{\hyperlink{classthread__pool_aaadd54679f33196ff289db30604a0032}{tasks\_total}} = 0;}
+\DoxyCodeLine{397 \};}
+\DoxyCodeLine{398 }
+\DoxyCodeLine{399 }
+\DoxyCodeLine{400 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYESIAN\_INFERRER\_THREAD\_POOL\_HPP}}
+
+\end{DoxyCode}

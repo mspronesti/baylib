@@ -1,0 +1,115 @@
+\hypertarget{classrapidxml_1_1xml__attribute}{}\doxysection{rapidxml\+::xml\+\_\+attribute\texorpdfstring{$<$}{<} Ch \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classrapidxml_1_1xml__attribute}\index{rapidxml::xml\_attribute$<$ Ch $>$@{rapidxml::xml\_attribute$<$ Ch $>$}}
+
+
+{\ttfamily \#include $<$rapidxml.\+hpp$>$}
+
+Inheritance diagram for rapidxml\+::xml\+\_\+attribute\texorpdfstring{$<$}{<} Ch \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classrapidxml_1_1xml__attribute}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrapidxml_1_1xml__attribute_a26be291103917d3e8de110d46dd83816}{xml\+\_\+attribute}} ()
+\item 
+\mbox{\hyperlink{classrapidxml_1_1xml__document}{xml\+\_\+document}}$<$ Ch $>$ $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__attribute_ad19f4b2d0a11a3414f36c4f710d7da3a}{document}} () const
+\item 
+\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\+\_\+attribute}}$<$ Ch $>$ $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__attribute_a0d05c2edea59cf95a396c499a0da373e}{previous\+\_\+attribute}} (const Ch $\ast$\mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name}}=0, std\+::size\+\_\+t \mbox{\hyperlink{classrapidxml_1_1xml__base_a20c8ffbe0c7a0b4231681ab8b99330a4}{name\+\_\+size}}=0, bool case\+\_\+sensitive=true) const
+\item 
+\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\+\_\+attribute}}$<$ Ch $>$ $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__attribute_a055de22bb0d2221a99bd8fd12d6e2fa8}{next\+\_\+attribute}} (const Ch $\ast$\mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name}}=0, std\+::size\+\_\+t \mbox{\hyperlink{classrapidxml_1_1xml__base_a20c8ffbe0c7a0b4231681ab8b99330a4}{name\+\_\+size}}=0, bool case\+\_\+sensitive=true) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1xml__attribute_a204438287a5ad384405584726a1d8559}\label{classrapidxml_1_1xml__attribute_a204438287a5ad384405584726a1d8559}} 
+\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\+\_\+attribute}}$<$ Ch $>$ $\ast$ {\bfseries m\+\_\+prev\+\_\+attribute}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1xml__attribute_a3254e4b040a9b71c6b6d1c27ec03352a}\label{classrapidxml_1_1xml__attribute_a3254e4b040a9b71c6b6d1c27ec03352a}} 
+\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\+\_\+attribute}}$<$ Ch $>$ $\ast$ {\bfseries m\+\_\+next\+\_\+attribute}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1xml__attribute_aa7e464ce3fe512598ff8dda47291941f}\label{classrapidxml_1_1xml__attribute_aa7e464ce3fe512598ff8dda47291941f}} 
+class {\bfseries xml\+\_\+node$<$ Ch $>$}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Ch = char$>$\newline
+class rapidxml\+::xml\+\_\+attribute$<$ Ch $>$}
+Class representing attribute node of XML document. Each attribute has name and value strings, which are available through \mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name()}} and \mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value()}} functions (inherited from \mbox{\hyperlink{classrapidxml_1_1xml__base}{xml\+\_\+base}}). Note that after parse, both name and value of attribute will point to interior of source text used for parsing. Thus, this text must persist in memory for the lifetime of attribute. 
+\begin{DoxyParams}{Parameters}
+{\em Ch} & Character type to use. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrapidxml_1_1xml__attribute_a26be291103917d3e8de110d46dd83816}\label{classrapidxml_1_1xml__attribute_a26be291103917d3e8de110d46dd83816}} 
+\index{rapidxml::xml\_attribute$<$ Ch $>$@{rapidxml::xml\_attribute$<$ Ch $>$}!xml\_attribute@{xml\_attribute}}
+\index{xml\_attribute@{xml\_attribute}!rapidxml::xml\_attribute$<$ Ch $>$@{rapidxml::xml\_attribute$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{xml\_attribute()}{xml\_attribute()}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{rapidxml\+::xml\+\_\+attribute}}$<$ Ch $>$\+::\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\+\_\+attribute}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructs an empty attribute with the specified type. Consider using \mbox{\hyperlink{classrapidxml_1_1memory__pool}{memory\+\_\+pool}} of appropriate \mbox{\hyperlink{classrapidxml_1_1xml__document}{xml\+\_\+document}} if allocating attributes manually. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrapidxml_1_1xml__attribute_ad19f4b2d0a11a3414f36c4f710d7da3a}\label{classrapidxml_1_1xml__attribute_ad19f4b2d0a11a3414f36c4f710d7da3a}} 
+\index{rapidxml::xml\_attribute$<$ Ch $>$@{rapidxml::xml\_attribute$<$ Ch $>$}!document@{document}}
+\index{document@{document}!rapidxml::xml\_attribute$<$ Ch $>$@{rapidxml::xml\_attribute$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{document()}{document()}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+\mbox{\hyperlink{classrapidxml_1_1xml__document}{xml\+\_\+document}}$<$ Ch $>$ $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{rapidxml\+::xml\+\_\+attribute}}$<$ Ch $>$\+::document (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets document of which attribute is a child. \begin{DoxyReturn}{Returns}
+Pointer to document that contains this attribute, or 0 if there is no parent document. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrapidxml_1_1xml__attribute_a055de22bb0d2221a99bd8fd12d6e2fa8}\label{classrapidxml_1_1xml__attribute_a055de22bb0d2221a99bd8fd12d6e2fa8}} 
+\index{rapidxml::xml\_attribute$<$ Ch $>$@{rapidxml::xml\_attribute$<$ Ch $>$}!next\_attribute@{next\_attribute}}
+\index{next\_attribute@{next\_attribute}!rapidxml::xml\_attribute$<$ Ch $>$@{rapidxml::xml\_attribute$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{next\_attribute()}{next\_attribute()}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\+\_\+attribute}}$<$ Ch $>$ $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{rapidxml\+::xml\+\_\+attribute}}$<$ Ch $>$\+::next\+\_\+attribute (\begin{DoxyParamCaption}\item[{const Ch $\ast$}]{name = {\ttfamily 0},  }\item[{std\+::size\+\_\+t}]{name\+\_\+size = {\ttfamily 0},  }\item[{bool}]{case\+\_\+sensitive = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets next attribute, optionally matching attribute name. 
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of attribute to find, or 0 to return next attribute regardless of its name; this string doesn\textquotesingle{}t have to be zero-\/terminated if name\+\_\+size is non-\/zero \\
+\hline
+{\em name\+\_\+size} & Size of name, in characters, or 0 to have size calculated automatically from string \\
+\hline
+{\em case\+\_\+sensitive} & Should name comparison be case-\/sensitive; non case-\/sensitive comparison works properly only for ASCII characters \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to found attribute, or 0 if not found. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrapidxml_1_1xml__attribute_a0d05c2edea59cf95a396c499a0da373e}\label{classrapidxml_1_1xml__attribute_a0d05c2edea59cf95a396c499a0da373e}} 
+\index{rapidxml::xml\_attribute$<$ Ch $>$@{rapidxml::xml\_attribute$<$ Ch $>$}!previous\_attribute@{previous\_attribute}}
+\index{previous\_attribute@{previous\_attribute}!rapidxml::xml\_attribute$<$ Ch $>$@{rapidxml::xml\_attribute$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{previous\_attribute()}{previous\_attribute()}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\+\_\+attribute}}$<$ Ch $>$ $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{rapidxml\+::xml\+\_\+attribute}}$<$ Ch $>$\+::previous\+\_\+attribute (\begin{DoxyParamCaption}\item[{const Ch $\ast$}]{name = {\ttfamily 0},  }\item[{std\+::size\+\_\+t}]{name\+\_\+size = {\ttfamily 0},  }\item[{bool}]{case\+\_\+sensitive = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets previous attribute, optionally matching attribute name. 
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of attribute to find, or 0 to return previous attribute regardless of its name; this string doesn\textquotesingle{}t have to be zero-\/terminated if name\+\_\+size is non-\/zero \\
+\hline
+{\em name\+\_\+size} & Size of name, in characters, or 0 to have size calculated automatically from string \\
+\hline
+{\em case\+\_\+sensitive} & Should name comparison be case-\/sensitive; non case-\/sensitive comparison works properly only for ASCII characters \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to found attribute, or 0 if not found. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/parser/rapidxml/\mbox{\hyperlink{rapidxml_8hpp}{rapidxml.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,46 @@
+\hypertarget{thread__pool_8hpp}{}\doxysection{/home/mspronesti/\+Desktop/baylib/baylib/tools/threads/thread\+\_\+pool.hpp File Reference}
+\label{thread__pool_8hpp}\index{/home/mspronesti/Desktop/baylib/baylib/tools/threads/thread\_pool.hpp@{/home/mspronesti/Desktop/baylib/baylib/tools/threads/thread\_pool.hpp}}
+
+
+A C++17 thread pool for high-\/performance scientific computing.  
+
+
+{\ttfamily \#include $<$atomic$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$future$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$mutex$>$}\newline
+{\ttfamily \#include $<$queue$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classthread__pool}{thread\+\_\+pool}}
+\begin{DoxyCompactList}\small\item\em A C++17 thread pool class. The user submits tasks to be executed into a queue. Whenever a thread becomes available, it pops a task from the queue and executes it. Each task is automatically assigned a future, which can be used to wait for the task to finish executing and/or obtain its eventual return value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A C++17 thread pool for high-\/performance scientific computing. 
+
+\begin{DoxyAuthor}{Author}
+Barak Shoshany (\href{mailto:baraksh@gmail.com}{\texttt{ baraksh@gmail.\+com}}) (\href{http://baraksh.com}{\texttt{ http\+://baraksh.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+7 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2021-\/06-\/02 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2021 Barak Shoshany. Licensed under the MIT license. If you use this library in published research, please cite it as follows\+:
+\begin{DoxyItemize}
+\item Barak Shoshany, \char`\"{}\+A C++17 Thread Pool for High-\/\+Performance Scientific Computing\char`\"{}, doi\+:10.\+5281/zenodo.4742687, ar\+Xiv\+:2105.\+00613 (May 2021)
+
+A modern C++17-\/compatible thread pool implementation, built from scratch with high-\/performance scientific computing in mind. The thread pool is implemented as a single lightweight and self-\/contained class, and does not have any dependencies other than the C++17 standard library, thus allowing a great degree of portability. In particular, this implementation does not utilize Open\+MP or any other high-\/level multithreading APIs, and thus gives the programmer precise low-\/level control over the details of the parallelization, which permits more robust optimizations. The thread pool was extensively tested on both AMD and Intel CPUs with up to 40 cores and 80 threads. Other features include automatic generation of futures and easy parallelization of loops. Two helper classes enable synchronizing printing to an output stream by different threads and measuring execution time for benchmarking purposes. Please visit the Git\+Hub repository for documentation and updates, or to submit feature requests and bug reports. 
+\end{DoxyItemize}
+\end{DoxyCopyright}

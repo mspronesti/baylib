@@ -1,0 +1,177 @@
+\hypertarget{rapidxml__iterators_8hpp_source}{}\doxysection{rapidxml\+\_\+iterators.\+hpp}
+\label{rapidxml__iterators_8hpp_source}\index{/home/mspronesti/Desktop/baylib/baylib/parser/rapidxml/rapidxml\_iterators.hpp@{/home/mspronesti/Desktop/baylib/baylib/parser/rapidxml/rapidxml\_iterators.hpp}}
+\mbox{\hyperlink{rapidxml__iterators_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef RAPIDXML\_ITERATORS\_HPP\_INCLUDED}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define RAPIDXML\_ITERATORS\_HPP\_INCLUDED}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{comment}{// Copyright (C) 2006, 2009 Marcin Kalicinski}}
+\DoxyCodeLine{5 \textcolor{comment}{// Version 1.13}}
+\DoxyCodeLine{6 \textcolor{comment}{// Revision \$DateTime: 2009/05/13 01:46:17 \$}}
+\DoxyCodeLine{8 \textcolor{comment}{}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{rapidxml_8hpp}{rapidxml.hpp}}"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }rapidxml}
+\DoxyCodeLine{12 \{}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{15     \textcolor{keyword}{template}<\textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{16     \textcolor{keyword}{class }\mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator}}}
+\DoxyCodeLine{17     \{}
+\DoxyCodeLine{18     }
+\DoxyCodeLine{19     \textcolor{keyword}{public}:}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} \mbox{\hyperlink{classrapidxml_1_1xml__node}{value\_type}};}
+\DoxyCodeLine{22         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} \&\mbox{\hyperlink{classrapidxml_1_1xml__node}{reference}};}
+\DoxyCodeLine{23         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *\mbox{\hyperlink{classrapidxml_1_1xml__node}{pointer}};}
+\DoxyCodeLine{24         \textcolor{keyword}{typedef} std::ptrdiff\_t difference\_type;}
+\DoxyCodeLine{25         \textcolor{keyword}{typedef} std::bidirectional\_iterator\_tag iterator\_category;}
+\DoxyCodeLine{26         }
+\DoxyCodeLine{27         \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator}}()}
+\DoxyCodeLine{28             : m\_node(0)}
+\DoxyCodeLine{29         \{}
+\DoxyCodeLine{30         \}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32         \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator}}(\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node)}
+\DoxyCodeLine{33             : m\_node(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_aee9b7ecb01034f1857a5387af7e50e23}{first\_node}}())}
+\DoxyCodeLine{34         \{}
+\DoxyCodeLine{35         \}}
+\DoxyCodeLine{36         }
+\DoxyCodeLine{37         \mbox{\hyperlink{classrapidxml_1_1xml__node}{reference}} operator *()\textcolor{keyword}{ const}}
+\DoxyCodeLine{38 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{39             assert(m\_node);}
+\DoxyCodeLine{40             \textcolor{keywordflow}{return} *m\_node;}
+\DoxyCodeLine{41         \}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43         \mbox{\hyperlink{classrapidxml_1_1xml__node}{pointer}} operator-\/>()\textcolor{keyword}{ const}}
+\DoxyCodeLine{44 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{45             assert(m\_node);}
+\DoxyCodeLine{46             \textcolor{keywordflow}{return} m\_node;}
+\DoxyCodeLine{47         \}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49         \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator}}\& operator++()}
+\DoxyCodeLine{50         \{}
+\DoxyCodeLine{51             assert(m\_node);}
+\DoxyCodeLine{52             m\_node = m\_node-\/>next\_sibling();}
+\DoxyCodeLine{53             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{54         \}}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56         \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator}} operator++(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{57         \{}
+\DoxyCodeLine{58             \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator}} tmp = *\textcolor{keyword}{this};}
+\DoxyCodeLine{59             ++\textcolor{keyword}{this};}
+\DoxyCodeLine{60             \textcolor{keywordflow}{return} tmp;}
+\DoxyCodeLine{61         \}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63         \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator}}\& operator-\/-\/()}
+\DoxyCodeLine{64         \{}
+\DoxyCodeLine{65             assert(m\_node \&\& m\_node-\/>previous\_sibling());}
+\DoxyCodeLine{66             m\_node = m\_node-\/>previous\_sibling();}
+\DoxyCodeLine{67             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{68         \}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70         \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator}} operator-\/-\/(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{71         \{}
+\DoxyCodeLine{72             \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator}} tmp = *\textcolor{keyword}{this};}
+\DoxyCodeLine{73             ++\textcolor{keyword}{this};}
+\DoxyCodeLine{74             \textcolor{keywordflow}{return} tmp;}
+\DoxyCodeLine{75         \}}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77         \textcolor{keywordtype}{bool} operator ==(\textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator<Ch>}} \&rhs)}
+\DoxyCodeLine{78         \{}
+\DoxyCodeLine{79             \textcolor{keywordflow}{return} m\_node == rhs.m\_node;}
+\DoxyCodeLine{80         \}}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82         \textcolor{keywordtype}{bool} operator !=(\textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\_iterator<Ch>}} \&rhs)}
+\DoxyCodeLine{83         \{}
+\DoxyCodeLine{84             \textcolor{keywordflow}{return} m\_node != rhs.m\_node;}
+\DoxyCodeLine{85         \}}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87     \textcolor{keyword}{private}:}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89         \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *m\_node;}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91     \};}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{94     \textcolor{keyword}{template}<\textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{95     \textcolor{keyword}{class }\mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator}}}
+\DoxyCodeLine{96     \{}
+\DoxyCodeLine{97     }
+\DoxyCodeLine{98     \textcolor{keyword}{public}:}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\_attribute<Ch>}} \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{value\_type}};}
+\DoxyCodeLine{101         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\_attribute<Ch>}} \&\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{reference}};}
+\DoxyCodeLine{102         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\_attribute<Ch>}} *\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{pointer}};}
+\DoxyCodeLine{103         \textcolor{keyword}{typedef} std::ptrdiff\_t difference\_type;}
+\DoxyCodeLine{104         \textcolor{keyword}{typedef} std::bidirectional\_iterator\_tag iterator\_category;}
+\DoxyCodeLine{105         }
+\DoxyCodeLine{106         \mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator}}()}
+\DoxyCodeLine{107             : m\_attribute(0)}
+\DoxyCodeLine{108         \{}
+\DoxyCodeLine{109         \}}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111         \mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator}}(\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node)}
+\DoxyCodeLine{112             : m\_attribute(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a9a2e633c7717a4426612e236c627b908}{first\_attribute}}())}
+\DoxyCodeLine{113         \{}
+\DoxyCodeLine{114         \}}
+\DoxyCodeLine{115         }
+\DoxyCodeLine{116         \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{reference}} operator *()\textcolor{keyword}{ const}}
+\DoxyCodeLine{117 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{118             assert(m\_attribute);}
+\DoxyCodeLine{119             \textcolor{keywordflow}{return} *m\_attribute;}
+\DoxyCodeLine{120         \}}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122         \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{pointer}} operator-\/>()\textcolor{keyword}{ const}}
+\DoxyCodeLine{123 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{124             assert(m\_attribute);}
+\DoxyCodeLine{125             \textcolor{keywordflow}{return} m\_attribute;}
+\DoxyCodeLine{126         \}}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128         \mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator}}\& operator++()}
+\DoxyCodeLine{129         \{}
+\DoxyCodeLine{130             assert(m\_attribute);}
+\DoxyCodeLine{131             m\_attribute = m\_attribute-\/>next\_attribute();}
+\DoxyCodeLine{132             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{133         \}}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135         \mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator}} operator++(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{136         \{}
+\DoxyCodeLine{137             \mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator}} tmp = *\textcolor{keyword}{this};}
+\DoxyCodeLine{138             ++\textcolor{keyword}{this};}
+\DoxyCodeLine{139             \textcolor{keywordflow}{return} tmp;}
+\DoxyCodeLine{140         \}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142         \mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator}}\& operator-\/-\/()}
+\DoxyCodeLine{143         \{}
+\DoxyCodeLine{144             assert(m\_attribute \&\& m\_attribute-\/>previous\_attribute());}
+\DoxyCodeLine{145             m\_attribute = m\_attribute-\/>previous\_attribute();}
+\DoxyCodeLine{146             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{147         \}}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149         \mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator}} operator-\/-\/(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{150         \{}
+\DoxyCodeLine{151             \mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator}} tmp = *\textcolor{keyword}{this};}
+\DoxyCodeLine{152             ++\textcolor{keyword}{this};}
+\DoxyCodeLine{153             \textcolor{keywordflow}{return} tmp;}
+\DoxyCodeLine{154         \}}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156         \textcolor{keywordtype}{bool} operator ==(\textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator<Ch>}} \&rhs)}
+\DoxyCodeLine{157         \{}
+\DoxyCodeLine{158             \textcolor{keywordflow}{return} m\_attribute == rhs.m\_attribute;}
+\DoxyCodeLine{159         \}}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161         \textcolor{keywordtype}{bool} operator !=(\textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1attribute__iterator}{attribute\_iterator<Ch>}} \&rhs)}
+\DoxyCodeLine{162         \{}
+\DoxyCodeLine{163             \textcolor{keywordflow}{return} m\_attribute != rhs.m\_attribute;}
+\DoxyCodeLine{164         \}}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{166     \textcolor{keyword}{private}:}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{168         \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\_attribute<Ch>}} *m\_attribute;}
+\DoxyCodeLine{169 }
+\DoxyCodeLine{170     \};}
+\DoxyCodeLine{171 }
+\DoxyCodeLine{172 \}}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{174 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

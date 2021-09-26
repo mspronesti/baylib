@@ -1,0 +1,44 @@
+\hypertarget{graph_8hpp_source}{}\doxysection{graph.\+hpp}
+\label{graph_8hpp_source}\index{/home/mspronesti/Desktop/baylib/baylib/graph/graph.hpp@{/home/mspronesti/Desktop/baylib/baylib/graph/graph.hpp}}
+\mbox{\hyperlink{graph_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by elle on 01/08/21.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef BAYLIB\_GRAPH\_HPP}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define BAYLIB\_GRAPH\_HPP}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <boost/graph/adjacency\_list.hpp>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{cpt_8hpp}{baylib/probability/cpt.hpp}}>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <boost/range/adaptors.hpp>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
+\DoxyCodeLine{18     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Vertex>}
+\DoxyCodeLine{19     \textcolor{keyword}{using} graph = boost::adjacency\_list<boost::listS, \textcolor{comment}{// edge container}}
+\DoxyCodeLine{20                                         boost::vecS, \textcolor{comment}{// vertex container}}
+\DoxyCodeLine{21                                         boost::bidirectionalS, \textcolor{comment}{// graph type}}
+\DoxyCodeLine{22                                         Vertex \textcolor{comment}{// vertex type}}
+\DoxyCodeLine{23                                         >;}
+\DoxyCodeLine{24     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Vertex>}
+\DoxyCodeLine{25     \textcolor{keyword}{using} vertex = \textcolor{keyword}{typename} graph<Vertex>::vertex\_descriptor;}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{36     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Vertex>}
+\DoxyCodeLine{37     \textcolor{keyword}{auto} \mbox{\hyperlink{namespacebn_aabfeec14957a6a84112596fc4aa18a9f}{bundles}}(graph<Vertex> \& \_g)  \{}
+\DoxyCodeLine{38         \textcolor{keyword}{using} boost::adaptors::transformed;}
+\DoxyCodeLine{39         \textcolor{keyword}{auto} accessor = [map = get(boost::vertex\_bundle, \_g)](\textcolor{keyword}{auto} vid) -\/> \textcolor{keyword}{auto}\& \{}
+\DoxyCodeLine{40             \textcolor{keywordflow}{return} map[vid];}
+\DoxyCodeLine{41         \};}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43         \textcolor{keywordflow}{return} boost::vertices(\_g) | transformed(accessor);}
+\DoxyCodeLine{44     \}}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \} \textcolor{comment}{// namespace bn}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_GRAPH\_HPP}}
+
+\end{DoxyCode}

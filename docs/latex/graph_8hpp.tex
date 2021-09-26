@@ -1,0 +1,24 @@
+\hypertarget{graph_8hpp}{}\doxysection{/home/mspronesti/\+Desktop/baylib/baylib/graph/graph.hpp File Reference}
+\label{graph_8hpp}\index{/home/mspronesti/Desktop/baylib/baylib/graph/graph.hpp@{/home/mspronesti/Desktop/baylib/baylib/graph/graph.hpp}}
+{\ttfamily \#include $<$boost/graph/adjacency\+\_\+list.\+hpp$>$}\newline
+{\ttfamily \#include $<$baylib/probability/cpt.\+hpp$>$}\newline
+{\ttfamily \#include $<$boost/range/adaptors.\+hpp$>$}\newline
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacebn}{bn}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{namespacebn_a9cc2cb8d90b693d4141bde6a45fcc3fd}\label{namespacebn_a9cc2cb8d90b693d4141bde6a45fcc3fd}} 
+{\footnotesize template$<$typename Vertex $>$ }\\using {\bfseries bn\+::graph} = boost\+::adjacency\+\_\+list$<$ boost\+::listS, boost\+::vecS, boost\+::bidirectionalS, Vertex $>$
+\item 
+\mbox{\Hypertarget{namespacebn_a14de7deb9d598bd9f90eebc16cf98146}\label{namespacebn_a14de7deb9d598bd9f90eebc16cf98146}} 
+{\footnotesize template$<$typename Vertex $>$ }\\using {\bfseries bn\+::vertex} = typename graph$<$ Vertex $>$\+::vertex\+\_\+descriptor
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Vertex $>$ }\\auto \mbox{\hyperlink{namespacebn_aabfeec14957a6a84112596fc4aa18a9f}{bn\+::bundles}} (graph$<$ Vertex $>$ \&\+\_\+g)
+\end{DoxyCompactItemize}

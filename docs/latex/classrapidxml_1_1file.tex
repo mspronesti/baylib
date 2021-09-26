@@ -1,0 +1,100 @@
+\hypertarget{classrapidxml_1_1file}{}\doxysection{rapidxml\+::file\texorpdfstring{$<$}{<} Ch \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classrapidxml_1_1file}\index{rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}}
+
+
+Represents data loaded from a file.  
+
+
+
+
+{\ttfamily \#include $<$rapidxml\+\_\+utils.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrapidxml_1_1file_ae881a3cab1fe7152d45c92a8d7606cb3}{file}} (const char $\ast$filename)
+\item 
+\mbox{\hyperlink{classrapidxml_1_1file_a90707ccd991cc392dcf4bef37eed9d1f}{file}} (std\+::basic\+\_\+istream$<$ Ch $>$ \&stream)
+\item 
+Ch $\ast$ \mbox{\hyperlink{classrapidxml_1_1file_ac22c109f867f436ca0107a349d3b49c7}{data}} ()
+\item 
+const Ch $\ast$ \mbox{\hyperlink{classrapidxml_1_1file_abdde870b80d811e2deb9194d88d12542}{data}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classrapidxml_1_1file_aacd451b3def3ad056fe8342dccee35cd}{size}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1file_a60c4a72a55bbf4dbcca07f251a09cddf}\label{classrapidxml_1_1file_a60c4a72a55bbf4dbcca07f251a09cddf}} 
+std\+::vector$<$ Ch $>$ {\bfseries m\+\_\+data}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Ch = char$>$\newline
+class rapidxml\+::file$<$ Ch $>$}
+Represents data loaded from a file. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrapidxml_1_1file_ae881a3cab1fe7152d45c92a8d7606cb3}\label{classrapidxml_1_1file_ae881a3cab1fe7152d45c92a8d7606cb3}} 
+\index{rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}!file@{file}}
+\index{file@{file}!rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{file()}{file()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+\mbox{\hyperlink{classrapidxml_1_1file}{rapidxml\+::file}}$<$ Ch $>$\+::\mbox{\hyperlink{classrapidxml_1_1file}{file}} (\begin{DoxyParamCaption}\item[{const char $\ast$}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Loads file into the memory. Data will be automatically destroyed by the destructor. 
+\begin{DoxyParams}{Parameters}
+{\em filename} & Filename to load. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrapidxml_1_1file_a90707ccd991cc392dcf4bef37eed9d1f}\label{classrapidxml_1_1file_a90707ccd991cc392dcf4bef37eed9d1f}} 
+\index{rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}!file@{file}}
+\index{file@{file}!rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{file()}{file()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+\mbox{\hyperlink{classrapidxml_1_1file}{rapidxml\+::file}}$<$ Ch $>$\+::\mbox{\hyperlink{classrapidxml_1_1file}{file}} (\begin{DoxyParamCaption}\item[{std\+::basic\+\_\+istream$<$ Ch $>$ \&}]{stream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Loads file into the memory. Data will be automatically destroyed by the destructor 
+\begin{DoxyParams}{Parameters}
+{\em stream} & Stream to load from \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrapidxml_1_1file_ac22c109f867f436ca0107a349d3b49c7}\label{classrapidxml_1_1file_ac22c109f867f436ca0107a349d3b49c7}} 
+\index{rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}!data@{data}}
+\index{data@{data}!rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+Ch $\ast$ \mbox{\hyperlink{classrapidxml_1_1file}{rapidxml\+::file}}$<$ Ch $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets file data. \begin{DoxyReturn}{Returns}
+Pointer to data of file. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrapidxml_1_1file_abdde870b80d811e2deb9194d88d12542}\label{classrapidxml_1_1file_abdde870b80d811e2deb9194d88d12542}} 
+\index{rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}!data@{data}}
+\index{data@{data}!rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+const Ch $\ast$ \mbox{\hyperlink{classrapidxml_1_1file}{rapidxml\+::file}}$<$ Ch $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets file data. \begin{DoxyReturn}{Returns}
+Pointer to data of file. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrapidxml_1_1file_aacd451b3def3ad056fe8342dccee35cd}\label{classrapidxml_1_1file_aacd451b3def3ad056fe8342dccee35cd}} 
+\index{rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}!size@{size}}
+\index{size@{size}!rapidxml::file$<$ Ch $>$@{rapidxml::file$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classrapidxml_1_1file}{rapidxml\+::file}}$<$ Ch $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets file data size. \begin{DoxyReturn}{Returns}
+Size of file data, in characters. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/parser/rapidxml/\mbox{\hyperlink{rapidxml__utils_8hpp}{rapidxml\+\_\+utils.\+hpp}}\end{DoxyCompactItemize}

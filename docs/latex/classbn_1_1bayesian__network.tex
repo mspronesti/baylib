@@ -1,0 +1,518 @@
+\hypertarget{classbn_1_1bayesian__network}{}\doxysection{bn\+::bayesian\+\_\+network\texorpdfstring{$<$}{<} Probability \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1bayesian__network}\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+
+
+{\ttfamily \#include $<$bayesian\+\_\+network.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a2db96a5be5717da29723c1d8dc00b05b}\label{classbn_1_1bayesian__network_a2db96a5be5717da29723c1d8dc00b05b}} 
+auto {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a6df2e5973f3a7f15525fc15bdbb02b1a}\label{classbn_1_1bayesian__network_a6df2e5973f3a7f15525fc15bdbb02b1a}} 
+auto {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a886405dc3ce3e940a1875b83d46726dd}\label{classbn_1_1bayesian__network_a886405dc3ce3e940a1875b83d46726dd}} 
+auto {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a3063a88f929ba43b6f6bc6d7202285d2}\label{classbn_1_1bayesian__network_a3063a88f929ba43b6f6bc6d7202285d2}} 
+auto {\bfseries end} () const
+\item 
+vertex\+\_\+id \mbox{\hyperlink{classbn_1_1bayesian__network_ab58b6530e9dace81e381b6f6334aecb2}{add\+\_\+variable}} (const std\+::string \&name, const std\+::vector$<$ std\+::string $>$ \&states)
+\item 
+void \mbox{\hyperlink{classbn_1_1bayesian__network_a01b2241819f2d678f6e60c0bc78aefe7}{remove\+\_\+variable}} (const std\+::string \&name)
+\item 
+void \mbox{\hyperlink{classbn_1_1bayesian__network_ab328c6f81a571f048c0757620c7b890f}{add\+\_\+dependency}} (const std\+::string \&src\+\_\+name, const std\+::string \&dest\+\_\+name)
+\item 
+void \mbox{\hyperlink{classbn_1_1bayesian__network_a84f6a03e0e4f47ba957522d155cf71c4}{add\+\_\+dependency}} (vertex\+\_\+id src\+\_\+id, vertex\+\_\+id dest\+\_\+id)
+\item 
+void \mbox{\hyperlink{classbn_1_1bayesian__network_aea1a871c59a12470ae659a39f3011a12}{remove\+\_\+dependency}} (const std\+::string \&src\+\_\+name, const std\+::string \&dest\+\_\+name)
+\item 
+void \mbox{\hyperlink{classbn_1_1bayesian__network_aaebeffb462234f8f5fe1db4eff8abc55}{remove\+\_\+dependency}} (vertex\+\_\+id src\+\_\+id, vertex\+\_\+id dest\+\_\+id)
+\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{classbn_1_1bayesian__network_af81e3c85d44ac89d7b774b4b82e0f200}{number\+\_\+of\+\_\+variables}} () const
+\item 
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network_a19f9f791537afae60bfe1032fa46846c}{operator\mbox{[}$\,$\mbox{]}}} (const std\+::string \&name)
+\item 
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network_a32a4ec9e90622302131ed2e2c124fce8}{operator\mbox{[}$\,$\mbox{]}}} (const std\+::string \&name) const
+\item 
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network_ac33fa8d0cafd84b98185f710c7000274}{operator\mbox{[}$\,$\mbox{]}}} (vertex\+\_\+id v)
+\item 
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network_a5cf1f19bffc3a11cca5a5a2491ded9eb}{operator\mbox{[}$\,$\mbox{]}}} (vertex\+\_\+id v) const
+\item 
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}{variable}} (const std\+::string \&name)
+\item 
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network_a1d9cbfa27b809d6f12d1acb4b731acfd}{variable}} (vertex\+\_\+id v)
+\item 
+bool \mbox{\hyperlink{classbn_1_1bayesian__network_a4f8923ccbabb8428ce8d88c4bccb3372}{has\+\_\+dependency}} (const std\+::string \&name1, const std\+::string \&name2)
+\item 
+bool \mbox{\hyperlink{classbn_1_1bayesian__network_af86626625cf7763d00a7a66ccf592ec7}{has\+\_\+dependency}} (vertex\+\_\+id v1, vertex\+\_\+id v2) const
+\item 
+bool \mbox{\hyperlink{classbn_1_1bayesian__network_aaa0790c57412c3ef4b94dcca21216abe}{is\+\_\+root}} (vertex\+\_\+id v) const
+\item 
+bool \mbox{\hyperlink{classbn_1_1bayesian__network_a5b0d52baa2c08d12b2f63c86b085ce3c}{is\+\_\+root}} (const std\+::string \&name) const
+\item 
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbn_1_1bayesian__network_a28d22bd40a216ebc8d28c41e7d9dc9a3}{children\+\_\+of}} (const std\+::string \&name) const
+\item 
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbn_1_1bayesian__network_a5d4423f4603e76efd16a2f8f4c864346}{children\+\_\+of}} (vertex\+\_\+id v) const
+\item 
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbn_1_1bayesian__network_a41e228b141e17d61c39e5a8037b87bff}{parents\+\_\+of}} (const std\+::string \&name) const
+\item 
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbn_1_1bayesian__network_af1661623cd493bb64031f8ff89a69bad}{parents\+\_\+of}} (vertex\+\_\+id v) const
+\item 
+void \mbox{\hyperlink{classbn_1_1bayesian__network_a35aff3294508ac41670768d89c36738e}{set\+\_\+variable\+\_\+probability}} (const std\+::string \&var\+\_\+name, bn\+::state\+\_\+t state\+\_\+value, const \mbox{\hyperlink{classbn_1_1condition}{bn\+::condition}} \&cond, Probability p)
+\item 
+bool \mbox{\hyperlink{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}{has\+\_\+variable}} (const std\+::string \&name) const
+\item 
+bool \mbox{\hyperlink{classbn_1_1bayesian__network_a3617d5b2fb86771e03c682fb4d996c31}{has\+\_\+variable}} (vertex\+\_\+id v) const
+\item 
+vertex\+\_\+id \mbox{\hyperlink{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}{index\+\_\+of}} (const std\+::string \&name) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a25f7813c956f55d04741486fc58cebdc}\label{classbn_1_1bayesian__network_a25f7813c956f55d04741486fc58cebdc}} 
+typedef bn\+::graph$<$ \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ $>$ {\bfseries graph\+\_\+t}
+\item 
+\mbox{\Hypertarget{classbn_1_1bayesian__network_ab42776e46b3d050c791403cc76430356}\label{classbn_1_1bayesian__network_ab42776e46b3d050c791403cc76430356}} 
+typedef bn\+::vertex$<$ Probability $>$ {\bfseries vertex\+\_\+id}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classbn_1_1bayesian__network_a36ac526bdc72d7625921432a09305bad}{introduces\+\_\+loop}} (vertex\+\_\+id from, vertex\+\_\+id to)
+\item 
+void \mbox{\hyperlink{classbn_1_1bayesian__network_a8111ce19d5cd331fdb3f611909d096a5}{optimize\+\_\+cpt\+\_\+memory\+\_\+occupation}} (vertex\+\_\+id id)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbn_1_1bayesian__network_afadde1aef8e3f0bde2011114af75f2f6}\label{classbn_1_1bayesian__network_afadde1aef8e3f0bde2011114af75f2f6}} 
+std\+::shared\+\_\+ptr$<$ graph\+\_\+t $>$ {\bfseries graph}
+\item 
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a292ac109981af3420e0ce4daabbf1390}\label{classbn_1_1bayesian__network_a292ac109981af3420e0ce4daabbf1390}} 
+std\+::map$<$ std\+::string, vertex\+\_\+id $>$ {\bfseries var\+\_\+map}
+\item 
+\mbox{\Hypertarget{classbn_1_1bayesian__network_add8412e15dbcf4da0a21bcd6e49b6beb}\label{classbn_1_1bayesian__network_add8412e15dbcf4da0a21bcd6e49b6beb}} 
+std\+::unordered\+\_\+map$<$ size\+\_\+t, vertex\+\_\+id $>$ {\bfseries cpt\+\_\+hash\+\_\+map}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Probability$>$\newline
+class bn\+::bayesian\+\_\+network$<$ Probability $>$}
+This class models a Bayesian Network allowing both index and name based access to its facilities for a better user experience 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Probability} & \+: Type of cpts entries \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_ab328c6f81a571f048c0757620c7b890f}\label{classbn_1_1bayesian__network_ab328c6f81a571f048c0757620c7b890f}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!add\_dependency@{add\_dependency}}
+\index{add\_dependency@{add\_dependency}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{add\_dependency()}{add\_dependency()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+void \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::add\+\_\+dependency (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{src\+\_\+name,  }\item[{const std\+::string \&}]{dest\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to add a dependency / arc between two nodes of the network 
+\begin{DoxyParams}{Parameters}
+{\em src\+\_\+name} & \+: parent node name \\
+\hline
+{\em dest\+\_\+name} & \+: child node name \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a84f6a03e0e4f47ba957522d155cf71c4}\label{classbn_1_1bayesian__network_a84f6a03e0e4f47ba957522d155cf71c4}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!add\_dependency@{add\_dependency}}
+\index{add\_dependency@{add\_dependency}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{add\_dependency()}{add\_dependency()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+void \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::add\+\_\+dependency (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{src\+\_\+id,  }\item[{vertex\+\_\+id}]{dest\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to add a dependency / arc between two nodes of the network 
+\begin{DoxyParams}{Parameters}
+{\em src\+\_\+id} & \+: parent node identifier \\
+\hline
+{\em dest\+\_\+id} & \+: child node identifier \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_ab58b6530e9dace81e381b6f6334aecb2}\label{classbn_1_1bayesian__network_ab58b6530e9dace81e381b6f6334aecb2}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!add\_variable@{add\_variable}}
+\index{add\_variable@{add\_variable}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{add\_variable()}{add\_variable()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+vertex\+\_\+id \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::add\+\_\+variable (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name,  }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{states }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to add a new variable to the network, no duplicate names can exist in the graph 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: string identifier of the variable \\
+\hline
+{\em states} & \+: vector of possible states that can be obtained from the random distribution \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: numerical identifier assigned to the node 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a28d22bd40a216ebc8d28c41e7d9dc9a3}\label{classbn_1_1bayesian__network_a28d22bd40a216ebc8d28c41e7d9dc9a3}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!children\_of@{children\_of}}
+\index{children\_of@{children\_of}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{children\_of()}{children\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::children\+\_\+of (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Return the vector of children of a specific node identified by name 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: vector of numerical ids 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a5d4423f4603e76efd16a2f8f4c864346}\label{classbn_1_1bayesian__network_a5d4423f4603e76efd16a2f8f4c864346}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!children\_of@{children\_of}}
+\index{children\_of@{children\_of}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{children\_of()}{children\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::children\+\_\+of (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Return the vector of children of a specific node identified by numerical identifier 
+\begin{DoxyParams}{Parameters}
+{\em v} & \+: id of node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: vector of numerical ids 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a4f8923ccbabb8428ce8d88c4bccb3372}\label{classbn_1_1bayesian__network_a4f8923ccbabb8428ce8d88c4bccb3372}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!has\_dependency@{has\_dependency}}
+\index{has\_dependency@{has\_dependency}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{has\_dependency()}{has\_dependency()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+bool \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::has\+\_\+dependency (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name1,  }\item[{const std\+::string \&}]{name2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to verify if two variables, identified by name, are connected by a dependency / arc 
+\begin{DoxyParams}{Parameters}
+{\em name1} & \+: name of first node \\
+\hline
+{\em name2} & \+: name of second node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if v1 is parent of v2 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_af86626625cf7763d00a7a66ccf592ec7}\label{classbn_1_1bayesian__network_af86626625cf7763d00a7a66ccf592ec7}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!has\_dependency@{has\_dependency}}
+\index{has\_dependency@{has\_dependency}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{has\_dependency()}{has\_dependency()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+bool \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::has\+\_\+dependency (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v1,  }\item[{vertex\+\_\+id}]{v2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to verify if two variables, identified by numerical id, are connected by a dependency / arc 
+\begin{DoxyParams}{Parameters}
+{\em v1} & \+: id of first node \\
+\hline
+{\em v2} & \+: id of second node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if v1 is parent of v2 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}\label{classbn_1_1bayesian__network_abdd0b554f0a9cb1366a50973d436acd4}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!has\_variable@{has\_variable}}
+\index{has\_variable@{has\_variable}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{has\_variable()}{has\_variable()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+bool \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::has\+\_\+variable (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to verify if a name is associated with an existing variable, identified by name 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name of variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if variable exists 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a3617d5b2fb86771e03c682fb4d996c31}\label{classbn_1_1bayesian__network_a3617d5b2fb86771e03c682fb4d996c31}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!has\_variable@{has\_variable}}
+\index{has\_variable@{has\_variable}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{has\_variable()}{has\_variable()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+bool \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::has\+\_\+variable (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to verify if a name is associated with an existing variable, identified by numerical identifier 
+\begin{DoxyParams}{Parameters}
+{\em v} & \+: numerical identifier of variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if variable exists 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}\label{classbn_1_1bayesian__network_a9386464809fef784935937658881f8ca}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!index\_of@{index\_of}}
+\index{index\_of@{index\_of}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{index\_of()}{index\_of()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+vertex\+\_\+id \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::index\+\_\+of (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns the numerical identifier of a variable identified by name 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name of variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: numerical identifier of variable 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a36ac526bdc72d7625921432a09305bad}\label{classbn_1_1bayesian__network_a36ac526bdc72d7625921432a09305bad}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!introduces\_loop@{introduces\_loop}}
+\index{introduces\_loop@{introduces\_loop}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{introduces\_loop()}{introduces\_loop()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+bool \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::introduces\+\_\+loop (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{from,  }\item[{vertex\+\_\+id}]{to }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+utility to detect whether a vertex introduces a loop in the DAG 
+\begin{DoxyParams}{Parameters}
+{\em from} & \+: edge\textquotesingle{}s driver \\
+\hline
+{\em to} & \+: edge\textquotesingle{}s loader \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if introduces a loop, false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a5b0d52baa2c08d12b2f63c86b085ce3c}\label{classbn_1_1bayesian__network_a5b0d52baa2c08d12b2f63c86b085ce3c}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!is\_root@{is\_root}}
+\index{is\_root@{is\_root}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{is\_root()}{is\_root()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+bool \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::is\+\_\+root (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to verify if a node, identified by name, is a root node / has no parent nodes 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if node is root 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_aaa0790c57412c3ef4b94dcca21216abe}\label{classbn_1_1bayesian__network_aaa0790c57412c3ef4b94dcca21216abe}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!is\_root@{is\_root}}
+\index{is\_root@{is\_root}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{is\_root()}{is\_root()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+bool \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::is\+\_\+root (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to verify if a node, identified by numerical identifier, is a root node / has no parent nodes 
+\begin{DoxyParams}{Parameters}
+{\em v} & \+: id of node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if node is root 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_af81e3c85d44ac89d7b774b4b82e0f200}\label{classbn_1_1bayesian__network_af81e3c85d44ac89d7b774b4b82e0f200}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!number\_of\_variables@{number\_of\_variables}}
+\index{number\_of\_variables@{number\_of\_variables}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{number\_of\_variables()}{number\_of\_variables()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+std\+::uint64\+\_\+t \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::number\+\_\+of\+\_\+variables (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method that returns the number of variables in the network \begin{DoxyReturn}{Returns}
+number of variables 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a19f9f791537afae60bfe1032fa46846c}\label{classbn_1_1bayesian__network_a19f9f791537afae60bfe1032fa46846c}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Operator that returns the \mbox{\hyperlink{classbn_1_1random__variable}{random\+\_\+variable}} class identified by the name specified 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: random variable class 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a32a4ec9e90622302131ed2e2c124fce8}\label{classbn_1_1bayesian__network_a32a4ec9e90622302131ed2e2c124fce8}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Operator that returns the \mbox{\hyperlink{classbn_1_1random__variable}{random\+\_\+variable}} class identified by the name specified 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: random variable class 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_ac33fa8d0cafd84b98185f710c7000274}\label{classbn_1_1bayesian__network_ac33fa8d0cafd84b98185f710c7000274}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Operator that returns the \mbox{\hyperlink{classbn_1_1random__variable}{random\+\_\+variable}} class identified by id 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: random variable class 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a5cf1f19bffc3a11cca5a5a2491ded9eb}\label{classbn_1_1bayesian__network_a5cf1f19bffc3a11cca5a5a2491ded9eb}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Operator that returns the \mbox{\hyperlink{classbn_1_1random__variable}{random\+\_\+variable}} class identified by id 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: random variable class 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a8111ce19d5cd331fdb3f611909d096a5}\label{classbn_1_1bayesian__network_a8111ce19d5cd331fdb3f611909d096a5}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!optimize\_cpt\_memory\_occupation@{optimize\_cpt\_memory\_occupation}}
+\index{optimize\_cpt\_memory\_occupation@{optimize\_cpt\_memory\_occupation}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{optimize\_cpt\_memory\_occupation()}{optimize\_cpt\_memory\_occupation()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+void \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::optimize\+\_\+cpt\+\_\+memory\+\_\+occupation (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+Checks if a specific variable, identified by numerical identifier, has a cpt that is already present in the network, if it\textquotesingle{}s the case the cpt of the node is deleted from memory and switched with a reference to the one that already exists, the cpt will be copied if a write operation is executed following the COW paradigm 
+\begin{DoxyParams}{Parameters}
+{\em id} & \+: numerical identifier of node \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a41e228b141e17d61c39e5a8037b87bff}\label{classbn_1_1bayesian__network_a41e228b141e17d61c39e5a8037b87bff}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!parents\_of@{parents\_of}}
+\index{parents\_of@{parents\_of}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{parents\_of()}{parents\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::parents\+\_\+of (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Return the vector of parents of a specific node identified by name 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name of node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: vector of numerical ids 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_af1661623cd493bb64031f8ff89a69bad}\label{classbn_1_1bayesian__network_af1661623cd493bb64031f8ff89a69bad}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!parents\_of@{parents\_of}}
+\index{parents\_of@{parents\_of}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{parents\_of()}{parents\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::parents\+\_\+of (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Return the vector of parents of a specific node identified by numerical id 
+\begin{DoxyParams}{Parameters}
+{\em v} & \+: numerical id of node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: vector of numerical ids 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_aea1a871c59a12470ae659a39f3011a12}\label{classbn_1_1bayesian__network_aea1a871c59a12470ae659a39f3011a12}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!remove\_dependency@{remove\_dependency}}
+\index{remove\_dependency@{remove\_dependency}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{remove\_dependency()}{remove\_dependency()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+void \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::remove\+\_\+dependency (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{src\+\_\+name,  }\item[{const std\+::string \&}]{dest\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to remove a dependency / arc between two nodes of the network 
+\begin{DoxyParams}{Parameters}
+{\em src\+\_\+name} & \+: parent node name \\
+\hline
+{\em dest\+\_\+name} & \+: child node name \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_aaebeffb462234f8f5fe1db4eff8abc55}\label{classbn_1_1bayesian__network_aaebeffb462234f8f5fe1db4eff8abc55}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!remove\_dependency@{remove\_dependency}}
+\index{remove\_dependency@{remove\_dependency}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{remove\_dependency()}{remove\_dependency()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+void \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::remove\+\_\+dependency (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{src\+\_\+id,  }\item[{vertex\+\_\+id}]{dest\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to remove a dependency / arc between two nodes of the network 
+\begin{DoxyParams}{Parameters}
+{\em src\+\_\+id} & \+: parent node identifier \\
+\hline
+{\em dest\+\_\+id} & \+: child node identifier \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a01b2241819f2d678f6e60c0bc78aefe7}\label{classbn_1_1bayesian__network_a01b2241819f2d678f6e60c0bc78aefe7}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!remove\_variable@{remove\_variable}}
+\index{remove\_variable@{remove\_variable}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{remove\_variable()}{remove\_variable()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+void \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::remove\+\_\+variable (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to remove a variable from the network, dependencies are also automatically deleted 
+\begin{DoxyParams}{Parameters}
+{\em name} & name of variable \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a35aff3294508ac41670768d89c36738e}\label{classbn_1_1bayesian__network_a35aff3294508ac41670768d89c36738e}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!set\_variable\_probability@{set\_variable\_probability}}
+\index{set\_variable\_probability@{set\_variable\_probability}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{set\_variable\_probability()}{set\_variable\_probability()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+void \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::set\+\_\+variable\+\_\+probability (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{var\+\_\+name,  }\item[{bn\+::state\+\_\+t}]{state\+\_\+value,  }\item[{const \mbox{\hyperlink{classbn_1_1condition}{bn\+::condition}} \&}]{cond,  }\item[{Probability}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets the probability value of a CPT cell of a specific node, identified by name 
+\begin{DoxyParams}{Parameters}
+{\em var\+\_\+name} & \+: name of node \\
+\hline
+{\em state\+\_\+value} & \+: identifier of state associated with the set probability \\
+\hline
+{\em cond} & \+: condition associated with the set probability \\
+\hline
+{\em p} & \+: probability \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}\label{classbn_1_1bayesian__network_a9201e88e77ee34714331e71efb6601b6}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!variable@{variable}}
+\index{variable@{variable}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{variable()}{variable()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::variable (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method that returns the \mbox{\hyperlink{classbn_1_1random__variable}{random\+\_\+variable}} class identified by the name specified 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: random variable class 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1bayesian__network_a1d9cbfa27b809d6f12d1acb4b731acfd}\label{classbn_1_1bayesian__network_a1d9cbfa27b809d6f12d1acb4b731acfd}} 
+\index{bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}!variable@{variable}}
+\index{variable@{variable}!bn::bayesian\_network$<$ Probability $>$@{bn::bayesian\_network$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{variable()}{variable()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$\+::variable (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Operator that returns the \mbox{\hyperlink{classbn_1_1random__variable}{random\+\_\+variable}} class identified by id 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: random variable class 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/network/\mbox{\hyperlink{bayesian__network_8hpp}{bayesian\+\_\+network.\+hpp}}\end{DoxyCompactItemize}

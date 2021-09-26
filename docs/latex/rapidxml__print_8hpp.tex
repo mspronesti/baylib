@@ -1,0 +1,88 @@
+\hypertarget{rapidxml__print_8hpp}{}\doxysection{/home/mspronesti/\+Desktop/baylib/baylib/parser/rapidxml/rapidxml\+\_\+print.hpp File Reference}
+\label{rapidxml__print_8hpp}\index{/home/mspronesti/Desktop/baylib/baylib/parser/rapidxml/rapidxml\_print.hpp@{/home/mspronesti/Desktop/baylib/baylib/parser/rapidxml/rapidxml\_print.hpp}}
+
+
+This file contains rapidxml printer implementation.  
+
+
+{\ttfamily \#include \char`\"{}rapidxml.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$ostream$>$}\newline
+{\ttfamily \#include $<$iterator$>$}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class Out\+It , class Ch $>$ }\\Out\+It \mbox{\hyperlink{rapidxml__print_8hpp_a0fb0be6eba49fb2e2646d5a72a0dc355}{rapidxml\+::print}} (Out\+It out, const xml\+\_\+node$<$ Ch $>$ \&node, int flags=0)
+\item 
+{\footnotesize template$<$class Ch $>$ }\\std\+::basic\+\_\+ostream$<$ Ch $>$ \& \mbox{\hyperlink{rapidxml__print_8hpp_a7ba23821a67ca9078fbf9c0db1fd8b97}{rapidxml\+::print}} (std\+::basic\+\_\+ostream$<$ Ch $>$ \&out, const xml\+\_\+node$<$ Ch $>$ \&node, int flags=0)
+\item 
+{\footnotesize template$<$class Ch $>$ }\\std\+::basic\+\_\+ostream$<$ Ch $>$ \& \mbox{\hyperlink{rapidxml__print_8hpp_abe7a33b812232c168620d6c1548cac3c}{rapidxml\+::operator$<$$<$}} (std\+::basic\+\_\+ostream$<$ Ch $>$ \&out, const xml\+\_\+node$<$ Ch $>$ \&node)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}\label{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}} 
+const int {\bfseries rapidxml\+::print\+\_\+no\+\_\+indenting} = 0x1
+\begin{DoxyCompactList}\small\item\em Printer flag instructing the printer to suppress indenting of XML. See \mbox{\hyperlink{rapidxml__print_8hpp_a7ba23821a67ca9078fbf9c0db1fd8b97}{print()}} function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains rapidxml printer implementation. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{rapidxml__print_8hpp_abe7a33b812232c168620d6c1548cac3c}\label{rapidxml__print_8hpp_abe7a33b812232c168620d6c1548cac3c}} 
+\index{rapidxml\_print.hpp@{rapidxml\_print.hpp}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!rapidxml\_print.hpp@{rapidxml\_print.hpp}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
+{\footnotesize\ttfamily template$<$class Ch $>$ \\
+std\+::basic\+\_\+ostream$<$ Ch $>$ \& rapidxml\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::basic\+\_\+ostream$<$ Ch $>$ \&}]{out,  }\item[{const \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ \&}]{node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Prints formatted XML to given output stream. Uses default printing flags. Use \mbox{\hyperlink{rapidxml__print_8hpp_a7ba23821a67ca9078fbf9c0db1fd8b97}{print()}} function to customize printing process. 
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream to print to. \\
+\hline
+{\em node} & Node to be printed. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Output stream. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{rapidxml__print_8hpp_a0fb0be6eba49fb2e2646d5a72a0dc355}\label{rapidxml__print_8hpp_a0fb0be6eba49fb2e2646d5a72a0dc355}} 
+\index{rapidxml\_print.hpp@{rapidxml\_print.hpp}!print@{print}}
+\index{print@{print}!rapidxml\_print.hpp@{rapidxml\_print.hpp}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Out\+It , class Ch $>$ \\
+Out\+It rapidxml\+::print (\begin{DoxyParamCaption}\item[{Out\+It}]{out,  }\item[{const \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ \&}]{node,  }\item[{int}]{flags = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Prints XML to given output iterator. 
+\begin{DoxyParams}{Parameters}
+{\em out} & Output iterator to print to. \\
+\hline
+{\em node} & Node to be printed. Pass xml\+\_\+document to print entire document. \\
+\hline
+{\em flags} & Flags controlling how XML is printed. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Output iterator pointing to position immediately after last character of printed text. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{rapidxml__print_8hpp_a7ba23821a67ca9078fbf9c0db1fd8b97}\label{rapidxml__print_8hpp_a7ba23821a67ca9078fbf9c0db1fd8b97}} 
+\index{rapidxml\_print.hpp@{rapidxml\_print.hpp}!print@{print}}
+\index{print@{print}!rapidxml\_print.hpp@{rapidxml\_print.hpp}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Ch $>$ \\
+std\+::basic\+\_\+ostream$<$ Ch $>$ \& rapidxml\+::print (\begin{DoxyParamCaption}\item[{std\+::basic\+\_\+ostream$<$ Ch $>$ \&}]{out,  }\item[{const \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ \&}]{node,  }\item[{int}]{flags = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Prints XML to given output stream. 
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream to print to. \\
+\hline
+{\em node} & Node to be printed. Pass xml\+\_\+document to print entire document. \\
+\hline
+{\em flags} & Flags controlling how XML is printed. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Output stream. 
+\end{DoxyReturn}
