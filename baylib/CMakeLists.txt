@@ -51,7 +51,6 @@ set (src
     tools/cow/shared_data.hpp
     tools/cow/shared_ptr.hpp
     tools/gpu/gpu_utils.hpp
-    tools/threads/thread_pool.hpp
     tools/random/random_generator.hpp
     baylib_assert.h
 )
