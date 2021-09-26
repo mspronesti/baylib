@@ -6,17 +6,18 @@ FetchContent_Declare(
         GIT_REPOSITORY https://github.com/google/googletest.git
 )
 
-
 if (WIN32)
     # prevent overriding the parent project's compiler/linker settings
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 endif (WIN32)
 
+set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+
 FetchContent_MakeAvailable(googletest)
 FetchContent_GetProperties(googletest)
 if(NOT googletest_POPULATED)
     FetchContent_Populate(googletest)
-    add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+    add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
 
@@ -26,7 +27,6 @@ macro(add_gtest name)
    target_link_libraries(${name}_test gtest gtest_main baylib)
    add_test(${name}_test ${name})
 endmacro()
-
 
 add_gtest(bnet)
 add_gtest(rank)

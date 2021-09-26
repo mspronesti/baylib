@@ -22,7 +22,7 @@ Inheritance diagram for bn\+::inference\+::gibbs\+\_\+sampling\texorpdfstring{$<
 \mbox{\Hypertarget{classbn_1_1inference_1_1gibbs__sampling_a128a8fecba79d142e59d7c7a4c0200b9}\label{classbn_1_1inference_1_1gibbs__sampling_a128a8fecba79d142e59d7c7a4c0200b9}} 
 \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn\+::marginal\+\_\+distribution}}$<$ Probability $>$ {\bfseries sample\+\_\+step} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \&bn, unsigned long nsamples, unsigned int seed) override
 \item 
-std\+::pair$<$ ulong, ulong $>$ \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a1c6f81443208a9cb7f2de8300483886b}{sample\+\_\+single\+\_\+variable}} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \&bn, const unsigned long n, std\+::vector$<$ bn\+::state\+\_\+t $>$ \&var\+\_\+state\+\_\+values, \mbox{\hyperlink{classbn_1_1random__generator}{bn\+::random\+\_\+generator}}$<$ Probability, Generator $>$ \&rnd\+\_\+gen)
+ulong \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_ab6ab0a10381c5300f51795decea6c283}{sample\+\_\+single\+\_\+variable}} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \&bn, const unsigned long n, std\+::vector$<$ bn\+::state\+\_\+t $>$ \&var\+\_\+state\+\_\+values, \mbox{\hyperlink{classbn_1_1random__generator}{bn\+::random\+\_\+generator}}$<$ Probability, Generator $>$ \&rnd\+\_\+gen)
 \item 
 Probability \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a8bd3fda26eb78487e3ed8e37ca11a7ab}{get\+\_\+probability}} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \&bn, const unsigned long n, const std\+::vector$<$ bn\+::state\+\_\+t $>$ \&var\+\_\+state\+\_\+values)
 \end{DoxyCompactItemize}
@@ -59,12 +59,12 @@ Get the probability of the current realization of a specific node
 \begin{DoxyReturn}{Returns}
 \+: Probability of the current realization of n 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classbn_1_1inference_1_1gibbs__sampling_a1c6f81443208a9cb7f2de8300483886b}\label{classbn_1_1inference_1_1gibbs__sampling_a1c6f81443208a9cb7f2de8300483886b}} 
+\mbox{\Hypertarget{classbn_1_1inference_1_1gibbs__sampling_ab6ab0a10381c5300f51795decea6c283}\label{classbn_1_1inference_1_1gibbs__sampling_ab6ab0a10381c5300f51795decea6c283}} 
 \index{bn::inference::gibbs\_sampling$<$ Probability, Generator $>$@{bn::inference::gibbs\_sampling$<$ Probability, Generator $>$}!sample\_single\_variable@{sample\_single\_variable}}
 \index{sample\_single\_variable@{sample\_single\_variable}!bn::inference::gibbs\_sampling$<$ Probability, Generator $>$@{bn::inference::gibbs\_sampling$<$ Probability, Generator $>$}}
 \doxysubsubsection{\texorpdfstring{sample\_single\_variable()}{sample\_single\_variable()}}
 {\footnotesize\ttfamily template$<$typename Probability  = double, typename Generator  = std\+::mt19937$>$ \\
-std\+::pair$<$ ulong, ulong $>$ \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling}{bn\+::inference\+::gibbs\+\_\+sampling}}$<$ Probability, Generator $>$\+::sample\+\_\+single\+\_\+variable (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \&}]{bn,  }\item[{const unsigned long}]{n,  }\item[{std\+::vector$<$ bn\+::state\+\_\+t $>$ \&}]{var\+\_\+state\+\_\+values,  }\item[{\mbox{\hyperlink{classbn_1_1random__generator}{bn\+::random\+\_\+generator}}$<$ Probability, Generator $>$ \&}]{rnd\+\_\+gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+ulong \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling}{bn\+::inference\+::gibbs\+\_\+sampling}}$<$ Probability, Generator $>$\+::sample\+\_\+single\+\_\+variable (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \&}]{bn,  }\item[{const unsigned long}]{n,  }\item[{std\+::vector$<$ bn\+::state\+\_\+t $>$ \&}]{var\+\_\+state\+\_\+values,  }\item[{\mbox{\hyperlink{classbn_1_1random__generator}{bn\+::random\+\_\+generator}}$<$ Probability, Generator $>$ \&}]{rnd\+\_\+gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
 
 Samples a single variable usign the Gibbs sampling algorithm 
 \begin{DoxyParams}{Parameters}
@@ -78,7 +78,7 @@ Samples a single variable usign the Gibbs sampling algorithm
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-
+sampled state 
 \end{DoxyReturn}
 
 

@@ -23,21 +23,21 @@ typedef std::vector<algo_ptr> algo_vector;
 
 algo_vector get_alg(){
     auto alg = algo_vector();
-    //alg.emplace_back(std::move(std::make_unique<logic_sampling<double>>(SAMPLES, MEMORY)));
+    alg.emplace_back(std::move(std::make_unique<logic_sampling<double>>(SAMPLES, MEMORY)));
     alg.emplace_back(std::move(std::make_unique<likelihood_weighting<double>>(SAMPLES, THREADS)));
     alg.emplace_back(std::move(std::make_unique<gibbs_sampling<double>>(SAMPLES, THREADS)));
     alg.emplace_back(std::move(std::make_unique<rejection_sampling<double>>(SAMPLES, THREADS)));
-    //alg.emplace_back(std::move(std::make_unique<adaptive_importance_sampling<double>>(SAMPLES, MEMORY, THREADS)));
+    alg.emplace_back(std::move(std::make_unique<adaptive_importance_sampling<double>>(SAMPLES, MEMORY, THREADS)));
 
     return alg;
 }
 
 algo_vector get_alg_not_det(){
     auto alg = std::vector<std::unique_ptr<inference_algorithm<double>>>();
-    //alg.emplace_back(std::move(std::make_unique<logic_sampling<double>>(SAMPLES, MEMORY)));
+    alg.emplace_back(std::move(std::make_unique<logic_sampling<double>>(SAMPLES, MEMORY)));
     alg.emplace_back(std::move(std::make_unique<likelihood_weighting<double>>(SAMPLES, THREADS)));
     alg.emplace_back(std::move(std::make_unique<rejection_sampling<double>>(SAMPLES, THREADS)));
-    //alg.emplace_back(std::move(std::make_unique<adaptive_importance_sampling<double>>(SAMPLES, MEMORY, THREADS)));
+    alg.emplace_back(std::move(std::make_unique<adaptive_importance_sampling<double>>(SAMPLES, MEMORY, THREADS)));
 
     return alg;
 }

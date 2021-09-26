@@ -33,99 +33,98 @@
 \DoxyCodeLine{45 }
 \DoxyCodeLine{46             \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} sample\_step (}
 \DoxyCodeLine{47                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \& \mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{48                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples,}
+\DoxyCodeLine{48                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples, \textcolor{comment}{// the number of samples of each thread}}
 \DoxyCodeLine{49                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} seed}
 \DoxyCodeLine{50             )\textcolor{keyword}{ override}}
 \DoxyCodeLine{51 \textcolor{keyword}{            }\{}
 \DoxyCodeLine{52                 ulong nvars = \mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables();}
 \DoxyCodeLine{53                 \textcolor{comment}{// contains, for each variable, the current state value}}
 \DoxyCodeLine{54                 \textcolor{keyword}{auto} var\_state\_values = std::vector<bn::state\_t>(nvars);}
-\DoxyCodeLine{55                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability, Generator>}} rnd\_gen(seed);}
-\DoxyCodeLine{56 }
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability, Generator>}} rnd\_gen(seed);}
 \DoxyCodeLine{57                 \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} marginal\_distr(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
 \DoxyCodeLine{58 }
-\DoxyCodeLine{59 }
-\DoxyCodeLine{60                 \textcolor{keywordflow}{for}(ulong i = 0; i < nsamples; ++i)}
-\DoxyCodeLine{61                     \textcolor{keywordflow}{for}(ulong n = 0; n < nvars; ++n)}
-\DoxyCodeLine{62                     \{}
-\DoxyCodeLine{63                         \textcolor{keyword}{auto} res = \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a1c6f81443208a9cb7f2de8300483886b}{sample\_single\_variable}}(\mbox{\hyperlink{namespacebn}{bn}}, n, var\_state\_values, rnd\_gen);}
-\DoxyCodeLine{64                         ++marginal\_distr[res.first][res.second];}
-\DoxyCodeLine{65                     \}}
-\DoxyCodeLine{66 }
-\DoxyCodeLine{67                 \textcolor{keywordflow}{return} marginal\_distr;}
-\DoxyCodeLine{68             \}}
-\DoxyCodeLine{69 }
-\DoxyCodeLine{79             std::pair<ulong, ulong> \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a1c6f81443208a9cb7f2de8300483886b}{sample\_single\_variable}}(}
-\DoxyCodeLine{80                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{81                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n,}
-\DoxyCodeLine{82                 std::vector<bn::state\_t> \&var\_state\_values,}
-\DoxyCodeLine{83                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability, Generator>}} \&rnd\_gen}
-\DoxyCodeLine{84             )}
-\DoxyCodeLine{85             \{}
-\DoxyCodeLine{86                 \textcolor{keyword}{auto} var = \mbox{\hyperlink{namespacebn}{bn}}[n];}
-\DoxyCodeLine{87                 \textcolor{keywordflow}{if}(var.is\_evidence()) \{}
-\DoxyCodeLine{88                     var\_state\_values[n] = var.evidence\_state();}
-\DoxyCodeLine{89                     \textcolor{keywordflow}{return} \{n, var.evidence\_state()\};}
-\DoxyCodeLine{90                 \}}
-\DoxyCodeLine{91 }
-\DoxyCodeLine{92                 \textcolor{keyword}{auto} samples = std::vector<Probability>(var.states().size(), 0.0);}
-\DoxyCodeLine{93                 \textcolor{keywordflow}{for}(ulong i = 0; i < samples.size(); ++i) \{}
-\DoxyCodeLine{94                     var\_state\_values[n] = i;}
-\DoxyCodeLine{95                     \textcolor{comment}{// here we evaluate P(Xi | x\_t, t = 1, 2, ..., i-\/1, 1+1, ..., n)}}
-\DoxyCodeLine{96                     \textcolor{comment}{// which is P(Xi | markov\_blanket(Xi))}}
-\DoxyCodeLine{97                     \textcolor{comment}{// which is proportional to}}
-\DoxyCodeLine{98                     \textcolor{comment}{//  P(Xi | parents(Xi)) * prod\_\{j=1\}\string^\{k\} P(Yj | parents(Yj))}}
-\DoxyCodeLine{99                     \textcolor{comment}{//}}
-\DoxyCodeLine{100                     \textcolor{comment}{// where}}
-\DoxyCodeLine{101                     \textcolor{comment}{// -\/ prod is the product from j = 1 to k}}
-\DoxyCodeLine{102                     \textcolor{comment}{// -\/ k is the number of children of Xi}}
-\DoxyCodeLine{103                     \textcolor{comment}{// -\/ Yj is the j-\/th child of X}}
-\DoxyCodeLine{104                     samples[i] = \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a8bd3fda26eb78487e3ed8e37ca11a7ab}{get\_probability}}(\mbox{\hyperlink{namespacebn}{bn}}, n, var\_state\_values);}
-\DoxyCodeLine{105                     \textcolor{keywordflow}{for}(ulong j : \mbox{\hyperlink{namespacebn}{bn}}.children\_of(n))}
-\DoxyCodeLine{106                         samples[i] *= \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a8bd3fda26eb78487e3ed8e37ca11a7ab}{get\_probability}}(\mbox{\hyperlink{namespacebn}{bn}}, j, var\_state\_values);}
-\DoxyCodeLine{107                 \}}
-\DoxyCodeLine{108                 \textcolor{comment}{// normalize}}
-\DoxyCodeLine{109                 Probability sum = std::accumulate(samples.begin(), samples.end(), 0.0);}
-\DoxyCodeLine{110                 std::for\_each(samples.begin(), samples.end(), [sum](\textcolor{keyword}{auto} \& val)\{}
-\DoxyCodeLine{111                     val /= sum;}
-\DoxyCodeLine{112                 \});}
-\DoxyCodeLine{113 }
-\DoxyCodeLine{114                 Probability prob = rnd\_gen.get\_random();}
-\DoxyCodeLine{115                 ulong j;}
-\DoxyCodeLine{116                 \textcolor{keywordflow}{for}(j = 0; j < samples.size() -\/ 1; ++j)}
-\DoxyCodeLine{117                 \{}
-\DoxyCodeLine{118                     \textcolor{keywordflow}{if}(prob <= samples[j])}
-\DoxyCodeLine{119                         \textcolor{keywordflow}{break};}
-\DoxyCodeLine{120                     \textcolor{keywordflow}{else}}
-\DoxyCodeLine{121                         prob -\/= samples[j];}
-\DoxyCodeLine{122                 \}}
-\DoxyCodeLine{123                 var\_state\_values[n] = j;}
-\DoxyCodeLine{124                 \textcolor{keywordflow}{return} \{n, j\};}
-\DoxyCodeLine{125             \}}
-\DoxyCodeLine{126 }
-\DoxyCodeLine{132             Probability \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a8bd3fda26eb78487e3ed8e37ca11a7ab}{get\_probability}} (}
-\DoxyCodeLine{133                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{134                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n,}
-\DoxyCodeLine{135                 \textcolor{keyword}{const} std::vector<bn::state\_t> \&var\_state\_values}
-\DoxyCodeLine{136             )}
-\DoxyCodeLine{137             \{}
-\DoxyCodeLine{138                 \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} c;}
-\DoxyCodeLine{139                 \textcolor{comment}{// builds a condition using parents and}}
-\DoxyCodeLine{140                 \textcolor{comment}{// their states}}
-\DoxyCodeLine{141                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& p : \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(n))}
-\DoxyCodeLine{142                     c.\mbox{\hyperlink{classbn_1_1condition_aaa01e66363ee3a94e9ec88e7931ffb40}{add}}(}
-\DoxyCodeLine{143                             \mbox{\hyperlink{namespacebn}{bn}}[p].name(),}
-\DoxyCodeLine{144                             var\_state\_values[p]}
-\DoxyCodeLine{145                     );}
-\DoxyCodeLine{146 }
-\DoxyCodeLine{147                 \textcolor{keyword}{const} \textcolor{keyword}{auto}\& cpt = \mbox{\hyperlink{namespacebn}{bn}}[n].table();}
-\DoxyCodeLine{148                 \textcolor{keywordflow}{return}  cpt[c][var\_state\_values[n]];}
-\DoxyCodeLine{149             \}}
-\DoxyCodeLine{150         \};}
-\DoxyCodeLine{151 }
-\DoxyCodeLine{152     \}  \textcolor{comment}{// namespace inference}}
-\DoxyCodeLine{153 \} \textcolor{comment}{// namespace bn}}
-\DoxyCodeLine{154 }
-\DoxyCodeLine{155 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_GIBBS\_SAMPLING\_HPP}}
+\DoxyCodeLine{59                 \textcolor{keywordflow}{for}(ulong i = 0; i < nsamples; ++i)}
+\DoxyCodeLine{60                     \textcolor{keywordflow}{for}(ulong n = 0; n < nvars; ++n)}
+\DoxyCodeLine{61                     \{}
+\DoxyCodeLine{62                         \textcolor{keyword}{auto} sample = \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_ab6ab0a10381c5300f51795decea6c283}{sample\_single\_variable}}(\mbox{\hyperlink{namespacebn}{bn}}, n, var\_state\_values, rnd\_gen);}
+\DoxyCodeLine{63                         ++marginal\_distr[n][sample];}
+\DoxyCodeLine{64                     \}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66                 \textcolor{keywordflow}{return} marginal\_distr;}
+\DoxyCodeLine{67             \}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{78             ulong \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_ab6ab0a10381c5300f51795decea6c283}{sample\_single\_variable}}(}
+\DoxyCodeLine{79                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
+\DoxyCodeLine{80                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n,}
+\DoxyCodeLine{81                 std::vector<bn::state\_t> \&var\_state\_values,}
+\DoxyCodeLine{82                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability, Generator>}} \&rnd\_gen}
+\DoxyCodeLine{83             )}
+\DoxyCodeLine{84             \{}
+\DoxyCodeLine{85                 \textcolor{keyword}{auto} var = \mbox{\hyperlink{namespacebn}{bn}}[n];}
+\DoxyCodeLine{86                 \textcolor{keywordflow}{if}(var.is\_evidence()) \{}
+\DoxyCodeLine{87                     var\_state\_values[n] = var.evidence\_state();}
+\DoxyCodeLine{88                     \textcolor{keywordflow}{return} var.evidence\_state();}
+\DoxyCodeLine{89                 \}}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91                 \textcolor{keyword}{auto} samples = std::vector<Probability>(var.states().size(), 0.0);}
+\DoxyCodeLine{92                 \textcolor{keywordflow}{for}(ulong i = 0; i < samples.size(); ++i) \{}
+\DoxyCodeLine{93                     var\_state\_values[n] = i;}
+\DoxyCodeLine{94                     \textcolor{comment}{// here we evaluate P(Xi | x\_t, t = 1, 2, ..., i-\/1, 1+1, ..., n)}}
+\DoxyCodeLine{95                     \textcolor{comment}{// which is P(Xi | markov\_blanket(Xi))}}
+\DoxyCodeLine{96                     \textcolor{comment}{// which is proportional to}}
+\DoxyCodeLine{97                     \textcolor{comment}{//  P(Xi | parents(Xi)) * prod\_\{j=1\}\string^\{k\} P(Yj | parents(Yj))}}
+\DoxyCodeLine{98                     \textcolor{comment}{//}}
+\DoxyCodeLine{99                     \textcolor{comment}{// where}}
+\DoxyCodeLine{100                     \textcolor{comment}{// -\/ prod is the product from j = 1 to k}}
+\DoxyCodeLine{101                     \textcolor{comment}{// -\/ k is the number of children of Xi}}
+\DoxyCodeLine{102                     \textcolor{comment}{// -\/ Yj is the j-\/th child of X}}
+\DoxyCodeLine{103                     samples[i] = \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a8bd3fda26eb78487e3ed8e37ca11a7ab}{get\_probability}}(\mbox{\hyperlink{namespacebn}{bn}}, n, var\_state\_values);}
+\DoxyCodeLine{104                     \textcolor{keywordflow}{for}(ulong j : \mbox{\hyperlink{namespacebn}{bn}}.children\_of(n))}
+\DoxyCodeLine{105                         samples[i] *= \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a8bd3fda26eb78487e3ed8e37ca11a7ab}{get\_probability}}(\mbox{\hyperlink{namespacebn}{bn}}, j, var\_state\_values);}
+\DoxyCodeLine{106                 \}}
+\DoxyCodeLine{107                 \textcolor{comment}{// normalize}}
+\DoxyCodeLine{108                 Probability sum = std::accumulate(samples.begin(), samples.end(), 0.0);}
+\DoxyCodeLine{109                 std::for\_each(samples.begin(), samples.end(), [sum](\textcolor{keyword}{auto} \& val)\{}
+\DoxyCodeLine{110                     val /= sum;}
+\DoxyCodeLine{111                 \});}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113                 Probability prob = rnd\_gen.get\_random();}
+\DoxyCodeLine{114                 ulong j;}
+\DoxyCodeLine{115                 \textcolor{keywordflow}{for}(j = 0; j < samples.size() -\/ 1; ++j)}
+\DoxyCodeLine{116                 \{}
+\DoxyCodeLine{117                     \textcolor{keywordflow}{if}(prob <= samples[j])}
+\DoxyCodeLine{118                         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{119                     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{120                         prob -\/= samples[j];}
+\DoxyCodeLine{121                 \}}
+\DoxyCodeLine{122                 var\_state\_values[n] = j;}
+\DoxyCodeLine{123                 \textcolor{keywordflow}{return} j;}
+\DoxyCodeLine{124             \}}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{131             Probability \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a8bd3fda26eb78487e3ed8e37ca11a7ab}{get\_probability}} (}
+\DoxyCodeLine{132                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
+\DoxyCodeLine{133                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n,}
+\DoxyCodeLine{134                 \textcolor{keyword}{const} std::vector<bn::state\_t> \&var\_state\_values}
+\DoxyCodeLine{135             )}
+\DoxyCodeLine{136             \{}
+\DoxyCodeLine{137                 \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} c;}
+\DoxyCodeLine{138                 \textcolor{comment}{// builds a condition using parents and}}
+\DoxyCodeLine{139                 \textcolor{comment}{// their states}}
+\DoxyCodeLine{140                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& p : \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(n))}
+\DoxyCodeLine{141                     c.\mbox{\hyperlink{classbn_1_1condition_aaa01e66363ee3a94e9ec88e7931ffb40}{add}}(}
+\DoxyCodeLine{142                             \mbox{\hyperlink{namespacebn}{bn}}[p].name(),}
+\DoxyCodeLine{143                             var\_state\_values[p]}
+\DoxyCodeLine{144                     );}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146                 \textcolor{keyword}{const} \textcolor{keyword}{auto}\& cpt = \mbox{\hyperlink{namespacebn}{bn}}[n].table();}
+\DoxyCodeLine{147                 \textcolor{keywordflow}{return}  cpt[c][var\_state\_values[n]];}
+\DoxyCodeLine{148             \}}
+\DoxyCodeLine{149         \};}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{151     \}  \textcolor{comment}{// namespace inference}}
+\DoxyCodeLine{152 \} \textcolor{comment}{// namespace bn}}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_GIBBS\_SAMPLING\_HPP}}
 
 \end{DoxyCode}

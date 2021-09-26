@@ -45,23 +45,22 @@ namespace bn {
 
             bn::marginal_distribution<Probability> sample_step (
                     const bn::bayesian_network<Probability> & bn,
-                    unsigned long nsamples,
+                    unsigned long nsamples, // the number of samples of each thread
                     unsigned int seed
             ) override
             {
                 ulong nvars = bn.number_of_variables();
                 // contains, for each variable, the current state value
                 auto var_state_values = std::vector<bn::state_t>(nvars);
+
                 bn::random_generator<Probability, Generator> rnd_gen(seed);
-
                 bn::marginal_distribution<Probability> marginal_distr(bn.begin(), bn.end());
-
 
                 for(ulong i = 0; i < nsamples; ++i)
                     for(ulong n = 0; n < nvars; ++n)
                     {
-                        auto res = sample_single_variable(bn, n, var_state_values, rnd_gen);
-                        ++marginal_distr[res.first][res.second];
+                        auto sample = sample_single_variable(bn, n, var_state_values, rnd_gen);
+                        ++marginal_distr[n][sample];
                     }
 
                 return marginal_distr;
@@ -74,9 +73,9 @@ namespace bn {
              * @param n   : the index of the sampled variable
              * @param var_state_values : the vector containing the var states
              * @param rnd_gen  : the random generator with the given seed
-             * @return
+             * @return sampled state
              */
-            std::pair<ulong, ulong> sample_single_variable(
+            ulong sample_single_variable(
                 const bn::bayesian_network<Probability> &bn,
                 const unsigned long n,
                 std::vector<bn::state_t> &var_state_values,
@@ -86,7 +85,7 @@ namespace bn {
                 auto var = bn[n];
                 if(var.is_evidence()) {
                     var_state_values[n] = var.evidence_state();
-                    return {n, var.evidence_state()};
+                    return var.evidence_state();
                 }
 
                 auto samples = std::vector<Probability>(var.states().size(), 0.0);
@@ -121,7 +120,7 @@ namespace bn {
                         prob -= samples[j];
                 }
                 var_state_values[n] = j;
-                return {n, j};
+                return j;
             }
 
             /**

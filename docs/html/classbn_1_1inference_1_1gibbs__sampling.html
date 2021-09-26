@@ -116,8 +116,8 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a128a8fecba79d142e59d7c7a4c0200b9"><td class="memItemLeft" align="right" valign="top"><a id="a128a8fecba79d142e59d7c7a4c0200b9" name="a128a8fecba79d142e59d7c7a4c0200b9"></a>
 <a class="el" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a>&lt; Probability &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sample_step</b> (const <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt; Probability &gt; &amp;bn, unsigned long nsamples, unsigned int seed) override</td></tr>
 <tr class="separator:a128a8fecba79d142e59d7c7a4c0200b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c6f81443208a9cb7f2de8300483886b"><td class="memItemLeft" align="right" valign="top">std::pair&lt; ulong, ulong &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1inference_1_1gibbs__sampling.html#a1c6f81443208a9cb7f2de8300483886b">sample_single_variable</a> (const <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt; Probability &gt; &amp;bn, const unsigned long n, std::vector&lt; bn::state_t &gt; &amp;var_state_values, <a class="el" href="classbn_1_1random__generator.html">bn::random_generator</a>&lt; Probability, Generator &gt; &amp;rnd_gen)</td></tr>
-<tr class="separator:a1c6f81443208a9cb7f2de8300483886b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6ab0a10381c5300f51795decea6c283"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1inference_1_1gibbs__sampling.html#ab6ab0a10381c5300f51795decea6c283">sample_single_variable</a> (const <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt; Probability &gt; &amp;bn, const unsigned long n, std::vector&lt; bn::state_t &gt; &amp;var_state_values, <a class="el" href="classbn_1_1random__generator.html">bn::random_generator</a>&lt; Probability, Generator &gt; &amp;rnd_gen)</td></tr>
+<tr class="separator:ab6ab0a10381c5300f51795decea6c283"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bd3fda26eb78487e3ed8e37ca11a7ab"><td class="memItemLeft" align="right" valign="top">Probability&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1inference_1_1gibbs__sampling.html#a8bd3fda26eb78487e3ed8e37ca11a7ab">get_probability</a> (const <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt; Probability &gt; &amp;bn, const unsigned long n, const std::vector&lt; bn::state_t &gt; &amp;var_state_values)</td></tr>
 <tr class="separator:a8bd3fda26eb78487e3ed8e37ca11a7ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -201,8 +201,8 @@ template&lt;typename Probability  = double, typename Generator  = std::mt19937&g
 
 </div>
 </div>
-<a id="a1c6f81443208a9cb7f2de8300483886b" name="a1c6f81443208a9cb7f2de8300483886b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c6f81443208a9cb7f2de8300483886b">&#9670;&nbsp;</a></span>sample_single_variable()</h2>
+<a id="ab6ab0a10381c5300f51795decea6c283" name="ab6ab0a10381c5300f51795decea6c283"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6ab0a10381c5300f51795decea6c283">&#9670;&nbsp;</a></span>sample_single_variable()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,7 +213,7 @@ template&lt;typename Probability  = double, typename Generator  = std::mt19937&g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt; ulong, ulong &gt; <a class="el" href="classbn_1_1inference_1_1gibbs__sampling.html">bn::inference::gibbs_sampling</a>&lt; Probability, Generator &gt;::sample_single_variable </td>
+          <td class="memname">ulong <a class="el" href="classbn_1_1inference_1_1gibbs__sampling.html">bn::inference::gibbs_sampling</a>&lt; Probability, Generator &gt;::sample_single_variable </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt; Probability &gt; &amp;&#160;</td>
           <td class="paramname"><em>bn</em>, </td>
@@ -257,7 +257,7 @@ template&lt;typename Probability  = double, typename Generator  = std::mt19937&g
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>sampled state </dd></dl>
 
 </div>
 </div>

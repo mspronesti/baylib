@@ -1,14 +1,7 @@
 var searchData=
 [
-  ['table_0',['table',['../structbn_1_1cow_1_1CPTData.html#a07909e5a39e8a3ace7a56b5368adcc12',1,'bn::cow::CPTData::table()'],['../classbn_1_1random__variable.html#a51961c59bb1c2054bac08a8e95f31d22',1,'bn::random_variable::table()'],['../classbn_1_1random__variable.html#a44c3b9899e0eba62cc7cfc69bffdfb56',1,'bn::random_variable::table() const']]],
-  ['tasks_1',['tasks',['../classthread__pool.html#a0aef9354f74dba9b469084ba17feb5e1',1,'thread_pool']]],
-  ['tasks_5ftotal_2',['tasks_total',['../classthread__pool.html#aaadd54679f33196ff289db30604a0032',1,'thread_pool']]],
-  ['text_5fpred_3',['text_pred',['../structrapidxml_1_1xml__document_1_1text__pred.html',1,'rapidxml::xml_document']]],
-  ['text_5fpure_5fno_5fws_5fpred_4',['text_pure_no_ws_pred',['../structrapidxml_1_1xml__document_1_1text__pure__no__ws__pred.html',1,'rapidxml::xml_document']]],
-  ['text_5fpure_5fwith_5fws_5fpred_5',['text_pure_with_ws_pred',['../structrapidxml_1_1xml__document_1_1text__pure__with__ws__pred.html',1,'rapidxml::xml_document']]],
-  ['thread_5fcount_6',['thread_count',['../classthread__pool.html#a4eb87a055bf8762d9a6186d06db2730f',1,'thread_pool']]],
-  ['thread_5fpool_7',['thread_pool',['../classthread__pool.html',1,'thread_pool'],['../classthread__pool.html#afc887e2c84ebe8176ce44a9065d780b5',1,'thread_pool::thread_pool()']]],
-  ['thread_5fpool_2ehpp_8',['thread_pool.hpp',['../thread__pool_8hpp.html',1,'']]],
-  ['threads_9',['threads',['../classthread__pool.html#a59c590c4b97bb05c59c22c40bbac43ed',1,'thread_pool']]],
-  ['type_10',['type',['../classrapidxml_1_1xml__node.html#a5f91729128856b0aaab598d4364ace60',1,'rapidxml::xml_node::type() const'],['../classrapidxml_1_1xml__node.html#a499bbc9300c1b06821d5c08b24164c68',1,'rapidxml::xml_node::type(node_type type)']]]
+  ['value_0',['value',['../classrapidxml_1_1xml__base.html#af3a3d4534f4c88f151e0f063aef1c6de',1,'rapidxml::xml_base::value() const'],['../classrapidxml_1_1xml__base.html#a3b183c2db7022a6d30494dd2f0ac11e9',1,'rapidxml::xml_base::value(const Ch *value, std::size_t size)'],['../classrapidxml_1_1xml__base.html#a81e63ec4bfd2d7ef0a6c2ed49be6e623',1,'rapidxml::xml_base::value(const Ch *value)']]],
+  ['value_5fsize_1',['value_size',['../classrapidxml_1_1xml__base.html#a2eb123d471b1567fa4832b6ee2b75493',1,'rapidxml::xml_base']]],
+  ['variable_2',['variable',['../classbn_1_1bayesian__network.html#a9201e88e77ee34714331e71efb6601b6',1,'bn::bayesian_network::variable(const std::string &amp;name)'],['../classbn_1_1bayesian__network.html#a1d9cbfa27b809d6f12d1acb4b731acfd',1,'bn::bayesian_network::variable(vertex_id v)']]],
+  ['vectorized_5finference_5falgorithm_3',['vectorized_inference_algorithm',['../classbn_1_1inference_1_1vectorized__inference__algorithm.html',1,'bn::inference']]]
 ];

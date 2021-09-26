@@ -13,6 +13,5 @@ var searchData=
   ['count_5fattributes_10',['count_attributes',['../rapidxml__utils_8hpp.html#a6255d15e5d8ad12ebcd7c60da51c97e2',1,'rapidxml']]],
   ['count_5fchildren_11',['count_children',['../rapidxml__utils_8hpp.html#a21c1cf2814019385e6b8d09e75af1d34',1,'rapidxml']]],
   ['cpt_12',['cpt',['../classbn_1_1cow_1_1cpt.html#af2bffc33e0e9298d23b636ccb58aa0ad',1,'bn::cow::cpt']]],
-  ['cpt_5ffilled_5fout_13',['cpt_filled_out',['../namespacebn.html#acc5dce26e8f0ea7d4ec84de1c194998a',1,'bn']]],
-  ['create_5fthreads_14',['create_threads',['../classthread__pool.html#a9c1e1a00bf0f12c5e4c1422d5eadca94',1,'thread_pool']]]
+  ['cpt_5ffilled_5fout_13',['cpt_filled_out',['../namespacebn.html#acc5dce26e8f0ea7d4ec84de1c194998a',1,'bn']]]
 ];

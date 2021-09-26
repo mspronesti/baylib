@@ -17,6 +17,5 @@ var searchData=
   ['cpt_14',['cpt',['../classbn_1_1cow_1_1cpt.html',1,'bn::cow::cpt&lt; Probability &gt;'],['../classbn_1_1cow_1_1cpt.html#af2bffc33e0e9298d23b636ccb58aa0ad',1,'bn::cow::cpt::cpt()']]],
   ['cpt_2ehpp_15',['cpt.hpp',['../cpt_8hpp.html',1,'']]],
   ['cpt_5ffilled_5fout_16',['cpt_filled_out',['../namespacebn.html#acc5dce26e8f0ea7d4ec84de1c194998a',1,'bn']]],
-  ['cptdata_17',['CPTData',['../structbn_1_1cow_1_1CPTData.html',1,'bn::cow']]],
-  ['create_5fthreads_18',['create_threads',['../classthread__pool.html#a9c1e1a00bf0f12c5e4c1422d5eadca94',1,'thread_pool']]]
+  ['cptdata_17',['CPTData',['../structbn_1_1cow_1_1CPTData.html',1,'bn::cow']]]
 ];

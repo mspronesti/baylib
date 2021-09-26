@@ -13,6 +13,5 @@ var searchData=
   ['remove_5flast_5fnode_10',['remove_last_node',['../classrapidxml_1_1xml__node.html#a9182512e948ec451a83f116cce7c7674',1,'rapidxml::xml_node']]],
   ['remove_5fnode_11',['remove_node',['../classrapidxml_1_1xml__node.html#a98289923eb9e8889418a9eb0207ea35c',1,'rapidxml::xml_node']]],
   ['remove_5fvariable_12',['remove_variable',['../classbn_1_1bayesian__network.html#a01b2241819f2d678f6e60c0bc78aefe7',1,'bn::bayesian_network']]],
-  ['rend_13',['rend',['../classbn_1_1condition.html#adbbb452221a00a562225a5bef582ab39',1,'bn::condition']]],
-  ['reset_14',['reset',['../classthread__pool.html#aa5926f83dde427afac052f4d72237b18',1,'thread_pool']]]
+  ['rend_13',['rend',['../classbn_1_1condition.html#adbbb452221a00a562225a5bef582ab39',1,'bn::condition']]]
 ];
