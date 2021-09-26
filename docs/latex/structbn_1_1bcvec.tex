@@ -1,0 +1,50 @@
+\hypertarget{structbn_1_1bcvec}{}\doxysection{bn\+::bcvec Struct Reference}
+\label{structbn_1_1bcvec}\index{bn::bcvec@{bn::bcvec}}
+
+
+{\ttfamily \#include $<$gpu\+\_\+utils.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structbn_1_1bcvec_a51d9376b1be5441ea4d495a234dc28e3}\label{structbn_1_1bcvec_a51d9376b1be5441ea4d495a234dc28e3}} 
+{\bfseries bcvec} (uint dimension, uint cardinality, boost\+::compute\+::context \&context)
+\item 
+\mbox{\Hypertarget{structbn_1_1bcvec_ab116ea731ea4341156d874caf8b5b63b}\label{structbn_1_1bcvec_ab116ea731ea4341156d874caf8b5b63b}} 
+{\bfseries bcvec} (boost\+::compute\+::vector$<$ int $>$ state, uint cardinality, uint uses)
+\item 
+\mbox{\Hypertarget{structbn_1_1bcvec_a83ea174913a642865150d1dbb2e36e30}\label{structbn_1_1bcvec_a83ea174913a642865150d1dbb2e36e30}} 
+{\bfseries bcvec} (uint evidence\+\_\+state, uint cardinality)
+\item 
+\mbox{\Hypertarget{structbn_1_1bcvec_afcd7cf1fe4829b88e42f509d936b6972}\label{structbn_1_1bcvec_afcd7cf1fe4829b88e42f509d936b6972}} 
+void {\bfseries add\+\_\+use} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structbn_1_1bcvec_aa0a4f1fe7257b06229c341465360803d}\label{structbn_1_1bcvec_aa0a4f1fe7257b06229c341465360803d}} 
+boost\+::compute\+::vector$<$ int $>$ {\bfseries state}
+\item 
+\mbox{\Hypertarget{structbn_1_1bcvec_ad60430f70a2ef1e9b2d18fe3a153a332}\label{structbn_1_1bcvec_ad60430f70a2ef1e9b2d18fe3a153a332}} 
+uint {\bfseries cardinality} \{\}
+\item 
+\mbox{\Hypertarget{structbn_1_1bcvec_af580aab857a0799bd87b96f714431266}\label{structbn_1_1bcvec_af580aab857a0799bd87b96f714431266}} 
+bool {\bfseries isevidence} \{\}
+\item 
+\mbox{\Hypertarget{structbn_1_1bcvec_a857a18cd17963f91dd4302334355e5fa}\label{structbn_1_1bcvec_a857a18cd17963f91dd4302334355e5fa}} 
+uint {\bfseries evidence\+\_\+state} \{\}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structbn_1_1bcvec_a96d0abd5302d965933f381f9a021cea1}\label{structbn_1_1bcvec_a96d0abd5302d965933f381f9a021cea1}} 
+uint {\bfseries uses} \{\}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Container for gpu vectors with built in auto release of the memory after set number of uses 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/tools/gpu/\mbox{\hyperlink{gpu__utils_8hpp}{gpu\+\_\+utils.\+hpp}}\end{DoxyCompactItemize}

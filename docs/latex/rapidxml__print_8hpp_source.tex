@@ -1,0 +1,405 @@
+\hypertarget{rapidxml__print_8hpp_source}{}\doxysection{rapidxml\+\_\+print.\+hpp}
+\label{rapidxml__print_8hpp_source}\index{/home/mspronesti/Desktop/baylib/baylib/parser/rapidxml/rapidxml\_print.hpp@{/home/mspronesti/Desktop/baylib/baylib/parser/rapidxml/rapidxml\_print.hpp}}
+\mbox{\hyperlink{rapidxml__print_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef RAPIDXML\_PRINT\_HPP\_INCLUDED}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define RAPIDXML\_PRINT\_HPP\_INCLUDED}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{comment}{// Copyright (C) 2006, 2009 Marcin Kalicinski}}
+\DoxyCodeLine{5 \textcolor{comment}{// Version 1.13}}
+\DoxyCodeLine{6 \textcolor{comment}{// Revision \$DateTime: 2009/05/13 01:46:17 \$}}
+\DoxyCodeLine{8 \textcolor{comment}{}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{rapidxml_8hpp}{rapidxml.hpp}}"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{comment}{// Only include streams if not disabled}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef RAPIDXML\_NO\_STREAMS}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{    \#include <ostream>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{    \#include <iterator>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{keyword}{namespace }rapidxml}
+\DoxyCodeLine{18 \{}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{21     \textcolor{comment}{// Printing flags}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23     \textcolor{keyword}{const} \textcolor{keywordtype}{int} \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}} = 0x1;   }
+\DoxyCodeLine{24 }
+\DoxyCodeLine{26     \textcolor{comment}{// Internal}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{29     \textcolor{keyword}{namespace }internal}
+\DoxyCodeLine{30     \{}
+\DoxyCodeLine{31         }
+\DoxyCodeLine{33         \textcolor{comment}{// Internal character operations}}
+\DoxyCodeLine{34     }
+\DoxyCodeLine{35         \textcolor{comment}{// Copy characters from given range to given output iterator}}
+\DoxyCodeLine{36         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{37         \textcolor{keyword}{inline} OutIt copy\_chars(\textcolor{keyword}{const} Ch *begin, \textcolor{keyword}{const} Ch *end, OutIt out)}
+\DoxyCodeLine{38         \{}
+\DoxyCodeLine{39             \textcolor{keywordflow}{while} (begin != end)}
+\DoxyCodeLine{40                 *out++ = *begin++;}
+\DoxyCodeLine{41             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{42         \}}
+\DoxyCodeLine{43         }
+\DoxyCodeLine{44         \textcolor{comment}{// Copy characters from given range to given output iterator and expand}}
+\DoxyCodeLine{45         \textcolor{comment}{// characters into references (\&lt; \&gt; \&apos; \&quot; \&amp;)}}
+\DoxyCodeLine{46         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{47         \textcolor{keyword}{inline} OutIt copy\_and\_expand\_chars(\textcolor{keyword}{const} Ch *begin, \textcolor{keyword}{const} Ch *end, Ch noexpand, OutIt out)}
+\DoxyCodeLine{48         \{}
+\DoxyCodeLine{49             \textcolor{keywordflow}{while} (begin != end)}
+\DoxyCodeLine{50             \{}
+\DoxyCodeLine{51                 \textcolor{keywordflow}{if} (*begin == noexpand)}
+\DoxyCodeLine{52                 \{}
+\DoxyCodeLine{53                     *out++ = *begin;    \textcolor{comment}{// No expansion, copy character}}
+\DoxyCodeLine{54                 \}}
+\DoxyCodeLine{55                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{56                 \{}
+\DoxyCodeLine{57                     \textcolor{keywordflow}{switch} (*begin)}
+\DoxyCodeLine{58                     \{}
+\DoxyCodeLine{59                     \textcolor{keywordflow}{case} Ch(\textcolor{charliteral}{'<'}):}
+\DoxyCodeLine{60                         *out++ = Ch(\textcolor{charliteral}{'\&'}); *out++ = Ch(\textcolor{charliteral}{'l'}); *out++ = Ch(\textcolor{charliteral}{'t'}); *out++ = Ch(\textcolor{charliteral}{';'});}
+\DoxyCodeLine{61                         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{62                     \textcolor{keywordflow}{case} Ch(\textcolor{charliteral}{'>'}): }
+\DoxyCodeLine{63                         *out++ = Ch(\textcolor{charliteral}{'\&'}); *out++ = Ch(\textcolor{charliteral}{'g'}); *out++ = Ch(\textcolor{charliteral}{'t'}); *out++ = Ch(\textcolor{charliteral}{';'});}
+\DoxyCodeLine{64                         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{65                     \textcolor{keywordflow}{case} Ch(\textcolor{charliteral}{'\(\backslash\)''}): }
+\DoxyCodeLine{66                         *out++ = Ch(\textcolor{charliteral}{'\&'}); *out++ = Ch(\textcolor{charliteral}{'a'}); *out++ = Ch(\textcolor{charliteral}{'p'}); *out++ = Ch(\textcolor{charliteral}{'o'}); *out++ = Ch(\textcolor{charliteral}{'s'}); *out++ = Ch(\textcolor{charliteral}{';'});}
+\DoxyCodeLine{67                         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{68                     \textcolor{keywordflow}{case} Ch(\textcolor{charliteral}{'"{}'}): }
+\DoxyCodeLine{69                         *out++ = Ch(\textcolor{charliteral}{'\&'}); *out++ = Ch(\textcolor{charliteral}{'q'}); *out++ = Ch(\textcolor{charliteral}{'u'}); *out++ = Ch(\textcolor{charliteral}{'o'}); *out++ = Ch(\textcolor{charliteral}{'t'}); *out++ = Ch(\textcolor{charliteral}{';'});}
+\DoxyCodeLine{70                         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{71                     \textcolor{keywordflow}{case} Ch(\textcolor{charliteral}{'\&'}): }
+\DoxyCodeLine{72                         *out++ = Ch(\textcolor{charliteral}{'\&'}); *out++ = Ch(\textcolor{charliteral}{'a'}); *out++ = Ch(\textcolor{charliteral}{'m'}); *out++ = Ch(\textcolor{charliteral}{'p'}); *out++ = Ch(\textcolor{charliteral}{';'}); }
+\DoxyCodeLine{73                         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{74                     \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{75                         *out++ = *begin;    \textcolor{comment}{// No expansion, copy character}}
+\DoxyCodeLine{76                     \}}
+\DoxyCodeLine{77                 \}}
+\DoxyCodeLine{78                 ++begin;    \textcolor{comment}{// Step to next character}}
+\DoxyCodeLine{79             \}}
+\DoxyCodeLine{80             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{81         \}}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83         \textcolor{comment}{// Fill given output iterator with repetitions of the same character}}
+\DoxyCodeLine{84         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{85         \textcolor{keyword}{inline} OutIt fill\_chars(OutIt out, \textcolor{keywordtype}{int} n, Ch ch)}
+\DoxyCodeLine{86         \{}
+\DoxyCodeLine{87             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < n; ++i)}
+\DoxyCodeLine{88                 *out++ = ch;}
+\DoxyCodeLine{89             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{90         \}}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92         \textcolor{comment}{// Find character}}
+\DoxyCodeLine{93         \textcolor{keyword}{template}<\textcolor{keyword}{class} Ch, Ch ch>}
+\DoxyCodeLine{94         \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} find\_char(\textcolor{keyword}{const} Ch *begin, \textcolor{keyword}{const} Ch *end)}
+\DoxyCodeLine{95         \{}
+\DoxyCodeLine{96             \textcolor{keywordflow}{while} (begin != end)}
+\DoxyCodeLine{97                 \textcolor{keywordflow}{if} (*begin++ == ch)}
+\DoxyCodeLine{98                     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{99             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{100         \}}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{103         \textcolor{comment}{// Internal printing operations}}
+\DoxyCodeLine{104     }
+\DoxyCodeLine{105         \textcolor{comment}{// Print node}}
+\DoxyCodeLine{106         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{107         \textcolor{keyword}{inline} OutIt print\_node(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node, \textcolor{keywordtype}{int} flags, \textcolor{keywordtype}{int} indent)}
+\DoxyCodeLine{108         \{}
+\DoxyCodeLine{109             \textcolor{comment}{// Print proper node type}}
+\DoxyCodeLine{110             \textcolor{keywordflow}{switch} (node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a5f91729128856b0aaab598d4364ace60}{type}}())}
+\DoxyCodeLine{111             \{}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113             \textcolor{comment}{// Document}}
+\DoxyCodeLine{114             \textcolor{keywordflow}{case} \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7ca4023b6a1c7059fd8fbec2112d5c35424}{node\_document}}:}
+\DoxyCodeLine{115                 out = print\_children(out, node, flags, indent);}
+\DoxyCodeLine{116                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118             \textcolor{comment}{// Element}}
+\DoxyCodeLine{119             \textcolor{keywordflow}{case} \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7ca89cbeb4d28046326e4ee953d3c4047ff}{node\_element}}:}
+\DoxyCodeLine{120                 out = print\_element\_node(out, node, flags, indent);}
+\DoxyCodeLine{121                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{122             }
+\DoxyCodeLine{123             \textcolor{comment}{// Data}}
+\DoxyCodeLine{124             \textcolor{keywordflow}{case} \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7ca9d669d8e1f4ba9c7eeada4c14a11ad1d}{node\_data}}:}
+\DoxyCodeLine{125                 out = print\_data\_node(out, node, flags, indent);}
+\DoxyCodeLine{126                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{127             }
+\DoxyCodeLine{128             \textcolor{comment}{// CDATA}}
+\DoxyCodeLine{129             \textcolor{keywordflow}{case} \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7caccf0b363d3876a3f83ff9b1bcdaaa536}{node\_cdata}}:}
+\DoxyCodeLine{130                 out = print\_cdata\_node(out, node, flags, indent);}
+\DoxyCodeLine{131                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{132 }
+\DoxyCodeLine{133             \textcolor{comment}{// Declaration}}
+\DoxyCodeLine{134             \textcolor{keywordflow}{case} \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7cafe4ca44261e5fbedf0eab43131751212}{node\_declaration}}:}
+\DoxyCodeLine{135                 out = print\_declaration\_node(out, node, flags, indent);}
+\DoxyCodeLine{136                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138             \textcolor{comment}{// Comment}}
+\DoxyCodeLine{139             \textcolor{keywordflow}{case} \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7ca1a695e1384ec3bd4df3eff65ec609a96}{node\_comment}}:}
+\DoxyCodeLine{140                 out = print\_comment\_node(out, node, flags, indent);}
+\DoxyCodeLine{141                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{142             }
+\DoxyCodeLine{143             \textcolor{comment}{// Doctype}}
+\DoxyCodeLine{144             \textcolor{keywordflow}{case} \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7cadf5002f2efabe231bed01d16f08f832c}{node\_doctype}}:}
+\DoxyCodeLine{145                 out = print\_doctype\_node(out, node, flags, indent);}
+\DoxyCodeLine{146                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148             \textcolor{comment}{// Pi}}
+\DoxyCodeLine{149             \textcolor{keywordflow}{case} \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7caeb73b472e77347b9aa89525f16493b87}{node\_pi}}:}
+\DoxyCodeLine{150                 out = print\_pi\_node(out, node, flags, indent);}
+\DoxyCodeLine{151                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153                 \textcolor{comment}{// Unknown}}
+\DoxyCodeLine{154             \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{155                 assert(0);}
+\DoxyCodeLine{156                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{157             \}}
+\DoxyCodeLine{158             }
+\DoxyCodeLine{159             \textcolor{comment}{// If indenting not disabled, add line break after node}}
+\DoxyCodeLine{160             \textcolor{keywordflow}{if} (!(flags \& \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}}))}
+\DoxyCodeLine{161                 *out = Ch(\textcolor{charliteral}{'\(\backslash\)n'}), ++out;}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163             \textcolor{comment}{// Return modified iterator}}
+\DoxyCodeLine{164             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{165         \}}
+\DoxyCodeLine{166         }
+\DoxyCodeLine{167         \textcolor{comment}{// Print children of the node                               }}
+\DoxyCodeLine{168         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{169         \textcolor{keyword}{inline} OutIt print\_children(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node, \textcolor{keywordtype}{int} flags, \textcolor{keywordtype}{int} indent)}
+\DoxyCodeLine{170         \{}
+\DoxyCodeLine{171             \textcolor{keywordflow}{for} (\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *child = node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_aee9b7ecb01034f1857a5387af7e50e23}{first\_node}}(); child; child = child-\/>next\_sibling())}
+\DoxyCodeLine{172                 out = print\_node(out, child, flags, indent);}
+\DoxyCodeLine{173             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{174         \}}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{176         \textcolor{comment}{// Print attributes of the node}}
+\DoxyCodeLine{177         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{178         \textcolor{keyword}{inline} OutIt print\_attributes(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node, \textcolor{keywordtype}{int} flags)}
+\DoxyCodeLine{179         \{}
+\DoxyCodeLine{180             \textcolor{keywordflow}{for} (\mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\_attribute<Ch>}} *attribute = node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a9a2e633c7717a4426612e236c627b908}{first\_attribute}}(); attribute; attribute = attribute-\/>next\_attribute())}
+\DoxyCodeLine{181             \{}
+\DoxyCodeLine{182                 \textcolor{keywordflow}{if} (attribute-\/>name() \&\& attribute-\/>value())}
+\DoxyCodeLine{183                 \{}
+\DoxyCodeLine{184                     \textcolor{comment}{// Print attribute name}}
+\DoxyCodeLine{185                     *out = Ch(\textcolor{charliteral}{' '}), ++out;}
+\DoxyCodeLine{186                     out = copy\_chars(attribute-\/>name(), attribute-\/>name() + attribute-\/>name\_size(), out);}
+\DoxyCodeLine{187                     *out = Ch(\textcolor{charliteral}{'='}), ++out;}
+\DoxyCodeLine{188                     \textcolor{comment}{// Print attribute value using appropriate quote type}}
+\DoxyCodeLine{189                     \textcolor{keywordflow}{if} (find\_char<Ch, Ch(\textcolor{charliteral}{'"{}'})>(attribute-\/>value(), attribute-\/>value() + attribute-\/>value\_size()))}
+\DoxyCodeLine{190                     \{}
+\DoxyCodeLine{191                         *out = Ch(\textcolor{charliteral}{'\(\backslash\)''}), ++out;}
+\DoxyCodeLine{192                         out = copy\_and\_expand\_chars(attribute-\/>value(), attribute-\/>value() + attribute-\/>value\_size(), Ch(\textcolor{charliteral}{'"{}'}), out);}
+\DoxyCodeLine{193                         *out = Ch(\textcolor{charliteral}{'\(\backslash\)''}), ++out;}
+\DoxyCodeLine{194                     \}}
+\DoxyCodeLine{195                     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{196                     \{}
+\DoxyCodeLine{197                         *out = Ch(\textcolor{charliteral}{'"{}'}), ++out;}
+\DoxyCodeLine{198                         out = copy\_and\_expand\_chars(attribute-\/>value(), attribute-\/>value() + attribute-\/>value\_size(), Ch(\textcolor{charliteral}{'\(\backslash\)''}), out);}
+\DoxyCodeLine{199                         *out = Ch(\textcolor{charliteral}{'"{}'}), ++out;}
+\DoxyCodeLine{200                     \}}
+\DoxyCodeLine{201                 \}}
+\DoxyCodeLine{202             \}}
+\DoxyCodeLine{203             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{204         \}}
+\DoxyCodeLine{205 }
+\DoxyCodeLine{206         \textcolor{comment}{// Print data node}}
+\DoxyCodeLine{207         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{208         \textcolor{keyword}{inline} OutIt print\_data\_node(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node, \textcolor{keywordtype}{int} flags, \textcolor{keywordtype}{int} indent)}
+\DoxyCodeLine{209         \{}
+\DoxyCodeLine{210             assert(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a5f91729128856b0aaab598d4364ace60}{type}}() == \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7ca9d669d8e1f4ba9c7eeada4c14a11ad1d}{node\_data}});}
+\DoxyCodeLine{211             \textcolor{keywordflow}{if} (!(flags \& \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}}))}
+\DoxyCodeLine{212                 out = fill\_chars(out, indent, Ch(\textcolor{charliteral}{'\(\backslash\)t'}));}
+\DoxyCodeLine{213             out = copy\_and\_expand\_chars(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}(), node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}() + node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\_size}}(), Ch(0), out);}
+\DoxyCodeLine{214             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{215         \}}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{217         \textcolor{comment}{// Print data node}}
+\DoxyCodeLine{218         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{219         \textcolor{keyword}{inline} OutIt print\_cdata\_node(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node, \textcolor{keywordtype}{int} flags, \textcolor{keywordtype}{int} indent)}
+\DoxyCodeLine{220         \{}
+\DoxyCodeLine{221             assert(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a5f91729128856b0aaab598d4364ace60}{type}}() == \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7caccf0b363d3876a3f83ff9b1bcdaaa536}{node\_cdata}});}
+\DoxyCodeLine{222             \textcolor{keywordflow}{if} (!(flags \& \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}}))}
+\DoxyCodeLine{223                 out = fill\_chars(out, indent, Ch(\textcolor{charliteral}{'\(\backslash\)t'}));}
+\DoxyCodeLine{224             *out = Ch(\textcolor{charliteral}{'<'}); ++out;}
+\DoxyCodeLine{225             *out = Ch(\textcolor{charliteral}{'!'}); ++out;}
+\DoxyCodeLine{226             *out = Ch(\textcolor{charliteral}{'['}); ++out;}
+\DoxyCodeLine{227             *out = Ch(\textcolor{charliteral}{'C'}); ++out;}
+\DoxyCodeLine{228             *out = Ch(\textcolor{charliteral}{'D'}); ++out;}
+\DoxyCodeLine{229             *out = Ch(\textcolor{charliteral}{'A'}); ++out;}
+\DoxyCodeLine{230             *out = Ch(\textcolor{charliteral}{'T'}); ++out;}
+\DoxyCodeLine{231             *out = Ch(\textcolor{charliteral}{'A'}); ++out;}
+\DoxyCodeLine{232             *out = Ch(\textcolor{charliteral}{'['}); ++out;}
+\DoxyCodeLine{233             out = copy\_chars(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}(), node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}() + node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\_size}}(), out);}
+\DoxyCodeLine{234             *out = Ch(\textcolor{charliteral}{']'}); ++out;}
+\DoxyCodeLine{235             *out = Ch(\textcolor{charliteral}{']'}); ++out;}
+\DoxyCodeLine{236             *out = Ch(\textcolor{charliteral}{'>'}); ++out;}
+\DoxyCodeLine{237             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{238         \}}
+\DoxyCodeLine{239 }
+\DoxyCodeLine{240         \textcolor{comment}{// Print element node}}
+\DoxyCodeLine{241         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{242         \textcolor{keyword}{inline} OutIt print\_element\_node(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node, \textcolor{keywordtype}{int} flags, \textcolor{keywordtype}{int} indent)}
+\DoxyCodeLine{243         \{}
+\DoxyCodeLine{244             assert(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a5f91729128856b0aaab598d4364ace60}{type}}() == \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7ca89cbeb4d28046326e4ee953d3c4047ff}{node\_element}});}
+\DoxyCodeLine{245 }
+\DoxyCodeLine{246             \textcolor{comment}{// Print element name and attributes, if any}}
+\DoxyCodeLine{247             \textcolor{keywordflow}{if} (!(flags \& \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}}))}
+\DoxyCodeLine{248                 out = fill\_chars(out, indent, Ch(\textcolor{charliteral}{'\(\backslash\)t'}));}
+\DoxyCodeLine{249             *out = Ch(\textcolor{charliteral}{'<'}), ++out;}
+\DoxyCodeLine{250             out = copy\_chars(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name}}(), node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name}}() + node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a20c8ffbe0c7a0b4231681ab8b99330a4}{name\_size}}(), out);}
+\DoxyCodeLine{251             out = print\_attributes(out, node, flags);}
+\DoxyCodeLine{252             }
+\DoxyCodeLine{253             \textcolor{comment}{// If node is childless}}
+\DoxyCodeLine{254             \textcolor{keywordflow}{if} (node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\_size}}() == 0 \&\& !node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_aee9b7ecb01034f1857a5387af7e50e23}{first\_node}}())}
+\DoxyCodeLine{255             \{}
+\DoxyCodeLine{256                 \textcolor{comment}{// Print childless node tag ending}}
+\DoxyCodeLine{257                 *out = Ch(\textcolor{charliteral}{'/'}), ++out;}
+\DoxyCodeLine{258                 *out = Ch(\textcolor{charliteral}{'>'}), ++out;}
+\DoxyCodeLine{259             \}}
+\DoxyCodeLine{260             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{261             \{}
+\DoxyCodeLine{262                 \textcolor{comment}{// Print normal node tag ending}}
+\DoxyCodeLine{263                 *out = Ch(\textcolor{charliteral}{'>'}), ++out;}
+\DoxyCodeLine{264 }
+\DoxyCodeLine{265                 \textcolor{comment}{// Test if node contains a single data node only (and no other nodes)}}
+\DoxyCodeLine{266                 \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *child = node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_aee9b7ecb01034f1857a5387af7e50e23}{first\_node}}();}
+\DoxyCodeLine{267                 \textcolor{keywordflow}{if} (!child)}
+\DoxyCodeLine{268                 \{}
+\DoxyCodeLine{269                     \textcolor{comment}{// If node has no children, only print its value without indenting}}
+\DoxyCodeLine{270                     out = copy\_and\_expand\_chars(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}(), node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}() + node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\_size}}(), Ch(0), out);}
+\DoxyCodeLine{271                 \}}
+\DoxyCodeLine{272                 \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (child-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_ab7e5fd4052e4151757895c9914f5f320}{next\_sibling}}() == 0 \&\& child-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a5f91729128856b0aaab598d4364ace60}{type}}() == \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7ca9d669d8e1f4ba9c7eeada4c14a11ad1d}{node\_data}})}
+\DoxyCodeLine{273                 \{}
+\DoxyCodeLine{274                     \textcolor{comment}{// If node has a sole data child, only print its value without indenting}}
+\DoxyCodeLine{275                     out = copy\_and\_expand\_chars(child-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}(), child-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}() + child-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\_size}}(), Ch(0), out);}
+\DoxyCodeLine{276                 \}}
+\DoxyCodeLine{277                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{278                 \{}
+\DoxyCodeLine{279                     \textcolor{comment}{// Print all children with full indenting}}
+\DoxyCodeLine{280                     \textcolor{keywordflow}{if} (!(flags \& \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}}))}
+\DoxyCodeLine{281                         *out = Ch(\textcolor{charliteral}{'\(\backslash\)n'}), ++out;}
+\DoxyCodeLine{282                     out = print\_children(out, node, flags, indent + 1);}
+\DoxyCodeLine{283                     \textcolor{keywordflow}{if} (!(flags \& \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}}))}
+\DoxyCodeLine{284                         out = fill\_chars(out, indent, Ch(\textcolor{charliteral}{'\(\backslash\)t'}));}
+\DoxyCodeLine{285                 \}}
+\DoxyCodeLine{286 }
+\DoxyCodeLine{287                 \textcolor{comment}{// Print node end}}
+\DoxyCodeLine{288                 *out = Ch(\textcolor{charliteral}{'<'}), ++out;}
+\DoxyCodeLine{289                 *out = Ch(\textcolor{charliteral}{'/'}), ++out;}
+\DoxyCodeLine{290                 out = copy\_chars(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name}}(), node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name}}() + node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a20c8ffbe0c7a0b4231681ab8b99330a4}{name\_size}}(), out);}
+\DoxyCodeLine{291                 *out = Ch(\textcolor{charliteral}{'>'}), ++out;}
+\DoxyCodeLine{292             \}}
+\DoxyCodeLine{293             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{294         \}}
+\DoxyCodeLine{295 }
+\DoxyCodeLine{296         \textcolor{comment}{// Print declaration node}}
+\DoxyCodeLine{297         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{298         \textcolor{keyword}{inline} OutIt print\_declaration\_node(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node, \textcolor{keywordtype}{int} flags, \textcolor{keywordtype}{int} indent)}
+\DoxyCodeLine{299         \{}
+\DoxyCodeLine{300             \textcolor{comment}{// Print declaration start}}
+\DoxyCodeLine{301             \textcolor{keywordflow}{if} (!(flags \& \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}}))}
+\DoxyCodeLine{302                 out = fill\_chars(out, indent, Ch(\textcolor{charliteral}{'\(\backslash\)t'}));}
+\DoxyCodeLine{303             *out = Ch(\textcolor{charliteral}{'<'}), ++out;}
+\DoxyCodeLine{304             *out = Ch(\textcolor{charliteral}{'?'}), ++out;}
+\DoxyCodeLine{305             *out = Ch(\textcolor{charliteral}{'x'}), ++out;}
+\DoxyCodeLine{306             *out = Ch(\textcolor{charliteral}{'m'}), ++out;}
+\DoxyCodeLine{307             *out = Ch(\textcolor{charliteral}{'l'}), ++out;}
+\DoxyCodeLine{308 }
+\DoxyCodeLine{309             \textcolor{comment}{// Print attributes}}
+\DoxyCodeLine{310             out = print\_attributes(out, node, flags);}
+\DoxyCodeLine{311             }
+\DoxyCodeLine{312             \textcolor{comment}{// Print declaration end}}
+\DoxyCodeLine{313             *out = Ch(\textcolor{charliteral}{'?'}), ++out;}
+\DoxyCodeLine{314             *out = Ch(\textcolor{charliteral}{'>'}), ++out;}
+\DoxyCodeLine{315             }
+\DoxyCodeLine{316             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{317         \}}
+\DoxyCodeLine{318 }
+\DoxyCodeLine{319         \textcolor{comment}{// Print comment node}}
+\DoxyCodeLine{320         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{321         \textcolor{keyword}{inline} OutIt print\_comment\_node(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node, \textcolor{keywordtype}{int} flags, \textcolor{keywordtype}{int} indent)}
+\DoxyCodeLine{322         \{}
+\DoxyCodeLine{323             assert(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a5f91729128856b0aaab598d4364ace60}{type}}() == \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7ca1a695e1384ec3bd4df3eff65ec609a96}{node\_comment}});}
+\DoxyCodeLine{324             \textcolor{keywordflow}{if} (!(flags \& \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}}))}
+\DoxyCodeLine{325                 out = fill\_chars(out, indent, Ch(\textcolor{charliteral}{'\(\backslash\)t'}));}
+\DoxyCodeLine{326             *out = Ch(\textcolor{charliteral}{'<'}), ++out;}
+\DoxyCodeLine{327             *out = Ch(\textcolor{charliteral}{'!'}), ++out;}
+\DoxyCodeLine{328             *out = Ch(\textcolor{charliteral}{'-\/'}), ++out;}
+\DoxyCodeLine{329             *out = Ch(\textcolor{charliteral}{'-\/'}), ++out;}
+\DoxyCodeLine{330             out = copy\_chars(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}(), node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}() + node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\_size}}(), out);}
+\DoxyCodeLine{331             *out = Ch(\textcolor{charliteral}{'-\/'}), ++out;}
+\DoxyCodeLine{332             *out = Ch(\textcolor{charliteral}{'-\/'}), ++out;}
+\DoxyCodeLine{333             *out = Ch(\textcolor{charliteral}{'>'}), ++out;}
+\DoxyCodeLine{334             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{335         \}}
+\DoxyCodeLine{336 }
+\DoxyCodeLine{337         \textcolor{comment}{// Print doctype node}}
+\DoxyCodeLine{338         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{339         \textcolor{keyword}{inline} OutIt print\_doctype\_node(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node, \textcolor{keywordtype}{int} flags, \textcolor{keywordtype}{int} indent)}
+\DoxyCodeLine{340         \{}
+\DoxyCodeLine{341             assert(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a5f91729128856b0aaab598d4364ace60}{type}}() == \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7cadf5002f2efabe231bed01d16f08f832c}{node\_doctype}});}
+\DoxyCodeLine{342             \textcolor{keywordflow}{if} (!(flags \& \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}}))}
+\DoxyCodeLine{343                 out = fill\_chars(out, indent, Ch(\textcolor{charliteral}{'\(\backslash\)t'}));}
+\DoxyCodeLine{344             *out = Ch(\textcolor{charliteral}{'<'}), ++out;}
+\DoxyCodeLine{345             *out = Ch(\textcolor{charliteral}{'!'}), ++out;}
+\DoxyCodeLine{346             *out = Ch(\textcolor{charliteral}{'D'}), ++out;}
+\DoxyCodeLine{347             *out = Ch(\textcolor{charliteral}{'O'}), ++out;}
+\DoxyCodeLine{348             *out = Ch(\textcolor{charliteral}{'C'}), ++out;}
+\DoxyCodeLine{349             *out = Ch(\textcolor{charliteral}{'T'}), ++out;}
+\DoxyCodeLine{350             *out = Ch(\textcolor{charliteral}{'Y'}), ++out;}
+\DoxyCodeLine{351             *out = Ch(\textcolor{charliteral}{'P'}), ++out;}
+\DoxyCodeLine{352             *out = Ch(\textcolor{charliteral}{'E'}), ++out;}
+\DoxyCodeLine{353             *out = Ch(\textcolor{charliteral}{' '}), ++out;}
+\DoxyCodeLine{354             out = copy\_chars(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}(), node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}() + node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\_size}}(), out);}
+\DoxyCodeLine{355             *out = Ch(\textcolor{charliteral}{'>'}), ++out;}
+\DoxyCodeLine{356             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{357         \}}
+\DoxyCodeLine{358 }
+\DoxyCodeLine{359         \textcolor{comment}{// Print pi node}}
+\DoxyCodeLine{360         \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch>}
+\DoxyCodeLine{361         \textcolor{keyword}{inline} OutIt print\_pi\_node(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} *node, \textcolor{keywordtype}{int} flags, \textcolor{keywordtype}{int} indent)}
+\DoxyCodeLine{362         \{}
+\DoxyCodeLine{363             assert(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_a5f91729128856b0aaab598d4364ace60}{type}}() == \mbox{\hyperlink{rapidxml_8hpp_abb456db38f7efb746c4330eed6072a7caeb73b472e77347b9aa89525f16493b87}{node\_pi}});}
+\DoxyCodeLine{364             \textcolor{keywordflow}{if} (!(flags \& \mbox{\hyperlink{rapidxml__print_8hpp_a65477b812a80f5bda693ec57e57de064}{print\_no\_indenting}}))}
+\DoxyCodeLine{365                 out = fill\_chars(out, indent, Ch(\textcolor{charliteral}{'\(\backslash\)t'}));}
+\DoxyCodeLine{366             *out = Ch(\textcolor{charliteral}{'<'}), ++out;}
+\DoxyCodeLine{367             *out = Ch(\textcolor{charliteral}{'?'}), ++out;}
+\DoxyCodeLine{368             out = copy\_chars(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name}}(), node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name}}() + node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a20c8ffbe0c7a0b4231681ab8b99330a4}{name\_size}}(), out);}
+\DoxyCodeLine{369             *out = Ch(\textcolor{charliteral}{' '}), ++out;}
+\DoxyCodeLine{370             out = copy\_chars(node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}(), node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}() + node-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\_size}}(), out);}
+\DoxyCodeLine{371             *out = Ch(\textcolor{charliteral}{'?'}), ++out;}
+\DoxyCodeLine{372             *out = Ch(\textcolor{charliteral}{'>'}), ++out;}
+\DoxyCodeLine{373             \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{374         \}}
+\DoxyCodeLine{375 }
+\DoxyCodeLine{376     \}}
+\DoxyCodeLine{378 }
+\DoxyCodeLine{380     \textcolor{comment}{// Printing}}
+\DoxyCodeLine{381 }
+\DoxyCodeLine{387     \textcolor{keyword}{template}<\textcolor{keyword}{class} OutIt, \textcolor{keyword}{class} Ch> }
+\DoxyCodeLine{388     \textcolor{keyword}{inline} OutIt \mbox{\hyperlink{rapidxml__print_8hpp_a0fb0be6eba49fb2e2646d5a72a0dc355}{print}}(OutIt out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} \&node, \textcolor{keywordtype}{int} flags = 0)}
+\DoxyCodeLine{389     \{}
+\DoxyCodeLine{390         \textcolor{keywordflow}{return} internal::print\_node(out, \&node, flags, 0);}
+\DoxyCodeLine{391     \}}
+\DoxyCodeLine{392 }
+\DoxyCodeLine{393 \textcolor{preprocessor}{\#ifndef RAPIDXML\_NO\_STREAMS}}
+\DoxyCodeLine{394 }
+\DoxyCodeLine{400     \textcolor{keyword}{template}<\textcolor{keyword}{class} Ch> }
+\DoxyCodeLine{401     \textcolor{keyword}{inline} std::basic\_ostream<Ch> \&\mbox{\hyperlink{rapidxml__print_8hpp_a0fb0be6eba49fb2e2646d5a72a0dc355}{print}}(std::basic\_ostream<Ch> \&out, \textcolor{keyword}{const} \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<Ch>}} \&node, \textcolor{keywordtype}{int} flags = 0)}
+\DoxyCodeLine{402     \{}
+\DoxyCodeLine{403         \mbox{\hyperlink{rapidxml__print_8hpp_a0fb0be6eba49fb2e2646d5a72a0dc355}{print}}(std::ostream\_iterator<Ch>(out), node, flags);}
+\DoxyCodeLine{404         \textcolor{keywordflow}{return} out;}
+\DoxyCodeLine{405     \}}
+\DoxyCodeLine{406 }
+\DoxyCodeLine{411     \textcolor{keyword}{template}<\textcolor{keyword}{class} Ch> }
+\DoxyCodeLine{412     \textcolor{keyword}{inline} std::basic\_ostream<Ch> \&operator <<(std::basic\_ostream<Ch> \&out, \textcolor{keyword}{const} xml\_node<Ch> \&node)}
+\DoxyCodeLine{413     \{}
+\DoxyCodeLine{414         \textcolor{keywordflow}{return} print(out, node);}
+\DoxyCodeLine{415     \}}
+\DoxyCodeLine{416 }
+\DoxyCodeLine{417 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{418 }
+\DoxyCodeLine{419 \}}
+\DoxyCodeLine{420 }
+\DoxyCodeLine{421 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

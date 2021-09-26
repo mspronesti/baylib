@@ -1,0 +1,65 @@
+\hypertarget{classrapidxml_1_1parse__error}{}\doxysection{rapidxml\+::parse\+\_\+error Class Reference}
+\label{classrapidxml_1_1parse__error}\index{rapidxml::parse\_error@{rapidxml::parse\_error}}
+
+
+{\ttfamily \#include $<$rapidxml.\+hpp$>$}
+
+Inheritance diagram for rapidxml\+::parse\+\_\+error\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classrapidxml_1_1parse__error}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1parse__error_aea12a301271c393fb627b368fb9f35c1}\label{classrapidxml_1_1parse__error_aea12a301271c393fb627b368fb9f35c1}} 
+{\bfseries parse\+\_\+error} (const char $\ast$\mbox{\hyperlink{classrapidxml_1_1parse__error_a50db985db295e930698c6fb5aa5c3c52}{what}}, void $\ast$\mbox{\hyperlink{classrapidxml_1_1parse__error_ad273d80552a404fc18fb55a500fdd7ee}{where}})
+\begin{DoxyCompactList}\small\item\em Constructs parse error. \end{DoxyCompactList}\item 
+virtual const char $\ast$ \mbox{\hyperlink{classrapidxml_1_1parse__error_a50db985db295e930698c6fb5aa5c3c52}{what}} () const  throw ()
+\item 
+{\footnotesize template$<$class Ch $>$ }\\Ch $\ast$ \mbox{\hyperlink{classrapidxml_1_1parse__error_ad273d80552a404fc18fb55a500fdd7ee}{where}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1parse__error_a41bffadc72eec238cf4b7d14c10c16ca}\label{classrapidxml_1_1parse__error_a41bffadc72eec238cf4b7d14c10c16ca}} 
+const char $\ast$ {\bfseries m\+\_\+what}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1parse__error_aa5a164653ac347adddf47b264620d80f}\label{classrapidxml_1_1parse__error_aa5a164653ac347adddf47b264620d80f}} 
+void $\ast$ {\bfseries m\+\_\+where}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Parse error exception. This exception is thrown by the parser when an error occurs. Use \mbox{\hyperlink{classrapidxml_1_1parse__error_a50db985db295e930698c6fb5aa5c3c52}{what()}} function to get human-\/readable error message. Use \mbox{\hyperlink{classrapidxml_1_1parse__error_ad273d80552a404fc18fb55a500fdd7ee}{where()}} function to get a pointer to position within source text where error was detected. ~\newline
+~\newline
+ If throwing exceptions by the parser is undesirable, it can be disabled by defining RAPIDXML\+\_\+\+NO\+\_\+\+EXCEPTIONS macro before \mbox{\hyperlink{rapidxml_8hpp}{rapidxml.\+hpp}} is included. This will cause the parser to call rapidxml\+::parse\+\_\+error\+\_\+handler() function instead of throwing an exception. This function must be defined by the user. ~\newline
+~\newline
+ This class derives from {\ttfamily std\+::exception} class. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrapidxml_1_1parse__error_a50db985db295e930698c6fb5aa5c3c52}\label{classrapidxml_1_1parse__error_a50db985db295e930698c6fb5aa5c3c52}} 
+\index{rapidxml::parse\_error@{rapidxml::parse\_error}!what@{what}}
+\index{what@{what}!rapidxml::parse\_error@{rapidxml::parse\_error}}
+\doxysubsubsection{\texorpdfstring{what()}{what()}}
+{\footnotesize\ttfamily virtual const char $\ast$ rapidxml\+::parse\+\_\+error\+::what (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const throw ( ) \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+Gets human readable description of error. \begin{DoxyReturn}{Returns}
+Pointer to null terminated description of the error. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrapidxml_1_1parse__error_ad273d80552a404fc18fb55a500fdd7ee}\label{classrapidxml_1_1parse__error_ad273d80552a404fc18fb55a500fdd7ee}} 
+\index{rapidxml::parse\_error@{rapidxml::parse\_error}!where@{where}}
+\index{where@{where}!rapidxml::parse\_error@{rapidxml::parse\_error}}
+\doxysubsubsection{\texorpdfstring{where()}{where()}}
+{\footnotesize\ttfamily template$<$class Ch $>$ \\
+Ch $\ast$ rapidxml\+::parse\+\_\+error\+::where (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets pointer to character data where error happened. Ch should be the same as char type of \mbox{\hyperlink{classrapidxml_1_1xml__document}{xml\+\_\+document}} that produced the error. \begin{DoxyReturn}{Returns}
+Pointer to location within the parsed string where error occured. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/parser/rapidxml/\mbox{\hyperlink{rapidxml_8hpp}{rapidxml.\+hpp}}\end{DoxyCompactItemize}

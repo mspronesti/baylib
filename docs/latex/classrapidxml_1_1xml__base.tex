@@ -1,0 +1,185 @@
+\hypertarget{classrapidxml_1_1xml__base}{}\doxysection{rapidxml\+::xml\+\_\+base\texorpdfstring{$<$}{<} Ch \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classrapidxml_1_1xml__base}\index{rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}}
+
+
+{\ttfamily \#include $<$rapidxml.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Ch $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classrapidxml_1_1xml__base_a20c8ffbe0c7a0b4231681ab8b99330a4}{name\+\_\+size}} () const
+\item 
+Ch $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\+\_\+size}} () const
+\item 
+void \mbox{\hyperlink{classrapidxml_1_1xml__base_ae55060ae958c6e6465d6c8db852ec6ce}{name}} (const Ch $\ast$name, std\+::size\+\_\+t size)
+\item 
+void \mbox{\hyperlink{classrapidxml_1_1xml__base_a4611ddc82ac83a527c65606600eb2a0d}{name}} (const Ch $\ast$name)
+\item 
+void \mbox{\hyperlink{classrapidxml_1_1xml__base_a3b183c2db7022a6d30494dd2f0ac11e9}{value}} (const Ch $\ast$value, std\+::size\+\_\+t size)
+\item 
+void \mbox{\hyperlink{classrapidxml_1_1xml__base_a81e63ec4bfd2d7ef0a6c2ed49be6e623}{value}} (const Ch $\ast$value)
+\item 
+\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__base_ad4b15506bec856966318905d5e854a14}{parent}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_acfb4a8438a4334c9fc16b70533720f22}\label{classrapidxml_1_1xml__base_acfb4a8438a4334c9fc16b70533720f22}} 
+static Ch $\ast$ {\bfseries nullstr} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_afd9851ed43e14619db0d7075ef8e9e8a}\label{classrapidxml_1_1xml__base_afd9851ed43e14619db0d7075ef8e9e8a}} 
+Ch $\ast$ {\bfseries m\+\_\+name}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_a278a1ea63b0b70219b946cec47fa00ea}\label{classrapidxml_1_1xml__base_a278a1ea63b0b70219b946cec47fa00ea}} 
+Ch $\ast$ {\bfseries m\+\_\+value}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_a5a8c76a7274b4180213796422c4df76f}\label{classrapidxml_1_1xml__base_a5a8c76a7274b4180213796422c4df76f}} 
+std\+::size\+\_\+t {\bfseries m\+\_\+name\+\_\+size}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_aa3a49d8ceddb8a8d7edb773a2226b89c}\label{classrapidxml_1_1xml__base_aa3a49d8ceddb8a8d7edb773a2226b89c}} 
+std\+::size\+\_\+t {\bfseries m\+\_\+value\+\_\+size}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_a90d5f660f078f66563fd7b2d8387ccb0}\label{classrapidxml_1_1xml__base_a90d5f660f078f66563fd7b2d8387ccb0}} 
+\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ $\ast$ {\bfseries m\+\_\+parent}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Ch = char$>$\newline
+class rapidxml\+::xml\+\_\+base$<$ Ch $>$}
+Base class for \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}} and \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\+\_\+attribute}} implementing common functions\+: \mbox{\hyperlink{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}{name()}}, \mbox{\hyperlink{classrapidxml_1_1xml__base_a20c8ffbe0c7a0b4231681ab8b99330a4}{name\+\_\+size()}}, \mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value()}}, \mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\+\_\+size()}} and \mbox{\hyperlink{classrapidxml_1_1xml__base_ad4b15506bec856966318905d5e854a14}{parent()}}. 
+\begin{DoxyParams}{Parameters}
+{\em Ch} & Character type to use \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}\label{classrapidxml_1_1xml__base_a72e6615cd5b3133ab6c8df72c2fdcd20}} 
+\index{rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}!name@{name}}
+\index{name@{name}!rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{name()}{name()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+Ch $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__base}{rapidxml\+::xml\+\_\+base}}$<$ Ch $>$\+::name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets name of the node. Interpretation of name depends on type of node. Note that name will not be zero-\/terminated if rapidxml\+::parse\+\_\+no\+\_\+string\+\_\+terminators option was selected during parse. ~\newline
+~\newline
+ Use \mbox{\hyperlink{classrapidxml_1_1xml__base_a20c8ffbe0c7a0b4231681ab8b99330a4}{name\+\_\+size()}} function to determine length of the name. \begin{DoxyReturn}{Returns}
+Name of node, or empty string if node has no name. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_a4611ddc82ac83a527c65606600eb2a0d}\label{classrapidxml_1_1xml__base_a4611ddc82ac83a527c65606600eb2a0d}} 
+\index{rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}!name@{name}}
+\index{name@{name}!rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{name()}{name()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+void \mbox{\hyperlink{classrapidxml_1_1xml__base}{rapidxml\+::xml\+\_\+base}}$<$ Ch $>$\+::name (\begin{DoxyParamCaption}\item[{const Ch $\ast$}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets name of node to a zero-\/terminated string. See also ownership\+\_\+of\+\_\+strings and xml\+\_\+node\+::name(const Ch $\ast$, std\+::size\+\_\+t). 
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of node to set. Must be zero terminated. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_ae55060ae958c6e6465d6c8db852ec6ce}\label{classrapidxml_1_1xml__base_ae55060ae958c6e6465d6c8db852ec6ce}} 
+\index{rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}!name@{name}}
+\index{name@{name}!rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{name()}{name()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+void \mbox{\hyperlink{classrapidxml_1_1xml__base}{rapidxml\+::xml\+\_\+base}}$<$ Ch $>$\+::name (\begin{DoxyParamCaption}\item[{const Ch $\ast$}]{name,  }\item[{std\+::size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets name of node to a non zero-\/terminated string. See ownership\+\_\+of\+\_\+strings. ~\newline
+~\newline
+ Note that node does not own its name or value, it only stores a pointer to it. It will not delete or otherwise free the pointer on destruction. It is reponsibility of the user to properly manage lifetime of the string. The easiest way to achieve it is to use \mbox{\hyperlink{classrapidxml_1_1memory__pool}{memory\+\_\+pool}} of the document to allocate the string -\/ on destruction of the document the string will be automatically freed. ~\newline
+~\newline
+ Size of name must be specified separately, because name does not have to be zero terminated. Use \mbox{\hyperlink{classrapidxml_1_1xml__base_a4611ddc82ac83a527c65606600eb2a0d}{name(const Ch $\ast$)}} function to have the length automatically calculated (string must be zero terminated). 
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of node to set. Does not have to be zero terminated. \\
+\hline
+{\em size} & Size of name, in characters. This does not include zero terminator, if one is present. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_a20c8ffbe0c7a0b4231681ab8b99330a4}\label{classrapidxml_1_1xml__base_a20c8ffbe0c7a0b4231681ab8b99330a4}} 
+\index{rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}!name\_size@{name\_size}}
+\index{name\_size@{name\_size}!rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{name\_size()}{name\_size()}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classrapidxml_1_1xml__base}{rapidxml\+::xml\+\_\+base}}$<$ Ch $>$\+::name\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets size of node name, not including terminator character. This function works correctly irrespective of whether name is or is not zero terminated. \begin{DoxyReturn}{Returns}
+Size of node name, in characters. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_ad4b15506bec856966318905d5e854a14}\label{classrapidxml_1_1xml__base_ad4b15506bec856966318905d5e854a14}} 
+\index{rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}!parent@{parent}}
+\index{parent@{parent}!rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{parent()}{parent()}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__base}{rapidxml\+::xml\+\_\+base}}$<$ Ch $>$\+::parent (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets node parent. \begin{DoxyReturn}{Returns}
+Pointer to parent node, or 0 if there is no parent. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}\label{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}} 
+\index{rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}!value@{value}}
+\index{value@{value}!rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+Ch $\ast$ \mbox{\hyperlink{classrapidxml_1_1xml__base}{rapidxml\+::xml\+\_\+base}}$<$ Ch $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets value of node. Interpretation of value depends on type of node. Note that value will not be zero-\/terminated if rapidxml\+::parse\+\_\+no\+\_\+string\+\_\+terminators option was selected during parse. ~\newline
+~\newline
+ Use \mbox{\hyperlink{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}{value\+\_\+size()}} function to determine length of the value. \begin{DoxyReturn}{Returns}
+Value of node, or empty string if node has no value. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_a81e63ec4bfd2d7ef0a6c2ed49be6e623}\label{classrapidxml_1_1xml__base_a81e63ec4bfd2d7ef0a6c2ed49be6e623}} 
+\index{rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}!value@{value}}
+\index{value@{value}!rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+void \mbox{\hyperlink{classrapidxml_1_1xml__base}{rapidxml\+::xml\+\_\+base}}$<$ Ch $>$\+::value (\begin{DoxyParamCaption}\item[{const Ch $\ast$}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets value of node to a zero-\/terminated string. See also ownership\+\_\+of\+\_\+strings and xml\+\_\+node\+::value(const Ch $\ast$, std\+::size\+\_\+t). 
+\begin{DoxyParams}{Parameters}
+{\em value} & Vame of node to set. Must be zero terminated. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_a3b183c2db7022a6d30494dd2f0ac11e9}\label{classrapidxml_1_1xml__base_a3b183c2db7022a6d30494dd2f0ac11e9}} 
+\index{rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}!value@{value}}
+\index{value@{value}!rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+void \mbox{\hyperlink{classrapidxml_1_1xml__base}{rapidxml\+::xml\+\_\+base}}$<$ Ch $>$\+::value (\begin{DoxyParamCaption}\item[{const Ch $\ast$}]{value,  }\item[{std\+::size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets value of node to a non zero-\/terminated string. See ownership\+\_\+of\+\_\+strings. ~\newline
+~\newline
+ Note that node does not own its name or value, it only stores a pointer to it. It will not delete or otherwise free the pointer on destruction. It is reponsibility of the user to properly manage lifetime of the string. The easiest way to achieve it is to use \mbox{\hyperlink{classrapidxml_1_1memory__pool}{memory\+\_\+pool}} of the document to allocate the string -\/ on destruction of the document the string will be automatically freed. ~\newline
+~\newline
+ Size of value must be specified separately, because it does not have to be zero terminated. Use \mbox{\hyperlink{classrapidxml_1_1xml__base_a81e63ec4bfd2d7ef0a6c2ed49be6e623}{value(const Ch $\ast$)}} function to have the length automatically calculated (string must be zero terminated). ~\newline
+~\newline
+ If an element has a child node of type node\+\_\+data, it will take precedence over element value when printing. If you want to manipulate data of elements using values, use parser flag rapidxml\+::parse\+\_\+no\+\_\+data\+\_\+nodes to prevent creation of data nodes by the parser. 
+\begin{DoxyParams}{Parameters}
+{\em value} & value of node to set. Does not have to be zero terminated. \\
+\hline
+{\em size} & Size of value, in characters. This does not include zero terminator, if one is present. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}\label{classrapidxml_1_1xml__base_a2eb123d471b1567fa4832b6ee2b75493}} 
+\index{rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}!value\_size@{value\_size}}
+\index{value\_size@{value\_size}!rapidxml::xml\_base$<$ Ch $>$@{rapidxml::xml\_base$<$ Ch $>$}}
+\doxysubsubsection{\texorpdfstring{value\_size()}{value\_size()}}
+{\footnotesize\ttfamily template$<$class Ch  = char$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classrapidxml_1_1xml__base}{rapidxml\+::xml\+\_\+base}}$<$ Ch $>$\+::value\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Gets size of node value, not including terminator character. This function works correctly irrespective of whether value is or is not zero terminated. \begin{DoxyReturn}{Returns}
+Size of node value, in characters. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/parser/rapidxml/\mbox{\hyperlink{rapidxml_8hpp}{rapidxml.\+hpp}}\end{DoxyCompactItemize}

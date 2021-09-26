@@ -1,0 +1,51 @@
+\hypertarget{gpu__utils_8hpp_source}{}\doxysection{gpu\+\_\+utils.\+hpp}
+\label{gpu__utils_8hpp_source}\index{/home/mspronesti/Desktop/baylib/baylib/tools/gpu/gpu\_utils.hpp@{/home/mspronesti/Desktop/baylib/baylib/tools/gpu/gpu\_utils.hpp}}
+\mbox{\hyperlink{gpu__utils_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by paolo on 15/09/21.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef BAYLIB\_GPU\_UTILS\_HPP}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define BAYLIB\_GPU\_UTILS\_HPP}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <boost/compute.hpp>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <boost/compute/device.hpp>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{18 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}}\{}
+\DoxyCodeLine{22     \textcolor{keyword}{struct }\mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}\{}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24         \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26         \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}(uint dimension, uint cardinality, boost::compute::context \&context):}
+\DoxyCodeLine{27         state(dimension, context), cardinality(cardinality)\{\}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29         \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}(boost::compute::vector<int> state, uint cardinality, uint uses):}
+\DoxyCodeLine{30         state(std::move(state)), cardinality(cardinality), isevidence(\textcolor{keyword}{false}), evidence\_state(0), uses(uses == 0 ? 1 : uses)\{\}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32         \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}(uint evidence\_state, uint cardinality):}
+\DoxyCodeLine{33         isevidence(\textcolor{keyword}{true}), cardinality(cardinality), evidence\_state(evidence\_state), uses(0) \{\}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35         \textcolor{keywordtype}{void} add\_use()\{}
+\DoxyCodeLine{36             uses-\/-\/;}
+\DoxyCodeLine{37             \textcolor{keywordflow}{if}(!uses)}
+\DoxyCodeLine{38                 state.clear();}
+\DoxyCodeLine{39         \}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     \textcolor{keyword}{private}:}
+\DoxyCodeLine{42         uint uses\{\};}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44     \textcolor{keyword}{public}:}
+\DoxyCodeLine{45         boost::compute::vector<int> state;}
+\DoxyCodeLine{46         uint cardinality\{\};}
+\DoxyCodeLine{47         \textcolor{keywordtype}{bool} isevidence\{\};}
+\DoxyCodeLine{48         uint evidence\_state\{\};}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50     \};}
+\DoxyCodeLine{51 \}}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_GPU\_UTILS\_HPP}}
+
+\end{DoxyCode}

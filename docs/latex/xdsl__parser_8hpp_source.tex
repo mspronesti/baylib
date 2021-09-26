@@ -1,0 +1,128 @@
+\hypertarget{xdsl__parser_8hpp_source}{}\doxysection{xdsl\+\_\+parser.\+hpp}
+\label{xdsl__parser_8hpp_source}\index{/home/mspronesti/Desktop/baylib/baylib/parser/xdsl\_parser.hpp@{/home/mspronesti/Desktop/baylib/baylib/parser/xdsl\_parser.hpp}}
+\mbox{\hyperlink{xdsl__parser_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef BAYLIB\_XDSL\_PARSER\_HPP}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define BAYLIB\_XDSL\_PARSER\_HPP}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{bayesian__network_8hpp}{baylib/network/bayesian\_network.hpp}}>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{cpt_8hpp}{baylib/probability/cpt.hpp}}>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{rapidxml_8hpp}{rapidxml/rapidxml.hpp}}"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{condition__factory_8hpp}{baylib/probability/condition\_factory.hpp}}>}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{using namespace }rapidxml;}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
+\DoxyCodeLine{20     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
+\DoxyCodeLine{21     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1xdsl__parser}{xdsl\_parser}} \{}
+\DoxyCodeLine{22     \textcolor{keyword}{public}:}
+\DoxyCodeLine{23         \mbox{\hyperlink{classbn_1_1xdsl__parser}{xdsl\_parser}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{31         \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \mbox{\hyperlink{classbn_1_1xdsl__parser_a8f6275359844dc266ed8d2fc97de5d57}{deserialize}}(\textcolor{keyword}{const} std::string \&fileName) \{}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33             \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \mbox{\hyperlink{namespacebn}{bn}};}
+\DoxyCodeLine{34             \textcolor{keyword}{auto} doc = std::make\_shared<xml\_document<>>();}
+\DoxyCodeLine{35             std::ifstream inputFile(fileName);}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37             BAYLIB\_ASSERT(inputFile,}
+\DoxyCodeLine{38                           \textcolor{stringliteral}{"{}file "{}} << fileName << \textcolor{stringliteral}{"{} was"{}}}
+\DoxyCodeLine{39                            \textcolor{stringliteral}{"{} not found in current path"{}},}
+\DoxyCodeLine{40                            std::runtime\_error)}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42             \textcolor{keyword}{auto} buffer = std::make\_shared<std::stringstream>();}
+\DoxyCodeLine{43             *buffer << inputFile.rdbuf();}
+\DoxyCodeLine{44             inputFile.close();}
+\DoxyCodeLine{45             std::string content(buffer-\/>str());}
+\DoxyCodeLine{46             doc-\/>parse<0>(\&content[0]);}
+\DoxyCodeLine{47             \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<>}} *pRoot = doc-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_aee9b7ecb01034f1857a5387af7e50e23}{first\_node}}();}
+\DoxyCodeLine{48             \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<>}} *pNodes = pRoot-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_aee9b7ecb01034f1857a5387af7e50e23}{first\_node}}(\textcolor{stringliteral}{"{}nodes"{}});}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50             \textcolor{comment}{//reading all variables in file}}
+\DoxyCodeLine{51             \textcolor{keywordflow}{for} (\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<>}} *pNode = pNodes-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_aee9b7ecb01034f1857a5387af7e50e23}{first\_node}}(\textcolor{stringliteral}{"{}cpt"{}}); pNode; pNode = pNode-\/>next\_sibling()) \{}
+\DoxyCodeLine{52                 \mbox{\hyperlink{classrapidxml_1_1xml__attribute}{xml\_attribute<>}} *attr = pNode-\/>first\_attribute(\textcolor{stringliteral}{"{}id"{}});}
+\DoxyCodeLine{53                 std::string varname;}
+\DoxyCodeLine{54                 std::vector<std::string> state\_names;}
+\DoxyCodeLine{55                 std::vector<std::string> parents;}
+\DoxyCodeLine{56                 std::vector<Probability> probDistribution;}
+\DoxyCodeLine{57                 std::vector<std::string> resultingStates;}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59                 \textcolor{comment}{//reading variable name}}
+\DoxyCodeLine{60                 varname = attr-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}();}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62                 \textcolor{comment}{//reading all properties of the variable}}
+\DoxyCodeLine{63                 \textcolor{keywordflow}{for} (\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\_node<>}} *pStates = pNode-\/>\mbox{\hyperlink{classrapidxml_1_1xml__node_aee9b7ecb01034f1857a5387af7e50e23}{first\_node}}(\textcolor{stringliteral}{"{}state"{}}); pStates; pStates = pStates-\/>next\_sibling()) \{}
+\DoxyCodeLine{64                     std::string name(pStates-\/>name());}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66                     \textcolor{comment}{//reading variable's states}}
+\DoxyCodeLine{67                     \textcolor{keywordflow}{if} (name == \textcolor{stringliteral}{"{}state"{}}) \{}
+\DoxyCodeLine{68                         attr = pStates-\/>first\_attribute(\textcolor{stringliteral}{"{}id"{}});}
+\DoxyCodeLine{69                         \textcolor{keywordflow}{if} (attr != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{70                             state\_names.emplace\_back(attr-\/>\mbox{\hyperlink{classrapidxml_1_1xml__base_af3a3d4534f4c88f151e0f063aef1c6de}{value}}());}
+\DoxyCodeLine{71                     \}}
+\DoxyCodeLine{72                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (name == \textcolor{stringliteral}{"{}resultingstates"{}}) \{}
+\DoxyCodeLine{73                         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} state:split<std::string>(pStates-\/>value(), [](\textcolor{keyword}{const} std::string \&t)\{return t;\})) \{}
+\DoxyCodeLine{74                             \textcolor{keywordtype}{int} ix = std::find(state\_names.begin(), state\_names.end(), state) -\/ state\_names.begin();}
+\DoxyCodeLine{75                             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < state\_names.size(); ++i)}
+\DoxyCodeLine{76                                 probDistribution.emplace\_back(i == ix ? 1. : 0.);}
+\DoxyCodeLine{77                         \}}
+\DoxyCodeLine{78                     \}}
+\DoxyCodeLine{79                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (name == \textcolor{stringliteral}{"{}probabilities"{}})}
+\DoxyCodeLine{80                         probDistribution = split<Probability>(pStates-\/>value(), [](\textcolor{keyword}{const} std::string \&t)\{return static\_cast<Probability>(std::stod(t));\});}
+\DoxyCodeLine{81                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (name == \textcolor{stringliteral}{"{}parents"{}})}
+\DoxyCodeLine{82                         parents = split<std::string>(pStates-\/>value(), [](\textcolor{keyword}{const} std::string \&t)\{return t;\});}
+\DoxyCodeLine{83                 \}}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85                 \textcolor{comment}{// Build bayesian\_network}}
+\DoxyCodeLine{86                 \mbox{\hyperlink{namespacebn}{bn}}.add\_variable(varname, state\_names);}
+\DoxyCodeLine{87                 \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} parent: parents)}
+\DoxyCodeLine{88                     \mbox{\hyperlink{namespacebn}{bn}}.add\_dependency(parent, varname);}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90                 \textcolor{comment}{// fill CPTs}}
+\DoxyCodeLine{91                 std::reverse(parents.begin(), parents.end());}
+\DoxyCodeLine{92                 \mbox{\hyperlink{classbn_1_1condition__factory}{bn::condition\_factory}} cf(\mbox{\hyperlink{namespacebn}{bn}}[varname], parents);}
+\DoxyCodeLine{93                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{94                 \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{95                     \textcolor{keyword}{auto} cond = cf.\mbox{\hyperlink{classbn_1_1condition__factory_a98f87e544c9f0d74b27fda6ba8f331fb}{get}}();}
+\DoxyCodeLine{96                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < state\_names.size(); j++)}
+\DoxyCodeLine{97                         \mbox{\hyperlink{namespacebn}{bn}}.set\_variable\_probability(varname, j, cond, probDistribution[i * state\_names.size() + j]);}
+\DoxyCodeLine{98                     ++i;}
+\DoxyCodeLine{99                 \} \textcolor{keywordflow}{while} (cf.\mbox{\hyperlink{classbn_1_1condition__factory_afb6c28c041f40fd9c916ad25eeb98ec6}{has\_next}}());}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101             \}}
+\DoxyCodeLine{102             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespacebn}{bn}};}
+\DoxyCodeLine{103         \}}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105     \textcolor{keyword}{private}:}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{115         \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{116         std::vector<T> \mbox{\hyperlink{classbn_1_1xdsl__parser_abc543924667c4e3192bd6ebb9ef89e96}{split}}(}
+\DoxyCodeLine{117             \textcolor{keyword}{const} std::string \&text,}
+\DoxyCodeLine{118             std::function<T(\textcolor{keyword}{const} std::string\&)> mapper,}
+\DoxyCodeLine{119             \textcolor{keyword}{const} std::string\& delimiter = \textcolor{stringliteral}{"{} "{}}}
+\DoxyCodeLine{120         )}
+\DoxyCodeLine{121         \{}
+\DoxyCodeLine{122             std::vector<T> result;}
+\DoxyCodeLine{123             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} ix;}
+\DoxyCodeLine{124             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} start = 0;}
+\DoxyCodeLine{125             \textcolor{keywordflow}{while}((ix = text.find(delimiter, start)) != std::string::npos)\{}
+\DoxyCodeLine{126                 result.emplace\_back(mapper(text.substr(start, ix-\/start)));}
+\DoxyCodeLine{127                 start = ix + delimiter.length();}
+\DoxyCodeLine{128             \}}
+\DoxyCodeLine{129             result.emplace\_back(mapper(text.substr(start, ix-\/start)));}
+\DoxyCodeLine{130             \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{131         \}}
+\DoxyCodeLine{132 }
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134     \};}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137 \} \textcolor{comment}{// namespace bn}}
+\DoxyCodeLine{138 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_XDSL\_PARSER\_HPP}}
+
+\end{DoxyCode}

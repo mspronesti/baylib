@@ -9,6 +9,12 @@
 #include <boost/compute/device.hpp>
 #include <utility>
 
+/**
+ * @file gpu_utils.hpp
+ * @brief utils for using boost::compute
+ */
+
+
 namespace bn{
     /**
      * Container for gpu vectors with built in auto release of the memory after set number of uses
@@ -26,10 +32,16 @@ namespace bn{
         bcvec(uint evidence_state, uint cardinality):
         isevidence(true), cardinality(cardinality), evidence_state(evidence_state), uses(0) {}
 
+        void add_use(){
+            uses--;
+            if(!uses)
+                state.clear();
+        }
 
+    private:
+        uint uses{};
 
     public:
-        uint uses{};
         boost::compute::vector<int> state;
         uint cardinality{};
         bool isevidence{};

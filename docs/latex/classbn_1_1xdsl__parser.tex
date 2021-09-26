@@ -1,0 +1,60 @@
+\hypertarget{classbn_1_1xdsl__parser}{}\doxysection{bn\+::xdsl\+\_\+parser\texorpdfstring{$<$}{<} Probability \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1xdsl__parser}\index{bn::xdsl\_parser$<$ Probability $>$@{bn::xdsl\_parser$<$ Probability $>$}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \mbox{\hyperlink{classbn_1_1xdsl__parser_a8f6275359844dc266ed8d2fc97de5d57}{deserialize}} (const std\+::string \&file\+Name)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T $>$ \mbox{\hyperlink{classbn_1_1xdsl__parser_abc543924667c4e3192bd6ebb9ef89e96}{split}} (const std\+::string \&text, std\+::function$<$ T(const std\+::string \&)$>$ mapper, const std\+::string \&delimiter=\char`\"{} \char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbn_1_1xdsl__parser_a8f6275359844dc266ed8d2fc97de5d57}\label{classbn_1_1xdsl__parser_a8f6275359844dc266ed8d2fc97de5d57}} 
+\index{bn::xdsl\_parser$<$ Probability $>$@{bn::xdsl\_parser$<$ Probability $>$}!deserialize@{deserialize}}
+\index{deserialize@{deserialize}!bn::xdsl\_parser$<$ Probability $>$@{bn::xdsl\_parser$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{deserialize()}{deserialize()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \mbox{\hyperlink{classbn_1_1xdsl__parser}{bn\+::xdsl\+\_\+parser}}$<$ Probability $>$\+::deserialize (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Create a \mbox{\hyperlink{classbn_1_1bayesian__network}{bayesian\+\_\+network}} starting from an xdsl file, the format is the same as specified in the smile library, if specified file can\textquotesingle{}t be found an exception is thrown 
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & \+: file name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: bayesian network 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1xdsl__parser_abc543924667c4e3192bd6ebb9ef89e96}\label{classbn_1_1xdsl__parser_abc543924667c4e3192bd6ebb9ef89e96}} 
+\index{bn::xdsl\_parser$<$ Probability $>$@{bn::xdsl\_parser$<$ Probability $>$}!split@{split}}
+\index{split@{split}!bn::xdsl\_parser$<$ Probability $>$@{bn::xdsl\_parser$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+template$<$typename T $>$ \\
+std\+::vector$<$ T $>$ \mbox{\hyperlink{classbn_1_1xdsl__parser}{bn\+::xdsl\+\_\+parser}}$<$ Probability $>$\+::split (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{text,  }\item[{std\+::function$<$ T(const std\+::string \&)$>$}]{mapper,  }\item[{const std\+::string \&}]{delimiter = {\ttfamily \char`\"{}~\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+Utility of the parser for splitting a string and mapping to a specific value 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \+: output of mapper \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em text} & \+: input string \\
+\hline
+{\em mapper} & \+: mapper function \\
+\hline
+{\em delimiter} & \+: delimiter for splitting the input string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: output vector 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/parser/\mbox{\hyperlink{xdsl__parser_8hpp}{xdsl\+\_\+parser.\+hpp}}\end{DoxyCompactItemize}

@@ -7,6 +7,12 @@
 
 #include <baylib/network/random_variable.hpp>
 
+/**
+ * @file marginal_distribution.hpp
+ * @brief output class of inference algorithms
+ */
+
+
 namespace bn {
     /**
      * This class models the marginal distribution

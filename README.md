@@ -1,6 +1,5 @@
 # baylib C++ library
 <p align="center">
- <img alt="cmake" src="https://img.shields.io/badge/cmake-v3.13+-green"/>
  <img alt="c++" src="https://img.shields.io/badge/C++-17 | 20-blue.svg?style=flat&logo=c%2B%2B"/> 
  <img alt="CI build" src="https://github.com/mspronesti/baylib/actions/workflows/ci.yml/badge.svg"/> 
  <img alt="GPU build" src="https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg"/>
@@ -28,7 +27,7 @@ Here's a list of the main requested features:
 |:------------------------------:|--------------|-----------------------|-------------------|-----------|
 | gibbs sampling       	         |    &check;   |     *                 |     &check;       |           |
 | likelihood weighting 	         |    &check;   |     &check;           |     &check;       |           |
-| logic sampling       	         |              |     &check;           |                   |  &check;  |
+| logic sampling       	         |    &check;   |     &check;           |                   |  &check;  |
 | rejection sampling  	         |    &check;   |     &check;           |     &check;       |           |
 | adaptive importance sampling   |    &check;  	|     &check;           |     &check;       |  &check;  |
 
@@ -77,7 +76,6 @@ Have a look at [examples](examples) for more.
 
 ## External references
 * [copy-on-write](https://doc.qt.io/qt-5/qsharedpointer.html)
-* [thread pool](https://github.com/bshoshany/thread-pool)
 * [gibbs sampling](http://vision.psych.umn.edu/users/schrater/schrater_lab/courses/AI2/gibbs.pdf)
 * [likelihood weighting](https://arxiv.org/pdf/1304.1504.pdf)
 * [likelihood weighting pseudo-code](https://github.com/aimacode/aima-pseudocode/blob/master/md/Likelihood-Weighting.md)

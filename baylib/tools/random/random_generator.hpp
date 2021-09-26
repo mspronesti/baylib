@@ -8,6 +8,12 @@
 #define AVALANCHE_FACTOR 0x45D9F3B // from papers and experiments
 #include <random>
 
+/**
+ * @file random_generator.hpp
+ * @brief random generator class used in sampling algorithms
+ */
+
+
 namespace bn {
     /**
      * Random generator wrapper for sampling-based inference algorithms

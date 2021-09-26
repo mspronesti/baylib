@@ -8,6 +8,11 @@
 #include <baylib/network/bayesian_network.hpp>
 #include <baylib/probability/condition.hpp>
 
+/**
+ * @file condition_factory.hpp
+ * @brief Condition factory for generating multiple condition objects sequentially
+ */
+
 
 namespace  bn {
     template<typename Probability>

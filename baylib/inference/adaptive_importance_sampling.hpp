@@ -18,9 +18,32 @@
 #include <tools/gpu/gpu_utils.hpp>
 #include <network/bayesian_utils.hpp>
 
+//! \file adaptive_importance_sampling.hpp
+//! \brief Adaptive sampling implementation with GPGPU and multi-thread support
+
 namespace bn {
     namespace inference{
 
+        /**
+         * This class represents a possible implementation of the Adaptive Importance Sampling algorithm.
+         * The implementation exploits two different types of parallelization, multithreading with the tbb
+         * library in the first approximation part and GPGPU with boost::compute in the sampling part.
+         * The steps of the approximation part are:
+         * 1. create the sub-graph of the nodes that are ancestors of evidence nodes
+         * 2. sort the nodes in topological order
+         * 3. simulate the sub-graph
+         * 4. approximate a new cpt for each node given the simulations
+         * 5. repeat from 3 until cpts don't change anymore or a maximum number of samples is reached
+         * The steps of the sampling part are:
+         * 1. sort all nodes in topological order
+         * 2. simulate all root nodes
+         * 3. simulate all other nodes given their parents
+         * 4. each evidence node simulation is set to the evidence value
+         * 5. estimate the marginal probabilities from the simulations
+         * @tparam Probability : probability type
+         * @tparam Generator   : the random generator used in the approximation part
+         *                     (default Mersenne Twister pseudo-random generator)
+         */
         template <typename Probability, typename Generator = std::mt19937>
         class adaptive_importance_sampling: public vectorized_inference_algorithm<Probability> {
             using icpt_vector = std::vector<cow::icpt<Probability>>;
@@ -48,24 +71,24 @@ namespace bn {
                 uint seed = 0,
                 const compute::device& device = compute::system::default_device()
             )
-                : vectorized_inference_algorithm<Probability>(nsamples, memory, seed, device)
-                , w_k(1)
-                , initial_learning_rate(initial_learning_rate)
-                , final_learning_rate(final_learning_rate)
-                , learning_cutoff(0.005)
-                , learning_step(learning_step){}
+            : vectorized_inference_algorithm<Probability>(nsamples, memory, seed, device)
+            , w_k(1)
+            , initial_learning_rate(initial_learning_rate)
+            , final_learning_rate(final_learning_rate)
+            , learning_cutoff(0.005)
+            , learning_step(learning_step){}
 
             /**
              * Inference method for adaptive_sampling,
-             * the inference process is divided in 2 steps, first we estimate P(X|Par(X), E) and after
+             * the inference process is divided in 2 steps, first we estimate \f{eqnarray*}P(X|Par(X), E)\f and after
              * that we simulate the whole network and collect the results
              * @param bn network
              * @return marginal distribution
              */
             bn::marginal_distribution<Probability> make_inference (
                 const bayesian_network<Probability> &bn
-                ) override
-                {
+            ) override
+            {
                 icpt_vector icptvec{};
                 auto result = marginal_distribution<Probability>(bn.begin(), bn.end());
                 bool evidence_found = false;
@@ -99,8 +122,8 @@ namespace bn {
 
 
             /**
-             * cpts model the distribution P(X_i|Par(X_i)) while
-             * icpts model the distribution P(X_i|Par(X_i), E)
+             * cpts model the distribution \f{eqnarray*}P(X_i|Par(X_i))\f while
+             * icpts model the distribution \f{eqnarray*}P(X_i|Par(X_i), E)\f
              * using stochastic simulations we can approximate the icpts starting from the cpts.
              * every #learning_step simulations we stop the sampling and we make an estimation
              * for the icpts, if the new estimation was close to the one we already had we
@@ -115,8 +138,8 @@ namespace bn {
             void learn_icpt(
                 const bn::bayesian_network<Probability> &bn,
                 icpt_vector & icptvec
-                )
-                {
+            )
+            {
                 ulong nvars = bn.number_of_variables();
                 simulation_matrix graph_state(learning_step);
                 std::vector<Probability> random_vec(learning_step * nvars);
@@ -177,7 +200,7 @@ namespace bn {
 
 
             /**
-             * After simulating enough samples we can estimate P(X_i|Par(X_i), E)
+             * After simulating enough samples we can estimate \f{eqnarray*}P(X_i|Par(X_i),E)\f
              * @param graph_state simulations in matrix format
              * @param bn network
              * @param icptvec icpts to update
@@ -189,8 +212,8 @@ namespace bn {
                 const bn::bayesian_network<Probability> & bn,
                 icpt_vector & icptvec,
                 double learning_rate
-                )
-                {
+            )
+            {
                 Probability evidence_score;
                 std::vector<Probability> sample_weight(graph_state.size());
 
@@ -249,13 +272,17 @@ namespace bn {
             }
 
             /**
-             * gpu simulation of the network, if we correctly updated P(X|Par(X)) to P(X|Par(X),E) no more
+             * gpu simulation of the network, if we correctly updated \f{eqnarray*}P(X|Par(X))\f to \f{eqnarray*}P(X|Par(X),E)\f no more
              * adjustments to scoring should be necessary and we can simulate easily the rest of the network
              * @param icpt_vec vector of icpts
              * @param bn network
              * @return compressed results of the simulation
              */
-            marginal_distribution<Probability> gpu_simulation(const icpt_vector& icpt_vec, const bayesian_network<Probability>& bn){
+            marginal_distribution<Probability> gpu_simulation(
+                    const icpt_vector& icpt_vec,
+                    const bayesian_network<Probability>& bn
+            )
+            {
                 int niter = 1;
                 marginal_distribution<Probability> marginal_result(bn.begin(), bn.end());
                 std::vector<bcvec> result_container(bn.number_of_variables());

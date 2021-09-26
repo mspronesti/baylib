@@ -5,6 +5,12 @@
 #ifndef BAYLIB_SHARED_PTR_HPP
 #define BAYLIB_SHARED_PTR_HPP
 
+
+/**
+ * @file shared_ptr.hpp
+ * @brief implementation of qshareddata.h from Qt library
+ */
+
 /**
  * Adapted version of qshareddata.h from Qt library
  * which already implements the IMPLICIT copy on write

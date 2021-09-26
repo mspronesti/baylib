@@ -13,6 +13,9 @@
 #include <mutex>
 #include <shared_mutex>
 
+//! \file bayesian_utils.hpp
+//! \brief Collection of utilities for bayesian_network
+
 /**
  * this file contains some useful algorithms
  * for bayesian network inference
@@ -149,31 +152,38 @@ namespace  bn{
         });
     }
 
+    /**
+     * Utility that returns the list of nodes that are ancestors of evidence including evidences themselves,
+     * the nodes are returned in topological order
+     * @tparam Probability : the type expressing probability
+     * @param bn           : the Bayesian network model
+     * @return             : vector of nodes
+     */
     template <typename Probability>
     std::vector<ulong> ancestors_of_evidence(const bn::bayesian_network<Probability> &bn){
-        std::vector<bool> result(bn.number_of_variables(), false);
+        std::vector<bool> ancestor(bn.number_of_variables(), false);
+        std::function<void(ulong)> mark_ancestors;
+        mark_ancestors = [&bn, &ancestor, &mark_ancestors](ulong v_id){
+            ancestor[v_id] = true;
+            for (ulong p_id: bn.parents_of(v_id)) {
+                if(ancestor[p_id])
+                    continue;
+                ancestor[p_id] = true;
+                mark_ancestors(p_id);
+            }
+        };
         for (uint i = 0; i < bn.number_of_variables(); ++i) {
             if(bn[i].is_evidence())
-                mark_ancestors(bn, i, result);
+                mark_ancestors(i);
         }
         std::vector<ulong> ordered_result;
         for (auto vertex: sampling_order(bn)) {
-            if(result[vertex])
+            if(ancestor[vertex])
                 ordered_result.emplace_back(vertex);
         }
         return ordered_result;
     }
 
-    template <typename Probability>
-    static void mark_ancestors(const bn::bayesian_network<Probability> &bn, ulong v_id, std::vector<bool> &ancestor){
-        ancestor[v_id] = true;
-        for (ulong p_id: bn.parents_of(v_id)) {
-            if(ancestor[p_id])
-                continue;
-            ancestor[p_id] = true;
-            mark_ancestors(bn, p_id, ancestor);
-        }
-    }
 
 } // namespace bn
 

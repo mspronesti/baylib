@@ -1,0 +1,63 @@
+\hypertarget{classbn_1_1marginal__distribution}{}\doxysection{bn\+::marginal\+\_\+distribution\texorpdfstring{$<$}{<} Probability \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1marginal__distribution}\index{bn::marginal\_distribution$<$ Probability $>$@{bn::marginal\_distribution$<$ Probability $>$}}
+
+
+{\ttfamily \#include $<$marginal\+\_\+distribution.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbn_1_1marginal__distribution_ab4e88293b1615df5727b1659a8fd2b7b}\label{classbn_1_1marginal__distribution_ab4e88293b1615df5727b1659a8fd2b7b}} 
+{\footnotesize template$<$typename Container $>$ }\\{\bfseries marginal\+\_\+distribution} (const Container \&vars)
+\item 
+\mbox{\Hypertarget{classbn_1_1marginal__distribution_a91a9f7b36a80aa4d65ba65fb5c4fd87c}\label{classbn_1_1marginal__distribution_a91a9f7b36a80aa4d65ba65fb5c4fd87c}} 
+{\footnotesize template$<$typename Iterator $>$ }\\{\bfseries marginal\+\_\+distribution} (Iterator begin, Iterator end)
+\item 
+\mbox{\Hypertarget{classbn_1_1marginal__distribution_acee8c19fb5e491077217875f70f99cf6}\label{classbn_1_1marginal__distribution_acee8c19fb5e491077217875f70f99cf6}} 
+void {\bfseries set} (ulong vid, ulong state\+\_\+value, Probability p)
+\item 
+\mbox{\Hypertarget{classbn_1_1marginal__distribution_ac05495e6ea3486ee444e61ceca4946d7}\label{classbn_1_1marginal__distribution_ac05495e6ea3486ee444e61ceca4946d7}} 
+std\+::vector$<$ Probability $>$ \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (ulong vid)
+\item 
+\mbox{\Hypertarget{classbn_1_1marginal__distribution_ac6d1b3b27489f70c906a80b1be51f85c}\label{classbn_1_1marginal__distribution_ac6d1b3b27489f70c906a80b1be51f85c}} 
+void {\bfseries operator/=} (Probability value)
+\item 
+\mbox{\Hypertarget{classbn_1_1marginal__distribution_aec6afd496bf5b74e212799a220d7cfca}\label{classbn_1_1marginal__distribution_aec6afd496bf5b74e212799a220d7cfca}} 
+\mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability $>$ \& {\bfseries operator+=} (const \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability $>$ \&other)
+\item 
+\mbox{\Hypertarget{classbn_1_1marginal__distribution_a8f3d5e30238a5e758a1c19cecb4a503f}\label{classbn_1_1marginal__distribution_a8f3d5e30238a5e758a1c19cecb4a503f}} 
+void {\bfseries normalize} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbn_1_1marginal__distribution_a35c6ed0f6d9637109e7695f9e451dc34}\label{classbn_1_1marginal__distribution_a35c6ed0f6d9637109e7695f9e451dc34}} 
+std\+::vector$<$ std\+::vector$<$ Probability $>$ $>$ {\bfseries mdistr}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbn_1_1marginal__distribution_ae06e7bdb894969b4e988f13def82a206}\label{classbn_1_1marginal__distribution_ae06e7bdb894969b4e988f13def82a206}} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability $>$ \&md)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Probability$>$\newline
+class bn\+::marginal\+\_\+distribution$<$ Probability $>$}
+This class models the marginal distribution of a set of random variables. Can be initialized using
+\begin{DoxyItemize}
+\item an iterable container containing bn\+::random\+\_\+variables$<$\+Probability$>$
+\item two iterators of bn\+::random\+\_\+variables$<$\+Probability$>$
+\end{DoxyItemize}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Probability} & \+: the type expressing the probability \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/probability/\mbox{\hyperlink{marginal__distribution_8hpp}{marginal\+\_\+distribution.\+hpp}}\end{DoxyCompactItemize}

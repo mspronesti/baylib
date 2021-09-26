@@ -13,13 +13,21 @@
 
 using namespace rapidxml;
 
+//! \file xdsl_parser.hpp
+//! \brief Parser for bayesian_network from xdsl format
+
 namespace bn {
     template<typename Probability>
     class xdsl_parser {
     public:
         xdsl_parser() = default;
 
-        //loads the bayesian network from the given file
+        /**
+         * Create a bayesian_network starting from an xdsl file, the format is the same as specified in the
+         * smile library, if specified file can't be found an exception is thrown
+         * @param fileName : file name
+         * @return         : bayesian network
+         */
         bn::bayesian_network<Probability> deserialize(const std::string &fileName) {
 
             bn::bayesian_network<Probability> bn;
@@ -95,6 +103,15 @@ namespace bn {
         }
 
     private:
+
+        /**
+         * Utility of the parser for splitting a string and mapping to a specific value
+         * @tparam T        : output of mapper
+         * @param text      : input string
+         * @param mapper    : mapper function
+         * @param delimiter : delimiter for splitting the input string
+         * @return          : output vector
+         */
         template<typename T>
         std::vector<T> split(
             const std::string &text,

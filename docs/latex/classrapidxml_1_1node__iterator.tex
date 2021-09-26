@@ -1,0 +1,75 @@
+\hypertarget{classrapidxml_1_1node__iterator}{}\doxysection{rapidxml\+::node\+\_\+iterator\texorpdfstring{$<$}{<} Ch \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classrapidxml_1_1node__iterator}\index{rapidxml::node\_iterator$<$ Ch $>$@{rapidxml::node\_iterator$<$ Ch $>$}}
+
+
+Iterator of child nodes of \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}.  
+
+
+
+
+{\ttfamily \#include $<$rapidxml\+\_\+iterators.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_ade6310119ed1f72c94830e006fac69b7}\label{classrapidxml_1_1node__iterator_ade6310119ed1f72c94830e006fac69b7}} 
+typedef \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ {\bfseries value\+\_\+type}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_ad7fabbcb7d3d9e4e220299c5475b9e9c}\label{classrapidxml_1_1node__iterator_ad7fabbcb7d3d9e4e220299c5475b9e9c}} 
+typedef \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ \& {\bfseries reference}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a65dca8bca2b9c29f635b9ad0bdeeecb9}\label{classrapidxml_1_1node__iterator_a65dca8bca2b9c29f635b9ad0bdeeecb9}} 
+typedef \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ $\ast$ {\bfseries pointer}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a5bdc462b980a52c5fa2d99ac9f4f4bff}\label{classrapidxml_1_1node__iterator_a5bdc462b980a52c5fa2d99ac9f4f4bff}} 
+typedef std\+::ptrdiff\+\_\+t {\bfseries difference\+\_\+type}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a8e82d75f768e17bf7349d010ee26c037}\label{classrapidxml_1_1node__iterator_a8e82d75f768e17bf7349d010ee26c037}} 
+typedef std\+::bidirectional\+\_\+iterator\+\_\+tag {\bfseries iterator\+\_\+category}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a94c3da59b54e4bd003e226cc35b3c266}\label{classrapidxml_1_1node__iterator_a94c3da59b54e4bd003e226cc35b3c266}} 
+{\bfseries node\+\_\+iterator} (\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ $\ast$node)
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a47a076383ce706bb88e2b455646d8555}\label{classrapidxml_1_1node__iterator_a47a076383ce706bb88e2b455646d8555}} 
+\mbox{\hyperlink{classrapidxml_1_1xml__node}{reference}} {\bfseries operator$\ast$} () const
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a203f946893733b2f8526b49c3c9039ef}\label{classrapidxml_1_1node__iterator_a203f946893733b2f8526b49c3c9039ef}} 
+\mbox{\hyperlink{classrapidxml_1_1xml__node}{pointer}} {\bfseries operator-\/$>$} () const
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a4ebe23c502eaf3945195ffc3632d3ab0}\label{classrapidxml_1_1node__iterator_a4ebe23c502eaf3945195ffc3632d3ab0}} 
+\mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\+\_\+iterator}} \& {\bfseries operator++} ()
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_ad01b4e43e348a330984833fd4924d0f2}\label{classrapidxml_1_1node__iterator_ad01b4e43e348a330984833fd4924d0f2}} 
+\mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\+\_\+iterator}} {\bfseries operator++} (int)
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a0b6ffa0e8e6cb5f353eacdf9cb62af3d}\label{classrapidxml_1_1node__iterator_a0b6ffa0e8e6cb5f353eacdf9cb62af3d}} 
+\mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\+\_\+iterator}} \& {\bfseries operator-\/-\/} ()
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a4ca35716bb7865f199a137b063af6080}\label{classrapidxml_1_1node__iterator_a4ca35716bb7865f199a137b063af6080}} 
+\mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\+\_\+iterator}} {\bfseries operator-\/-\/} (int)
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a5cb8a3b0d65a1a2517995e986a4debfd}\label{classrapidxml_1_1node__iterator_a5cb8a3b0d65a1a2517995e986a4debfd}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\+\_\+iterator}}$<$ Ch $>$ \&rhs)
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_a20f1e25347d7e3856694f18597f7c8e2}\label{classrapidxml_1_1node__iterator_a20f1e25347d7e3856694f18597f7c8e2}} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{classrapidxml_1_1node__iterator}{node\+\_\+iterator}}$<$ Ch $>$ \&rhs)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrapidxml_1_1node__iterator_adeb3cd87d8ea08aa56d14166146fa291}\label{classrapidxml_1_1node__iterator_adeb3cd87d8ea08aa56d14166146fa291}} 
+\mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}$<$ Ch $>$ $\ast$ {\bfseries m\+\_\+node}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Ch$>$\newline
+class rapidxml\+::node\+\_\+iterator$<$ Ch $>$}
+Iterator of child nodes of \mbox{\hyperlink{classrapidxml_1_1xml__node}{xml\+\_\+node}}. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/parser/rapidxml/\mbox{\hyperlink{rapidxml__iterators_8hpp}{rapidxml\+\_\+iterators.\+hpp}}\end{DoxyCompactItemize}

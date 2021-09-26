@@ -1,0 +1,212 @@
+\hypertarget{classbn_1_1random__variable}{}\doxysection{bn\+::random\+\_\+variable\texorpdfstring{$<$}{<} Probability \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1random__variable}\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structbn_1_1random__variable_1_1parents__info__t}{parents\+\_\+info\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbn_1_1random__variable_a626e6fc27a6833ece134ab93b2fb827d}{random\+\_\+variable}} (std\+::string \mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}}, const std\+::vector$<$ std\+::string $>$ \&\mbox{\hyperlink{classbn_1_1random__variable_a9d445bdb2a6667bbd6225208470c69dc}{states}})
+\item 
+bool \mbox{\hyperlink{classbn_1_1random__variable_a1d19cfcc2bd83ea88f069246baf3858f}{has\+\_\+state}} (const std\+::string \&state\+\_\+name) const
+\item 
+void \mbox{\hyperlink{classbn_1_1random__variable_abdba1b159448915558a666cc395efc04}{set\+\_\+probability}} (bn\+::state\+\_\+t state\+\_\+value, const \mbox{\hyperlink{classbn_1_1condition}{bn\+::condition}} \&cond, Probability p)
+\item 
+std\+::string \mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}} () const
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classbn_1_1random__variable_a9d445bdb2a6667bbd6225208470c69dc}{states}} () const
+\item 
+\mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn\+::cow\+::cpt}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1random__variable_a51961c59bb1c2054bac08a8e95f31d22}{table}} ()
+\item 
+const \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn\+::cow\+::cpt}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1random__variable_a44c3b9899e0eba62cc7cfc69bffdfb56}{table}} () const
+\item 
+unsigned long \mbox{\hyperlink{classbn_1_1random__variable_a34f34d4def2b2a3c17913c996abbfd15}{id}} () const
+\item 
+void \mbox{\hyperlink{classbn_1_1random__variable_ad2eedb9bc3b586628fcc91713b6e1b0c}{set\+\_\+as\+\_\+evidence}} (unsigned long value)
+\item 
+void \mbox{\hyperlink{classbn_1_1random__variable_af68637f29b9dfb1000ef6d2ff0e1a944}{clear\+\_\+evidence}} ()
+\item 
+bool \mbox{\hyperlink{classbn_1_1random__variable_a95a37377bd16cb1f6494bbaf7c989ed0}{is\+\_\+evidence}} () const
+\item 
+unsigned long \mbox{\hyperlink{classbn_1_1random__variable_ab7d22ac3bff2eccad970cadcbef4bfb2}{evidence\+\_\+state}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbn_1_1random__variable_a8559f88db3c5f06c8eafd16e4e721edc}\label{classbn_1_1random__variable_a8559f88db3c5f06c8eafd16e4e721edc}} 
+\mbox{\hyperlink{structbn_1_1random__variable_1_1parents__info__t}{parents\+\_\+info\+\_\+t}} {\bfseries parents\+\_\+info}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbn_1_1random__variable_a3091f718aeca7b7409ae1e67db7b883d}\label{classbn_1_1random__variable_a3091f718aeca7b7409ae1e67db7b883d}} 
+std\+::string {\bfseries \+\_\+name}
+\item 
+\mbox{\Hypertarget{classbn_1_1random__variable_ae8faf7fbfddd914426bfc8dc96f26f95}\label{classbn_1_1random__variable_ae8faf7fbfddd914426bfc8dc96f26f95}} 
+\mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn\+::cow\+::cpt}}$<$ Probability $>$ {\bfseries cpt}
+\item 
+\mbox{\Hypertarget{classbn_1_1random__variable_a0e6d147492504e17d12071a4282d6f92}\label{classbn_1_1random__variable_a0e6d147492504e17d12071a4282d6f92}} 
+std\+::vector$<$ std\+::string $>$ {\bfseries \+\_\+states}
+\item 
+\mbox{\Hypertarget{classbn_1_1random__variable_ad8224ffc020508740a01c6acaf19abe0}\label{classbn_1_1random__variable_ad8224ffc020508740a01c6acaf19abe0}} 
+bool {\bfseries \+\_\+is\+\_\+evidence} \{\}
+\item 
+\mbox{\Hypertarget{classbn_1_1random__variable_ac82bb3c80e8840b348b4775536d306a0}\label{classbn_1_1random__variable_ac82bb3c80e8840b348b4775536d306a0}} 
+unsigned long {\bfseries \+\_\+state\+\_\+value}
+\item 
+\mbox{\Hypertarget{classbn_1_1random__variable_ae02eb5107828e3db06f98bd74ee862f3}\label{classbn_1_1random__variable_ae02eb5107828e3db06f98bd74ee862f3}} 
+unsigned long {\bfseries \+\_\+id} \{\}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbn_1_1random__variable_abaf7513d2fc0c915124de474b34f8f66}\label{classbn_1_1random__variable_abaf7513d2fc0c915124de474b34f8f66}} 
+class {\bfseries bn\+::bayesian\+\_\+network$<$ Probability $>$}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classbn_1_1random__variable_a626e6fc27a6833ece134ab93b2fb827d}\label{classbn_1_1random__variable_a626e6fc27a6833ece134ab93b2fb827d}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!random\_variable@{random\_variable}}
+\index{random\_variable@{random\_variable}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{random\_variable()}{random\_variable()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::\mbox{\hyperlink{classbn_1_1random__variable}{random\+\_\+variable}} (\begin{DoxyParamCaption}\item[{std\+::string}]{name,  }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{states }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+random variable constructor 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name of the variable \\
+\hline
+{\em states} & \+: vector of possible states \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbn_1_1random__variable_af68637f29b9dfb1000ef6d2ff0e1a944}\label{classbn_1_1random__variable_af68637f29b9dfb1000ef6d2ff0e1a944}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!clear\_evidence@{clear\_evidence}}
+\index{clear\_evidence@{clear\_evidence}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{clear\_evidence()}{clear\_evidence()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+void \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::clear\+\_\+evidence (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+unset the evidence state if it was previously set \mbox{\Hypertarget{classbn_1_1random__variable_ab7d22ac3bff2eccad970cadcbef4bfb2}\label{classbn_1_1random__variable_ab7d22ac3bff2eccad970cadcbef4bfb2}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!evidence\_state@{evidence\_state}}
+\index{evidence\_state@{evidence\_state}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{evidence\_state()}{evidence\_state()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+unsigned long \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::evidence\+\_\+state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+return the evidence state if it was previously set, if no evidence was set an exception is thrown \begin{DoxyReturn}{Returns}
+numerical identifier of the evidence state 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1random__variable_a1d19cfcc2bd83ea88f069246baf3858f}\label{classbn_1_1random__variable_a1d19cfcc2bd83ea88f069246baf3858f}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!has\_state@{has\_state}}
+\index{has\_state@{has\_state}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{has\_state()}{has\_state()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+bool \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::has\+\_\+state (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{state\+\_\+name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Verify if a specific state is a possible realization of the variable 
+\begin{DoxyParams}{Parameters}
+{\em state\+\_\+name} & \+: name of the state \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if state\+\_\+name is a state of var 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1random__variable_a34f34d4def2b2a3c17913c996abbfd15}\label{classbn_1_1random__variable_a34f34d4def2b2a3c17913c996abbfd15}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!id@{id}}
+\index{id@{id}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{id()}{id()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+unsigned long \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+unique numerical identifier of the variable 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1random__variable_a95a37377bd16cb1f6494bbaf7c989ed0}\label{classbn_1_1random__variable_a95a37377bd16cb1f6494bbaf7c989ed0}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!is\_evidence@{is\_evidence}}
+\index{is\_evidence@{is\_evidence}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{is\_evidence()}{is\_evidence()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+bool \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::is\+\_\+evidence (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+true if the node was set as an evidence 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}\label{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!name@{name}}
+\index{name@{name}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{name()}{name()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+std\+::string \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+name of variable 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1random__variable_ad2eedb9bc3b586628fcc91713b6e1b0c}\label{classbn_1_1random__variable_ad2eedb9bc3b586628fcc91713b6e1b0c}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!set\_as\_evidence@{set\_as\_evidence}}
+\index{set\_as\_evidence@{set\_as\_evidence}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{set\_as\_evidence()}{set\_as\_evidence()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+void \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::set\+\_\+as\+\_\+evidence (\begin{DoxyParamCaption}\item[{unsigned long}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+set the variable as an observed evidence for a specific state, this will alter how the inference process will be executed 
+\begin{DoxyParams}{Parameters}
+{\em value} & \+: evidence state \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbn_1_1random__variable_abdba1b159448915558a666cc395efc04}\label{classbn_1_1random__variable_abdba1b159448915558a666cc395efc04}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!set\_probability@{set\_probability}}
+\index{set\_probability@{set\_probability}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{set\_probability()}{set\_probability()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+void \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::set\+\_\+probability (\begin{DoxyParamCaption}\item[{bn\+::state\+\_\+t}]{state\+\_\+value,  }\item[{const \mbox{\hyperlink{classbn_1_1condition}{bn\+::condition}} \&}]{cond,  }\item[{Probability}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Set a specific value for a cpt entry 
+\begin{DoxyParams}{Parameters}
+{\em state\+\_\+value} & \+: state name of the entry \\
+\hline
+{\em cond} & \+: condition related to the entry \\
+\hline
+{\em p} & \+: probability relative to the entry \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbn_1_1random__variable_a9d445bdb2a6667bbd6225208470c69dc}\label{classbn_1_1random__variable_a9d445bdb2a6667bbd6225208470c69dc}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!states@{states}}
+\index{states@{states}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{states()}{states()}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::states (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+vector of state names 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1random__variable_a51961c59bb1c2054bac08a8e95f31d22}\label{classbn_1_1random__variable_a51961c59bb1c2054bac08a8e95f31d22}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!table@{table}}
+\index{table@{table}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{table()}{table()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+\mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn\+::cow\+::cpt}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+cpt relative to the variable 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbn_1_1random__variable_a44c3b9899e0eba62cc7cfc69bffdfb56}\label{classbn_1_1random__variable_a44c3b9899e0eba62cc7cfc69bffdfb56}} 
+\index{bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}!table@{table}}
+\index{table@{table}!bn::random\_variable$<$ Probability $>$@{bn::random\_variable$<$ Probability $>$}}
+\doxysubsubsection{\texorpdfstring{table()}{table()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Probability $>$ \\
+const \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn\+::cow\+::cpt}}$<$ Probability $>$ \& \mbox{\hyperlink{classbn_1_1random__variable}{bn\+::random\+\_\+variable}}$<$ Probability $>$\+::table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+cpt relative to the variable 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/network/\mbox{\hyperlink{random__variable_8hpp}{random\+\_\+variable.\+hpp}}\end{DoxyCompactItemize}

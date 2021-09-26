@@ -15,6 +15,9 @@
 
 #include <baylib/inference/abstract_inference_algorithm.hpp>
 
+//! \file logic_sampling.hpp
+//! \brief Logic Sampling implementation with GPGPU support
+
 namespace bn {
     namespace inference{
         namespace compute = boost::compute;
@@ -22,14 +25,18 @@ namespace bn {
         using boost::compute::lambda::_2;
 
 
-        /** ===== Logic Sampling Algorithm ===
-        *
+        /**
         * This class represents the Logic Sampling approximate
         * inference algorithm for discrete Bayesian Networks.
         * The implementation uses boost::compute to exploit GPGPU optimization.
         * All samples are simulated in parallel, for this reason the maximum memory usage
         * tolerable must be specified to avoid filling up the memory of the device in case of large
-        * number of samples.
+        * number of samples. The algorithm main steps are :
+        *   1. sort nodes in topological order
+        *   2. simulate each source node
+        *   3. simulate each child node given the parents previous simulation
+        *   4. throw out each simulation that doesn't comply with observed evidences
+        *   5. estimate the marginal distribution from the valid simulations
         * @tparam Probability : the type expressing the probability
         **/
         template <typename Probability>
@@ -38,20 +45,20 @@ namespace bn {
         public:
 
             logic_sampling(
-                ulong samples,
-                size_t memory,
-                uint seed = 0,
-                const compute::device &device = compute::system::default_device()
-                )
-                : vectorized_inference_algorithm<Probability>(samples, memory, seed, device){ }
+                    ulong samples,
+                    size_t memory,
+                    uint seed = 0,
+                    const compute::device &device = compute::system::default_device()
+            )
+            : vectorized_inference_algorithm<Probability>(samples, memory, seed, device)
+            { }
 
 
 
             marginal_distribution<Probability> make_inference (
-                const bn::bayesian_network<Probability> &bn
-                )
-                {
-
+                    const bn::bayesian_network<Probability> &bn
+            )
+            {
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
                                           [](auto &var){ return bn::cpt_filled_out(var); }),
                               "conditional probability tables must be properly filled to"
@@ -65,6 +72,7 @@ namespace bn {
 
                     std::vector<bcvec> result_container(vertex_queue.size());
                     marginal_distribution<Probability> temp(bn.begin(), bn.end());
+                    compute::vector<int> valid_evidence_vec(this->nsamples, true, this->queue);
 
                     for(ulong v : vertex_queue) {
 
@@ -79,12 +87,20 @@ namespace bn {
 
                         result_container[v] = this->simulate_node(bn[v].table(), parents_result, iter_samples);
 
-                        // Save result in the data structure with the correct expiration date
-                        auto accumulated_result = compute_result_general(result_container[v]);
+                        if(bn[v].is_evidence()){
+                            compute::transform( result_container[v].state.begin()
+                                               ,result_container[v].state.end()
+                                               ,valid_evidence_vec.begin()
+                                               ,valid_evidence_vec.begin()
+                                               ,(_1 == bn[v].evidence_state()) && _2
+                                               ,this->queue);
+                        }
+                    }
 
+                    for(ulong v : vertex_queue) {
+                        auto accumulated_result = compute_result_general(result_container[v], valid_evidence_vec);
                         for(int ix=0; ix< accumulated_result.size(); ix++)
                             marginal_result[v][ix] += accumulated_result[ix];
-
                     }
                 }
                 marginal_result.normalize();
@@ -99,11 +115,20 @@ namespace bn {
             * @param res result from simulate node
             * @return vector for witch the i-th element is the number of occurrences of i
             **/
-            std::vector<ulong> compute_result_general(bcvec& res)
+            std::vector<ulong> compute_result_general(
+                    bcvec& res,
+                    compute::vector<int>& valid
+            )
             {
+                compute::transform( res.state.begin()
+                                   ,res.state.end()
+                                   ,valid.begin()
+                                   ,res.state.begin()
+                                   ,(_1+1)*_2
+                                   ,this->queue);
                 std::vector<ulong> acc_res(res.cardinality);
                 for (bn::state_t i = 0; i < res.cardinality; ++i) {
-                    acc_res[i] = compute::count(res.state.begin(), res.state.end(), i, this->queue);
+                    acc_res[i] = compute::count(res.state.begin(), res.state.end(), i+1, this->queue);
                 }
                 return acc_res;
             }

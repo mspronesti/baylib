@@ -1,0 +1,42 @@
+\hypertarget{baylib__assert_8h_source}{}\doxysection{baylib\+\_\+assert.\+h}
+\label{baylib__assert_8h_source}\index{/home/mspronesti/Desktop/baylib/baylib/baylib\_assert.h@{/home/mspronesti/Desktop/baylib/baylib/baylib\_assert.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by elle on 07/08/21.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef BAYLIB\_ASSERT\_H}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define BAYLIB\_ASSERT\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <iosfwd>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifdef \_\_GNUC\_\_}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#  if !(\_\_GNUC\_\_ == 4 \&\& \_\_GNUC\_MINOR\_\_ == 4 \&\& \_\_GNUC\_PATCHLEVEL\_\_ == 5)}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#    define BAYLIB\_FUNCTION\_NAME \_\_PRETTY\_FUNCTION\_\_}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#  else}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#    define BAYLIB\_FUNCTION\_NAME "{}unknown function"{}}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#  endif}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#elif defined(\_MSC\_VER)}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#define BAYLIB\_FUNCTION\_NAME \_\_FUNCSIG\_\_}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#define BAYLIB\_FUNCTION\_NAME "{}unknown function"{}}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#define BAYLIB\_CASSERT(\_exp, \_msg, \_except)                                 \(\backslash\)}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{    \{if ( !(\_exp) )                                                         \(\backslash\)}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{    \{                                                                       \(\backslash\)}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{        std::ostringstream osstr;                                       \(\backslash\)}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{        osstr << "{}\(\backslash\)n\(\backslash\)nError detected at line "{}} << \_\_LINE\_\_ << "{}.\(\backslash\)n"{};    \(\backslash\)}
+\DoxyCodeLine{27         osstr << "{}Error detected in file "{} << \_\_FILE\_\_ << "{}.\(\backslash\)n"{};      \(\backslash\)}
+\DoxyCodeLine{28         osstr << "{}Error detected in function "{} << BAYLIB\_FUNCTION\_NAME << "{}.\(\backslash\)n\(\backslash\)n"{};      \(\backslash\)}
+\DoxyCodeLine{29         osstr << "{}Failing expression was "{} << \#\_exp << "{}.\(\backslash\)n"{};           \(\backslash\)}
+\DoxyCodeLine{30         osstr << std::boolalpha << \_msg << "{}\(\backslash\)n"{};                    \(\backslash\)}
+\DoxyCodeLine{31         throw \_except(osstr.str());      \(\backslash\)}
+\DoxyCodeLine{32     \}\}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#define BAYLIB\_ASSERT(...) BAYLIB\_CASSERT(\_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_ASSERT\_H}}
+
+\end{DoxyCode}

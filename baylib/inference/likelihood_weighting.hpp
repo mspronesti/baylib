@@ -10,6 +10,9 @@
 #include <baylib/tools/random/random_generator.hpp>
 #include <baylib/inference/abstract_inference_algorithm.hpp>
 
+//! \file likelihood_weighting.hpp
+//! \brief Likelihood weighting implementation with multi-thread support
+
 namespace bn {
     namespace  inference {
         /** ===== Likelihood Weighting Algorithm ===
