@@ -88,7 +88,7 @@ namespace bn {
                     return var.evidence_state();
                 }
 
-                auto samples = std::vector<Probability>(var.states().size(), 0.0);
+                auto samples = std::vector<Probability>(var.number_of_states(), 0.0);
                 for(ulong i = 0; i < samples.size(); ++i) {
                     var_state_values[n] = i;
                     // here we evaluate P(Xi | x_t, t = 1, 2, ..., i-1, 1+1, ..., n)

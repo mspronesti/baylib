@@ -10,17 +10,16 @@
 //! \brief bayesian network implementation based on boost GPL
 
 namespace bn {
-
     /**
      * This class models a Bayesian Network allowing both
      * index and name based access to its facilities for a better
      * user experience
      * @tparam Probability : Type of cpts entries
      */
-    template <typename Probability>
+    template <typename Variable>
     class bayesian_network {
-        typedef bn::graph<bn::random_variable<Probability>> graph_t;
-        typedef bn::vertex<Probability> vertex_id;
+        typedef bn::graph<Variable> graph_t;
+        typedef bn::vertex<Variable> vertex_id;
 
     public:
         bayesian_network() : graph(std::make_shared<graph_t>()) { }
@@ -44,49 +43,27 @@ namespace bn {
         }
 
         /**
-         * Method to add a new variable to the network, no duplicate names can exist in the graph
-         * @param name   : string identifier of the variable
-         * @param states : vector of possible states that can be obtained from the random distribution
+         * adds a new variable to the bayesian network
+         * @tparam A
+         * @param args   : vararg to specify the Variable constructor parameters
+         *                 according to the template parameter
          * @return       : numerical identifier assigned to the node
          */
-        vertex_id add_variable(const std::string &name, const std::vector<std::string> &states){
-            BAYLIB_ASSERT(!has_variable(name),
-                          "random_variable with name "
-                          + name + " already exists",
-                          std::runtime_error )
-
-            vertex_id v = boost::add_vertex(bn::random_variable<Probability>{name, states}, *graph);
-            var_map[name] = v;
-            variable(name)._id = v;
+        template <typename ...A>
+        vertex_id add_variable(const A &...args){
+            vertex_id v = boost::add_vertex(Variable{args...}, *graph);
+            variable(v)._id = v;
             return v;
         }
 
         /**
          * Method to remove a variable from the network, dependencies are also automatically deleted
-         * @param name name of variable
+         * @param var_id: id of variable
          */
-        void remove_variable(const std::string &name){
-            auto v = index_of(name);
-            boost::remove_vertex(v, *graph);
-
-            for (auto & var : *this)
-                if (has_dependency(name, var.name()))
-                    var.parents_info.remove(name);
-
-            var_map.erase(name);
+        void remove_variable(vertex_id var_id) {
+            boost::remove_vertex(var_id, *graph);
         }
 
-        /**
-         * Method to add a dependency / arc between two nodes of the network
-         * @param src_name  : parent node name
-         * @param dest_name : child node name
-         */
-        void add_dependency(const std::string &src_name, const std::string &dest_name){
-            auto src_id = index_of(src_name);
-            auto dest_id = index_of(dest_name);
-
-            add_dependency(src_id, dest_id);
-        }
 
         /**
          * Method to add a dependency / arc between two nodes of the network
@@ -103,24 +80,9 @@ namespace bn {
                           " would introduce a loop",
                           std::logic_error )
 
-            auto& src = variable(src_id);
-            auto& dest = variable(dest_id);
-
             boost::add_edge(src_id, dest_id, *graph);
-            dest.parents_info.add(src._name, src.states().size());
         }
 
-        /**
-         * Method to remove a dependency / arc between two nodes of the network
-         * @param src_name  : parent node name
-         * @param dest_name : child node name
-         */
-        void remove_dependency(const std::string &src_name, const std::string &dest_name){
-            auto src_id = index_of(src_name);
-            auto dest_id = index_of(dest_name);
-
-            remove_dependency(src_id, dest_id);
-        }
 
         /**
          * Method to remove a dependency / arc between two nodes of the network
@@ -132,47 +94,24 @@ namespace bn {
                           "out of bound access to graph",
                           std::out_of_range)
 
-            auto src_name = variable(src_id)._name;
-            auto &dest = variable(dest_id);
-
             boost::remove_edge(src_id, dest_id, *graph);
-            dest.parents_info.remove(src_name);
         }
 
         /**
          * Method that returns the number of variables in the network
          * @return number of variables
          */
-        std::uint64_t number_of_variables() const {
+        unsigned long number_of_variables() const {
             return boost::num_vertices(*graph);
         }
 
-        /**
-         * Operator that returns the random_variable class identified by the name specified
-         * @param name : name string
-         * @return     : random variable class
-         */
-        bn::random_variable<Probability>& operator [] (const std::string &name){
-            auto v  = index_of(name);
-            return (*graph)[v];
-        }
-
-        /**
-         * Operator that returns the random_variable class identified by the name specified
-         * @param name : name string
-         * @return     : random variable class
-         */
-        bn::random_variable<Probability>& operator [] (const std::string &name) const{
-            auto v  = index_of(name);
-            return (*graph)[v];
-        }
 
         /**
          * Operator that returns the random_variable class identified by id
-         * @param name : name string
-         * @return     : random variable class
+         * @param v : variable id
+         * @return  : random variable class
          */
-        bn::random_variable<Probability>& operator [] (vertex_id v) {
+        Variable & operator [] (vertex_id v) {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -182,33 +121,23 @@ namespace bn {
 
         /**
          * Operator that returns the random_variable class identified by id
-         * @param name : name string
-         * @return     : random variable class
+         * @param  v: variable id
+         * @return  : random variable class
          */
-        bn::random_variable<Probability>& operator [] (vertex_id v) const{
+        Variable & operator [] (vertex_id v) const {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
 
-            return (*graph)[v];
-        }
-
-        /**
-         * Method that returns the random_variable class identified by the name specified
-         * @param name : name string
-         * @return     : random variable class
-         */
-        bn::random_variable<Probability> & variable(const std::string &name){
-            auto v  = index_of(name);
             return (*graph)[v];
         }
 
         /**
          * Operator that returns the random_variable class identified by id
-         * @param name : name string
-         * @return     : random variable class
+         * @param v : variable id
+         * @return  : random variable class
          */
-        bn::random_variable<Probability> & variable(vertex_id v) {
+        Variable & variable(vertex_id v) {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -216,18 +145,6 @@ namespace bn {
             return (*graph)[v];
         }
 
-        /**
-         * Method to verify if two variables, identified by name, are connected by a dependency / arc
-         * @param name1 : name of first node
-         * @param name2 : name of second node
-         * @return      : true if v1 is parent of v2
-         */
-        bool has_dependency(const std::string &name1, const std::string &name2)  {
-            auto v1  = index_of(name1);
-            auto v2  = index_of(name2);
-
-            return boost::edge(v1, v2, *graph).second;
-        }
 
         /**
          * Method to verify if two variables, identified by numerical id, are connected by a dependency / arc
@@ -258,27 +175,6 @@ namespace bn {
         }
 
         /**
-         * Method to verify if a node, identified by name, is a root node / has no parent nodes
-         * @param name : name string
-         * @return     : true if node is root
-         */
-        bool is_root(const std::string &name) const {
-            auto v  = index_of(name);
-            return boost::in_degree(v, *graph) == 0
-                   && boost::out_degree(v, *graph) != 0;
-        }
-
-        /**
-         * Return the vector of children of a specific node identified by name
-         * @param name : name string
-         * @return     : vector of numerical ids
-         */
-        std::vector<vertex_id> children_of(const std::string &name) const{
-            auto v  = index_of(name);
-            return children_of(v);
-        }
-
-        /**
          * Return the vector of children of a specific node identified by numerical identifier
          * @param v : id of node
          * @return  : vector of numerical ids
@@ -291,17 +187,6 @@ namespace bn {
             auto it = boost::make_iterator_range(adjacent_vertices(v, *graph));
             return std::vector<vertex_id>(it.begin(), it.end());
         }
-
-        /**
-         * Return the vector of parents of a specific node identified by name
-         * @param name : name of node
-         * @return     : vector of numerical ids
-         */
-        std::vector<vertex_id> parents_of(const std::string &name) const{
-            auto v = index_of(name);
-            return parents_of(v);
-        }
-
 
         /**
          * Return the vector of parents of a specific node identified by numerical id
@@ -322,56 +207,48 @@ namespace bn {
         }
 
         /**
-         * Sets the probability value of a CPT cell of a specific node, identified by name
-         * @param var_name    : name of node
+         * Sets the probability value of a CPT cell of a specific node, identified by id
+         * @param var_id      : id of node
          * @param state_value : identifier of state associated with the set probability
          * @param cond        : condition associated with the set probability
          * @param p           : probability
          */
+        template<typename Probability>
         void set_variable_probability(
-                const std::string& var_name,
+                const vertex_id var_id,
                 bn::state_t state_value,
                 const bn::condition& cond,
                 Probability p
         )
         {
-            auto & var = variable(var_name);
-            auto nparents = parents_of(var._id).size();
+            auto nparents = parents_of(var_id).size();
 
             // make sure the cardinality of parents is correct
             BAYLIB_ASSERT(cond.size() == nparents,
                           "condition contains "
                           << cond.size() << " while "
-                          << var_name << " has "
-                          << nparents,
+                          "variable " << var_id
+                          << " has " << nparents,
                           std::logic_error)
 
             // make sure the parents are actually correct
             BAYLIB_ASSERT(std::all_of(cond.begin(), cond.end(),
-                                      [this, var_name](const auto&c){
-                                          return has_dependency(c.first, var_name);
+                                      [this, var_id](const auto&c){
+                                          return has_dependency(c.first, var_id);
                                       }),
                           "no such parent for variable "
-                          + var_name,
+                          << var_id,
                           std::runtime_error)
 
-            var.set_probability(state_value, cond, p);
+            (*graph)[var_id].set_probability(state_value, cond, p);
 
-            if(cpt_filled_out(var))
-                optimize_cpt_memory_occupation(var._id);
+            if(cpt_filled_out(*this, var_id))
+                optimize_cpt_memory_occupation(var_id);
         }
 
         /**
-         * Method to verify if a name is associated with an existing variable, identified by name
-         * @param name : name of variable
-         * @return     : true if variable exists
-         */
-        bool has_variable(const std::string &name) const {
-            return var_map.find(name) != var_map.end();
-        }
-
-        /**
-         * Method to verify if a name is associated with an existing variable, identified by numerical identifier
+         * Method to verify if a numeric identifier
+         * is associated with an existing variable
          * @param v : numerical identifier of variable
          * @return  : true if variable exists
          */
@@ -380,24 +257,8 @@ namespace bn {
         }
 
 
-        /**
-         * Returns the numerical identifier of a variable identified by name
-         * @param name : name of variable
-         * @return     : numerical identifier of variable
-         */
-        vertex_id index_of(const std::string &name) const {
-            auto it = var_map.find(name);
-            BAYLIB_ASSERT(it != var_map.end(),
-                          "identifier " + name + " doesn't "
-                          "represent a random_variable",
-                          std::runtime_error)
-
-            return it->second;
-        }
-
     private:
         std::shared_ptr<graph_t> graph;
-        std::map<std::string, vertex_id> var_map;
         std::unordered_map<size_t, vertex_id> cpt_hash_map;
 
         /**

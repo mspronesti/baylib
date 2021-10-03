@@ -292,7 +292,7 @@ namespace bn {
                 for(int i = 0; i < gpu_iter; ++i){
                     for(ulong v : sampling_order(bn)) {
                         if(bn[v].is_evidence()){
-                            result_container[v] = bcvec(this->nsamples, bn[v].states().size(), this->context);
+                            result_container[v] = bcvec(this->nsamples, bn[v].number_of_states(), this->context);
                             compute::fill(result_container[v].state.begin(), result_container[v].state.end(), bn[v].evidence_state(), this->queue);
                         }
                         else{

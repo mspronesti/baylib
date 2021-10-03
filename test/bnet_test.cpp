@@ -7,7 +7,15 @@
 
 class bnet_tests : public ::testing::Test {
 protected:
-    bn::bayesian_network<double> bn;
+    enum {
+        A,
+        B,
+        C,
+        D,
+        E
+    };
+
+    bn::bayesian_network<bn::random_variable<double>> bn;
 
     bnet_tests()= default;
 
@@ -22,82 +30,81 @@ protected:
         //  \ /
         //   v
         //   d
-        bn.add_variable("a", {"s1", "s2"});
-        bn.add_variable("b", {"s1", "s2"});
-        bn.add_variable("c", {"s1", "s2"});
-        bn.add_variable("d", {"s1", "s2"});
-        bn.add_variable("e", {"s1", "s2"});
+        bn.add_variable();
+        bn.add_variable();
+        bn.add_variable();
+        bn.add_variable();
+        bn.add_variable();
 
-        bn.add_dependency("a", "b");
-        bn.add_dependency("a", "c");
-        bn.add_dependency("c", "d");
-        bn.add_dependency("b", "d");
-        bn.add_dependency("e", "c");
-
+        bn.add_dependency(A, B);
+        bn.add_dependency(A, C);
+        bn.add_dependency(C, D);
+        bn.add_dependency(B, D);
+        bn.add_dependency(E, C);
     }
 };
 
 
 TEST_F(bnet_tests, test_names){
-    std::vector<std::string> e{"a", "b", "c", "d", "e"};
+    std::vector<int> e{A, B, C, D, E};
     std::uint8_t i = 0;
     for(auto & var : bn)
-        EXPECT_EQ(e[i++], var.name());
+        EXPECT_EQ(e[i++], var.id());
 }
 
 TEST_F(bnet_tests, test_root){
-    ASSERT_TRUE(bn.is_root("a"));
-    ASSERT_TRUE(bn.is_root("e"));
-    ASSERT_FALSE(bn.is_root("b"));
-    ASSERT_FALSE(bn.is_root("c"));
-    ASSERT_FALSE(bn.is_root("d"));
+    ASSERT_TRUE(bn.is_root(A));
+    ASSERT_TRUE(bn.is_root(E));
+    ASSERT_FALSE(bn.is_root(B));
+    ASSERT_FALSE(bn.is_root(C));
+    ASSERT_FALSE(bn.is_root(D));
 }
 
 TEST_F(bnet_tests, test_dependency){
-    ASSERT_TRUE(bn.has_dependency("a", "b"));
-    ASSERT_TRUE(bn.has_dependency("a", "c"));
-    ASSERT_TRUE(bn.has_dependency("b", "d"));
-    ASSERT_TRUE(bn.has_dependency("c", "d"));
+    ASSERT_TRUE(bn.has_dependency(A, B));
+    ASSERT_TRUE(bn.has_dependency(A, C));
+    ASSERT_TRUE(bn.has_dependency(B, D));
+    ASSERT_TRUE(bn.has_dependency(C, D));
 
-    ASSERT_FALSE(bn.has_dependency("b", "a"));
-    ASSERT_FALSE(bn.has_dependency("c", "a"));
-    ASSERT_FALSE(bn.has_dependency("d", "b"));
-    ASSERT_FALSE(bn.has_dependency("d", "c"));
+    ASSERT_FALSE(bn.has_dependency(B, A));
+    ASSERT_FALSE(bn.has_dependency(C, A));
+    ASSERT_FALSE(bn.has_dependency(D, B));
+    ASSERT_FALSE(bn.has_dependency(D, C));
 }
 
 TEST_F(bnet_tests, test_not_dag){
-    ASSERT_THROW(bn.add_dependency("d", "a"), std::logic_error);
-    ASSERT_THROW(bn.add_dependency("d", "e"), std::logic_error);
-    ASSERT_NO_THROW(bn.add_dependency("e", "d"));
+    ASSERT_THROW(bn.add_dependency(D, A), std::logic_error);
+    ASSERT_THROW(bn.add_dependency(D, E), std::logic_error);
+    ASSERT_NO_THROW(bn.add_dependency(E, D));
 }
 
 TEST_F(bnet_tests, test_children){
-    auto children = bn.children_of("a");
-    auto a_id = bn["b"].id();
-    auto b_id = bn["c"].id();
+    auto children = bn.children_of(A);
+    auto a_id = bn[B].id();
+    auto b_id = bn[C].id();
 
     ASSERT_EQ(children[0], a_id);
     ASSERT_EQ(children[1], b_id);
 }
 
 TEST_F(bnet_tests, test_parents){
-    auto parents = bn.parents_of("d");
+    auto parents = bn.parents_of(D);
 
-    auto b_id = bn["b"].id();
-    auto c_id = bn["c"].id();
+    auto b_id = bn[B].id();
+    auto c_id = bn[C].id();
 
     ASSERT_EQ(parents[0], c_id);
     ASSERT_EQ(parents[1], b_id);
-    ASSERT_TRUE(bn.has_dependency("b", "d"));
-    ASSERT_TRUE(bn.has_dependency("c", "d"));
+    ASSERT_TRUE(bn.has_dependency(B, D));
+    ASSERT_TRUE(bn.has_dependency(C, D));
 }
 
 TEST_F(bnet_tests, test_invalid_varname){
-    ASSERT_ANY_THROW(bn["pippo"]);
+    ASSERT_ANY_THROW(bn[E + 3]);
 }
 
 TEST_F(bnet_tests, test_invalid_edge){
-    ASSERT_ANY_THROW(bn.add_dependency("a", "pippo"));
+    ASSERT_ANY_THROW(bn.add_dependency(A, E + 3));
 }
 
 

@@ -34,24 +34,25 @@ namespace  bn {
          *                 one, taken from rv
          */
         explicit condition_factory(
-             const bn::random_variable<Probability> &rv,
-             const std::vector<std::string>& parents = {}
+             const bn::bayesian_network<Probability> &bn,
+             const unsigned long var_id,
+             const std::vector<unsigned long>& parents = {}
         )
-        : var(rv)
+        : bn(bn)
         , condition_index(0)
         , ncombinations(1)
         , _parents(parents)
         {
             if(parents.empty())
-                _parents = var.parents_info.names();
+                _parents = bn.parents_of(var_id);
 
             // load first condition and compute the number
             // of combinations
             for (auto &parent : _parents) {
                 // parent_states_number throws if invalid
                 // parent, hence no extra check needed
-                c.add(parent, condition_index / ncombinations % var.parents_info.num_states_of(parent));
-                ncombinations *= var.parents_info.num_states_of(parent);
+                c.add(parent, condition_index / ncombinations % bn[parent].number_of_states());
+                ncombinations *= bn[parent].number_of_states();
             }
         }
 
@@ -75,9 +76,9 @@ namespace  bn {
 
             // next condition
             std::uint64_t cum_card = 1;
-            for (auto name : _parents) {
-                c.add(name, condition_index / cum_card % var.parents_info.num_states_of(name));
-                cum_card *= var.parents_info.num_states_of(name);
+            for (auto parent : _parents) {
+                c.add(parent, condition_index / cum_card % bn[parent].number_of_states());
+                cum_card *= bn[parent].number_of_states();
             }
             return true;
         }
@@ -88,7 +89,7 @@ namespace  bn {
          * in his conditional probability table (CPT)
          * @return combinations number
          */
-        std::uint64_t number_of_combinations() const {
+        unsigned long number_of_combinations() const {
             return ncombinations;
         }
 
@@ -101,12 +102,11 @@ namespace  bn {
         }
 
     private:
-
         bn::condition c;
-        bn::random_variable<Probability> var;
-        std::vector<std::string> _parents;
-        std::uint64_t condition_index;
-        std::uint64_t ncombinations;
+        const bn::bayesian_network<Probability> &bn;
+        std::vector<unsigned long> _parents;
+        unsigned long condition_index;
+        unsigned long ncombinations;
     };
 }
 

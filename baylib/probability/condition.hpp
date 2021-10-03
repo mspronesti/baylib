@@ -45,40 +45,40 @@ namespace bn {
         }
 
         /**
-         * Add a new pair of node name + value of node
-         * @param node_name : name of node
-         * @param val       : value of node
+         * Add a new pair of id, value of node
+         * @param node_id : id of node
+         * @param val     : value of node
          */
-        void add(const std::string &node_name, state_t val) {
-            cmap[node_name] = val;
+        void add(const unsigned long node_id, state_t val) {
+            cmap[node_id] = val;
         }
 
         /**
          * Operator to retrieve the state of a given node
-         * @param node_name : node name
-         * @return          : state
+         * @param node_id : node id
+         * @return        : state
          */
-        state_t &operator[](const std::string &node_name) {
-            BAYLIB_ASSERT(contains(node_name),
+        state_t &operator[](const unsigned long node_id) {
+            BAYLIB_ASSERT(contains(node_id),
                     "condition doesn't contain node"
-                    + node_name,
+                    << node_id,
                     std::runtime_error)
 
-            return cmap[node_name];
+            return cmap[node_id];
         }
 
         /**
         * Operator to retrieve the state of a given node
-        * @param node_name : node name
-        * @return          : state
+        * @param node_id : node id
+        * @return        : state
         */
-        const state_t &operator[](const std::string &node_name) const {
-            BAYLIB_ASSERT(contains(node_name),
+        const state_t &operator[](const unsigned long node_id) const {
+            BAYLIB_ASSERT(contains(node_id),
                           "condition doesn't contain node"
-                          + node_name,
+                          << node_id,
                           std::runtime_error)
 
-            return cmap.at(node_name);
+            return cmap.at(node_id);
         }
 
         /**
@@ -98,11 +98,11 @@ namespace bn {
 
         /**
          * check if a node was set in the condition
-         * @param node_name : node name
-         * @return          : true if node_name corresponds to a set state in the condition
+         * @param node_id : node id
+         * @return  true if node_id corresponds to a set state in the condition
          */
-        bool contains(const std::string &node_name) const {
-            return cmap.find(node_name) != cmap.end();
+        bool contains(const unsigned long node_id) const {
+            return cmap.find(node_id) != cmap.end();
         }
 
         /**
@@ -184,9 +184,9 @@ namespace bn {
 
 
     private:
-        // ! key   : node name
+        // ! key   : node id
         // ! value : state value
-        std::map<std::string, state_t> cmap;
+        std::map<unsigned long, state_t> cmap;
     };
 }
 #endif //BAYLIB_CONDITION_HPP

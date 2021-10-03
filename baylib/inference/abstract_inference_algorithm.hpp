@@ -35,11 +35,11 @@ namespace bn {
              * @param nthreads : number of threads (default: 1)
              * @param seed     : custom seed for the generator (default: 0)
              */
-            explicit inference_algorithm(
-                    unsigned long nsamples,
-                    unsigned int seed = 0
-                            )
-                            : nsamples(nsamples), seed(seed) {}
+            explicit inference_algorithm (
+                unsigned long nsamples,
+                unsigned int seed = 0
+            )
+            : nsamples(nsamples), seed(seed) {}
 
             virtual ~inference_algorithm() = default;
 
@@ -51,13 +51,13 @@ namespace bn {
              * @param bn  : bayesian network
              * @return    : the marginal distributions
              */
-            virtual bn::marginal_distribution<Probability> make_inference(
+            virtual bn::marginal_distribution<Probability> make_inference (
                     const bn::bayesian_network<Probability> &bn
-                    ) = 0;
+            ) = 0;
 
-            void set_number_of_samples(unsigned long _nsamples) { nsamples = _nsamples; }
+            void set_number_of_samples (unsigned long _nsamples) { nsamples = _nsamples; }
 
-            void set_seed(unsigned int _seed) { seed = _seed; }
+            void set_seed (unsigned int _seed) { seed = _seed; }
 
         protected:
             unsigned long nsamples;
