@@ -52,7 +52,7 @@ namespace bn {
              * @return    : the marginal distributions
              */
             virtual bn::marginal_distribution<Probability> make_inference (
-                    const bn::bayesian_network<Probability> &bn
+                    const bn::bayesian_network<bn::random_variable<Probability>> &bn
             ) = 0;
 
             void set_number_of_samples (unsigned long _nsamples) { nsamples = _nsamples; }
@@ -91,18 +91,19 @@ namespace bn {
              * @param bn : bayesian network graph
              * @return   : the marginal distribution of the variables post inference
              */
+            template <typename Variable>
             bn::marginal_distribution<Probability> make_inference(
-                    const bn::bayesian_network<Probability> &bn
-            ) override
+                    const bn::bayesian_network<Variable> &bn
+            )
             {
                 typedef std::future<bn::marginal_distribution<Probability>> result;
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
-                                          [](auto &var) { return bn::cpt_filled_out(var); }),
+                                          [&bn](auto &var) { return bn::cpt_filled_out(bn, var.id()); }),
                               "conditional probability tables must be properly filled to"
                               " run gibbs sampling inference algorithm",
                               std::runtime_error)
 
-                              bn::marginal_distribution<Probability> inference_result(bn.begin(), bn.end());
+                bn::marginal_distribution<Probability> inference_result(bn.begin(), bn.end());
                 std::vector<result> results;
                 bn::seed_factory sf(nthreads, this->seed);
 

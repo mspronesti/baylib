@@ -53,14 +53,13 @@ namespace bn {
             : vectorized_inference_algorithm<Probability>(samples, memory, seed, device)
             { }
 
-
-
+            template <typename Variable>
             marginal_distribution<Probability> make_inference (
-                    const bn::bayesian_network<Probability> &bn
+                    const bn::bayesian_network<Variable> &bn
             )
             {
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
-                                          [](auto &var){ return bn::cpt_filled_out(var); }),
+                                          [&bn](auto &var){ return bn::cpt_filled_out(bn, var.id()); }),
                               "conditional probability tables must be properly filled to"
                               " run logic_sampling inference algorithm",
                               std::runtime_error);

@@ -32,13 +32,16 @@ namespace  bn{
     * Applies ranking function to the DAG representing the
     * bayesian network to get the appropriate sampling order
     *
-    * @tparam Probability: the type expressing the probability
-    * @param  bn         : bayesian network
-    * @return            : vector containing variables sorted by rank
+    * @tparam Variable : the type expressing the random variable
+    * @param  bn       : bayesian network
+    * @return          : vector containing variables sorted by rank
     */
-    template <typename Probability>
-    std::vector<bn::vertex<Probability>> sampling_order(const bn::bayesian_network<Probability> &bn){
-        using vertex_t = bn::vertex<Probability>;
+    template <typename Variable>
+    std::vector<bn::vertex<Variable>> sampling_order (
+            const bn::bayesian_network<Variable> &bn
+    )
+    {
+        using vertex_t = bn::vertex<Variable>;
         ulong nvars = bn.number_of_variables();
 
         // initially, the all have rank 0
@@ -80,25 +83,25 @@ namespace  bn{
     /**
      * Computes the Markov blanket reduction
      * given the bayesian network and a node
-     * @tparam Probability : the type expressing the probability
-     * @param bn           : bayesian network
-     * @param rv           : random variable node
-     * @return             : unordered set containing the Markov blanket
+     * @tparam Variable : the type expressing the random variable
+     * @param bn        : bayesian network
+     * @param vid       : random variable id
+     * @return          : unordered set containing the Markov blanket
      */
-    template <typename Probability>
-    std::unordered_set<bn::vertex<Probability>> markov_blanket
-     (  const bn::bayesian_network<Probability> &bn,
-        const bn::random_variable<Probability> &rv
-     ) {
-        auto rv_id = rv.id();
-        auto marblank = std::unordered_set<bn::vertex<Probability>>{};
-        for(auto & pv : bn.parents_of(rv_id))
+    template <typename Variable>
+    std::unordered_set<unsigned long> markov_blanket (
+         const bn::bayesian_network<Variable> &bn,
+         unsigned long vid
+     )
+     {
+        auto marblank = std::unordered_set<unsigned long>{};
+        for(auto & pv : bn.parents_of(vid))
             marblank.insert(pv);
 
-        for(auto & vid : bn.children_of(rv_id)){
+        for(auto & v : bn.children_of(vid)){
             marblank.insert(vid);
-            for(auto pv : bn.parents_of(vid))
-                if(vid != rv_id)
+            for(auto pv : bn.parents_of(v))
+                if(v != vid)
                     marblank.insert(pv);
         }
 
@@ -113,11 +116,14 @@ namespace  bn{
      * @param cpt_owner    : the node the cpt belongs to
      * @return             : true if filled out, false otherwise
      */
-    template <typename Probability>
-    bool cpt_filled_out(const bn::random_variable<Probability> &cpt_owner)
+    template <typename Variable>
+    bool cpt_filled_out(
+         const bn::bayesian_network<Variable> &bn,
+         const unsigned long cpt_owner
+    )
     {
-        bn::condition_factory factory(cpt_owner);
-        const auto &cpt = cpt_owner.table();
+        bn::condition_factory factory(bn, cpt_owner);
+        const auto &cpt = bn[cpt_owner].table();
 
         if(factory.number_of_combinations() != cpt.size())
             return false;
@@ -129,7 +135,7 @@ namespace  bn{
         } while(factory.has_next());
 
         for(auto & row : cpt) {
-            Probability sum = std::accumulate(row.begin(), row.end(), 0.0);
+            auto sum = std::accumulate(row.begin(), row.end(), 0.0);
             if (abs(sum - 1.0) > 1.0e-5) {
                 return false;
             }
@@ -140,13 +146,13 @@ namespace  bn{
 
     /**
      * Utility to reset all evidences in the given bayesian network
-     * @tparam Probability  : the type expressing probability
+     * @tparam Variable  : the type expressing the random variable
      * @param bn            : the Bayesian network model
      */
-    template <typename Probability>
-    void clear_network_evidences(bn::bayesian_network<Probability> &bn)
+    template <typename Variable>
+    void clear_network_evidences(bn::bayesian_network<Variable> &bn)
     {
-        std::for_each(bn.begin(), bn.end(), [](bn::random_variable<Probability> & var){
+        std::for_each(bn.begin(), bn.end(), [](auto & var){
             if(var.is_evidence())
                 var.clear_evidence();
         });
@@ -155,12 +161,12 @@ namespace  bn{
     /**
      * Utility that returns the list of nodes that are ancestors of evidence including evidences themselves,
      * the nodes are returned in topological order
-     * @tparam Probability : the type expressing probability
-     * @param bn           : the Bayesian network model
-     * @return             : vector of nodes
+     * @tparam Variable  : the type expressing the random variable
+     * @param bn         : the Bayesian network model
+     * @return           : vector of nodes
      */
-    template <typename Probability>
-    std::vector<ulong> ancestors_of_evidence(const bn::bayesian_network<Probability> &bn){
+    template <typename Variable>
+    std::vector<ulong> ancestors_of_evidence(const bn::bayesian_network<Variable> &bn){
         std::vector<bool> ancestor(bn.number_of_variables(), false);
         std::function<void(ulong)> mark_ancestors;
         mark_ancestors = [&bn, &ancestor, &mark_ancestors](ulong v_id){

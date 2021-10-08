@@ -52,7 +52,7 @@ namespace bn {
         template <typename ...A>
         vertex_id add_variable(const A &...args){
             vertex_id v = boost::add_vertex(Variable{args...}, *graph);
-            variable(v)._id = v;
+            (*graph)[v]._id = v;
             return v;
         }
 

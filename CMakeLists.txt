@@ -6,7 +6,7 @@ endif (POLICY CMP0048)
 
 project(baylib)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -14,7 +14,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(BUILD_EXAMPLES "Build the examples showing how to use baylib" OFF)
 
 # change this option to compile tests
-option(BUILD_TESTS "Build tests for baylib" OFF)
+option(BUILD_TESTS "Build tests for baylib" ON)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 

@@ -85,10 +85,17 @@ namespace bn {
              * @param bn network
              * @return marginal distribution
              */
+            template <typename Variable>
             bn::marginal_distribution<Probability> make_inference (
-                const bayesian_network<Probability> &bn
-            ) override
+                const bayesian_network<Variable> &bn
+            )
             {
+                BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
+                                          [&bn](auto &var){ return bn::cpt_filled_out(bn, var.id()); }),
+                              "conditional probability tables must be properly filled to"
+                              " run logic_sampling inference algorithm",
+                              std::runtime_error);
+
                 icpt_vector icptvec{};
                 auto result = marginal_distribution<Probability>(bn.begin(), bn.end());
                 bool evidence_found = false;
@@ -103,7 +110,6 @@ namespace bn {
                 // logic_sampling, and we can skip the learning phase
                 if(evidence_found){
                     ancestors = ancestors_of_evidence(bn);
-                    //result += learn_icpt(bn, icptvec);
                     learn_icpt(bn, icptvec);
                 }
                 result += gpu_simulation(icptvec, bn);

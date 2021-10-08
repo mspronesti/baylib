@@ -6,9 +6,6 @@
 #define BAYLIB_RANDOM_VARIABLE_HPP
 
 #include <baylib/network/bayesian_network.hpp>
-
-#include <boost/range/adaptor/map.hpp>
-#include <boost/range/algorithm/copy.hpp>
 #include <utility>
 
 //! \file random_variable.hpp
@@ -130,49 +127,6 @@ namespace  bn {
         unsigned long _state_value;
         unsigned long _id;
 
-    };
-
-    template<typename Probability>
-    class named_random_variable : public random_variable<Probability> {
-    public:
-        named_random_variable() = default;
-
-        named_random_variable (
-            std::string name,
-            const std::vector <std::string> &states
-        )
-        : random_variable<Probability>(states.size())
-        , _name(std::move(name))
-        , _states(states)
-        { }
-
-        /**
-        * @return vector of state names
-        */
-        std::vector <std::string> states() const {
-            return _states;
-        }
-
-        /**
-        * Verify if a specific state is a possible realization of the variable
-        * @param state_name : name of the state
-        * @return           : true if state_name is a state of var
-        */
-        bool has_state(const std::string &state_name) const {
-            return std::any_of(_states.begin(), _states.end(),
-                               [state_name](const std::string& state) { return state_name == state; });
-        }
-
-        /**
-        * @return name of variable
-        */
-        std::string name() const {
-            return _name;
-        }
-
-    private:
-        std::string _name;
-        std::vector <std::string> _states;
     };
 } // namespace bn
 

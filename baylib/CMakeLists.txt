@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
@@ -42,7 +42,6 @@ set (src
     network/bayesian_network.hpp
     network/bayesian_utils.hpp
     network/random_variable.hpp
-    parser/xdsl_parser.hpp
     probability/condition.hpp
     probability/condition_factory.hpp
     probability/cpt.hpp
@@ -52,8 +51,9 @@ set (src
     tools/cow/shared_ptr.hpp
     tools/gpu/gpu_utils.hpp
     tools/random/random_generator.hpp
+    smile_utils/smile_utils.hpp
     baylib_assert.h
-)
+  )
 
 set (BAYLIB_INCLUDE_LIBS ../baylib)
 
@@ -62,7 +62,7 @@ if(NOT TARGET baylib)
 endif()
 
 set_target_properties(baylib PROPERTIES LINKER_LANGUAGE CXX)
-target_compile_options(baylib PUBLIC "-std=c++17")
+target_compile_options(baylib PUBLIC "-std=c++2a")
 
 target_include_directories(baylib
         INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
