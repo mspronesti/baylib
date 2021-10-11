@@ -78,10 +78,10 @@ namespace bn {
                         std::vector<bcvec*> parents_result;
 
                         // Build parents result vector in the correct order
-                        auto parents = bn[v].parents_info.names();
+                        auto parents = bn.parents_of(v);
                         std::reverse(parents.begin(), parents.end());
                         for (auto p : parents) {
-                            parents_result.push_back(&result_container[bn.index_of(p)]);
+                            parents_result.push_back(&result_container[p]);
                         }
 
                         result_container[v] = this->simulate_node(bn[v].table(), parents_result, iter_samples);

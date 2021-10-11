@@ -184,7 +184,7 @@ namespace bn{
 
 
         protected:
-            friend class bn::bayesian_network<Probability>;
+            template <typename Variable> friend class bayesian_network;
             bn::cow::shared_ptr<CPTData<Probability>> d;
             // assigns a condition its index in the cpt
             // ! key   : condition

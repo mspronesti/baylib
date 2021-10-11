@@ -26,7 +26,7 @@ namespace bn {
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template<typename Probability = double, typename Generator = std::mt19937>
-        class likelihood_weighting : public parallel_inference_algorithm<Probability>
+        class likelihood_weighting : public parallel_inference_algorithm<Probability, likelihood_weighting<Probability, Generator>>
         {
             typedef std::vector<ulong> pattern_t;
         public:
@@ -35,15 +35,15 @@ namespace bn {
                     uint nthreads = 1,
                     uint seed = 0
             )
-            : parallel_inference_algorithm<Probability>(nsamples, nthreads, seed)
+            : parallel_inference_algorithm<Probability, likelihood_weighting<Probability, Generator>>(nsamples, nthreads, seed)
             { };
 
-        private:
+            template<class Variable>
             bn::marginal_distribution<Probability> sample_step(
-                 const bn::bayesian_network<Probability> &bn,
+                 const bn::bayesian_network<Variable> &bn,
                  ulong nsamples,
                  uint seed
-            ) override
+            )
             {
                 bn::marginal_distribution<Probability> mdistr(bn.begin(), bn.end());
                 bn::random_generator<Probability, Generator> rnd_gen(seed);
@@ -59,9 +59,10 @@ namespace bn {
                 return mdistr;
             }
 
-
+        private:
+            template<class Variable>
             std::pair<pattern_t , Probability> weighted_sample(
-                const  bn::bayesian_network<Probability> &bn,
+                const  bn::bayesian_network<Variable> &bn,
                 bn::random_generator<Probability> & rnd_gen
             )
             {
@@ -76,7 +77,7 @@ namespace bn {
 
                     for(auto par : bn.parents_of(vid))
                         parent_state.add(
-                                bn[par].name(),
+                                par,
                                 pattern[par]
                         );
 

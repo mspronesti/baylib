@@ -31,23 +31,22 @@ namespace bn {
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template <typename Probability = double, typename Generator=std::mt19937>
-        class gibbs_sampling : public parallel_inference_algorithm<Probability>{
+        class gibbs_sampling : public parallel_inference_algorithm<Probability, gibbs_sampling<Probability, Generator>>{
         public:
             explicit gibbs_sampling (
                     ulong nsamples,
                     uint nthreads = 1,
                     uint seed = 0
             )
-            : parallel_inference_algorithm<Probability>(nsamples, nthreads, seed)
+            : parallel_inference_algorithm<Probability, gibbs_sampling<Probability, Generator>>(nsamples, nthreads, seed)
             { }
 
-        private:
-
+            template<class Variable>
             bn::marginal_distribution<Probability> sample_step (
-                    const bn::bayesian_network<Probability> & bn,
+                    const bn::bayesian_network<Variable> & bn,
                     unsigned long nsamples, // the number of samples of each thread
                     unsigned int seed
-            ) override
+            )
             {
                 ulong nvars = bn.number_of_variables();
                 // contains, for each variable, the current state value
@@ -66,6 +65,7 @@ namespace bn {
                 return marginal_distr;
             }
 
+        private:
             /**
              * Samples a single variable usign the Gibbs sampling
              * algorithm
@@ -75,8 +75,9 @@ namespace bn {
              * @param rnd_gen  : the random generator with the given seed
              * @return sampled state
              */
+            template<class Variable>
             ulong sample_single_variable(
-                const bn::bayesian_network<Probability> &bn,
+                const bn::bayesian_network<Variable> &bn,
                 const unsigned long n,
                 std::vector<bn::state_t> &var_state_values,
                 bn::random_generator<Probability, Generator> &rnd_gen
@@ -128,8 +129,9 @@ namespace bn {
             * @param n : numerical identifier of node
             * @return  : Probability of the current realization of n
             */
+            template<class Variable>
             Probability get_probability (
-                const bn::bayesian_network<Probability> &bn,
+                const bn::bayesian_network<Variable> &bn,
                 const unsigned long n,
                 const std::vector<bn::state_t> &var_state_values
             )
@@ -139,7 +141,7 @@ namespace bn {
                 // their states
                 for(auto & p : bn.parents_of(n))
                     c.add(
-                            bn[p].name(),
+                            p,
                             var_state_values[p]
                     );
 

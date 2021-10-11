@@ -292,7 +292,7 @@ namespace bn {
             if(cpt_hash_map.find(seed) != cpt_hash_map.end()){
                 auto var = variable(cpt_hash_map[seed]);
                 if(var._id != id && var.cpt == variable(id).cpt){
-                    variable(id).cpt.d = var.cpt.d;
+                    //variable(id).cpt.d = var.cpt.d;
                     return;
                 }
             }

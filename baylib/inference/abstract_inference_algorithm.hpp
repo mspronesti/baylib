@@ -24,7 +24,7 @@ namespace bn {
         * networks
         * @tparam Probability
         */
-        template<typename Probability>
+        template<typename Probability, typename Algorithm>
         class inference_algorithm {
         public:
             /**
@@ -51,9 +51,12 @@ namespace bn {
              * @param bn  : bayesian network
              * @return    : the marginal distributions
              */
-            virtual bn::marginal_distribution<Probability> make_inference (
-                    const bn::bayesian_network<bn::random_variable<Probability>> &bn
-            ) = 0;
+            template<class Variable>
+            bn::marginal_distribution<Probability> make_inference (
+                    const bn::bayesian_network<Variable> &bn
+            ){
+                return static_cast<Algorithm*>(this)->make_inference(bn);
+            };
 
             void set_number_of_samples (unsigned long _nsamples) { nsamples = _nsamples; }
 
@@ -71,15 +74,15 @@ namespace bn {
          * the sampling work over the number of threads and merging the results
          * @tparam Probability  : the type expressing probability
          */
-        template<typename Probability>
-        class parallel_inference_algorithm : public inference_algorithm<Probability> {
+        template<typename Probability, typename Algorithm>
+        class parallel_inference_algorithm : public inference_algorithm<Probability, parallel_inference_algorithm<Probability, Algorithm>> {
         public:
             explicit parallel_inference_algorithm(
                     unsigned long nsamples,
                     unsigned int nthreads = 1,
                     unsigned int seed = 0
             )
-            : inference_algorithm<Probability>(nsamples, seed)
+            : inference_algorithm<Probability, parallel_inference_algorithm<Probability, Algorithm>>(nsamples, seed)
             {
                 set_number_of_threads(nthreads);
             }
@@ -108,7 +111,7 @@ namespace bn {
                 bn::seed_factory sf(nthreads, this->seed);
 
                 auto job = [this, &bn](ulong samples_per_thread, uint seed) {
-                    return sample_step(bn, samples_per_thread, seed);
+                    return static_cast<Algorithm*>(this)->sample_step(bn, samples_per_thread, seed);
                 };
 
                 ulong samples_per_thread = this->nsamples / nthreads;
@@ -136,11 +139,13 @@ namespace bn {
             }
 
         protected:
+            /*
             virtual bn::marginal_distribution<Probability> sample_step(
                     const bn::bayesian_network<Probability> &bn,
                     unsigned long nsamples_per_step,
                     unsigned int seed
             ) = 0;
+            */
 
             unsigned int nthreads;
         };
@@ -157,14 +162,14 @@ namespace bn {
          * @tparam Probability  : the type expressing probability
          */
         template<typename Probability>
-        class vectorized_inference_algorithm : public inference_algorithm<Probability> {
+        class vectorized_inference_algorithm : public inference_algorithm<Probability, vectorized_inference_algorithm<Probability>> {
         public:
             vectorized_inference_algorithm(
                     ulong n_samples, size_t memory,
                     uint seed = 0,
                     const compute::device &device = compute::system::default_device()
             )
-            : inference_algorithm<Probability>(n_samples, seed)
+            : inference_algorithm<Probability, vectorized_inference_algorithm<Probability>>(n_samples, seed)
             , memory(memory)
             , device(device)
             , context(device)
@@ -187,7 +192,8 @@ namespace bn {
              * @param bn network
              * @return pair<number of samples per iteration, number of iteration>
              */
-            std::pair<ulong, ulong> calculate_iterations(const bayesian_network<Probability> &bn)
+            template<class Variable>
+            std::pair<ulong, ulong> calculate_iterations(const bayesian_network<Variable> &bn)
             {
                 ulong sample_p = this->memory / (bn.number_of_variables() * sizeof(Probability) + 3 * sizeof(cl_ushort)) * MEMORY_SLACK;
                 if(sample_p < this->nsamples)

@@ -119,7 +119,7 @@ namespace  bn {
             return _state_value;
         }
 
-    private:
+    protected:
         template <typename Variable> friend class bayesian_network;
 
         bn::cow::cpt<Probability> cpt;

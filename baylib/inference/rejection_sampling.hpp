@@ -29,23 +29,24 @@ namespace bn{
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template<typename Probability = double, typename Generator = std::mt19937>
-        class rejection_sampling : public parallel_inference_algorithm<Probability> {
+        class rejection_sampling : public parallel_inference_algorithm<Probability, rejection_sampling<Probability, Generator>> {
         public:
             explicit rejection_sampling(
                     ulong nsamples,
                     uint nthreads = 1,
                     uint seed = 0
             )
-            : parallel_inference_algorithm<Probability>(nsamples, nthreads, seed)
+            : parallel_inference_algorithm<Probability, rejection_sampling<Probability, Generator>>(nsamples, nthreads, seed)
             { };
 
 
-        private:
+        public:
+            template<class Variable>
             bn::marginal_distribution<Probability> sample_step (
-                const bn::bayesian_network<Probability> & bn,
+                const bn::bayesian_network<Variable> & bn,
                 ulong nsamples,
                 uint seed
-            ) override
+            )
             {
                 std::vector<bn::state_t> var_state_values;
                 Generator rnd_gen(seed);
@@ -82,10 +83,11 @@ namespace bn{
                 return marginal_distr;
             }
 
-
+        private:
+            template<class Variable>
             bn::state_t prior_sample(
                   unsigned long n,
-                  const bn::bayesian_network<Probability> &bn,
+                  const bn::bayesian_network<Variable> &bn,
                   const std::vector<bn::state_t> &var_state_values,
                   Generator &gen
             )
@@ -95,7 +97,7 @@ namespace bn{
                 // their states
                 for(auto & p : bn.parents_of(n))
                     c.add(
-                        bn[p].name(),
+                        p,
                         var_state_values[p]
                     );
 

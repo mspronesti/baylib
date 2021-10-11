@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <baylib/parser/xdsl_parser.hpp>
+#include <baylib/smile_utils/smile_utils.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
 #include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>

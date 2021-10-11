@@ -140,9 +140,10 @@ namespace bn {
              * @param icptvec the icpts that will be used and returned by reference
              * @return partial results made from the simulations of the icpts
              */
-            //marginal_distribution<Probability> learn_icpt(
+
+            template<class Variable>
             void learn_icpt(
-                const bn::bayesian_network<Probability> &bn,
+                const bn::bayesian_network<Variable> &bn,
                 icpt_vector & icptvec
             )
             {
@@ -191,7 +192,7 @@ namespace bn {
                                         bn::condition parents_state_cond;
                                         for (auto par : bn.parents_of(v))
                                             parents_state_cond.add(
-                                                    bn[par].name(),
+                                                    par,
                                                     local_result[par]
                                                     );
                                         weight = icptvec[v][parents_state_cond];
@@ -213,9 +214,10 @@ namespace bn {
              * @param learning_rate learning rate used for updating icpts
              * @return maximum distance that was recorded between pairs of old icpts and new icpts
              */
+            template<class Variable>
             double absorb_samples(
                 const simulation_matrix & graph_state,
-                const bn::bayesian_network<Probability> & bn,
+                const bn::bayesian_network<Variable> & bn,
                 icpt_vector & icptvec,
                 double learning_rate
             )
@@ -240,7 +242,7 @@ namespace bn {
                                     auto& sample_state = graph_state[ix][v_id];
 
                                     for(auto p_id : bn.parents_of(v_id))
-                                        cond.add(bn[p_id].name(), graph_state[ix][p_id]);
+                                        cond.add(p_id, graph_state[ix][p_id]);
                                     if(bn[v_id].is_evidence()){
                                         weight *= cpt[cond][bn[v_id].evidence_state()];
                                     }else{
@@ -266,7 +268,7 @@ namespace bn {
                                         condition cond;
                                         auto sample = graph_state[i][v_id];
                                         for(auto p_id : bn.parents_of(v_id))
-                                            cond.add(bn[p_id].name(), graph_state[i][p_id]);
+                                            cond.add(p_id, graph_state[i][p_id]);
                                         temp_icpt[cond][sample] += sample_weight[i];
                                     }
                                     temp_icpt.normalize();
@@ -284,9 +286,10 @@ namespace bn {
              * @param bn network
              * @return compressed results of the simulation
              */
+            template<class Variable>
             marginal_distribution<Probability> gpu_simulation(
                     const icpt_vector& icpt_vec,
-                    const bayesian_network<Probability>& bn
+                    const bayesian_network<Variable>& bn
             )
             {
                 int niter = 1;
@@ -303,10 +306,10 @@ namespace bn {
                         }
                         else{
                             std::vector<bcvec*> parents_result;
-                            auto parents = bn[v].parents_info.names();
+                            auto parents = bn.parents_of(v);
                             std::reverse(parents.begin(), parents.end());
                             for (auto p : parents) {
-                                parents_result.push_back(&result_container[bn.index_of(p)]);
+                                parents_result.push_back(&result_container[p]);
                             }
 
                             result_container[v] = this->simulate_node(icpt_vec[v] , parents_result, gpu_samples);

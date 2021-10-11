@@ -114,6 +114,7 @@ namespace bn {
             doc->parse<0>(&content[0]);
             xml_node<> *pRoot = doc->first_node();
             xml_node<> *pNodes = pRoot->first_node("nodes");
+            std::map<std::string, ulong> name_map{};
 
             //reading all variables in file
             for (xml_node<> *pNode = pNodes->first_node("cpt"); pNode; pNode = pNode->next_sibling()) {
@@ -149,18 +150,22 @@ namespace bn {
                 }
 
                 // Build the bayesian_network
-                bn.add_variable(varname, state_names);
-                for (auto parent: parents)
-                    bn.add_dependency(parent, varname);
+                ulong var_id = bn.add_variable(varname, state_names);
+                name_map[varname] = var_id;
+                std::vector<ulong> parents_id{};
+                for (const auto& parent: parents){
+                    bn.add_dependency(name_map[parent], var_id);
+                    parents_id.emplace_back(name_map[parent]);
+                }
 
                 // fill CPTs
-                std::reverse(parents.begin(), parents.end());
-                bn::condition_factory cf(bn[varname], parents);
+                std::reverse(parents_id.begin(), parents_id.end());
+                bn::condition_factory cf(bn, var_id, parents_id);
                 unsigned int i = 0;
                 do {
                     auto cond = cf.get();
                     for (int j = 0; j < state_names.size(); j++)
-                        bn.set_variable_probability(varname, j, cond, probDistribution[i * state_names.size() + j]);
+                        bn.set_variable_probability(var_id, j, cond, probDistribution[i * state_names.size() + j]);
                     ++i;
                 } while (cf.has_next());
 
