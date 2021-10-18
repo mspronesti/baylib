@@ -18,10 +18,10 @@
 \DoxyCodeLine{16 }
 \DoxyCodeLine{17 \textcolor{keyword}{namespace  }\mbox{\hyperlink{namespacebn}{bn}} \{}
 \DoxyCodeLine{18     \textcolor{comment}{// forward declaration}}
-\DoxyCodeLine{19     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
+\DoxyCodeLine{19     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability_>}
 \DoxyCodeLine{20     \textcolor{keyword}{class }bayesian\_network;}
 \DoxyCodeLine{21 }
-\DoxyCodeLine{22     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
+\DoxyCodeLine{22     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability_>}
 \DoxyCodeLine{23     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1random__variable}{random\_variable}} \{}
 \DoxyCodeLine{24     \textcolor{keyword}{public}:}
 \DoxyCodeLine{25 }
@@ -46,7 +46,7 @@
 \DoxyCodeLine{60         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1random__variable_abdba1b159448915558a666cc395efc04}{set\_probability}}(}
 \DoxyCodeLine{61             bn::state\_t state\_value,}
 \DoxyCodeLine{62             \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond,}
-\DoxyCodeLine{63             Probability p}
+\DoxyCodeLine{63             Probability_ p}
 \DoxyCodeLine{64         )}
 \DoxyCodeLine{65         \{}
 \DoxyCodeLine{66             cpt.set\_probability(cond, state\_value, p);}
@@ -60,11 +60,11 @@
 \DoxyCodeLine{80             \textcolor{keywordflow}{return} \_states;}
 \DoxyCodeLine{81         \}}
 \DoxyCodeLine{82 }
-\DoxyCodeLine{86         \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt<Probability>}} \&\mbox{\hyperlink{classbn_1_1random__variable_a51961c59bb1c2054bac08a8e95f31d22}{table}}() \{}
+\DoxyCodeLine{86         \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt<Probability_>}} \&\mbox{\hyperlink{classbn_1_1random__variable_a51961c59bb1c2054bac08a8e95f31d22}{table}}() \{}
 \DoxyCodeLine{87             \textcolor{keywordflow}{return} cpt;}
 \DoxyCodeLine{88         \}}
 \DoxyCodeLine{89 }
-\DoxyCodeLine{93         \textcolor{keyword}{const}  \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt<Probability>}} \&\mbox{\hyperlink{classbn_1_1random__variable_a44c3b9899e0eba62cc7cfc69bffdfb56}{table}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{93         \textcolor{keyword}{const}  \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt<Probability_>}} \&\mbox{\hyperlink{classbn_1_1random__variable_a44c3b9899e0eba62cc7cfc69bffdfb56}{table}}()\textcolor{keyword}{ const }\{}
 \DoxyCodeLine{94             \textcolor{keywordflow}{return} cpt;}
 \DoxyCodeLine{95         \}}
 \DoxyCodeLine{96 }
@@ -133,10 +133,10 @@
 \DoxyCodeLine{201         parents\_info\_t parents\_info;}
 \DoxyCodeLine{202     \textcolor{keyword}{private}:}
 \DoxyCodeLine{203 }
-\DoxyCodeLine{204         \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network}}<Probability>;}
+\DoxyCodeLine{204         \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network}}<Probability_>;}
 \DoxyCodeLine{205 }
 \DoxyCodeLine{206         std::string \_name;}
-\DoxyCodeLine{207         \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt<Probability>}} cpt;}
+\DoxyCodeLine{207         \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt<Probability_>}} cpt;}
 \DoxyCodeLine{208         std::vector <std::string> \_states;}
 \DoxyCodeLine{209         \textcolor{keywordtype}{bool} \_is\_evidence\{\};}
 \DoxyCodeLine{210         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \_state\_value;}

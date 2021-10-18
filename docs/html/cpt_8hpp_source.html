@@ -86,27 +86,27 @@ $(function() {
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;<a class="code" href="shared__ptr_8hpp.html">baylib/tools/cow/shared_ptr.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacebn.html">bn</a>{</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Probability&gt;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Probability_&gt;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keyword">class </span>bayesian_network;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">namespace </span>cow {</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Probability&gt;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Probability_&gt;</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="structbn_1_1cow_1_1CPTData.html">   36</a></span>        <span class="keyword">struct </span><a class="code hl_struct" href="structbn_1_1cow_1_1CPTData.html">CPTData</a> : <span class="keyword">public</span> <a class="code hl_class" href="classbn_1_1cow_1_1shared__data.html">bn::cow::shared_data</a> {</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structbn_1_1cow_1_1CPTData.html#a07909e5a39e8a3ace7a56b5368adcc12">   46</a></span>            std::vector&lt;std::vector&lt;Probability&gt;&gt; <a class="code hl_variable" href="structbn_1_1cow_1_1CPTData.html#a07909e5a39e8a3ace7a56b5368adcc12">table</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structbn_1_1cow_1_1CPTData.html#a07909e5a39e8a3ace7a56b5368adcc12">   46</a></span>            std::vector&lt;std::vector&lt;Probability_&gt;&gt; <a class="code hl_variable" href="structbn_1_1cow_1_1CPTData.html#a07909e5a39e8a3ace7a56b5368adcc12">table</a>;</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> nstates{};</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        };</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Probability&gt;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Probability_&gt;</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classbn_1_1cow_1_1cpt.html">   51</a></span>        <span class="keyword">class </span><a class="code hl_class" href="classbn_1_1cow_1_1cpt.html">cpt</a> {</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="classbn_1_1cow_1_1cpt.html#af2bffc33e0e9298d23b636ccb58aa0ad">   70</a></span>            <span class="keyword">explicit</span> <a class="code hl_function" href="classbn_1_1cow_1_1cpt.html#af2bffc33e0e9298d23b636ccb58aa0ad">cpt</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> nstates = 2) {</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                d = <span class="keyword">new</span> <a class="code hl_struct" href="structbn_1_1cow_1_1CPTData.html">CPTData&lt;Probability&gt;</a>();</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                d = <span class="keyword">new</span> <a class="code hl_struct" href="structbn_1_1cow_1_1CPTData.html">CPTData&lt;Probability_&gt;</a>();</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                d-&gt;nstates = nstates;</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            }</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordtype">void</span> set_probability(</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                    <span class="keyword">const</span> <a class="code hl_class" href="classbn_1_1condition.html">bn::condition</a> &amp;cond,</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                    bn::state_t state_val,</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                    Probability p</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                    Probability_ p</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            ) {</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>                BAYLIB_ASSERT(state_val &lt; d-&gt;nstates,</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                              <span class="stringliteral">&quot;invalid state value&quot;</span></div>
@@ -127,7 +127,7 @@ $(function() {
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                }</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            }</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keyword">const</span> std::vector&lt;Probability&gt; &amp;operator[] (<span class="keyword">const</span> <a class="code hl_class" href="classbn_1_1condition.html">bn::condition</a> &amp;cond)<span class="keyword"> const</span>{</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keyword">const</span> std::vector&lt;Probability_&gt; &amp;operator[] (<span class="keyword">const</span> <a class="code hl_class" href="classbn_1_1condition.html">bn::condition</a> &amp;cond)<span class="keyword"> const</span>{</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                BAYLIB_ASSERT(has_entry_for(cond),</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                              <span class="stringliteral">&quot;bad condition value&quot;</span>,</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                              std::out_of_range)</div>
@@ -136,7 +136,7 @@ $(function() {
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            }</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <span class="keyword">const</span> std::vector&lt;Probability&gt;  &amp;at(<span class="keyword">const</span> <a class="code hl_class" href="classbn_1_1condition.html">bn::condition</a> &amp;cond)<span class="keyword"> const</span>{</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <span class="keyword">const</span> std::vector&lt;Probability_&gt;  &amp;at(<span class="keyword">const</span> <a class="code hl_class" href="classbn_1_1condition.html">bn::condition</a> &amp;cond)<span class="keyword"> const</span>{</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                BAYLIB_ASSERT(has_entry_for(cond),</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                              <span class="stringliteral">&quot;bad condition value&quot;</span>,</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                              std::out_of_range)</div>
@@ -153,7 +153,7 @@ $(function() {
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                <span class="keywordflow">return</span> cond_map.find(c) != cond_map.end();</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>            }</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <span class="keywordtype">bool</span> operator == (<span class="keyword">const</span> cpt&lt;Probability&gt; &amp;c)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <span class="keywordtype">bool</span> operator == (<span class="keyword">const</span> cpt&lt;Probability_&gt; &amp;c)<span class="keyword"> const </span>{</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                <span class="keywordflow">return</span> d-&gt;table == c.d-&gt;table;</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            }</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
@@ -161,8 +161,8 @@ $(function() {
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                <span class="keywordflow">return</span> d-&gt;table.size();</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            }</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            std::vector&lt;Probability&gt; flat()<span class="keyword"> const</span>{</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                <span class="keyword">auto</span> flat_cpt = std::vector&lt;Probability&gt;{};</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            std::vector&lt;Probability_&gt; flat()<span class="keyword"> const</span>{</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                <span class="keyword">auto</span> flat_cpt = std::vector&lt;Probability_&gt;{};</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                flat_cpt.reserve(d-&gt;table.size() * d-&gt;nstates);</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                <span class="keywordflow">for</span>(<span class="keyword">auto</span> &amp;[cond, cond_id] : cond_map) {</div>
@@ -198,11 +198,11 @@ $(function() {
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>                    <span class="keywordflow">for</span>(<span class="keyword">auto</span> el: col){</div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                        <span class="keyword">auto</span> <span class="keyword">const</span> * p = <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <span class="keyword">const </span>*<span class="keyword">&gt;</span>(&amp;el) ;</div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                        <span class="keywordtype">int</span> n = 1;</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; <span class="keyword">sizeof</span>(Probability) - 1; i++){</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; <span class="keyword">sizeof</span>(Probability_) - 1; i++){</div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                            <span class="keywordflow">if</span>(*(<span class="keywordtype">char</span> *)&amp;n == 1)</div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>                                boost::hash_combine(seed, p[i]);</div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>                            <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>                                boost::hash_combine(seed, p[<span class="keyword">sizeof</span>(Probability) - 1 - i]);</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>                                boost::hash_combine(seed, p[<span class="keyword">sizeof</span>(Probability_) - 1 - i]);</div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>                        }</div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>                    }</div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>                }</div>
@@ -215,8 +215,8 @@ $(function() {
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
 <div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        <span class="keyword">protected</span>:</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt;Probability&gt;;</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>            <a class="code hl_class" href="classbn_1_1cow_1_1shared__ptr.html">bn::cow::shared_ptr&lt;CPTData&lt;Probability&gt;</a>&gt; d;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt;Probability_&gt;;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>            <a class="code hl_class" href="classbn_1_1cow_1_1shared__ptr.html">bn::cow::shared_ptr&lt;CPTData&lt;Probability_&gt;</a>&gt; d;</div>
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            <span class="comment">// assigns a condition its index in the cpt</span></div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            <span class="comment">// ! key   : condition</span></div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>            <span class="comment">// ! value : row index</span></div>
@@ -239,7 +239,7 @@ $(function() {
 <div class="ttc" id="ashared__data_8hpp_html"><div class="ttname"><a href="shared__data_8hpp.html">shared_data.hpp</a></div><div class="ttdoc">implementation of qshareddata.h from Qt library</div></div>
 <div class="ttc" id="ashared__ptr_8hpp_html"><div class="ttname"><a href="shared__ptr_8hpp.html">shared_ptr.hpp</a></div><div class="ttdoc">implementation of qshareddata.h from Qt library</div></div>
 <div class="ttc" id="astructbn_1_1cow_1_1CPTData_html"><div class="ttname"><a href="structbn_1_1cow_1_1CPTData.html">bn::cow::CPTData</a></div><div class="ttdef"><b>Definition:</b> cpt.hpp:36</div></div>
-<div class="ttc" id="astructbn_1_1cow_1_1CPTData_html_a07909e5a39e8a3ace7a56b5368adcc12"><div class="ttname"><a href="structbn_1_1cow_1_1CPTData.html#a07909e5a39e8a3ace7a56b5368adcc12">bn::cow::CPTData::table</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; Probability &gt; &gt; table</div><div class="ttdef"><b>Definition:</b> cpt.hpp:46</div></div>
+<div class="ttc" id="astructbn_1_1cow_1_1CPTData_html_a07909e5a39e8a3ace7a56b5368adcc12"><div class="ttname"><a href="structbn_1_1cow_1_1CPTData.html#a07909e5a39e8a3ace7a56b5368adcc12">bn::cow::CPTData::table</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; Probability_ &gt; &gt; table</div><div class="ttdef"><b>Definition:</b> cpt.hpp:46</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

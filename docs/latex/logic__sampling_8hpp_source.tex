@@ -27,9 +27,9 @@
 \DoxyCodeLine{25         \textcolor{keyword}{using} boost::compute::lambda::\_2;}
 \DoxyCodeLine{26 }
 \DoxyCodeLine{27 }
-\DoxyCodeLine{42         \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability>}
-\DoxyCodeLine{43         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling}{logic\_sampling}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Probability>\{}
-\DoxyCodeLine{44             \textcolor{keyword}{using} prob\_v = boost::compute::vector<Probability>;}
+\DoxyCodeLine{42         \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability_>}
+\DoxyCodeLine{43         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling}{logic\_sampling}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Probability_>\{}
+\DoxyCodeLine{44             \textcolor{keyword}{using} prob\_v = boost::compute::vector<Probability_>;}
 \DoxyCodeLine{45         \textcolor{keyword}{public}:}
 \DoxyCodeLine{46 }
 \DoxyCodeLine{47             \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling}{logic\_sampling}}(}
@@ -38,13 +38,13 @@
 \DoxyCodeLine{50                     uint seed = 0,}
 \DoxyCodeLine{51                     \textcolor{keyword}{const} compute::device \&device = compute::system::default\_device()}
 \DoxyCodeLine{52             )}
-\DoxyCodeLine{53             : \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm<Probability>}}(samples, memory, seed, device)}
+\DoxyCodeLine{53             : \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm<Probability_>}}(samples, memory, seed, device)}
 \DoxyCodeLine{54             \{ \}}
 \DoxyCodeLine{55 }
 \DoxyCodeLine{56 }
 \DoxyCodeLine{57 }
-\DoxyCodeLine{58             \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability>}} \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling_a54b21ea8cc491b377366b08003985867}{make\_inference}} (}
-\DoxyCodeLine{59                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}}}
+\DoxyCodeLine{58             \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability_>}} \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling_a54b21ea8cc491b377366b08003985867}{make\_inference}} (}
+\DoxyCodeLine{59                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \&\mbox{\hyperlink{namespacebn}{bn}}}
 \DoxyCodeLine{60             )}
 \DoxyCodeLine{61             \{}
 \DoxyCodeLine{62                 BAYLIB\_ASSERT(std::all\_of(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end(),}
@@ -55,11 +55,11 @@
 \DoxyCodeLine{67 }
 \DoxyCodeLine{68                 \textcolor{keyword}{auto} [iter\_samples, niter] = this-\/>\mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm_a668209d974d4e5ec5eb96566bd64d27f}{calculate\_iterations}}(bn);}
 \DoxyCodeLine{69                 \textcolor{keyword}{auto} vertex\_queue = \mbox{\hyperlink{namespacebn_a3d7493f846b1dc83dfff870d49bc558e}{bn::sampling\_order}}(\mbox{\hyperlink{namespacebn}{bn}});}
-\DoxyCodeLine{70                 \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability>}} marginal\_result(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
+\DoxyCodeLine{70                 \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability_>}} marginal\_result(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
 \DoxyCodeLine{71                 \textcolor{keywordflow}{for} (ulong i = 0; i< niter; i++) \{}
 \DoxyCodeLine{72 }
 \DoxyCodeLine{73                     std::vector<bcvec> result\_container(vertex\_queue.size());}
-\DoxyCodeLine{74                     \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability>}} temp(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
+\DoxyCodeLine{74                     \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability_>}} temp(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
 \DoxyCodeLine{75                     compute::vector<int> valid\_evidence\_vec(this-\/>nsamples, \textcolor{keyword}{true}, this-\/>queue);}
 \DoxyCodeLine{76 }
 \DoxyCodeLine{77                     \textcolor{keywordflow}{for}(ulong v : vertex\_queue) \{}

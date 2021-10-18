@@ -13,11 +13,11 @@
 \DoxyCodeLine{9 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{condition_8hpp}{baylib/probability/condition.hpp}}>}}
 \DoxyCodeLine{10 }
 \DoxyCodeLine{17 \textcolor{keyword}{namespace  }\mbox{\hyperlink{namespacebn}{bn}} \{}
-\DoxyCodeLine{18     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
+\DoxyCodeLine{18     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability_>}
 \DoxyCodeLine{19     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1condition__factory}{condition\_factory}} \{}
 \DoxyCodeLine{26     \textcolor{keyword}{public}:}
 \DoxyCodeLine{36         \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1condition__factory_ae899f6a4b47777c4a9a32cb0db2e3bca}{condition\_factory}}(}
-\DoxyCodeLine{37              \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability>}} \&rv,}
+\DoxyCodeLine{37              \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability_>}} \&rv,}
 \DoxyCodeLine{38              \textcolor{keyword}{const} std::vector<std::string>\& parents = \{\}}
 \DoxyCodeLine{39         )}
 \DoxyCodeLine{40         : var(rv)}
@@ -62,7 +62,7 @@
 \DoxyCodeLine{103     \textcolor{keyword}{private}:}
 \DoxyCodeLine{104 }
 \DoxyCodeLine{105         \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} c;}
-\DoxyCodeLine{106         \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability>}} var;}
+\DoxyCodeLine{106         \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability_>}} var;}
 \DoxyCodeLine{107         std::vector<std::string> \_parents;}
 \DoxyCodeLine{108         std::uint64\_t condition\_index;}
 \DoxyCodeLine{109         std::uint64\_t ncombinations;}

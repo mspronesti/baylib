@@ -18,21 +18,21 @@
 \DoxyCodeLine{16 }
 \DoxyCodeLine{17 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
 \DoxyCodeLine{18     \textcolor{keyword}{namespace }inference \{}
-\DoxyCodeLine{33         \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability = \textcolor{keywordtype}{double}, \textcolor{keyword}{typename} Generator=std::mt19937>}
-\DoxyCodeLine{34         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling}{gibbs\_sampling}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm}}<Probability>\{}
+\DoxyCodeLine{33         \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability_ = \textcolor{keywordtype}{double}, \textcolor{keyword}{typename} Generator_=std::mt19937>}
+\DoxyCodeLine{34         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling}{gibbs\_sampling}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm}}<Probability_>\{}
 \DoxyCodeLine{35         \textcolor{keyword}{public}:}
 \DoxyCodeLine{36             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling}{gibbs\_sampling}} (}
 \DoxyCodeLine{37                     ulong nsamples,}
 \DoxyCodeLine{38                     uint nthreads = 1,}
 \DoxyCodeLine{39                     uint seed = 0}
 \DoxyCodeLine{40             )}
-\DoxyCodeLine{41             : \mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm<Probability>}}(nsamples, nthreads, seed)}
+\DoxyCodeLine{41             : \mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm<Probability_>}}(nsamples, nthreads, seed)}
 \DoxyCodeLine{42             \{ \}}
 \DoxyCodeLine{43 }
 \DoxyCodeLine{44         \textcolor{keyword}{private}:}
 \DoxyCodeLine{45 }
-\DoxyCodeLine{46             \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} sample\_step (}
-\DoxyCodeLine{47                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \& \mbox{\hyperlink{namespacebn}{bn}},}
+\DoxyCodeLine{46             \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability_>}} sample\_step (}
+\DoxyCodeLine{47                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \& \mbox{\hyperlink{namespacebn}{bn}},}
 \DoxyCodeLine{48                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples, \textcolor{comment}{// the number of samples of each thread}}
 \DoxyCodeLine{49                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} seed}
 \DoxyCodeLine{50             )\textcolor{keyword}{ override}}
@@ -41,8 +41,8 @@
 \DoxyCodeLine{53                 \textcolor{comment}{// contains, for each variable, the current state value}}
 \DoxyCodeLine{54                 \textcolor{keyword}{auto} var\_state\_values = std::vector<bn::state\_t>(nvars);}
 \DoxyCodeLine{55 }
-\DoxyCodeLine{56                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability, Generator>}} rnd\_gen(seed);}
-\DoxyCodeLine{57                 \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} marginal\_distr(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
+\DoxyCodeLine{56                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability_, Generator_>}} rnd\_gen(seed);}
+\DoxyCodeLine{57                 \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability_>}} marginal\_distr(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
 \DoxyCodeLine{58 }
 \DoxyCodeLine{59                 \textcolor{keywordflow}{for}(ulong i = 0; i < nsamples; ++i)}
 \DoxyCodeLine{60                     \textcolor{keywordflow}{for}(ulong n = 0; n < nvars; ++n)}
@@ -55,10 +55,10 @@
 \DoxyCodeLine{67             \}}
 \DoxyCodeLine{68 }
 \DoxyCodeLine{78             ulong \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_ab6ab0a10381c5300f51795decea6c283}{sample\_single\_variable}}(}
-\DoxyCodeLine{79                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
+\DoxyCodeLine{79                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
 \DoxyCodeLine{80                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n,}
 \DoxyCodeLine{81                 std::vector<bn::state\_t> \&var\_state\_values,}
-\DoxyCodeLine{82                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability, Generator>}} \&rnd\_gen}
+\DoxyCodeLine{82                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability_, Generator_>}} \&rnd\_gen}
 \DoxyCodeLine{83             )}
 \DoxyCodeLine{84             \{}
 \DoxyCodeLine{85                 \textcolor{keyword}{auto} var = \mbox{\hyperlink{namespacebn}{bn}}[n];}
@@ -67,7 +67,7 @@
 \DoxyCodeLine{88                     \textcolor{keywordflow}{return} var.evidence\_state();}
 \DoxyCodeLine{89                 \}}
 \DoxyCodeLine{90 }
-\DoxyCodeLine{91                 \textcolor{keyword}{auto} samples = std::vector<Probability>(var.states().size(), 0.0);}
+\DoxyCodeLine{91                 \textcolor{keyword}{auto} samples = std::vector<Probability_>(var.states().size(), 0.0);}
 \DoxyCodeLine{92                 \textcolor{keywordflow}{for}(ulong i = 0; i < samples.size(); ++i) \{}
 \DoxyCodeLine{93                     var\_state\_values[n] = i;}
 \DoxyCodeLine{94                     \textcolor{comment}{// here we evaluate P(Xi | x\_t, t = 1, 2, ..., i-\/1, 1+1, ..., n)}}
@@ -84,12 +84,12 @@
 \DoxyCodeLine{105                         samples[i] *= \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a8bd3fda26eb78487e3ed8e37ca11a7ab}{get\_probability}}(\mbox{\hyperlink{namespacebn}{bn}}, j, var\_state\_values);}
 \DoxyCodeLine{106                 \}}
 \DoxyCodeLine{107                 \textcolor{comment}{// normalize}}
-\DoxyCodeLine{108                 Probability sum = std::accumulate(samples.begin(), samples.end(), 0.0);}
+\DoxyCodeLine{108                 Probability_ sum = std::accumulate(samples.begin(), samples.end(), 0.0);}
 \DoxyCodeLine{109                 std::for\_each(samples.begin(), samples.end(), [sum](\textcolor{keyword}{auto} \& val)\{}
 \DoxyCodeLine{110                     val /= sum;}
 \DoxyCodeLine{111                 \});}
 \DoxyCodeLine{112 }
-\DoxyCodeLine{113                 Probability prob = rnd\_gen.get\_random();}
+\DoxyCodeLine{113                 Probability_ prob = rnd\_gen.get\_random();}
 \DoxyCodeLine{114                 ulong j;}
 \DoxyCodeLine{115                 \textcolor{keywordflow}{for}(j = 0; j < samples.size() -\/ 1; ++j)}
 \DoxyCodeLine{116                 \{}
@@ -102,8 +102,8 @@
 \DoxyCodeLine{123                 \textcolor{keywordflow}{return} j;}
 \DoxyCodeLine{124             \}}
 \DoxyCodeLine{125 }
-\DoxyCodeLine{131             Probability \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a8bd3fda26eb78487e3ed8e37ca11a7ab}{get\_probability}} (}
-\DoxyCodeLine{132                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
+\DoxyCodeLine{131             Probability_ \mbox{\hyperlink{classbn_1_1inference_1_1gibbs__sampling_a8bd3fda26eb78487e3ed8e37ca11a7ab}{get\_probability}} (}
+\DoxyCodeLine{132                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
 \DoxyCodeLine{133                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n,}
 \DoxyCodeLine{134                 \textcolor{keyword}{const} std::vector<bn::state\_t> \&var\_state\_values}
 \DoxyCodeLine{135             )}

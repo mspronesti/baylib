@@ -19,14 +19,14 @@
 \DoxyCodeLine{15 }
 \DoxyCodeLine{18 }
 \DoxyCodeLine{19 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
-\DoxyCodeLine{20     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
+\DoxyCodeLine{20     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability_>}
 \DoxyCodeLine{21     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1xdsl__parser}{xdsl\_parser}} \{}
 \DoxyCodeLine{22     \textcolor{keyword}{public}:}
 \DoxyCodeLine{23         \mbox{\hyperlink{classbn_1_1xdsl__parser}{xdsl\_parser}}() = \textcolor{keywordflow}{default};}
 \DoxyCodeLine{24 }
-\DoxyCodeLine{31         \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \mbox{\hyperlink{classbn_1_1xdsl__parser_a8f6275359844dc266ed8d2fc97de5d57}{deserialize}}(\textcolor{keyword}{const} std::string \&fileName) \{}
+\DoxyCodeLine{31         \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \mbox{\hyperlink{classbn_1_1xdsl__parser_a8f6275359844dc266ed8d2fc97de5d57}{deserialize}}(\textcolor{keyword}{const} std::string \&fileName) \{}
 \DoxyCodeLine{32 }
-\DoxyCodeLine{33             \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \mbox{\hyperlink{namespacebn}{bn}};}
+\DoxyCodeLine{33             \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \mbox{\hyperlink{namespacebn}{bn}};}
 \DoxyCodeLine{34             \textcolor{keyword}{auto} doc = std::make\_shared<xml\_document<>>();}
 \DoxyCodeLine{35             std::ifstream inputFile(fileName);}
 \DoxyCodeLine{36 }
@@ -49,7 +49,7 @@
 \DoxyCodeLine{53                 std::string varname;}
 \DoxyCodeLine{54                 std::vector<std::string> state\_names;}
 \DoxyCodeLine{55                 std::vector<std::string> parents;}
-\DoxyCodeLine{56                 std::vector<Probability> probDistribution;}
+\DoxyCodeLine{56                 std::vector<Probability_> probDistribution;}
 \DoxyCodeLine{57                 std::vector<std::string> resultingStates;}
 \DoxyCodeLine{58 }
 \DoxyCodeLine{59                 \textcolor{comment}{//reading variable name}}
@@ -73,7 +73,7 @@
 \DoxyCodeLine{77                         \}}
 \DoxyCodeLine{78                     \}}
 \DoxyCodeLine{79                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (name == \textcolor{stringliteral}{"{}probabilities"{}})}
-\DoxyCodeLine{80                         probDistribution = split<Probability>(pStates-\/>value(), [](\textcolor{keyword}{const} std::string \&t)\{return static\_cast<Probability>(std::stod(t));\});}
+\DoxyCodeLine{80                         probDistribution = split<Probability_>(pStates-\/>value(), [](\textcolor{keyword}{const} std::string \&t)\{return static\_cast<Probability_>(std::stod(t));\});}
 \DoxyCodeLine{81                     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (name == \textcolor{stringliteral}{"{}parents"{}})}
 \DoxyCodeLine{82                         parents = split<std::string>(pStates-\/>value(), [](\textcolor{keyword}{const} std::string \&t)\{return t;\});}
 \DoxyCodeLine{83                 \}}

@@ -25,33 +25,39 @@ namespace bn{
          * - operator ()
          * as they're required by std::discrete_distribution
          * @tparam Probability  : the type expressing the probability
-         * @tparam Generator    : the random generator
+         * @tparam Generator_    : the random generator
          *                     (default Mersenne Twister pseudo-random generator)
          */
-        template<typename Probability = double, typename Generator = std::mt19937>
-        class rejection_sampling : public parallel_inference_algorithm<Probability, rejection_sampling<Probability, Generator>> {
+        template <
+                typename Network_,
+                typename Generator_=std::mt19937
+                >
+        class rejection_sampling : public parallel_inference_algorithm<Network_>
+        {
+            using typename parallel_inference_algorithm<Network_>::network_type;
+            using typename parallel_inference_algorithm<Network_>::probability_type;
+            using parallel_inference_algorithm<Network_>::bn;
         public:
             explicit rejection_sampling(
+                    const network_type & bn,
                     ulong nsamples,
                     uint nthreads = 1,
                     uint seed = 0
             )
-            : parallel_inference_algorithm<Probability, rejection_sampling<Probability, Generator>>(nsamples, nthreads, seed)
+            : parallel_inference_algorithm<Network_>(bn, nsamples, nthreads, seed)
             { };
 
 
-        public:
-            template<class Variable>
-            bn::marginal_distribution<Probability> sample_step (
-                const bn::bayesian_network<Variable> & bn,
+        private:
+            bn::marginal_distribution<probability_type> sample_step (
                 ulong nsamples,
                 uint seed
-            )
+            ) override
             {
                 std::vector<bn::state_t> var_state_values;
-                Generator rnd_gen(seed);
+                Generator_ rnd_gen(seed);
 
-                marginal_distribution<Probability> marginal_distr(bn.begin(), bn.end());
+                marginal_distribution<probability_type> marginal_distr(bn.begin(), bn.end());
                 ulong nvars =  bn.number_of_variables();
 
                 var_state_values = std::vector<bn::state_t>(nvars, 0);
@@ -83,13 +89,10 @@ namespace bn{
                 return marginal_distr;
             }
 
-        private:
-            template<class Variable>
             bn::state_t prior_sample(
-                  unsigned long n,
-                  const bn::bayesian_network<Variable> &bn,
-                  const std::vector<bn::state_t> &var_state_values,
-                  Generator &gen
+                    unsigned long n,
+                    const std::vector<bn::state_t> &var_state_values,
+                    Generator_ &gen
             )
             {
                 bn::condition c;

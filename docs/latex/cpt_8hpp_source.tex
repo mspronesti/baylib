@@ -19,27 +19,27 @@
 \DoxyCodeLine{15 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{shared__ptr_8hpp}{baylib/tools/cow/shared\_ptr.hpp}}>}}
 \DoxyCodeLine{16 }
 \DoxyCodeLine{31 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}}\{}
-\DoxyCodeLine{32     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
+\DoxyCodeLine{32     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability_>}
 \DoxyCodeLine{33     \textcolor{keyword}{class }bayesian\_network;}
 \DoxyCodeLine{34     \textcolor{keyword}{namespace }cow \{}
-\DoxyCodeLine{35         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
+\DoxyCodeLine{35         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability_>}
 \DoxyCodeLine{36         \textcolor{keyword}{struct }\mbox{\hyperlink{structbn_1_1cow_1_1CPTData}{CPTData}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1cow_1_1shared__data}{bn::cow::shared\_data}} \{}
-\DoxyCodeLine{46             std::vector<std::vector<Probability>> \mbox{\hyperlink{structbn_1_1cow_1_1CPTData_a07909e5a39e8a3ace7a56b5368adcc12}{table}};}
+\DoxyCodeLine{46             std::vector<std::vector<Probability_>> \mbox{\hyperlink{structbn_1_1cow_1_1CPTData_a07909e5a39e8a3ace7a56b5368adcc12}{table}};}
 \DoxyCodeLine{47             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nstates\{\};}
 \DoxyCodeLine{48         \};}
 \DoxyCodeLine{49 }
-\DoxyCodeLine{50         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
+\DoxyCodeLine{50         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability_>}
 \DoxyCodeLine{51         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1cow_1_1cpt}{cpt}} \{}
 \DoxyCodeLine{69         \textcolor{keyword}{public}:}
 \DoxyCodeLine{70             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1cow_1_1cpt_af2bffc33e0e9298d23b636ccb58aa0ad}{cpt}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nstates = 2) \{}
-\DoxyCodeLine{71                 d = \textcolor{keyword}{new} \mbox{\hyperlink{structbn_1_1cow_1_1CPTData}{CPTData<Probability>}}();}
+\DoxyCodeLine{71                 d = \textcolor{keyword}{new} \mbox{\hyperlink{structbn_1_1cow_1_1CPTData}{CPTData<Probability_>}}();}
 \DoxyCodeLine{72                 d-\/>nstates = nstates;}
 \DoxyCodeLine{73             \}}
 \DoxyCodeLine{74 }
 \DoxyCodeLine{75             \textcolor{keywordtype}{void} set\_probability(}
 \DoxyCodeLine{76                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond,}
 \DoxyCodeLine{77                     bn::state\_t state\_val,}
-\DoxyCodeLine{78                     Probability p}
+\DoxyCodeLine{78                     Probability_ p}
 \DoxyCodeLine{79             ) \{}
 \DoxyCodeLine{80                 BAYLIB\_ASSERT(state\_val < d-\/>nstates,}
 \DoxyCodeLine{81                               \textcolor{stringliteral}{"{}invalid state value"{}}}
@@ -60,7 +60,7 @@
 \DoxyCodeLine{96                 \}}
 \DoxyCodeLine{97             \}}
 \DoxyCodeLine{98 }
-\DoxyCodeLine{99             \textcolor{keyword}{const} std::vector<Probability> \&operator[] (\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{99             \textcolor{keyword}{const} std::vector<Probability_> \&operator[] (\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond)\textcolor{keyword}{ const}\{}
 \DoxyCodeLine{100                 BAYLIB\_ASSERT(has\_entry\_for(cond),}
 \DoxyCodeLine{101                               \textcolor{stringliteral}{"{}bad condition value"{}},}
 \DoxyCodeLine{102                               std::out\_of\_range)}
@@ -69,7 +69,7 @@
 \DoxyCodeLine{105             \}}
 \DoxyCodeLine{106 }
 \DoxyCodeLine{107 }
-\DoxyCodeLine{108             \textcolor{keyword}{const} std::vector<Probability>  \&at(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{108             \textcolor{keyword}{const} std::vector<Probability_>  \&at(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond)\textcolor{keyword}{ const}\{}
 \DoxyCodeLine{109                 BAYLIB\_ASSERT(has\_entry\_for(cond),}
 \DoxyCodeLine{110                               \textcolor{stringliteral}{"{}bad condition value"{}},}
 \DoxyCodeLine{111                               std::out\_of\_range)}
@@ -86,7 +86,7 @@
 \DoxyCodeLine{122                 \textcolor{keywordflow}{return} cond\_map.find(c) != cond\_map.end();}
 \DoxyCodeLine{123             \}}
 \DoxyCodeLine{124 }
-\DoxyCodeLine{125             \textcolor{keywordtype}{bool} operator == (\textcolor{keyword}{const} cpt<Probability> \&c)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{125             \textcolor{keywordtype}{bool} operator == (\textcolor{keyword}{const} cpt<Probability_> \&c)\textcolor{keyword}{ const }\{}
 \DoxyCodeLine{126                 \textcolor{keywordflow}{return} d-\/>table == c.d-\/>table;}
 \DoxyCodeLine{127             \}}
 \DoxyCodeLine{128 }
@@ -94,8 +94,8 @@
 \DoxyCodeLine{130                 \textcolor{keywordflow}{return} d-\/>table.size();}
 \DoxyCodeLine{131             \}}
 \DoxyCodeLine{132 }
-\DoxyCodeLine{133             std::vector<Probability> flat()\textcolor{keyword}{ const}\{}
-\DoxyCodeLine{134                 \textcolor{keyword}{auto} flat\_cpt = std::vector<Probability>\{\};}
+\DoxyCodeLine{133             std::vector<Probability_> flat()\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{134                 \textcolor{keyword}{auto} flat\_cpt = std::vector<Probability_>\{\};}
 \DoxyCodeLine{135                 flat\_cpt.reserve(d-\/>table.size() * d-\/>nstates);}
 \DoxyCodeLine{136 }
 \DoxyCodeLine{137                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \&[cond, cond\_id] : cond\_map) \{}
@@ -131,11 +131,11 @@
 \DoxyCodeLine{167                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} el: col)\{}
 \DoxyCodeLine{168                         \textcolor{keyword}{auto} \textcolor{keyword}{const} * p = \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \textcolor{keyword}{const }*\textcolor{keyword}{>}(\&el) ;}
 \DoxyCodeLine{169                         \textcolor{keywordtype}{int} n = 1;}
-\DoxyCodeLine{170                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \textcolor{keyword}{sizeof}(Probability) -\/ 1; i++)\{}
+\DoxyCodeLine{170                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \textcolor{keyword}{sizeof}(Probability_) -\/ 1; i++)\{}
 \DoxyCodeLine{171                             \textcolor{keywordflow}{if}(*(\textcolor{keywordtype}{char} *)\&n == 1)}
 \DoxyCodeLine{172                                 boost::hash\_combine(seed, p[i]);}
 \DoxyCodeLine{173                             \textcolor{keywordflow}{else}}
-\DoxyCodeLine{174                                 boost::hash\_combine(seed, p[\textcolor{keyword}{sizeof}(Probability) -\/ 1 -\/ i]);}
+\DoxyCodeLine{174                                 boost::hash\_combine(seed, p[\textcolor{keyword}{sizeof}(Probability_) -\/ 1 -\/ i]);}
 \DoxyCodeLine{175                         \}}
 \DoxyCodeLine{176                     \}}
 \DoxyCodeLine{177                 \}}
@@ -148,8 +148,8 @@
 \DoxyCodeLine{184 }
 \DoxyCodeLine{185 }
 \DoxyCodeLine{186         \textcolor{keyword}{protected}:}
-\DoxyCodeLine{187             \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network}}<Probability>;}
-\DoxyCodeLine{188             \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{bn::cow::shared\_ptr<CPTData<Probability>}}> d;}
+\DoxyCodeLine{187             \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network}}<Probability_>;}
+\DoxyCodeLine{188             \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{bn::cow::shared\_ptr<CPTData<Probability_>}}> d;}
 \DoxyCodeLine{189             \textcolor{comment}{// assigns a condition its index in the cpt}}
 \DoxyCodeLine{190             \textcolor{comment}{// ! key   : condition}}
 \DoxyCodeLine{191             \textcolor{comment}{// ! value : row index}}

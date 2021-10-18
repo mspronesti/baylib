@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.10.0)
+cmake_minimum_required(VERSION 2.8 )
+set(CMAKE_CXX_STANDARD 20)
+
 project(examples)
 
 macro(add_demo name)

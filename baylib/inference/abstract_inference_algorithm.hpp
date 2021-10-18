@@ -13,6 +13,7 @@
 #include <boost/compute/device.hpp>
 #include <future>
 
+
 //! \file abstract_inference_algorithm.hpp
 //! \brief Abstract classes for stocastic algorithms
 
@@ -24,9 +25,13 @@ namespace bn {
         * networks
         * @tparam Probability
         */
-        template<typename Probability, typename Algorithm>
+        template <typename Network_>
         class inference_algorithm {
         public:
+            typedef Network_ network_type;
+            typedef typename network_type::variable_type variable_type;
+            typedef typename variable_type::probability_type probability_type;
+
             /**
              * The abstract inference algorithm
              * only receives hyperparameters in the
@@ -35,11 +40,15 @@ namespace bn {
              * @param nthreads : number of threads (default: 1)
              * @param seed     : custom seed for the generator (default: 0)
              */
-            explicit inference_algorithm (
-                unsigned long nsamples,
-                unsigned int seed = 0
+            explicit inference_algorithm(
+                    const network_type & bn,
+                    unsigned long nsamples,
+                    unsigned int seed = 0
             )
-            : nsamples(nsamples), seed(seed) {}
+            : bn(bn)
+            , nsamples(nsamples)
+            , seed(seed)
+            {}
 
             virtual ~inference_algorithm() = default;
 
@@ -51,18 +60,16 @@ namespace bn {
              * @param bn  : bayesian network
              * @return    : the marginal distributions
              */
-            template<class Variable>
-            bn::marginal_distribution<Probability> make_inference (
-                    const bn::bayesian_network<Variable> &bn
-            ){
-                return static_cast<Algorithm*>(this)->make_inference(bn);
-            };
+            virtual bn::marginal_distribution<probability_type> make_inference () = 0;
 
-            void set_number_of_samples (unsigned long _nsamples) { nsamples = _nsamples; }
+            void set_bayesian_network(const network_type & _bn) { bn = _bn; }
 
-            void set_seed (unsigned int _seed) { seed = _seed; }
+            void set_number_of_samples(unsigned long _nsamples) { nsamples = _nsamples; }
+
+            void set_seed(unsigned int _seed) { seed = _seed; }
 
         protected:
+            const network_type & bn;
             unsigned long nsamples;
             unsigned int seed;
         };
@@ -74,15 +81,21 @@ namespace bn {
          * the sampling work over the number of threads and merging the results
          * @tparam Probability  : the type expressing probability
          */
-        template<typename Probability, typename Algorithm>
-        class parallel_inference_algorithm : public inference_algorithm<Probability, parallel_inference_algorithm<Probability, Algorithm>> {
+        template < typename Network_ >
+        class parallel_inference_algorithm : public inference_algorithm<Network_>
+        {
         public:
+            typedef Network_ network_type;
+            using typename inference_algorithm<Network_>::probability_type;
+            using  inference_algorithm<Network_>::bn;
+
             explicit parallel_inference_algorithm(
+                    const network_type & bn,
                     unsigned long nsamples,
                     unsigned int nthreads = 1,
                     unsigned int seed = 0
             )
-            : inference_algorithm<Probability, parallel_inference_algorithm<Probability, Algorithm>>(nsamples, seed)
+            : inference_algorithm<Network_>(bn, nsamples, seed)
             {
                 set_number_of_threads(nthreads);
             }
@@ -94,24 +107,21 @@ namespace bn {
              * @param bn : bayesian network graph
              * @return   : the marginal distribution of the variables post inference
              */
-            template <typename Variable>
-            bn::marginal_distribution<Probability> make_inference(
-                    const bn::bayesian_network<Variable> &bn
-            )
+            bn::marginal_distribution<probability_type> make_inference() override
             {
-                typedef std::future<bn::marginal_distribution<Probability>> result;
+                typedef std::future<bn::marginal_distribution<probability_type>> result;
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
-                                          [&bn](auto &var) { return bn::cpt_filled_out(bn, var.id()); }),
+                                          [this](auto &var) { return bn::cpt_filled_out(bn, var.id()); }),
                               "conditional probability tables must be properly filled to"
-                              " run gibbs sampling inference algorithm",
+                              " run an inference algorithm",
                               std::runtime_error)
 
-                bn::marginal_distribution<Probability> inference_result(bn.begin(), bn.end());
+                bn::marginal_distribution<probability_type> inference_result(bn.begin(), bn.end());
                 std::vector<result> results;
                 bn::seed_factory sf(nthreads, this->seed);
 
-                auto job = [this, &bn](ulong samples_per_thread, uint seed) {
-                    return static_cast<Algorithm*>(this)->sample_step(bn, samples_per_thread, seed);
+                auto job = [this](ulong samples_per_thread, uint seed) {
+                    return sample_step(samples_per_thread, seed);
                 };
 
                 ulong samples_per_thread = this->nsamples / nthreads;
@@ -134,18 +144,15 @@ namespace bn {
 
             void set_number_of_threads(unsigned int _nthreads) {
                 nthreads = _nthreads >= std::thread::hardware_concurrency() ?
-                        std::thread::hardware_concurrency() : _nthreads > 0 ?
-                        _nthreads : 1;
+                           std::thread::hardware_concurrency() : _nthreads > 0 ?
+                                                                 _nthreads : 1;
             }
 
         protected:
-            /*
-            virtual bn::marginal_distribution<Probability> sample_step(
-                    const bn::bayesian_network<Probability> &bn,
+            virtual bn::marginal_distribution<probability_type> sample_step (
                     unsigned long nsamples_per_step,
                     unsigned int seed
             ) = 0;
-            */
 
             unsigned int nthreads;
         };
@@ -161,15 +168,22 @@ namespace bn {
          * previous simulations of its parents nodes
          * @tparam Probability  : the type expressing probability
          */
-        template<typename Probability>
-        class vectorized_inference_algorithm : public inference_algorithm<Probability, vectorized_inference_algorithm<Probability>> {
+        template < typename Network_ >
+        class vectorized_inference_algorithm : public inference_algorithm<Network_>
+        {
         public:
+            using typename inference_algorithm<Network_>::network_type;
+            using typename inference_algorithm<Network_>::probability_type;
+            using  inference_algorithm<Network_>::bn;
+
             vectorized_inference_algorithm(
-                    ulong n_samples, size_t memory,
+                    const network_type & bn,
+                    ulong n_samples,
+                    size_t memory,
                     uint seed = 0,
                     const compute::device &device = compute::system::default_device()
             )
-            : inference_algorithm<Probability, vectorized_inference_algorithm<Probability>>(n_samples, seed)
+            : inference_algorithm<Network_>(bn, n_samples, seed)
             , memory(memory)
             , device(device)
             , context(device)
@@ -177,7 +191,7 @@ namespace bn {
             , rand(queue, seed)
             {}
 
-            using prob_v = boost::compute::vector<Probability>;
+            using prob_v = boost::compute::vector<probability_type>;
 
         protected:
             compute::device device;
@@ -192,18 +206,17 @@ namespace bn {
              * @param bn network
              * @return pair<number of samples per iteration, number of iteration>
              */
-            template<class Variable>
-            std::pair<ulong, ulong> calculate_iterations(const bayesian_network<Variable> &bn)
+            std::pair<ulong, ulong> calculate_iterations()
             {
-                ulong sample_p = this->memory / (bn.number_of_variables() * sizeof(Probability) + 3 * sizeof(cl_ushort)) * MEMORY_SLACK;
+                ulong sample_p = this->memory / (bn.number_of_variables() * sizeof(probability_type) + 3 * sizeof(cl_ushort)) * MEMORY_SLACK;
                 if(sample_p < this->nsamples)
                     return {sample_p, this->nsamples / sample_p};
                 else
                     return {this->nsamples, 1};
             }
 
-            static std::vector<Probability> accumulate_cpt(bn::cow::cpt<Probability> cpt) {
-                std::vector<Probability> flat_cpt = cpt.flat();
+            static std::vector<probability_type> accumulate_cpt( bn::cow::cpt<probability_type> cpt) {
+                std::vector<probability_type> flat_cpt = cpt.flat();
                 for (bn::state_t i = 0; i < flat_cpt.size(); i += cpt.number_of_states())
                     for (bn::state_t j = 1; j < cpt.number_of_states() - 1; j++)
                         flat_cpt[i + j] += flat_cpt[i + j - 1];
@@ -218,17 +231,17 @@ namespace bn {
              * @return result of the simulation
              */
             bcvec simulate_node(
-                    const cow::cpt<Probability> &cpt,
+                    const cow::cpt<probability_type> &cpt,
                     std::vector<bcvec*> &parents_result,
                     int dim
             )
             {
-                std::vector<Probability> flat_cpt_accum = accumulate_cpt(cpt);
+                std::vector<probability_type> flat_cpt_accum = accumulate_cpt(cpt);
                 bcvec result(dim, cpt.number_of_states(), context);
                 prob_v device_cpt(flat_cpt_accum.size(), context);
                 prob_v threshold_vec(dim, context);
                 prob_v random_vec(dim, context);
-                compute::uniform_real_distribution<Probability> distribution(0, 1);
+                compute::uniform_real_distribution<probability_type> distribution(0, 1);
                 compute::vector<int> index_vec(dim, context);
 
                 // Async copy of the cpt in gpu memory
@@ -305,3 +318,4 @@ namespace bn {
 } // namespace bn
 
 #endif //BAYLIB_ABSTRACT_INFERENCE_ALGORITHM_HPP
+

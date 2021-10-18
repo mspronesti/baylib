@@ -41,13 +41,20 @@ namespace bn {
          * 4. each evidence node simulation is set to the evidence value
          * 5. estimate the marginal probabilities from the simulations
          * @tparam Probability : probability type
-         * @tparam Generator   : the random generator used in the approximation part
+         * @tparam Generator_   : the random generator used in the approximation part
          *                     (default Mersenne Twister pseudo-random generator)
          */
-        template <typename Probability, typename Generator = std::mt19937>
-        class adaptive_importance_sampling: public vectorized_inference_algorithm<Probability> {
-            using icpt_vector = std::vector<cow::icpt<Probability>>;
-            using simulation_matrix = std::vector<std::vector<uint>>;
+        template <
+                typename Network_,
+                typename Generator_ = std::mt19937
+                >
+        class adaptive_importance_sampling: public vectorized_inference_algorithm<Network_>
+        {
+            using typename vectorized_inference_algorithm<Network_>::network_type;
+            using typename vectorized_inference_algorithm<Network_>::probability_type;
+            using vectorized_inference_algorithm<Network_>::bn;
+            typedef std::vector<cow::icpt<probability_type>> icpt_vector;
+            typedef std::vector<std::vector<uint>>  simulation_matrix;
 
         public:
 
@@ -71,7 +78,7 @@ namespace bn {
                 uint seed = 0,
                 const compute::device& device = compute::system::default_device()
             )
-            : vectorized_inference_algorithm<Probability>(nsamples, memory, seed, device)
+            : vectorized_inference_algorithm<Network_>(nsamples, memory, seed, device)
             , w_k(1)
             , initial_learning_rate(initial_learning_rate)
             , final_learning_rate(final_learning_rate)
@@ -85,22 +92,19 @@ namespace bn {
              * @param bn network
              * @return marginal distribution
              */
-            template <typename Variable>
-            bn::marginal_distribution<Probability> make_inference (
-                const bayesian_network<Variable> &bn
-            )
+            bn::marginal_distribution<probability_type> make_inference ()
             {
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
-                                          [&bn](auto &var){ return bn::cpt_filled_out(bn, var.id()); }),
+                                          [this](auto &var){ return bn::cpt_filled_out(bn, var.id()); }),
                               "conditional probability tables must be properly filled to"
                               " run logic_sampling inference algorithm",
                               std::runtime_error);
 
                 icpt_vector icptvec{};
-                auto result = marginal_distribution<Probability>(bn.begin(), bn.end());
+                auto result = marginal_distribution<probability_type>(bn.begin(), bn.end());
                 bool evidence_found = false;
                 for (int v_id = 0; v_id < bn.number_of_variables(); ++v_id){
-                    icptvec.emplace_back(cow::icpt<Probability>(bn[v_id].table()));
+                    icptvec.emplace_back(cow::icpt<probability_type>(bn[v_id].table()));
                     if(bn[v_id].is_evidence()){
                         result[v_id][bn[v_id].evidence_state()] = 1;
                         evidence_found = true;
@@ -110,7 +114,7 @@ namespace bn {
                 // logic_sampling, and we can skip the learning phase
                 if(evidence_found){
                     ancestors = ancestors_of_evidence(bn);
-                    learn_icpt(bn, icptvec);
+                    learn_icpt(icptvec);
                 }
                 result += gpu_simulation(icptvec, bn);
                 result.normalize();
@@ -141,19 +145,15 @@ namespace bn {
              * @return partial results made from the simulations of the icpts
              */
 
-            template<class Variable>
-            void learn_icpt(
-                const bn::bayesian_network<Variable> &bn,
-                icpt_vector & icptvec
-            )
+            void learn_icpt( icpt_vector & icptvec )
             {
                 ulong nvars = bn.number_of_variables();
                 simulation_matrix graph_state(learning_step);
-                std::vector<Probability> random_vec(learning_step * nvars);
+                std::vector<probability_type> random_vec(learning_step * nvars);
                 double k = 0;
                 uint max_k = this->nsamples / 2 / learning_step;
                 seed_factory factory(1, this->seed);
-                bn::random_generator<Probability, Generator> rnd_gen(this->seed);
+                bn::random_generator<probability_type, Generator_> rnd_gen(this->seed);
 
                 for (int i = 0; i < max_k; ++i) {
                     std::future<void> el = std::async([&](){std::generate(
@@ -186,9 +186,9 @@ namespace bn {
                                             local_result[v] = bn[v].evidence_state();
                                             continue;
                                         }
-                                        const Probability p = random_vec[ix];
+                                        const probability_type p = random_vec[ix];
                                         ix++;
-                                        std::vector<Probability> weight;
+                                        std::vector<probability_type> weight;
                                         bn::condition parents_state_cond;
                                         for (auto par : bn.parents_of(v))
                                             parents_state_cond.add(
@@ -214,16 +214,15 @@ namespace bn {
              * @param learning_rate learning rate used for updating icpts
              * @return maximum distance that was recorded between pairs of old icpts and new icpts
              */
-            template<class Variable>
             double absorb_samples(
                 const simulation_matrix & graph_state,
-                const bn::bayesian_network<Variable> & bn,
+                const network_type & bn,
                 icpt_vector & icptvec,
                 double learning_rate
             )
             {
-                Probability evidence_score;
-                std::vector<Probability> sample_weight(graph_state.size());
+                probability_type evidence_score;
+                std::vector<probability_type> sample_weight(graph_state.size());
 
                 double max_distance = 0.;
 
@@ -234,7 +233,7 @@ namespace bn {
                                sample_weight.begin(),
                                [&](uint ix)
                                {
-                                Probability weight = 1;
+                                probability_type weight = 1;
                                 for(ulong v_id: ancestors){
                                     condition cond;
                                     auto& icpt = icptvec[v_id];
@@ -263,7 +262,7 @@ namespace bn {
                                     if(bn[v_id].is_evidence())
                                         return 0.;
                                     auto& original_cpt = icptvec[v_id];
-                                    cow::icpt<Probability> temp_icpt(bn[v_id].table(), true);
+                                    cow::icpt<probability_type> temp_icpt(bn[v_id].table(), true);
                                     for (int i = 0; i < graph_state.size(); ++i) {
                                         condition cond;
                                         auto sample = graph_state[i][v_id];
@@ -286,16 +285,15 @@ namespace bn {
              * @param bn network
              * @return compressed results of the simulation
              */
-            template<class Variable>
-            marginal_distribution<Probability> gpu_simulation(
+            marginal_distribution<probability_type> gpu_simulation(
                     const icpt_vector& icpt_vec,
-                    const bayesian_network<Variable>& bn
+                    const network_type & bn
             )
             {
                 int niter = 1;
-                marginal_distribution<Probability> marginal_result(bn.begin(), bn.end());
+                marginal_distribution<probability_type> marginal_result(bn.begin(), bn.end());
                 std::vector<bcvec> result_container(bn.number_of_variables());
-                marginal_distribution<Probability> temp(bn.begin(), bn.end());
+                marginal_distribution<probability_type> temp(bn.begin(), bn.end());
                 auto [gpu_samples, gpu_iter] = this->calculate_iterations(bn);
 
                 for(int i = 0; i < gpu_iter; ++i){
@@ -346,11 +344,11 @@ namespace bn {
              * @return realization
              */
             uint make_random_by_weight(
-                const Probability p,
-                const std::vector<Probability> & weight
+                const probability_type p,
+                const std::vector<probability_type> & weight
             )
             {
-                Probability total = 0.0;
+                probability_type total = 0.0;
                 for(uint i = 0; i < weight.size(); ++i)
                 {
                     auto const old_total = total;

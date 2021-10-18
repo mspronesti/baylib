@@ -26,9 +26,9 @@
 \DoxyCodeLine{24 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
 \DoxyCodeLine{25     \textcolor{keyword}{namespace }inference\{}
 \DoxyCodeLine{26 }
-\DoxyCodeLine{47         \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability, \textcolor{keyword}{typename} Generator = std::mt19937>}
-\DoxyCodeLine{48         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1adaptive__importance__sampling}{adaptive\_importance\_sampling}}: \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Probability> \{}
-\DoxyCodeLine{49             \textcolor{keyword}{using} icpt\_vector = std::vector<cow::icpt<Probability>>;}
+\DoxyCodeLine{47         \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability_, \textcolor{keyword}{typename} Generator_ = std::mt19937>}
+\DoxyCodeLine{48         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1adaptive__importance__sampling}{adaptive\_importance\_sampling}}: \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Probability_> \{}
+\DoxyCodeLine{49             \textcolor{keyword}{using} icpt\_vector = std::vector<cow::icpt<Probability_>>;}
 \DoxyCodeLine{50             \textcolor{keyword}{using} simulation\_matrix = std::vector<std::vector<uint>>;}
 \DoxyCodeLine{51 }
 \DoxyCodeLine{52         \textcolor{keyword}{public}:}
@@ -42,22 +42,22 @@
 \DoxyCodeLine{71                 uint seed = 0,}
 \DoxyCodeLine{72                 \textcolor{keyword}{const} compute::device\& device = compute::system::default\_device()}
 \DoxyCodeLine{73             )}
-\DoxyCodeLine{74             : \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Probability>(nsamples, memory, seed, device)}
+\DoxyCodeLine{74             : \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Probability_>(nsamples, memory, seed, device)}
 \DoxyCodeLine{75             , w\_k(1)}
 \DoxyCodeLine{76             , initial\_learning\_rate(initial\_learning\_rate)}
 \DoxyCodeLine{77             , final\_learning\_rate(final\_learning\_rate)}
 \DoxyCodeLine{78             , learning\_cutoff(0.005)}
 \DoxyCodeLine{79             , learning\_step(learning\_step)\{\}}
 \DoxyCodeLine{80 }
-\DoxyCodeLine{88             \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm_a717239e2a561fb79fe9c67a5b3effef7}{make\_inference}} (}
-\DoxyCodeLine{89                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}}}
+\DoxyCodeLine{88             \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability_>}} \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm_a717239e2a561fb79fe9c67a5b3effef7}{make\_inference}} (}
+\DoxyCodeLine{89                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bayesian\_network<Probability_>}} \&\mbox{\hyperlink{namespacebn}{bn}}}
 \DoxyCodeLine{90             )\textcolor{keyword}{ override}}
 \DoxyCodeLine{91 \textcolor{keyword}{            }\{}
 \DoxyCodeLine{92                 icpt\_vector icptvec\{\};}
-\DoxyCodeLine{93                 \textcolor{keyword}{auto} result = \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability>}}(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
+\DoxyCodeLine{93                 \textcolor{keyword}{auto} result = \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability_>}}(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
 \DoxyCodeLine{94                 \textcolor{keywordtype}{bool} evidence\_found = \textcolor{keyword}{false};}
 \DoxyCodeLine{95                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} v\_id = 0; v\_id < \mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables(); ++v\_id)\{}
-\DoxyCodeLine{96                     icptvec.emplace\_back(\mbox{\hyperlink{classbn_1_1cow_1_1icpt}{cow::icpt<Probability>}}(\mbox{\hyperlink{namespacebn}{bn}}[v\_id].table()));}
+\DoxyCodeLine{96                     icptvec.emplace\_back(\mbox{\hyperlink{classbn_1_1cow_1_1icpt}{cow::icpt<Probability_>}}(\mbox{\hyperlink{namespacebn}{bn}}[v\_id].table()));}
 \DoxyCodeLine{97                     \textcolor{keywordflow}{if}(\mbox{\hyperlink{namespacebn}{bn}}[v\_id].is\_evidence())\{}
 \DoxyCodeLine{98                         result[v\_id][\mbox{\hyperlink{namespacebn}{bn}}[v\_id].evidence\_state()] = 1;}
 \DoxyCodeLine{99                         evidence\_found = \textcolor{keyword}{true};}
@@ -85,19 +85,19 @@
 \DoxyCodeLine{121             uint learning\_step;}
 \DoxyCodeLine{122 }
 \DoxyCodeLine{123 }
-\DoxyCodeLine{137             \textcolor{comment}{//marginal\_distribution<Probability> learn\_icpt(}}
+\DoxyCodeLine{137             \textcolor{comment}{//marginal\_distribution<Probability_> learn\_icpt(}}
 \DoxyCodeLine{138             \textcolor{keywordtype}{void} learn\_icpt(}
-\DoxyCodeLine{139                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
+\DoxyCodeLine{139                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
 \DoxyCodeLine{140                 icpt\_vector \& icptvec}
 \DoxyCodeLine{141             )}
 \DoxyCodeLine{142             \{}
 \DoxyCodeLine{143                 ulong nvars = \mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables();}
 \DoxyCodeLine{144                 simulation\_matrix graph\_state(learning\_step);}
-\DoxyCodeLine{145                 std::vector<Probability> random\_vec(learning\_step * nvars);}
+\DoxyCodeLine{145                 std::vector<Probability_> random\_vec(learning\_step * nvars);}
 \DoxyCodeLine{146                 \textcolor{keywordtype}{double} k = 0;}
 \DoxyCodeLine{147                 uint max\_k = this-\/>nsamples / 2 / learning\_step;}
 \DoxyCodeLine{148                 seed\_factory factory(1, this-\/>seed);}
-\DoxyCodeLine{149                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability, Generator>}} rnd\_gen(this-\/>seed);}
+\DoxyCodeLine{149                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability_, Generator_>}} rnd\_gen(this-\/>seed);}
 \DoxyCodeLine{150 }
 \DoxyCodeLine{151                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < max\_k; ++i) \{}
 \DoxyCodeLine{152                     std::future<void> el = std::async([\&]()\{std::generate(}
@@ -130,9 +130,9 @@
 \DoxyCodeLine{179                                             local\_result[v] = bn[v].evidence\_state();}
 \DoxyCodeLine{180                                             continue;}
 \DoxyCodeLine{181                                         \}}
-\DoxyCodeLine{182                                         const Probability p = random\_vec[ix];}
+\DoxyCodeLine{182                                         const Probability_ p = random\_vec[ix];}
 \DoxyCodeLine{183                                         ix++;}
-\DoxyCodeLine{184                                         std::vector<Probability> weight;}
+\DoxyCodeLine{184                                         std::vector<Probability_> weight;}
 \DoxyCodeLine{185                                         bn::condition parents\_state\_cond;}
 \DoxyCodeLine{186                                         for (auto par : bn.parents\_of(v))}
 \DoxyCodeLine{187                                             parents\_state\_cond.add(}
@@ -152,13 +152,13 @@
 \DoxyCodeLine{201 }
 \DoxyCodeLine{210             \textcolor{keywordtype}{double} absorb\_samples(}
 \DoxyCodeLine{211                 \textcolor{keyword}{const} simulation\_matrix \& graph\_state,}
-\DoxyCodeLine{212                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \& \mbox{\hyperlink{namespacebn}{bn}},}
+\DoxyCodeLine{212                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \& \mbox{\hyperlink{namespacebn}{bn}},}
 \DoxyCodeLine{213                 icpt\_vector \& icptvec,}
 \DoxyCodeLine{214                 \textcolor{keywordtype}{double} learning\_rate}
 \DoxyCodeLine{215             )}
 \DoxyCodeLine{216             \{}
-\DoxyCodeLine{217                 Probability evidence\_score;}
-\DoxyCodeLine{218                 std::vector<Probability> sample\_weight(graph\_state.size());}
+\DoxyCodeLine{217                 Probability_ evidence\_score;}
+\DoxyCodeLine{218                 std::vector<Probability_> sample\_weight(graph\_state.size());}
 \DoxyCodeLine{219 }
 \DoxyCodeLine{220                 \textcolor{keywordtype}{double} max\_distance = 0.;}
 \DoxyCodeLine{221 }
@@ -169,7 +169,7 @@
 \DoxyCodeLine{226                                sample\_weight.begin(),}
 \DoxyCodeLine{227                                [\&](uint ix)}
 \DoxyCodeLine{228                                \{}
-\DoxyCodeLine{229                                 Probability weight = 1;}
+\DoxyCodeLine{229                                 Probability_ weight = 1;}
 \DoxyCodeLine{230                                 for(ulong v\_id: ancestors)\{}
 \DoxyCodeLine{231                                     condition cond;}
 \DoxyCodeLine{232                                     auto\& icpt = icptvec[v\_id];}
@@ -198,7 +198,7 @@
 \DoxyCodeLine{255                                     if(bn[v\_id].is\_evidence())}
 \DoxyCodeLine{256                                         return 0.;}
 \DoxyCodeLine{257                                     auto\& original\_cpt = icptvec[v\_id];}
-\DoxyCodeLine{258                                     cow::icpt<Probability> temp\_icpt(bn[v\_id].table(), true);}
+\DoxyCodeLine{258                                     cow::icpt<Probability_> temp\_icpt(bn[v\_id].table(), true);}
 \DoxyCodeLine{259                                     for (int i = 0; i < graph\_state.size(); ++i) \{}
 \DoxyCodeLine{260                                         condition cond;}
 \DoxyCodeLine{261                                         auto sample = graph\_state[i][v\_id];}
@@ -214,15 +214,15 @@
 \DoxyCodeLine{271                 \textcolor{keywordflow}{return} max\_distance;}
 \DoxyCodeLine{272             \}}
 \DoxyCodeLine{273 }
-\DoxyCodeLine{281             marginal\_distribution<Probability> gpu\_simulation(}
+\DoxyCodeLine{281             marginal\_distribution<Probability_> gpu\_simulation(}
 \DoxyCodeLine{282                     \textcolor{keyword}{const} icpt\_vector\& icpt\_vec,}
-\DoxyCodeLine{283                     \textcolor{keyword}{const} bayesian\_network<Probability>\& \mbox{\hyperlink{namespacebn}{bn}}}
+\DoxyCodeLine{283                     \textcolor{keyword}{const} bayesian\_network<Probability_>\& \mbox{\hyperlink{namespacebn}{bn}}}
 \DoxyCodeLine{284             )}
 \DoxyCodeLine{285             \{}
 \DoxyCodeLine{286                 \textcolor{keywordtype}{int} niter = 1;}
-\DoxyCodeLine{287                 marginal\_distribution<Probability> marginal\_result(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
+\DoxyCodeLine{287                 marginal\_distribution<Probability_> marginal\_result(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
 \DoxyCodeLine{288                 std::vector<bcvec> result\_container(\mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables());}
-\DoxyCodeLine{289                 marginal\_distribution<Probability> temp(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
+\DoxyCodeLine{289                 marginal\_distribution<Probability_> temp(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
 \DoxyCodeLine{290                 \textcolor{keyword}{auto} [gpu\_samples, gpu\_iter] = this-\/>calculate\_iterations(\mbox{\hyperlink{namespacebn}{bn}});}
 \DoxyCodeLine{291 }
 \DoxyCodeLine{292                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < gpu\_iter; ++i)\{}
@@ -262,11 +262,11 @@
 \DoxyCodeLine{331 }
 \DoxyCodeLine{332 }
 \DoxyCodeLine{339             uint make\_random\_by\_weight(}
-\DoxyCodeLine{340                 \textcolor{keyword}{const} Probability p,}
-\DoxyCodeLine{341                 \textcolor{keyword}{const} std::vector<Probability> \& weight}
+\DoxyCodeLine{340                 \textcolor{keyword}{const} Probability_ p,}
+\DoxyCodeLine{341                 \textcolor{keyword}{const} std::vector<Probability_> \& weight}
 \DoxyCodeLine{342             )}
 \DoxyCodeLine{343             \{}
-\DoxyCodeLine{344                 Probability total = 0.0;}
+\DoxyCodeLine{344                 Probability_ total = 0.0;}
 \DoxyCodeLine{345                 \textcolor{keywordflow}{for}(uint i = 0; i < weight.size(); ++i)}
 \DoxyCodeLine{346                 \{}
 \DoxyCodeLine{347                     \textcolor{keyword}{auto} \textcolor{keyword}{const} old\_total = total;}

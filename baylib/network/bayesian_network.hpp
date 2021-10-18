@@ -16,13 +16,15 @@ namespace bn {
      * user experience
      * @tparam Probability : Type of cpts entries
      */
-    template <typename Variable>
+    template <typename Variable_>
     class bayesian_network {
-        typedef bn::graph<Variable> graph_t;
-        typedef bn::vertex<Variable> vertex_id;
-
+        typedef bn::graph<Variable_> graph_type;
+        typedef bn::vertex<Variable_> vertex_id;
     public:
-        bayesian_network() : graph(std::make_shared<graph_t>()) { }
+        typedef Variable_ variable_type;
+        typedef typename variable_type::probability_type probability_type;
+
+        bayesian_network() : graph(std::make_shared<graph_type>()) { }
 
         // overloading begin and end to easily loop over random_variables
         // avoiding packing copies inside other facilities
@@ -51,7 +53,7 @@ namespace bn {
          */
         template <typename ...A>
         vertex_id add_variable(const A &...args){
-            vertex_id v = boost::add_vertex(Variable{args...}, *graph);
+            vertex_id v = boost::add_vertex(Variable_{args...}, *graph);
             (*graph)[v]._id = v;
             return v;
         }
@@ -111,7 +113,7 @@ namespace bn {
          * @param v : variable id
          * @return  : random variable class
          */
-        Variable & operator [] (vertex_id v) {
+        Variable_ & operator [] (vertex_id v) {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -124,7 +126,7 @@ namespace bn {
          * @param  v: variable id
          * @return  : random variable class
          */
-        Variable & operator [] (vertex_id v) const {
+        Variable_ & operator [] (vertex_id v) const {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -137,7 +139,7 @@ namespace bn {
          * @param v : variable id
          * @return  : random variable class
          */
-        Variable & variable(vertex_id v) {
+        Variable_ & variable(vertex_id v) {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -213,12 +215,11 @@ namespace bn {
          * @param cond        : condition associated with the set probability
          * @param p           : probability
          */
-        template<typename Probability>
         void set_variable_probability(
                 const vertex_id var_id,
                 bn::state_t state_value,
                 const bn::condition& cond,
-                Probability p
+                probability_type p
         )
         {
             auto nparents = parents_of(var_id).size();
@@ -258,7 +259,7 @@ namespace bn {
 
 
     private:
-        std::shared_ptr<graph_t> graph;
+        std::shared_ptr<graph_type> graph;
         std::unordered_map<size_t, vertex_id> cpt_hash_map;
 
         /**
@@ -292,7 +293,7 @@ namespace bn {
             if(cpt_hash_map.find(seed) != cpt_hash_map.end()){
                 auto var = variable(cpt_hash_map[seed]);
                 if(var._id != id && var.cpt == variable(id).cpt){
-                    //variable(id).cpt.d = var.cpt.d;
+                    variable(id).cpt.d = var.cpt.d;
                     return;
                 }
             }

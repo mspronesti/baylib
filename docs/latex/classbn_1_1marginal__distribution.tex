@@ -1,5 +1,5 @@
-\hypertarget{classbn_1_1marginal__distribution}{}\doxysection{bn\+::marginal\+\_\+distribution\texorpdfstring{$<$}{<} Probability \texorpdfstring{$>$}{>} Class Template Reference}
-\label{classbn_1_1marginal__distribution}\index{bn::marginal\_distribution$<$ Probability $>$@{bn::marginal\_distribution$<$ Probability $>$}}
+\hypertarget{classbn_1_1marginal__distribution}{}\doxysection{bn\+::marginal\+\_\+distribution\texorpdfstring{$<$}{<} Probability_ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1marginal__distribution}\index{bn::marginal\_distribution$<$ Probability_ $>$@{bn::marginal\_distribution$<$ Probability_ $>$}}
 
 
 {\ttfamily \#include $<$marginal\+\_\+distribution.\+hpp$>$}
@@ -14,16 +14,16 @@
 {\footnotesize template$<$typename Iterator $>$ }\\{\bfseries marginal\+\_\+distribution} (Iterator begin, Iterator end)
 \item 
 \mbox{\Hypertarget{classbn_1_1marginal__distribution_acee8c19fb5e491077217875f70f99cf6}\label{classbn_1_1marginal__distribution_acee8c19fb5e491077217875f70f99cf6}} 
-void {\bfseries set} (ulong vid, ulong state\+\_\+value, Probability p)
+void {\bfseries set} (ulong vid, ulong state\+\_\+value, Probability_ p)
 \item 
 \mbox{\Hypertarget{classbn_1_1marginal__distribution_ac05495e6ea3486ee444e61ceca4946d7}\label{classbn_1_1marginal__distribution_ac05495e6ea3486ee444e61ceca4946d7}} 
-std\+::vector$<$ Probability $>$ \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (ulong vid)
+std\+::vector$<$ Probability_ $>$ \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (ulong vid)
 \item 
 \mbox{\Hypertarget{classbn_1_1marginal__distribution_ac6d1b3b27489f70c906a80b1be51f85c}\label{classbn_1_1marginal__distribution_ac6d1b3b27489f70c906a80b1be51f85c}} 
-void {\bfseries operator/=} (Probability value)
+void {\bfseries operator/=} (Probability_ value)
 \item 
 \mbox{\Hypertarget{classbn_1_1marginal__distribution_aec6afd496bf5b74e212799a220d7cfca}\label{classbn_1_1marginal__distribution_aec6afd496bf5b74e212799a220d7cfca}} 
-\mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability $>$ \& {\bfseries operator+=} (const \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability $>$ \&other)
+\mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability_ $>$ \& {\bfseries operator+=} (const \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability_ $>$ \&other)
 \item 
 \mbox{\Hypertarget{classbn_1_1marginal__distribution_a8f3d5e30238a5e758a1c19cecb4a503f}\label{classbn_1_1marginal__distribution_a8f3d5e30238a5e758a1c19cecb4a503f}} 
 void {\bfseries normalize} ()
@@ -32,28 +32,28 @@ void {\bfseries normalize} ()
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classbn_1_1marginal__distribution_a35c6ed0f6d9637109e7695f9e451dc34}\label{classbn_1_1marginal__distribution_a35c6ed0f6d9637109e7695f9e451dc34}} 
-std\+::vector$<$ std\+::vector$<$ Probability $>$ $>$ {\bfseries mdistr}
+std\+::vector$<$ std\+::vector$<$ Probability_ $>$ $>$ {\bfseries mdistr}
 \end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classbn_1_1marginal__distribution_ae06e7bdb894969b4e988f13def82a206}\label{classbn_1_1marginal__distribution_ae06e7bdb894969b4e988f13def82a206}} 
-std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability $>$ \&md)
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability_ $>$ \&md)
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-\subsubsection*{template$<$typename Probability$>$\newline
-class bn\+::marginal\+\_\+distribution$<$ Probability $>$}
+\subsubsection*{template$<$typename Probability_$>$\newline
+class bn\+::marginal\+\_\+distribution$<$ Probability_ $>$}
 This class models the marginal distribution of a set of random variables. Can be initialized using
 \begin{DoxyItemize}
-\item an iterable container containing bn\+::random\+\_\+variables$<$\+Probability$>$
-\item two iterators of bn\+::random\+\_\+variables$<$\+Probability$>$
+\item an iterable container containing bn\+::random\+\_\+variables$<$\+Probability_$>$
+\item two iterators of bn\+::random\+\_\+variables$<$\+Probability_$>$
 \end{DoxyItemize}
 
 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em Probability} & \+: the type expressing the probability \\
+{\em Probability_} & \+: the type expressing the probability \\
 \hline
 \end{DoxyTemplParams}
 

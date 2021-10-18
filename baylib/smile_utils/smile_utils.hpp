@@ -17,8 +17,8 @@ using namespace rapidxml;
 //! \brief utilities to support the xdsl format from SMILE library
 
 namespace bn {
-    template<typename Probability>
-    class named_random_variable : public random_variable<Probability> {
+    template <typename Probability_ = double>
+    class named_random_variable : public random_variable<Probability_> {
     public:
         named_random_variable() = default;
 
@@ -26,7 +26,7 @@ namespace bn {
                 std::string name,
                 const std::vector <std::string> &states
         )
-        : random_variable<Probability>(states.size())
+        : random_variable<Probability_>(states.size())
         , _name(std::move(name))
         , _states(states)
         { }
@@ -81,9 +81,9 @@ namespace bn {
     }
 
 
-    template<typename Probability>
+    template<typename Probability_ = double>
     class xdsl_parser {
-            typedef bn::bayesian_network<named_random_variable<Probability>> __named_bayesian_network;
+            typedef bn::bayesian_network<named_random_variable<Probability_>> __named_bayesian_network;
     public:
         xdsl_parser() = default;
 
@@ -121,7 +121,7 @@ namespace bn {
                 xml_attribute<> *attr = pNode->first_attribute("id");
                 std::string varname;
                 std::vector<std::string> state_names, parents, resultingStates;
-                std::vector<Probability> probDistribution;
+                std::vector<Probability_> probDistribution;
 
                 //reading variable name
                 varname = attr->value();
@@ -144,7 +144,7 @@ namespace bn {
                         }
                     }
                     else if (name == "probabilities")
-                        probDistribution = split<Probability>(pStates->value(), [](const std::string &t){return static_cast<Probability>(std::stod(t));});
+                        probDistribution = split<Probability_>(pStates->value(), [](const std::string &t){return static_cast<Probability_>(std::stod(t));});
                     else if (name == "parents")
                         parents = split<std::string>(pStates->value(), [](const std::string &t){return t;});
                 }

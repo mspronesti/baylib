@@ -1,10 +1,10 @@
-\hypertarget{classbn_1_1inference_1_1rejection__sampling}{}\doxysection{bn\+::inference\+::rejection\+\_\+sampling\texorpdfstring{$<$}{<} Probability, Generator \texorpdfstring{$>$}{>} Class Template Reference}
-\label{classbn_1_1inference_1_1rejection__sampling}\index{bn::inference::rejection\_sampling$<$ Probability, Generator $>$@{bn::inference::rejection\_sampling$<$ Probability, Generator $>$}}
+\hypertarget{classbn_1_1inference_1_1rejection__sampling}{}\doxysection{bn\+::inference\+::rejection\+\_\+sampling\texorpdfstring{$<$}{<} Probability_, Generator_ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1inference_1_1rejection__sampling}\index{bn::inference::rejection\_sampling$<$ Probability_, Generator_ $>$@{bn::inference::rejection\_sampling$<$ Probability_, Generator_ $>$}}
 
 
 {\ttfamily \#include $<$rejection\+\_\+sampling.\+hpp$>$}
 
-Inheritance diagram for bn\+::inference\+::rejection\+\_\+sampling\texorpdfstring{$<$}{<} Probability, Generator \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+Inheritance diagram for bn\+::inference\+::rejection\+\_\+sampling\texorpdfstring{$<$}{<} Probability_, Generator_ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=3.000000cm]{classbn_1_1inference_1_1rejection__sampling}
@@ -20,26 +20,26 @@ Inheritance diagram for bn\+::inference\+::rejection\+\_\+sampling\texorpdfstrin
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classbn_1_1inference_1_1rejection__sampling_a4287514581dc650dd17759fc787a0b78}\label{classbn_1_1inference_1_1rejection__sampling_a4287514581dc650dd17759fc787a0b78}} 
-\mbox{\hyperlink{classbn_1_1marginal__distribution}{bn\+::marginal\+\_\+distribution}}$<$ Probability $>$ {\bfseries sample\+\_\+step} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \&bn, ulong nsamples, uint seed) override
+\mbox{\hyperlink{classbn_1_1marginal__distribution}{bn\+::marginal\+\_\+distribution}}$<$ Probability_ $>$ {\bfseries sample\+\_\+step} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability_ $>$ \&bn, ulong nsamples, uint seed) override
 \item 
 \mbox{\Hypertarget{classbn_1_1inference_1_1rejection__sampling_ad4afc7eb334359808eb24030c54960c8}\label{classbn_1_1inference_1_1rejection__sampling_ad4afc7eb334359808eb24030c54960c8}} 
-bn\+::state\+\_\+t {\bfseries prior\+\_\+sample} (unsigned long n, const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \&bn, const std\+::vector$<$ bn\+::state\+\_\+t $>$ \&var\+\_\+state\+\_\+values, Generator \&gen)
+bn\+::state\+\_\+t {\bfseries prior\+\_\+sample} (unsigned long n, const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability_ $>$ \&bn, const std\+::vector$<$ bn\+::state\+\_\+t $>$ \&var\+\_\+state\+\_\+values, Generator_ \&gen)
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
 \doxysubsection{Detailed Description}
-\subsubsection*{template$<$typename Probability = double, typename Generator = std\+::mt19937$>$\newline
-class bn\+::inference\+::rejection\+\_\+sampling$<$ Probability, Generator $>$}
+\subsubsection*{template$<$typename Probability_ = double, typename Generator_ = std\+::mt19937$>$\newline
+class bn\+::inference\+::rejection\+\_\+sampling$<$ Probability_, Generator_ $>$}
 ========== Rejection Sampling Algorithm ========= This class represents the rejection sampling approximate inference algorithm for discrete bayesian networks. It allows to specify a custom generator and a custom initial seed. Please NOTICE\+: to use a non-\/standard generator you must overload
 \begin{DoxyItemize}
 \item min()
 \item max()
 \item operator () as they\textquotesingle{}re required by std\+::discrete\+\_\+distribution 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em Probability} & \+: the type expressing the probability \\
+{\em Probability_} & \+: the type expressing the probability \\
 \hline
-{\em Generator} & \+: the random generator (default Mersenne Twister pseudo-\/random generator) \\
+{\em Generator_} & \+: the random generator (default Mersenne Twister pseudo-\/random generator) \\
 \hline
 \end{DoxyTemplParams}
 

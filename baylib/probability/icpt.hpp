@@ -14,15 +14,15 @@
  */
 
 
-namespace bn{
-    namespace cow{
+namespace bn {
+    namespace cow {
         /**
          * ICPT is a child class of CPT that enables learning of unknown distributions starting from
          * a known CPT or an empty table
-         * @tparam Probability : type of ICPT entry
+         * @tparam Probability_ : type of ICPT entry
          */
-        template <typename Probability>
-        class icpt: public bn::cow::cpt<Probability>{
+        template <typename Probability_>
+        class icpt: public bn::cow::cpt<Probability_>{
 
         public:
             icpt()= default;
@@ -37,7 +37,7 @@ namespace bn{
                     const std::vector<ulong> &parents_size,
                     uint states
             )
-            : icpt(parents_size, states, 1/static_cast<Probability>(states))
+            : icpt(parents_size, states, 1/static_cast<Probability_>(states))
             { };
 
             /**
@@ -46,14 +46,14 @@ namespace bn{
              * @param empty : if set true the icpt is filled with zeros
              */
             explicit icpt(
-                    cow::cpt<Probability>& cpt,
+                    cow::cpt<Probability_>& cpt,
                     bool empty=false
             )
-            : bn::cow::cpt<Probability>(cpt)
+            : bn::cow::cpt<Probability_>(cpt)
             {
                 if(empty){
                     for(auto& row: this->d->table){
-                        row = std::vector<Probability>(row.size(), 0.);
+                        row = std::vector<Probability_>(row.size(), 0.);
                     }
                 }
             }
@@ -63,12 +63,12 @@ namespace bn{
              * @param cond : condition
              * @return     : probability distribution
             */
-            std::vector<Probability> &operator[] (const bn::condition &cond){
+            std::vector<Probability_> &operator[] (const bn::condition &cond){
                 return this->d->table[this->cond_map.at(cond)];
             }
 
 
-            std::vector<Probability>& operator[](uint index){
+            std::vector<Probability_>& operator[](uint index){
                 return this->d.data()->table[index];
             }
 
@@ -77,7 +77,7 @@ namespace bn{
              * @param index : index
              * @return      : row of cpt
              */
-            const std::vector<Probability>& operator[](uint index) const{
+            const std::vector<Probability_>& operator[](uint index) const{
                 return this->d.data()->table[index];
             }
 
@@ -85,9 +85,9 @@ namespace bn{
              * modifies the content of the icpt by dividing each row by its sum
              */
             void normalize(){
-                for(std::vector<Probability>& row: this->d.data()->table){
-                    Probability sum = std::accumulate(row.begin(), row.end(), 0.0);
-                    std::transform(row.begin(), row.end(), row.begin(), [&sum](Probability& prob){return prob/sum;});
+                for(std::vector<Probability_>& row: this->d.data()->table){
+                    Probability_ sum = std::accumulate(row.begin(), row.end(), 0.0);
+                    std::transform(row.begin(), row.end(), row.begin(), [&sum](Probability_& prob){return prob / sum;});
                 }
             }
 
@@ -98,7 +98,7 @@ namespace bn{
              * @param learning_rate
              * @return maximum mean discrepancy distance
              */
-            double absorb(const icpt<Probability>& other, float learning_rate){
+            double absorb(const icpt<Probability_>& other, float learning_rate){
                 double tot_var_difference = 0.;
                 for (int i = 0; i < this->size(); ++i) {
                     for(int j = 0; j < (*this)[i].size(); ++j){

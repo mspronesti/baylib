@@ -39,38 +39,43 @@ namespace bn {
         *   5. estimate the marginal distribution from the valid simulations
         * @tparam Probability : the type expressing the probability
         **/
-        template <typename Probability>
-        class logic_sampling : public vectorized_inference_algorithm<Probability>{
-            using prob_v = boost::compute::vector<Probability>;
+        template <
+                typename Network_,
+                typename Generator_ = std::mt19937
+                >
+        class logic_sampling : public vectorized_inference_algorithm<Network_>
+        {
+            using typename vectorized_inference_algorithm<Network_>::network_type;
+            using typename vectorized_inference_algorithm<Network_>::probability_type;
+            using vectorized_inference_algorithm<Network_>::bn;
+            using prob_v = boost::compute::vector<probability_type>;
         public:
 
             logic_sampling(
+                    const network_type &bn,
                     ulong samples,
                     size_t memory,
                     uint seed = 0,
                     const compute::device &device = compute::system::default_device()
             )
-            : vectorized_inference_algorithm<Probability>(samples, memory, seed, device)
+            : vectorized_inference_algorithm<Network_>(samples, memory, seed, device)
             { }
 
-            template <typename Variable>
-            marginal_distribution<Probability> make_inference (
-                    const bn::bayesian_network<Variable> &bn
-            )
+            marginal_distribution<probability_type> make_inference () override
             {
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
-                                          [&bn](auto &var){ return bn::cpt_filled_out(bn, var.id()); }),
+                                          [this](auto &var){ return bn::cpt_filled_out(bn, var.id()); }),
                               "conditional probability tables must be properly filled to"
                               " run logic_sampling inference algorithm",
                               std::runtime_error);
 
                 auto [iter_samples, niter] = this->calculate_iterations(bn);
                 auto vertex_queue = bn::sampling_order(bn);
-                marginal_distribution<Probability> marginal_result(bn.begin(), bn.end());
+                marginal_distribution<probability_type> marginal_result(bn.begin(), bn.end());
                 for (ulong i = 0; i< niter; i++) {
 
                     std::vector<bcvec> result_container(vertex_queue.size());
-                    marginal_distribution<Probability> temp(bn.begin(), bn.end());
+                    marginal_distribution<probability_type> temp(bn.begin(), bn.end());
                     compute::vector<int> valid_evidence_vec(this->nsamples, true, this->queue);
 
                     for(ulong v : vertex_queue) {

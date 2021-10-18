@@ -29,10 +29,11 @@
  */
 
 namespace bn{
-    template<typename Probability>
+    template<typename Variable_>
     class bayesian_network;
+
     namespace cow {
-        template<typename Probability>
+        template<typename Probability_>
         struct CPTData : public bn::cow::shared_data {
             /**
              * "table" doesn't map condition into a probability
@@ -43,11 +44,11 @@ namespace bn{
              * having the very same probability entries even if they refer
              * to different conditions )
              */
-            std::vector<std::vector<Probability>> table;
+            std::vector<std::vector<Probability_>> table;
             unsigned long nstates{};
         };
 
-        template<typename Probability>
+        template<typename Probability_>
         class cpt {
             /**
             * This class models a condition probability
@@ -68,14 +69,14 @@ namespace bn{
             */
         public:
             explicit cpt(unsigned long nstates = 2) {
-                d = new CPTData<Probability>();
+                d = new CPTData<Probability_>();
                 d->nstates = nstates;
             }
 
             void set_probability(
                     const bn::condition &cond,
                     bn::state_t state_val,
-                    Probability p
+                    Probability_ p
             ) {
                 BAYLIB_ASSERT(state_val < d->nstates,
                               "invalid state value"
@@ -96,7 +97,7 @@ namespace bn{
                 }
             }
 
-            const std::vector<Probability> &operator[] (const bn::condition &cond) const{
+            const std::vector<Probability_> &operator[] (const bn::condition &cond) const{
                 BAYLIB_ASSERT(has_entry_for(cond),
                               "bad condition value",
                               std::out_of_range)
@@ -105,7 +106,7 @@ namespace bn{
             }
 
 
-            const std::vector<Probability>  &at(const bn::condition &cond) const{
+            const std::vector<Probability_>  &at(const bn::condition &cond) const{
                 BAYLIB_ASSERT(has_entry_for(cond),
                               "bad condition value",
                               std::out_of_range)
@@ -122,7 +123,7 @@ namespace bn{
                 return cond_map.find(c) != cond_map.end();
             }
 
-            bool operator == (const cpt<Probability> &c) const {
+            bool operator == (const cpt<Probability_> &c) const {
                 return d->table == c.d->table;
             }
 
@@ -130,8 +131,8 @@ namespace bn{
                 return d->table.size();
             }
 
-            std::vector<Probability> flat() const{
-                auto flat_cpt = std::vector<Probability>{};
+            std::vector<Probability_> flat() const{
+                auto flat_cpt = std::vector<Probability_>{};
                 flat_cpt.reserve(d->table.size() * d->nstates);
 
                 for(auto &[cond, cond_id] : cond_map) {
@@ -167,25 +168,25 @@ namespace bn{
                     for(auto el: col){
                         auto const * p = reinterpret_cast<unsigned char const *>(&el) ;
                         int n = 1;
-                        for(int i = 0; i < sizeof(Probability) - 1; i++){
+                        for(int i = 0; i < sizeof(Probability_) - 1; i++){
                             if(*(char *)&n == 1)
                                 boost::hash_combine(seed, p[i]);
                             else
-                                boost::hash_combine(seed, p[sizeof(Probability) - 1 - i]);
+                                boost::hash_combine(seed, p[sizeof(Probability_) - 1 - i]);
                         }
                     }
                 }
                 return seed;
             }
 
-            [[nodiscard]] unsigned long number_of_states() const{ return d->nstates;}
+            unsigned long number_of_states() const{ return d->nstates;}
 
-            [[nodiscard]] unsigned long number_of_conditions() const{ return d.data()->table.size();}
+            unsigned long number_of_conditions() const{ return d.data()->table.size();}
 
 
         protected:
-            template <typename Variable> friend class bayesian_network;
-            bn::cow::shared_ptr<CPTData<Probability>> d;
+            template <typename Variable_> friend class bn::bayesian_network;
+            bn::cow::shared_ptr<CPTData<Probability_>> d;
             // assigns a condition its index in the cpt
             // ! key   : condition
             // ! value : row index

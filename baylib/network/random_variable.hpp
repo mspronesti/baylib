@@ -13,12 +13,13 @@
 
 namespace  bn {
     // forward declaration
-    template<typename Probability>
+    template<typename Variable_>
     class bayesian_network;
 
-    template<typename Probability>
+    template<typename Probability_ = double>
     class random_variable {
     public:
+        typedef Probability_ probability_type;
         /**
          * random variable constructor
          * @param name   : name of the variable
@@ -38,9 +39,9 @@ namespace  bn {
          * @param p           : probability relative to the entry
          */
         void set_probability(
-            bn::state_t state_value,
-            const bn::condition &cond,
-            Probability p
+                bn::state_t state_value,
+                const bn::condition &cond,
+                Probability_ p
         )
         {
             cpt.set_probability(cond, state_value, p);
@@ -50,14 +51,14 @@ namespace  bn {
         /**
          * @return cpt relative to the variable
          */
-        bn::cow::cpt<Probability> &table() {
+        bn::cow::cpt<Probability_> &table() {
             return cpt;
         }
 
         /**
          * @return cpt relative to the variable
          */
-        const  bn::cow::cpt<Probability> &table() const {
+        const  bn::cow::cpt<Probability_> &table() const {
             return cpt;
         }
 
@@ -120,9 +121,9 @@ namespace  bn {
         }
 
     protected:
-        template <typename Variable> friend class bayesian_network;
+        template <typename Variable_> friend class bn::bayesian_network;
 
-        bn::cow::cpt<Probability> cpt;
+        bn::cow::cpt<Probability_> cpt;
         bool _is_evidence;
         unsigned long _state_value;
         unsigned long _id;

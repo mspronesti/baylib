@@ -15,7 +15,7 @@
 
 
 namespace  bn {
-    template<typename Probability>
+    template<typename Variable_>
     class condition_factory {
         /**
          * this class produces all the combinations
@@ -34,7 +34,7 @@ namespace  bn {
          *                 one, taken from rv
          */
         explicit condition_factory(
-             const bn::bayesian_network<Probability> &bn,
+             const bn::bayesian_network<Variable_> &bn,
              const unsigned long var_id,
              const std::vector<unsigned long>& parents = {}
         )
@@ -103,7 +103,7 @@ namespace  bn {
 
     private:
         bn::condition c;
-        const bn::bayesian_network<Probability> &bn;
+        const bn::bayesian_network<Variable_> &bn;
         std::vector<unsigned long> _parents;
         unsigned long condition_index;
         unsigned long ncombinations;

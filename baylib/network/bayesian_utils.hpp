@@ -8,10 +8,7 @@
 
 #include <baylib/network/bayesian_network.hpp>
 #include <baylib/probability/condition_factory.hpp>
-
 #include <unordered_set>
-#include <mutex>
-#include <shared_mutex>
 
 //! \file bayesian_utils.hpp
 //! \brief Collection of utilities for bayesian_network
@@ -32,21 +29,20 @@ namespace  bn{
     * Applies ranking function to the DAG representing the
     * bayesian network to get the appropriate sampling order
     *
-    * @tparam Variable : the type expressing the random variable
+    * @tparam Network_ : the type expressing the random variable
     * @param  bn       : bayesian network
     * @return          : vector containing variables sorted by rank
     */
-    template <typename Variable>
-    std::vector<bn::vertex<Variable>> sampling_order (
-            const bn::bayesian_network<Variable> &bn
+    template <typename Network_>
+    std::vector<unsigned long> sampling_order (
+            const Network_ &bn
     )
     {
-        using vertex_t = bn::vertex<Variable>;
         ulong nvars = bn.number_of_variables();
 
         // initially, the all have rank 0
-        auto ranks = std::vector<vertex_t>(nvars, 0);
-        auto roots = std::vector<vertex_t>{};
+        auto ranks = std::vector<unsigned long>(nvars, 0);
+        auto roots = std::vector<unsigned long>{};
 
         for(ulong vid = 0; vid < nvars; ++vid)
             if(bn.is_root(vid))
@@ -57,7 +53,7 @@ namespace  bn{
                       std::runtime_error)
 
         while(!roots.empty()) {
-            vertex_t curr_node = roots.back();
+            unsigned long curr_node = roots.back();
             roots.pop_back();
 
             for(ulong vid = 0; vid < nvars; ++vid) {
@@ -70,7 +66,7 @@ namespace  bn{
             }
         }
 
-        auto order = std::vector<vertex_t>(nvars);
+        auto order = std::vector<unsigned long>(nvars);
         std::iota(order.begin(), order.end(), 0);
 
         std::sort(order.begin(), order.end(), [&ranks](auto &a, auto&b){
@@ -83,14 +79,14 @@ namespace  bn{
     /**
      * Computes the Markov blanket reduction
      * given the bayesian network and a node
-     * @tparam Variable : the type expressing the random variable
+     * @tparam Variable_ : the type of bayesian network
      * @param bn        : bayesian network
      * @param vid       : random variable id
      * @return          : unordered set containing the Markov blanket
      */
-    template <typename Variable>
+    template <typename Network_>
     std::unordered_set<unsigned long> markov_blanket (
-         const bn::bayesian_network<Variable> &bn,
+         const Network_ &bn,
          unsigned long vid
      )
      {
@@ -116,9 +112,9 @@ namespace  bn{
      * @param cpt_owner    : the node the cpt belongs to
      * @return             : true if filled out, false otherwise
      */
-    template <typename Variable>
+    template <typename Network_>
     bool cpt_filled_out(
-         const bn::bayesian_network<Variable> &bn,
+         const Network_ &bn,
          const unsigned long cpt_owner
     )
     {
@@ -146,11 +142,11 @@ namespace  bn{
 
     /**
      * Utility to reset all evidences in the given bayesian network
-     * @tparam Variable  : the type expressing the random variable
+     * @tparam Variable_  : the type expressing the random variable
      * @param bn            : the Bayesian network model
      */
-    template <typename Variable>
-    void clear_network_evidences(bn::bayesian_network<Variable> &bn)
+    template <typename Network_>
+    void clear_network_evidences(Network_ &bn)
     {
         std::for_each(bn.begin(), bn.end(), [](auto & var){
             if(var.is_evidence())
@@ -165,8 +161,8 @@ namespace  bn{
      * @param bn         : the Bayesian network model
      * @return           : vector of nodes
      */
-    template <typename Variable>
-    std::vector<ulong> ancestors_of_evidence(const bn::bayesian_network<Variable> &bn){
+    template <typename Network_>
+    std::vector<ulong> ancestors_of_evidence(const Network_ &bn){
         std::vector<bool> ancestor(bn.number_of_variables(), false);
         std::function<void(ulong)> mark_ancestors;
         mark_ancestors = [&bn, &ancestor, &mark_ancestors](ulong v_id){

@@ -1,10 +1,10 @@
-\hypertarget{classbn_1_1inference_1_1logic__sampling}{}\doxysection{bn\+::inference\+::logic\+\_\+sampling\texorpdfstring{$<$}{<} Probability \texorpdfstring{$>$}{>} Class Template Reference}
-\label{classbn_1_1inference_1_1logic__sampling}\index{bn::inference::logic\_sampling$<$ Probability $>$@{bn::inference::logic\_sampling$<$ Probability $>$}}
+\hypertarget{classbn_1_1inference_1_1logic__sampling}{}\doxysection{bn\+::inference\+::logic\+\_\+sampling\texorpdfstring{$<$}{<} Probability_ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1inference_1_1logic__sampling}\index{bn::inference::logic\_sampling$<$ Probability_ $>$@{bn::inference::logic\_sampling$<$ Probability_ $>$}}
 
 
 {\ttfamily \#include $<$logic\+\_\+sampling.\+hpp$>$}
 
-Inheritance diagram for bn\+::inference\+::logic\+\_\+sampling\texorpdfstring{$<$}{<} Probability \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+Inheritance diagram for bn\+::inference\+::logic\+\_\+sampling\texorpdfstring{$<$}{<} Probability_ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=3.000000cm]{classbn_1_1inference_1_1logic__sampling}
@@ -16,13 +16,13 @@ Inheritance diagram for bn\+::inference\+::logic\+\_\+sampling\texorpdfstring{$<
 \mbox{\Hypertarget{classbn_1_1inference_1_1logic__sampling_ac7b84f9167ce81cc090be128e54f3817}\label{classbn_1_1inference_1_1logic__sampling_ac7b84f9167ce81cc090be128e54f3817}} 
 {\bfseries logic\+\_\+sampling} (ulong samples, size\+\_\+t memory, uint seed=0, const compute\+::device \&device=compute\+::system\+::default\+\_\+device())
 \item 
-\mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability $>$ \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling_a54b21ea8cc491b377366b08003985867}{make\+\_\+inference}} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \&bn)
+\mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability_ $>$ \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling_a54b21ea8cc491b377366b08003985867}{make\+\_\+inference}} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability_ $>$ \&bn)
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Types}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classbn_1_1inference_1_1logic__sampling_a5bfc331a5bbd075c8f8168662e54f2dc}\label{classbn_1_1inference_1_1logic__sampling_a5bfc331a5bbd075c8f8168662e54f2dc}} 
-using {\bfseries prob\+\_\+v} = boost\+::compute\+::vector$<$ Probability $>$
+using {\bfseries prob\+\_\+v} = boost\+::compute\+::vector$<$ Probability_ $>$
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
@@ -33,8 +33,8 @@ std\+::vector$<$ ulong $>$ \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampl
 
 
 \doxysubsection{Detailed Description}
-\subsubsection*{template$<$typename Probability$>$\newline
-class bn\+::inference\+::logic\+\_\+sampling$<$ Probability $>$}
+\subsubsection*{template$<$typename Probability_$>$\newline
+class bn\+::inference\+::logic\+\_\+sampling$<$ Probability_ $>$}
 This class represents the Logic Sampling approximate inference algorithm for discrete Bayesian Networks. The implementation uses boost\+::compute to exploit GPGPU optimization. All samples are simulated in parallel, for this reason the maximum memory usage tolerable must be specified to avoid filling up the memory of the device in case of large number of samples. The algorithm main steps are \+:
 \begin{DoxyEnumerate}
 \item sort nodes in topological order
@@ -43,7 +43,7 @@ This class represents the Logic Sampling approximate inference algorithm for dis
 \item throw out each simulation that doesn\textquotesingle{}t comply with observed evidences
 \item estimate the marginal distribution from the valid simulations 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em Probability} & \+: the type expressing the probability \\
+{\em Probability_} & \+: the type expressing the probability \\
 \hline
 \end{DoxyTemplParams}
 
@@ -51,11 +51,11 @@ This class represents the Logic Sampling approximate inference algorithm for dis
 
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classbn_1_1inference_1_1logic__sampling_a848ba491bf69cb1ce23493bcd550efd2}\label{classbn_1_1inference_1_1logic__sampling_a848ba491bf69cb1ce23493bcd550efd2}} 
-\index{bn::inference::logic\_sampling$<$ Probability $>$@{bn::inference::logic\_sampling$<$ Probability $>$}!compute\_result\_general@{compute\_result\_general}}
-\index{compute\_result\_general@{compute\_result\_general}!bn::inference::logic\_sampling$<$ Probability $>$@{bn::inference::logic\_sampling$<$ Probability $>$}}
+\index{bn::inference::logic\_sampling$<$ Probability_ $>$@{bn::inference::logic\_sampling$<$ Probability_ $>$}!compute\_result\_general@{compute\_result\_general}}
+\index{compute\_result\_general@{compute\_result\_general}!bn::inference::logic\_sampling$<$ Probability_ $>$@{bn::inference::logic\_sampling$<$ Probability_ $>$}}
 \doxysubsubsection{\texorpdfstring{compute\_result\_general()}{compute\_result\_general()}}
-{\footnotesize\ttfamily template$<$typename Probability $>$ \\
-std\+::vector$<$ ulong $>$ \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling}{bn\+::inference\+::logic\+\_\+sampling}}$<$ Probability $>$\+::compute\+\_\+result\+\_\+general (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbn_1_1bcvec}{bcvec}} \&}]{res,  }\item[{compute\+::vector$<$ int $>$ \&}]{valid }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+{\footnotesize\ttfamily template$<$typename Probability_ $>$ \\
+std\+::vector$<$ ulong $>$ \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling}{bn\+::inference\+::logic\+\_\+sampling}}$<$ Probability_ $>$\+::compute\+\_\+result\+\_\+general (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbn_1_1bcvec}{bcvec}} \&}]{res,  }\item[{compute\+::vector$<$ int $>$ \&}]{valid }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
 
 Accumulate simulation results for general case 
 \begin{DoxyParams}{Parameters}
@@ -66,11 +66,11 @@ Accumulate simulation results for general case
 vector for witch the i-\/th element is the number of occurrences of i 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classbn_1_1inference_1_1logic__sampling_a54b21ea8cc491b377366b08003985867}\label{classbn_1_1inference_1_1logic__sampling_a54b21ea8cc491b377366b08003985867}} 
-\index{bn::inference::logic\_sampling$<$ Probability $>$@{bn::inference::logic\_sampling$<$ Probability $>$}!make\_inference@{make\_inference}}
-\index{make\_inference@{make\_inference}!bn::inference::logic\_sampling$<$ Probability $>$@{bn::inference::logic\_sampling$<$ Probability $>$}}
+\index{bn::inference::logic\_sampling$<$ Probability_ $>$@{bn::inference::logic\_sampling$<$ Probability_ $>$}!make\_inference@{make\_inference}}
+\index{make\_inference@{make\_inference}!bn::inference::logic\_sampling$<$ Probability_ $>$@{bn::inference::logic\_sampling$<$ Probability_ $>$}}
 \doxysubsubsection{\texorpdfstring{make\_inference()}{make\_inference()}}
-{\footnotesize\ttfamily template$<$typename Probability $>$ \\
-\mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability $>$ \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling}{bn\+::inference\+::logic\+\_\+sampling}}$<$ Probability $>$\+::make\+\_\+inference (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability $>$ \&}]{bn }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily template$<$typename Probability_ $>$ \\
+\mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability_ $>$ \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling}{bn\+::inference\+::logic\+\_\+sampling}}$<$ Probability_ $>$\+::make\+\_\+inference (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability_ $>$ \&}]{bn }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 Main method of the inference algorithm. Receives the bayesian network but doesn\textquotesingle{}t store it anywhere. It only uses its facilities to perform inference thus avoiding unwanted copies and allowing reusability of the same algorithm object 
 \begin{DoxyParams}{Parameters}
@@ -82,7 +82,7 @@ Main method of the inference algorithm. Receives the bayesian network but doesn\
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm_a717239e2a561fb79fe9c67a5b3effef7}{bn\+::inference\+::inference\+\_\+algorithm$<$ Probability $>$}}.
+Implements \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm_a717239e2a561fb79fe9c67a5b3effef7}{bn\+::inference\+::inference\+\_\+algorithm$<$ Probability_ $>$}}.
 
 
 

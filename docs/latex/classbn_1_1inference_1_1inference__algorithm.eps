@@ -173,15 +173,15 @@
 
 boxfont setfont
 1 boundaspect scale
-(bn::inference::inference_algorithm< Probability >) cw
+(bn::inference::inference_algorithm< Probability_ >) cw
 (bn::inference::parallel_inference_algorithm< double >) cw
-(bn::inference::parallel_inference_algorithm< Probability >) cw
-(bn::inference::vectorized_inference_algorithm< Probability >) cw
-(bn::inference::gibbs_sampling< Probability, Generator >) cw
-(bn::inference::likelihood_weighting< Probability, Generator >) cw
-(bn::inference::rejection_sampling< Probability, Generator >) cw
-(bn::inference::adaptive_importance_sampling< Probability, Generator >) cw
-(bn::inference::logic_sampling< Probability >) cw
+(bn::inference::parallel_inference_algorithm< Probability_ >) cw
+(bn::inference::vectorized_inference_algorithm< Probability_ >) cw
+(bn::inference::gibbs_sampling< Probability_, Generator_ >) cw
+(bn::inference::likelihood_weighting< Probability_, Generator_ >) cw
+(bn::inference::rejection_sampling< Probability_, Generator_ >) cw
+(bn::inference::adaptive_importance_sampling< Probability_, Generator_ >) cw
+(bn::inference::logic_sampling< Probability_ >) cw
 /boxwidth boxwidth marginwidth 2 mul add def
 /xspacing boxwidth distx add def
 /yspacing boxheight disty add def
@@ -193,15 +193,15 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- classes -----
 
- (bn::inference::inference_algorithm< Probability >) 2.000000 2.000000 box
+ (bn::inference::inference_algorithm< Probability_ >) 2.000000 2.000000 box
  (bn::inference::parallel_inference_algorithm< double >) 1.000000 1.000000 box
- (bn::inference::parallel_inference_algorithm< Probability >) 2.000000 1.000000 box
- (bn::inference::vectorized_inference_algorithm< Probability >) 3.500000 1.000000 box
- (bn::inference::gibbs_sampling< Probability, Generator >) 0.000000 0.000000 box
- (bn::inference::likelihood_weighting< Probability, Generator >) 1.000000 0.000000 box
- (bn::inference::rejection_sampling< Probability, Generator >) 2.000000 0.000000 box
- (bn::inference::adaptive_importance_sampling< Probability, Generator >) 3.000000 0.000000 box
- (bn::inference::logic_sampling< Probability >) 4.000000 0.000000 box
+ (bn::inference::parallel_inference_algorithm< Probability_ >) 2.000000 1.000000 box
+ (bn::inference::vectorized_inference_algorithm< Probability_ >) 3.500000 1.000000 box
+ (bn::inference::gibbs_sampling< Probability_, Generator_ >) 0.000000 0.000000 box
+ (bn::inference::likelihood_weighting< Probability_, Generator_ >) 1.000000 0.000000 box
+ (bn::inference::rejection_sampling< Probability_, Generator_ >) 2.000000 0.000000 box
+ (bn::inference::adaptive_importance_sampling< Probability_, Generator_ >) 3.000000 0.000000 box
+ (bn::inference::logic_sampling< Probability_ >) 4.000000 0.000000 box
 
 % ----- relations -----
 

@@ -173,9 +173,9 @@
 
 boxfont setfont
 1 boundaspect scale
-(bn::inference::adaptive_importance_sampling< Probability, Generator >) cw
-(bn::inference::vectorized_inference_algorithm< Probability >) cw
-(bn::inference::inference_algorithm< Probability >) cw
+(bn::inference::adaptive_importance_sampling< Probability_, Generator_ >) cw
+(bn::inference::vectorized_inference_algorithm< Probability_ >) cw
+(bn::inference::inference_algorithm< Probability_ >) cw
 /boxwidth boxwidth marginwidth 2 mul add def
 /xspacing boxwidth distx add def
 /yspacing boxheight disty add def
@@ -187,9 +187,9 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- classes -----
 
- (bn::inference::adaptive_importance_sampling< Probability, Generator >) 0.000000 0.000000 box
- (bn::inference::vectorized_inference_algorithm< Probability >) 0.000000 1.000000 box
- (bn::inference::inference_algorithm< Probability >) 0.000000 2.000000 box
+ (bn::inference::adaptive_importance_sampling< Probability_, Generator_ >) 0.000000 0.000000 box
+ (bn::inference::vectorized_inference_algorithm< Probability_ >) 0.000000 1.000000 box
+ (bn::inference::inference_algorithm< Probability_ >) 0.000000 2.000000 box
 
 % ----- relations -----
 

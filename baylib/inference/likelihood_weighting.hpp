@@ -22,34 +22,39 @@ namespace bn {
          * It offers the possibility to use a custom generator and
          * an initial seed
          * @tparam Probability : the type expressing the probability
-         * @tparam Generator  : the random generator
+         * @tparam Generator_  : the random generator
          *                     (default Mersenne Twister pseudo-random generator)
          */
-        template<typename Probability = double, typename Generator = std::mt19937>
-        class likelihood_weighting : public parallel_inference_algorithm<Probability, likelihood_weighting<Probability, Generator>>
+        template <
+                typename Network_,
+                typename Generator_ = std::mt19937
+                >
+        class likelihood_weighting : public parallel_inference_algorithm<Network_>
         {
+            typedef Network_ network_type;
+            using typename parallel_inference_algorithm<Network_>::probability_type;
+            using parallel_inference_algorithm<Network_>::bn;
             typedef std::vector<ulong> pattern_t;
         public:
             explicit likelihood_weighting(
+                    const network_type & bn,
                     ulong nsamples,
                     uint nthreads = 1,
                     uint seed = 0
             )
-            : parallel_inference_algorithm<Probability, likelihood_weighting<Probability, Generator>>(nsamples, nthreads, seed)
+            : parallel_inference_algorithm<Network_>(bn, nsamples, nthreads, seed)
             { };
-
-            template<class Variable>
-            bn::marginal_distribution<Probability> sample_step(
-                 const bn::bayesian_network<Variable> &bn,
+        private:
+            bn::marginal_distribution<probability_type> sample_step(
                  ulong nsamples,
                  uint seed
             )
             {
-                bn::marginal_distribution<Probability> mdistr(bn.begin(), bn.end());
-                bn::random_generator<Probability, Generator> rnd_gen(seed);
+                bn::marginal_distribution<probability_type> mdistr(bn.begin(), bn.end());
+                bn::random_generator<probability_type, Generator_> rnd_gen(seed);
 
                 for(ulong i=0; i<nsamples; i++){
-                    auto sample_pair = weighted_sample(bn, rnd_gen);
+                    auto sample_pair = weighted_sample(rnd_gen);
                     ulong vid = 0;
                     auto weight = sample_pair.second;
 
@@ -59,15 +64,12 @@ namespace bn {
                 return mdistr;
             }
 
-        private:
-            template<class Variable>
-            std::pair<pattern_t , Probability> weighted_sample(
-                const  bn::bayesian_network<Variable> &bn,
-                bn::random_generator<Probability> & rnd_gen
+            std::pair<pattern_t , probability_type> weighted_sample(
+                bn::random_generator<probability_type> & rnd_gen
             )
             {
 
-                Probability weight = 1.0;
+                probability_type weight = 1.0;
                 auto pattern = pattern_t(bn.number_of_variables(), 0.0);
 
                 for(ulong vid = 0; vid < bn.number_of_variables(); ++vid)
@@ -98,8 +100,8 @@ namespace bn {
             }
 
             uint make_random_by_weight(
-                    const Probability p,
-                    const std::vector<Probability> & weight
+                    const probability_type p,
+                    const std::vector<probability_type> & weight
             )
             {
                 BAYLIB_ASSERT(0.0 <= p && p <= 1.0,
@@ -107,7 +109,7 @@ namespace bn {
                               " not included in [0,1]",
                               std::logic_error);
 
-                Probability total = 0.0;
+                probability_type total = 0.0;
                 for(uint i = 0; i < weight.size(); ++i)
                 {
                     auto const old_total = total;
