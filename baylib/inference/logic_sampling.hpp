@@ -40,7 +40,7 @@ namespace bn {
         * @tparam Probability : the type expressing the probability
         **/
         template <
-                typename Network_,
+                BNetDerived Network_,
                 typename Generator_ = std::mt19937
                 >
         class logic_sampling : public vectorized_inference_algorithm<Network_>

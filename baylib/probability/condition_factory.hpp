@@ -15,7 +15,7 @@
 
 
 namespace  bn {
-    template<typename Variable_>
+    template<RVarDerived Variable_>
     class condition_factory {
         /**
          * this class produces all the combinations

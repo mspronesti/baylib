@@ -12,7 +12,7 @@
 #include <boost/compute.hpp>
 #include <boost/compute/device.hpp>
 #include <future>
-
+#include <baylib/baylib_concepts.hpp>
 
 //! \file abstract_inference_algorithm.hpp
 //! \brief Abstract classes for stocastic algorithms
@@ -25,7 +25,7 @@ namespace bn {
         * networks
         * @tparam Probability
         */
-        template <typename Network_>
+        template <BNetDerived Network_>
         class inference_algorithm {
         public:
             typedef Network_ network_type;
@@ -61,8 +61,6 @@ namespace bn {
              * @return    : the marginal distributions
              */
             virtual bn::marginal_distribution<probability_type> make_inference () = 0;
-
-            void set_bayesian_network(const network_type & _bn) { bn = _bn; }
 
             void set_number_of_samples(unsigned long _nsamples) { nsamples = _nsamples; }
 
@@ -168,7 +166,7 @@ namespace bn {
          * previous simulations of its parents nodes
          * @tparam Probability  : the type expressing probability
          */
-        template < typename Network_ >
+        template < BNetDerived Network_ >
         class vectorized_inference_algorithm : public inference_algorithm<Network_>
         {
         public:

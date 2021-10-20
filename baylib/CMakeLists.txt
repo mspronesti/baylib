@@ -53,6 +53,7 @@ set (src
     tools/random/random_generator.hpp
     smile_utils/smile_utils.hpp
     baylib_assert.h
+    baylib_concepts.hpp
 )
 
 set (BAYLIB_INCLUDE_LIBS ../baylib)

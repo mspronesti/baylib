@@ -21,7 +21,7 @@ namespace bn {
          * a known CPT or an empty table
          * @tparam Probability_ : type of ICPT entry
          */
-        template <typename Probability_>
+        template <Arithmetic Probability_>
         class icpt: public bn::cow::cpt<Probability_>{
 
         public:

@@ -8,6 +8,7 @@
 
 #include <baylib/network/bayesian_network.hpp>
 #include <baylib/probability/condition_factory.hpp>
+#include <baylib/baylib_concepts.hpp>
 #include <unordered_set>
 
 //! \file bayesian_utils.hpp
@@ -33,7 +34,7 @@ namespace  bn{
     * @param  bn       : bayesian network
     * @return          : vector containing variables sorted by rank
     */
-    template <typename Network_>
+    template <BNetDerived Network_>
     std::vector<unsigned long> sampling_order (
             const Network_ &bn
     )
@@ -84,7 +85,7 @@ namespace  bn{
      * @param vid       : random variable id
      * @return          : unordered set containing the Markov blanket
      */
-    template <typename Network_>
+    template <BNetDerived Network_>
     std::unordered_set<unsigned long> markov_blanket (
          const Network_ &bn,
          unsigned long vid
@@ -112,7 +113,7 @@ namespace  bn{
      * @param cpt_owner    : the node the cpt belongs to
      * @return             : true if filled out, false otherwise
      */
-    template <typename Network_>
+    template <BNetDerived Network_>
     bool cpt_filled_out(
          const Network_ &bn,
          const unsigned long cpt_owner
@@ -145,7 +146,7 @@ namespace  bn{
      * @tparam Variable_  : the type expressing the random variable
      * @param bn            : the Bayesian network model
      */
-    template <typename Network_>
+    template <BNetDerived Network_>
     void clear_network_evidences(Network_ &bn)
     {
         std::for_each(bn.begin(), bn.end(), [](auto & var){
@@ -161,7 +162,7 @@ namespace  bn{
      * @param bn         : the Bayesian network model
      * @return           : vector of nodes
      */
-    template <typename Network_>
+    template <BNetDerived Network_>
     std::vector<ulong> ancestors_of_evidence(const Network_ &bn){
         std::vector<bool> ancestor(bn.number_of_variables(), false);
         std::function<void(ulong)> mark_ancestors;

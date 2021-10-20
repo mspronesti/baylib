@@ -45,7 +45,7 @@ namespace bn {
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template <
-                typename Network_,
+                BNetDerived Network_,
                 typename Generator_ = std::mt19937
                 >
         class adaptive_importance_sampling: public vectorized_inference_algorithm<Network_>

@@ -21,26 +21,26 @@ namespace bn {
      * - custom generator
      * - custom seed
      * - custom type for the random number
-     * @tparam T           : the type of the random number
-     * @tparam Generator   : the type of generator (default Marsenne Twister)
+     * @tparam Tp_           : the type of the random number
+     * @tparam Generator_   : the type of generator (default Marsenne Twister)
      */
-    template<typename T, typename Generator=std::mt19937>
+    template<typename Tp_, typename Generator_ = std::mt19937>
     class random_generator {
         using dist_type = typename std::conditional
                 <
-                        std::is_integral<T>::value
-                        , std::uniform_int_distribution<T>
-                        , std::uniform_real_distribution<T>
+                        std::is_integral<Tp_>::value
+                        , std::uniform_int_distribution<Tp_>
+                        , std::uniform_real_distribution<Tp_>
                 >::type;
     public:
         explicit random_generator(uint seed = 0) : gen(prime(seed)) {}
 
-        T get_random(T from = .0, T to = 1.) {
+        Tp_ get_random(Tp_ from = .0, Tp_ to = 1.) {
             dist_type dist;
             return dist(gen, typename dist_type::param_type{from, to});
         }
 
-        T operator () (T from = 0., T to = 1.) {
+        Tp_ operator () (Tp_ from = 0., Tp_ to = 1.) {
             return get_random(from, to);
         }
 
@@ -53,7 +53,7 @@ namespace bn {
           return seed;
        }
 
-       Generator gen;
+       Generator_ gen;
     };
 
 

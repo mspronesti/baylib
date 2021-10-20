@@ -7,16 +7,17 @@
 
 #include <baylib/network/bayesian_network.hpp>
 #include <utility>
+#include <baylib/baylib_concepts.hpp>
 
 //! \file random_variable.hpp
 //! \brief Node class of bayesian_network
 
 namespace  bn {
     // forward declaration
-    template<typename Variable_>
+    template<RVarDerived Variable_>
     class bayesian_network;
 
-    template<typename Probability_ = double>
+    template<Arithmetic Probability_ = double>
     class random_variable {
     public:
         typedef Probability_ probability_type;
@@ -121,7 +122,7 @@ namespace  bn {
         }
 
     protected:
-        template <typename Variable_> friend class bn::bayesian_network;
+        template <RVarDerived Variable_> friend class bn::bayesian_network;
 
         bn::cow::cpt<Probability_> cpt;
         bool _is_evidence;

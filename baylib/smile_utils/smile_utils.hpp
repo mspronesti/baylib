@@ -10,6 +10,7 @@
 #include "rapidxml/rapidxml.hpp"
 
 #include <baylib/probability/condition_factory.hpp>
+#include <baylib/baylib_concepts.hpp>
 
 using namespace rapidxml;
 
@@ -17,8 +18,8 @@ using namespace rapidxml;
 //! \brief utilities to support the xdsl format from SMILE library
 
 namespace bn {
-    template <typename Probability_ = double>
-    class named_random_variable : public random_variable<Probability_> {
+    template <Arithmetic Probability_ = double>
+    class named_random_variable : public bn::random_variable<Probability_> {
     public:
         named_random_variable() = default;
 
@@ -63,13 +64,13 @@ namespace bn {
     /**
   * This methods builds a {name: id} map scanning a bayesian_network
   * whose nodes are named_random_variables
-  * @tparam Variable
+  * @tparam Variable_
   * @param bn
   * @return
   */
-    template <typename Variable>
+    template <RVarDerived Variable_>
     std::map<std::string, unsigned long> make_name_map (
-            const bn::bayesian_network<Variable> & bn
+            const bn::bayesian_network<Variable_> & bn
     )
     {
         auto name_map = std::map<std::string, unsigned long>{};
@@ -81,9 +82,9 @@ namespace bn {
     }
 
 
-    template<typename Probability_ = double>
+    template<Arithmetic Probability_ = double>
     class xdsl_parser {
-            typedef bn::bayesian_network<named_random_variable<Probability_>> __named_bayesian_network;
+        typedef bn::bayesian_network<named_random_variable<Probability_>> named_bayesian_network;
     public:
         xdsl_parser() = default;
 
@@ -93,11 +94,11 @@ namespace bn {
          * @param file_name : file name
          * @return         : bayesian network
          */
-        __named_bayesian_network deserialize (
+        named_bayesian_network deserialize (
              const std::string & file_name
         )
         {
-            __named_bayesian_network bn;
+            named_bayesian_network bn;
             auto doc = std::make_shared<xml_document<>>();
             std::ifstream input_file(file_name);
 

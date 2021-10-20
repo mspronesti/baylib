@@ -1703,7 +1703,7 @@
 \DoxyCodeLine{2127                 \textcolor{comment}{// <![}}
 \DoxyCodeLine{2128                 \textcolor{keywordflow}{case} Ch(\textcolor{charliteral}{'['}):}
 \DoxyCodeLine{2129                     if (text[2] == Ch(\textcolor{stringliteral}{'C'}) \&\& text[3] == Ch(\textcolor{stringliteral}{'D'}) \&\& text[4] == Ch(\textcolor{stringliteral}{'A'}) \&\& }
-\DoxyCodeLine{2130                         text[5] == Ch(\textcolor{stringliteral}{'T'}) \&\& text[6] == Ch(\textcolor{stringliteral}{'A'}) \&\& text[7] == Ch(\textcolor{stringliteral}{'['}))}
+\DoxyCodeLine{2130                         text[5] == Ch(\textcolor{stringliteral}{'Tp_'}) \&\& text[6] == Ch(\textcolor{stringliteral}{'A'}) \&\& text[7] == Ch(\textcolor{stringliteral}{'['}))}
 \DoxyCodeLine{2131                     \{}
 \DoxyCodeLine{2132                         \textcolor{comment}{// '<![CDATA[' -\/ cdata}}
 \DoxyCodeLine{2133                         text += 8;     \textcolor{comment}{// Skip '![CDATA['}}
@@ -1713,7 +1713,7 @@
 \DoxyCodeLine{2137 }
 \DoxyCodeLine{2138                 \textcolor{comment}{// <!D}}
 \DoxyCodeLine{2139                 \textcolor{keywordflow}{case} Ch(\textcolor{charliteral}{'D'}):}
-\DoxyCodeLine{2140                     if (text[2] == Ch(\textcolor{stringliteral}{'O'}) \&\& text[3] == Ch(\textcolor{stringliteral}{'C'}) \&\& text[4] == Ch(\textcolor{stringliteral}{'T'}) \&\& }
+\DoxyCodeLine{2140                     if (text[2] == Ch(\textcolor{stringliteral}{'O'}) \&\& text[3] == Ch(\textcolor{stringliteral}{'C'}) \&\& text[4] == Ch(\textcolor{stringliteral}{'Tp_'}) \&\& }
 \DoxyCodeLine{2141                         text[5] == Ch(\textcolor{stringliteral}{'Y'}) \&\& text[6] == Ch(\textcolor{stringliteral}{'P'}) \&\& text[7] == Ch(\textcolor{stringliteral}{'E'}) \&\& }
 \DoxyCodeLine{2142                         whitespace\_pred::test(text[8]))}
 \DoxyCodeLine{2143                     \{}

@@ -1,6 +1,6 @@
 # baylib C++ library
 <p align="center">
- <img alt="c++" src="https://img.shields.io/badge/C++-17 | 20-blue.svg?style=flat&logo=c%2B%2B"/> 
+ <img alt="c++" src="https://img.shields.io/badge/C++-20-blue.svg?style=flat&logo=c%2B%2B"/> 
  <img alt="CI build" src="https://github.com/mspronesti/baylib/actions/workflows/ci.yml/badge.svg"/> 
  <img alt="GPU build" src="https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg"/>
  <img alt="License" src="https://img.shields.io/github/license/mspronesti/baylib"/>
@@ -17,11 +17,11 @@ Here's a list of the main requested features:
 * cmake-based deployment
 
 ## Currently supported algorithms
-* Gibbs Sampling - C++17 threads
-* Likelihood Weighting - C++17 threads
+* Gibbs Sampling - C++11 threads
+* Likelihood Weighting - C++11 threads
 * Logic Sampling - GPGPU with boost compute
-* Rejection Sampling - C++17 threads
-* Adaptive importance sampling - C++17 threads, GPGPU with boost compute
+* Rejection Sampling - C++11 threads
+* Adaptive importance sampling - C++11 threads, GPGPU with boost compute
 
 |       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| GPGPU 	|
 |:------------------------------:|--------------|-----------------------|-------------------|-----------|

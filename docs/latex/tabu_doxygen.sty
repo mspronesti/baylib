@@ -1118,7 +1118,7 @@
         \ifx \@finalstrut\tabu@finalstrut \z@ % outer in mode 0 print
              \iftabu@measuring
                 \xdef\tabu@mkpreambuffer{\tabu@mkpreambuffer
-                    \tabu@target        \csname tabu@\the\tabu@nested.T\endcsname
+                    \tabu@target        \csname tabu@\the\tabu@nested.Tp_\endcsname
                     \tabucolX           \csname tabu@\the\tabu@nested.X\endcsname
                     \edef\@halignto {\ifx\@arrayright\@empty to\tabu@target\fi}}%
              \fi
@@ -1268,7 +1268,7 @@
     \ifcase\count@          % case 0 = print with vertical adjustment (outer is finished)
         \expandafter \tabu@endoftrials
     \or                     % case 1 = exit in vertical measure (outer in mode 3)
-        \expandafter\xdef\csname tabu@\the\tabu@nested.T\endcsname{\the\tabu@target}%
+        \expandafter\xdef\csname tabu@\the\tabu@nested.Tp_\endcsname{\the\tabu@target}%
         \expandafter\xdef\csname tabu@\the\tabu@nested.X\endcsname{\the\tabucolX}%
         \expandafter \tabu@endoftrials
     \or                     % case 2 = exit with a rule replacing the table (outer in mode 4)
@@ -1565,7 +1565,7 @@
 }% \tabu@message@verticalsp
 \edef\tabu@spaces{\@spaces}
 \def\tabu@strippt{\expandafter\tabu@pt\the}
-{\@makeother\P \@makeother\T\lowercase{\gdef\tabu@pt #1PT{#1}}}
+{\@makeother\P \@makeother\Tp_\lowercase{\gdef\tabu@pt #1PT{#1}}}
 \def\tabu@msgalign{\expandafter\tabu@msg@align\the\dimexpr}
 \def\tabu@msgalign@PT{\expandafter\tabu@msg@align\romannumeral-`\0\tabu@strippt}
 \def\do #1{%

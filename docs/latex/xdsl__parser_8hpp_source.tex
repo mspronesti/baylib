@@ -100,14 +100,14 @@
 \DoxyCodeLine{104 }
 \DoxyCodeLine{105     \textcolor{keyword}{private}:}
 \DoxyCodeLine{106 }
-\DoxyCodeLine{115         \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
-\DoxyCodeLine{116         std::vector<T> \mbox{\hyperlink{classbn_1_1xdsl__parser_abc543924667c4e3192bd6ebb9ef89e96}{split}}(}
+\DoxyCodeLine{115         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Tp_>}
+\DoxyCodeLine{116         std::vector<Tp_> \mbox{\hyperlink{classbn_1_1xdsl__parser_abc543924667c4e3192bd6ebb9ef89e96}{split}}(}
 \DoxyCodeLine{117             \textcolor{keyword}{const} std::string \&text,}
-\DoxyCodeLine{118             std::function<T(\textcolor{keyword}{const} std::string\&)> mapper,}
+\DoxyCodeLine{118             std::function<Tp_(\textcolor{keyword}{const} std::string\&)> mapper,}
 \DoxyCodeLine{119             \textcolor{keyword}{const} std::string\& delimiter = \textcolor{stringliteral}{"{} "{}}}
 \DoxyCodeLine{120         )}
 \DoxyCodeLine{121         \{}
-\DoxyCodeLine{122             std::vector<T> result;}
+\DoxyCodeLine{122             std::vector<Tp_> result;}
 \DoxyCodeLine{123             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} ix;}
 \DoxyCodeLine{124             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} start = 0;}
 \DoxyCodeLine{125             \textcolor{keywordflow}{while}((ix = text.find(delimiter, start)) != std::string::npos)\{}

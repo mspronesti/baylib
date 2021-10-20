@@ -29,8 +29,8 @@ namespace bn{
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template <
-                typename Network_,
-                typename Generator_=std::mt19937
+                BNetDerived Network_,
+                typename Generator_ = std::mt19937
                 >
         class rejection_sampling : public parallel_inference_algorithm<Network_>
         {

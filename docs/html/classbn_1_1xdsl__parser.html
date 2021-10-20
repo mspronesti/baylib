@@ -80,8 +80,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:abc543924667c4e3192bd6ebb9ef89e96"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:abc543924667c4e3192bd6ebb9ef89e96"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classbn_1_1xdsl__parser.html#abc543924667c4e3192bd6ebb9ef89e96">split</a> (const std::string &amp;text, std::function&lt; T(const std::string &amp;)&gt; mapper, const std::string &amp;delimiter=&quot; &quot;)</td></tr>
+<tr class="memitem:abc543924667c4e3192bd6ebb9ef89e96"><td class="memTemplParams" colspan="2">template&lt;typename Tp_ &gt; </td></tr>
+<tr class="memitem:abc543924667c4e3192bd6ebb9ef89e96"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; Tp_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classbn_1_1xdsl__parser.html#abc543924667c4e3192bd6ebb9ef89e96">split</a> (const std::string &amp;text, std::function&lt; Tp_(const std::string &amp;)&gt; mapper, const std::string &amp;delimiter=&quot; &quot;)</td></tr>
 <tr class="separator:abc543924667c4e3192bd6ebb9ef89e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -128,13 +128,13 @@ template&lt;typename Probability_ &gt; </div>
 <div class="memtemplate">
 template&lt;typename Probability_ &gt; </div>
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename Tp_ &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; T &gt; <a class="el" href="classbn_1_1xdsl__parser.html">bn::xdsl_parser</a>&lt; Probability_ &gt;::split </td>
+          <td class="memname">std::vector&lt; Tp_ &gt; <a class="el" href="classbn_1_1xdsl__parser.html">bn::xdsl_parser</a>&lt; Probability_ &gt;::split </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>text</em>, </td>
@@ -142,7 +142,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::function&lt; T(const std::string &amp;)&gt;&#160;</td>
+          <td class="paramtype">std::function&lt; Tp_(const std::string &amp;)&gt;&#160;</td>
           <td class="paramname"><em>mapper</em>, </td>
         </tr>
         <tr>
@@ -165,7 +165,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 <p >Utility of the parser for splitting a string and mapping to a specific value </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>: output of mapper </td></tr>
+    <tr><td class="paramname">Tp_</td><td>: output of mapper </td></tr>
   </table>
   </dd>
 </dl>

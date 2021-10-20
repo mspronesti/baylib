@@ -23,7 +23,7 @@ namespace bn {
      *
      * @tparam Probability_  : the type expressing the probability
      */
-    template <typename Probability_>
+    template <Arithmetic Probability_>
     class marginal_distribution {
     public:
         template <typename Container>

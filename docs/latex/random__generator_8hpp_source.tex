@@ -13,23 +13,23 @@
 \DoxyCodeLine{9 \textcolor{preprocessor}{\#include <random>}}
 \DoxyCodeLine{10 }
 \DoxyCodeLine{17 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
-\DoxyCodeLine{27     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Generator_=std::mt19937>}
+\DoxyCodeLine{27     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Tp_, \textcolor{keyword}{typename} Generator_=std::mt19937>}
 \DoxyCodeLine{28     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1random__generator}{random\_generator}} \{}
 \DoxyCodeLine{29         \textcolor{keyword}{using} dist\_type = \textcolor{keyword}{typename} std::conditional}
 \DoxyCodeLine{30                 <}
-\DoxyCodeLine{31                         std::is\_integral<T>::value}
-\DoxyCodeLine{32                         , std::uniform\_int\_distribution<T>}
-\DoxyCodeLine{33                         , std::uniform\_real\_distribution<T>}
+\DoxyCodeLine{31                         std::is\_integral<Tp_>::value}
+\DoxyCodeLine{32                         , std::uniform\_int\_distribution<Tp_>}
+\DoxyCodeLine{33                         , std::uniform\_real\_distribution<Tp_>}
 \DoxyCodeLine{34                 >::type;}
 \DoxyCodeLine{35     \textcolor{keyword}{public}:}
 \DoxyCodeLine{36         \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1random__generator}{random\_generator}}(uint seed = 0) : gen(prime(seed)) \{\}}
 \DoxyCodeLine{37 }
-\DoxyCodeLine{38         T get\_random(T from = .0, T to = 1.) \{}
+\DoxyCodeLine{38         Tp_ get\_random(Tp_ from = .0, Tp_ to = 1.) \{}
 \DoxyCodeLine{39             dist\_type dist;}
 \DoxyCodeLine{40             \textcolor{keywordflow}{return} dist(gen, \textcolor{keyword}{typename} dist\_type::param\_type\{from, to\});}
 \DoxyCodeLine{41         \}}
 \DoxyCodeLine{42 }
-\DoxyCodeLine{43         T operator () (T from = 0., T to = 1.) \{}
+\DoxyCodeLine{43         Tp_ operator () (Tp_ from = 0., Tp_ to = 1.) \{}
 \DoxyCodeLine{44             \textcolor{keywordflow}{return} get\_random(from, to);}
 \DoxyCodeLine{45         \}}
 \DoxyCodeLine{46 }

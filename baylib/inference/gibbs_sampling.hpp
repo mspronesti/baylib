@@ -31,7 +31,7 @@ namespace bn {
          *                     (default Mersenne Twister pseudo-random generator)
          */
         template <
-                typename Network_,
+                BNetDerived Network_,
                 typename Generator_ = std::mt19937
                 >
         class gibbs_sampling : public parallel_inference_algorithm<Network_>

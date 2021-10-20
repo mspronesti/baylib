@@ -13,6 +13,7 @@
 
 #include <baylib/tools/cow/shared_data.hpp>
 #include <baylib/tools/cow/shared_ptr.hpp>
+#include <baylib/baylib_concepts.hpp>
 
 /**
  * @file cpt.hpp
@@ -29,11 +30,11 @@
  */
 
 namespace bn{
-    template<typename Variable_>
+    template<RVarDerived Variable_>
     class bayesian_network;
 
     namespace cow {
-        template<typename Probability_>
+        template<Arithmetic Probability_>
         struct CPTData : public bn::cow::shared_data {
             /**
              * "table" doesn't map condition into a probability
@@ -48,7 +49,7 @@ namespace bn{
             unsigned long nstates{};
         };
 
-        template<typename Probability_>
+        template<Arithmetic Probability_>
         class cpt {
             /**
             * This class models a condition probability
@@ -185,7 +186,7 @@ namespace bn{
 
 
         protected:
-            template <typename Variable_> friend class bn::bayesian_network;
+            template <RVarDerived Variable_> friend class bn::bayesian_network;
             bn::cow::shared_ptr<CPTData<Probability_>> d;
             // assigns a condition its index in the cpt
             // ! key   : condition

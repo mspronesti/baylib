@@ -8,7 +8,7 @@
 \doxysubsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T $>$ \mbox{\hyperlink{classbn_1_1xdsl__parser_abc543924667c4e3192bd6ebb9ef89e96}{split}} (const std\+::string \&text, std\+::function$<$ T(const std\+::string \&)$>$ mapper, const std\+::string \&delimiter=\char`\"{} \char`\"{})
+{\footnotesize template$<$typename Tp_ $>$ }\\std\+::vector$<$ Tp_ $>$ \mbox{\hyperlink{classbn_1_1xdsl__parser_abc543924667c4e3192bd6ebb9ef89e96}{split}} (const std\+::string \&text, std\+::function$<$ Tp_(const std\+::string \&)$>$ mapper, const std\+::string \&delimiter=\char`\"{} \char`\"{})
 \end{DoxyCompactItemize}
 
 
@@ -33,12 +33,12 @@ Create a \mbox{\hyperlink{classbn_1_1bayesian__network}{bayesian\+\_\+network}} 
 \index{split@{split}!bn::xdsl\_parser$<$ Probability_ $>$@{bn::xdsl\_parser$<$ Probability_ $>$}}
 \doxysubsubsection{\texorpdfstring{split()}{split()}}
 {\footnotesize\ttfamily template$<$typename Probability_ $>$ \\
-template$<$typename T $>$ \\
-std\+::vector$<$ T $>$ \mbox{\hyperlink{classbn_1_1xdsl__parser}{bn\+::xdsl\+\_\+parser}}$<$ Probability_ $>$\+::split (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{text,  }\item[{std\+::function$<$ T(const std\+::string \&)$>$}]{mapper,  }\item[{const std\+::string \&}]{delimiter = {\ttfamily \char`\"{}~\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+template$<$typename Tp_ $>$ \\
+std\+::vector$<$ Tp_ $>$ \mbox{\hyperlink{classbn_1_1xdsl__parser}{bn\+::xdsl\+\_\+parser}}$<$ Probability_ $>$\+::split (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{text,  }\item[{std\+::function$<$ Tp_(const std\+::string \&)$>$}]{mapper,  }\item[{const std\+::string \&}]{delimiter = {\ttfamily \char`\"{}~\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
 
 Utility of the parser for splitting a string and mapping to a specific value 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em T} & \+: output of mapper \\
+{\em Tp_} & \+: output of mapper \\
 \hline
 \end{DoxyTemplParams}
 

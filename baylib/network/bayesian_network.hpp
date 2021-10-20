@@ -5,6 +5,7 @@
 #include <baylib/network/random_variable.hpp>
 #include <baylib/baylib_assert.h>
 #include <baylib/network/bayesian_utils.hpp>
+#include <baylib/baylib_concepts.hpp>
 
 //! \file bayesian_network.hpp
 //! \brief bayesian network implementation based on boost GPL
@@ -16,7 +17,7 @@ namespace bn {
      * user experience
      * @tparam Probability : Type of cpts entries
      */
-    template <typename Variable_>
+    template <RVarDerived Variable_>
     class bayesian_network {
         typedef bn::graph<Variable_> graph_type;
         typedef bn::vertex<Variable_> vertex_id;
@@ -113,7 +114,7 @@ namespace bn {
          * @param v : variable id
          * @return  : random variable class
          */
-        Variable_ & operator [] (vertex_id v) {
+        variable_type & operator [] (vertex_id v) {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -126,7 +127,7 @@ namespace bn {
          * @param  v: variable id
          * @return  : random variable class
          */
-        Variable_ & operator [] (vertex_id v) const {
+        variable_type & operator [] (vertex_id v) const {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)
@@ -139,7 +140,7 @@ namespace bn {
          * @param v : variable id
          * @return  : random variable class
          */
-        Variable_ & variable(vertex_id v) {
+        variable_type & variable(vertex_id v) {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)

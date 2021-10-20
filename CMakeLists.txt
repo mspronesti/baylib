@@ -11,10 +11,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # change this option to compile the examples
-option(BUILD_EXAMPLES "Build the examples showing how to use baylib" ON)
+option(BUILD_EXAMPLES "Build the examples showing how to use baylib" OFF)
 
 # change this option to compile tests
-option(BUILD_TESTS "Build tests for baylib" ON)
+option(BUILD_TESTS "Build tests for baylib" OFF)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
