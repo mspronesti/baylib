@@ -14,7 +14,7 @@
 namespace bn{
     namespace inference {
         /**
-         * ========== Rejection Sampling Algorithm =========
+         *  ========== Rejection Sampling Algorithm =========
          * This class represents the rejection sampling approximate
          * inference algorithm for discrete bayesian networks.
          * It allows to specify a custom generator and a custom initial
@@ -24,9 +24,9 @@ namespace bn{
          * - max()
          * - operator ()
          * as they're required by std::discrete_distribution
-         * @tparam Probability  : the type expressing the probability
-         * @tparam Generator_    : the random generator
-         *                     (default Mersenne Twister pseudo-random generator)
+         * @tparam Network_ : the type of bayesian network (must inherit from bn::bayesian_network)
+         * @tparam Generator_ : the type of random generator
+         *                  (default Mersenne Twister pseudo-random generator)
          */
         template <
                 BNetDerived Network_,

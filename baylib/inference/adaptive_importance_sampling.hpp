@@ -40,9 +40,9 @@ namespace bn {
          * 3. simulate all other nodes given their parents
          * 4. each evidence node simulation is set to the evidence value
          * 5. estimate the marginal probabilities from the simulations
-         * @tparam Probability : probability type
-         * @tparam Generator_   : the random generator used in the approximation part
-         *                     (default Mersenne Twister pseudo-random generator)
+         * @tparam Network_   : the type of bayesian network (must inherit from bn::bayesian_network)
+         * @tparam Generator_ : the type of random generator
+         *                  (default Mersenne Twister pseudo-random generator)
          */
         template <
                 BNetDerived Network_,

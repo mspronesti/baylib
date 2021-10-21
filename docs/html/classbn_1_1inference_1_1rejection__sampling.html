@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>baylib: bn::inference::rejection_sampling&lt; Probability_, Generator_ &gt; Class Template Reference</title>
+<title>baylib: bn::inference::rejection_sampling&lt; Network_, Generator_ &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,84 +69,101 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a>  </div>
-  <div class="headertitle"><div class="title">bn::inference::rejection_sampling&lt; Probability_, Generator_ &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">bn::inference::rejection_sampling&lt; Network_, Generator_ &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="rejection__sampling_8hpp_source.html">rejection_sampling.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for bn::inference::rejection_sampling&lt; Probability_, Generator_ &gt;:</div>
+Inheritance diagram for bn::inference::rejection_sampling&lt; Network_, Generator_ &gt;:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="classbn_1_1inference_1_1rejection__sampling.png" usemap="#bn::inference::rejection_5Fsampling_3C_20Probability_2C_20Generator_20_3E_map" alt=""/>
-  <map id="bn::inference::rejection_5Fsampling_3C_20Probability_2C_20Generator_20_3E_map" name="bn::inference::rejection_5Fsampling_3C_20Probability_2C_20Generator_20_3E_map">
-<area href="classbn_1_1inference_1_1parallel__inference__algorithm.html" alt="bn::inference::parallel_inference_algorithm&lt; double &gt;" shape="rect" coords="0,56,347,80"/>
-<area href="classbn_1_1inference_1_1inference__algorithm.html" alt="bn::inference::inference_algorithm&lt; Probability_ &gt;" shape="rect" coords="0,0,347,24"/>
+  <img src="classbn_1_1inference_1_1rejection__sampling.png" usemap="#bn::inference::rejection_5Fsampling_3C_20Network_5F_2C_20Generator_5F_20_3E_map" alt=""/>
+  <map id="bn::inference::rejection_5Fsampling_3C_20Network_5F_2C_20Generator_5F_20_3E_map" name="bn::inference::rejection_5Fsampling_3C_20Network_5F_2C_20Generator_5F_20_3E_map">
+<area href="classbn_1_1inference_1_1parallel__inference__algorithm.html" alt="bn::inference::parallel_inference_algorithm&lt; Network_ &gt;" shape="rect" coords="0,56,347,80"/>
+<area href="classbn_1_1inference_1_1inference__algorithm.html" alt="bn::inference::inference_algorithm&lt; Network_ &gt;" shape="rect" coords="0,0,347,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a686d5119849292f48cabbfc944ca7489"><td class="memItemLeft" align="right" valign="top"><a id="a686d5119849292f48cabbfc944ca7489" name="a686d5119849292f48cabbfc944ca7489"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>rejection_sampling</b> (ulong nsamples, uint nthreads=1, uint seed=0)</td></tr>
-<tr class="separator:a686d5119849292f48cabbfc944ca7489"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">bn::inference::parallel_inference_algorithm&lt; double &gt;</a></td></tr>
-<tr class="memitem:afe1e78ff363c80e2af9c3db691d508b3 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="afe1e78ff363c80e2af9c3db691d508b3" name="afe1e78ff363c80e2af9c3db691d508b3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>parallel_inference_algorithm</b> (unsigned long nsamples, unsigned int nthreads=1, unsigned int seed=0)</td></tr>
-<tr class="separator:afe1e78ff363c80e2af9c3db691d508b3 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbed1ed3f1d785215c1858afb3413ed7 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1inference_1_1parallel__inference__algorithm.html#afbed1ed3f1d785215c1858afb3413ed7">make_inference</a> (const <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt; double &gt; &amp;bn) override</td></tr>
-<tr class="separator:afbed1ed3f1d785215c1858afb3413ed7 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af421a0183ba7c6bbb73841f6a4cb9e21 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="af421a0183ba7c6bbb73841f6a4cb9e21" name="af421a0183ba7c6bbb73841f6a4cb9e21"></a>
+<tr class="memitem:aec78269a8dd62cdd03f5861dca878239"><td class="memItemLeft" align="right" valign="top"><a id="aec78269a8dd62cdd03f5861dca878239" name="aec78269a8dd62cdd03f5861dca878239"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>rejection_sampling</b> (const network_type &amp;bn, ulong nsamples, uint nthreads=1, uint seed=0)</td></tr>
+<tr class="separator:aec78269a8dd62cdd03f5861dca878239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">bn::inference::parallel_inference_algorithm&lt; Network_ &gt;</a></td></tr>
+<tr class="memitem:a57c0c3cdd9d4832a892cd18f7c495427 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="a57c0c3cdd9d4832a892cd18f7c495427" name="a57c0c3cdd9d4832a892cd18f7c495427"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>parallel_inference_algorithm</b> (const network_type &amp;bn, unsigned long nsamples, unsigned int nthreads=1, unsigned int seed=0)</td></tr>
+<tr class="separator:a57c0c3cdd9d4832a892cd18f7c495427 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a077e4eef04ff4c4cab485de802e52081 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a>&lt; probability_type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1inference_1_1parallel__inference__algorithm.html#a077e4eef04ff4c4cab485de802e52081">make_inference</a> () override</td></tr>
+<tr class="separator:a077e4eef04ff4c4cab485de802e52081 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0239b7db7e44f316edaff18392051f1 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="ad0239b7db7e44f316edaff18392051f1" name="ad0239b7db7e44f316edaff18392051f1"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>set_number_of_threads</b> (unsigned int _nthreads)</td></tr>
-<tr class="separator:af421a0183ba7c6bbb73841f6a4cb9e21 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classbn_1_1inference_1_1inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classbn_1_1inference_1_1inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classbn_1_1inference_1_1inference__algorithm.html">bn::inference::inference_algorithm&lt; Probability_ &gt;</a></td></tr>
-<tr class="memitem:a5b7fadbe1918dfb4de6b9939464693bc inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1inference_1_1inference__algorithm.html#a5b7fadbe1918dfb4de6b9939464693bc">inference_algorithm</a> (unsigned long nsamples, unsigned int seed=0)</td></tr>
-<tr class="separator:a5b7fadbe1918dfb4de6b9939464693bc inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a717239e2a561fb79fe9c67a5b3effef7 inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a>&lt; Probability_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1inference_1_1inference__algorithm.html#a717239e2a561fb79fe9c67a5b3effef7">make_inference</a> (const <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt; Probability_ &gt; &amp;bn)=0</td></tr>
-<tr class="separator:a717239e2a561fb79fe9c67a5b3effef7 inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f8722d24bdcf8c486bc6fc870cf7044 inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="a7f8722d24bdcf8c486bc6fc870cf7044" name="a7f8722d24bdcf8c486bc6fc870cf7044"></a>
+<tr class="separator:ad0239b7db7e44f316edaff18392051f1 inherit pub_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classbn_1_1inference_1_1inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classbn_1_1inference_1_1inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classbn_1_1inference_1_1inference__algorithm.html">bn::inference::inference_algorithm&lt; Network_ &gt;</a></td></tr>
+<tr class="memitem:a17ba92a92949d2c370db060528ea398e inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1inference_1_1inference__algorithm.html#a17ba92a92949d2c370db060528ea398e">inference_algorithm</a> (const network_type &amp;bn, unsigned long nsamples, unsigned int seed=0)</td></tr>
+<tr class="separator:a17ba92a92949d2c370db060528ea398e inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f17b6c28949271183deef002c28e7a2 inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a>&lt; probability_type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1inference_1_1inference__algorithm.html#a4f17b6c28949271183deef002c28e7a2">make_inference</a> ()=0</td></tr>
+<tr class="separator:a4f17b6c28949271183deef002c28e7a2 inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a512a3a6604470f890daf0c202150d0cb inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="a512a3a6604470f890daf0c202150d0cb" name="a512a3a6604470f890daf0c202150d0cb"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>set_number_of_samples</b> (unsigned long _nsamples)</td></tr>
-<tr class="separator:a7f8722d24bdcf8c486bc6fc870cf7044 inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afca134d6164afa4e432aac783a6b3a89 inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="afca134d6164afa4e432aac783a6b3a89" name="afca134d6164afa4e432aac783a6b3a89"></a>
+<tr class="separator:a512a3a6604470f890daf0c202150d0cb inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82a938724e8ae31c41b10e615715d976 inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="a82a938724e8ae31c41b10e615715d976" name="a82a938724e8ae31c41b10e615715d976"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>set_seed</b> (unsigned int _seed)</td></tr>
-<tr class="separator:afca134d6164afa4e432aac783a6b3a89 inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a82a938724e8ae31c41b10e615715d976 inherit pub_methods_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a4287514581dc650dd17759fc787a0b78"><td class="memItemLeft" align="right" valign="top"><a id="a4287514581dc650dd17759fc787a0b78" name="a4287514581dc650dd17759fc787a0b78"></a>
-<a class="el" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a>&lt; Probability_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sample_step</b> (const <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt; Probability_ &gt; &amp;bn, ulong nsamples, uint seed) override</td></tr>
-<tr class="separator:a4287514581dc650dd17759fc787a0b78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4afc7eb334359808eb24030c54960c8"><td class="memItemLeft" align="right" valign="top"><a id="ad4afc7eb334359808eb24030c54960c8" name="ad4afc7eb334359808eb24030c54960c8"></a>
-bn::state_t&#160;</td><td class="memItemRight" valign="bottom"><b>prior_sample</b> (unsigned long n, const <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt; Probability_ &gt; &amp;bn, const std::vector&lt; bn::state_t &gt; &amp;var_state_values, Generator_ &amp;gen)</td></tr>
-<tr class="separator:ad4afc7eb334359808eb24030c54960c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab001c016327d87c042c2eb039a60167a"><td class="memItemLeft" align="right" valign="top"><a id="ab001c016327d87c042c2eb039a60167a" name="ab001c016327d87c042c2eb039a60167a"></a>
+<a class="el" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a>&lt; probability_type &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sample_step</b> (ulong nsamples, uint seed) override</td></tr>
+<tr class="separator:ab001c016327d87c042c2eb039a60167a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa547906b6e4abd7ccbb8fcb54ab3cb81"><td class="memItemLeft" align="right" valign="top"><a id="aa547906b6e4abd7ccbb8fcb54ab3cb81" name="aa547906b6e4abd7ccbb8fcb54ab3cb81"></a>
+bn::state_t&#160;</td><td class="memItemRight" valign="bottom"><b>prior_sample</b> (unsigned long n, const std::vector&lt; bn::state_t &gt; &amp;var_state_values, Generator_ &amp;gen)</td></tr>
+<tr class="separator:aa547906b6e4abd7ccbb8fcb54ab3cb81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classbn_1_1inference_1_1parallel__inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">bn::inference::parallel_inference_algorithm&lt; double &gt;</a></td></tr>
-<tr class="memitem:a3fecd2e65db150a177beb5b4cd96db95 inherit pro_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="a3fecd2e65db150a177beb5b4cd96db95" name="a3fecd2e65db150a177beb5b4cd96db95"></a>
-virtual <a class="el" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sample_step</b> (const <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>&lt; double &gt; &amp;bn, unsigned long nsamples_per_step, unsigned int seed)=0</td></tr>
-<tr class="separator:a3fecd2e65db150a177beb5b4cd96db95 inherit pro_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_classbn_1_1inference_1_1parallel__inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classbn_1_1inference_1_1parallel__inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">bn::inference::parallel_inference_algorithm&lt; double &gt;</a></td></tr>
-<tr class="memitem:a71d7a7666aea5c72d2788e2b0928714d inherit pro_attribs_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="a71d7a7666aea5c72d2788e2b0928714d" name="a71d7a7666aea5c72d2788e2b0928714d"></a>
+<tr class="inherit_header pub_types_classbn_1_1inference_1_1parallel__inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classbn_1_1inference_1_1parallel__inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">bn::inference::parallel_inference_algorithm&lt; Network_ &gt;</a></td></tr>
+<tr class="memitem:ae832149e9a16ed5a9417eab92462d51b inherit pub_types_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="ae832149e9a16ed5a9417eab92462d51b" name="ae832149e9a16ed5a9417eab92462d51b"></a>
+typedef Network_&#160;</td><td class="memItemRight" valign="bottom"><b>network_type</b></td></tr>
+<tr class="separator:ae832149e9a16ed5a9417eab92462d51b inherit pub_types_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classbn_1_1inference_1_1inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classbn_1_1inference_1_1inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classbn_1_1inference_1_1inference__algorithm.html">bn::inference::inference_algorithm&lt; Network_ &gt;</a></td></tr>
+<tr class="memitem:ad0875b89675a0482d3a544e0b8316971 inherit pub_types_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="ad0875b89675a0482d3a544e0b8316971" name="ad0875b89675a0482d3a544e0b8316971"></a>
+typedef Network_&#160;</td><td class="memItemRight" valign="bottom"><b>network_type</b></td></tr>
+<tr class="separator:ad0875b89675a0482d3a544e0b8316971 inherit pub_types_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7e834c5cec216e0e1dfd75891ba019f inherit pub_types_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="ae7e834c5cec216e0e1dfd75891ba019f" name="ae7e834c5cec216e0e1dfd75891ba019f"></a>
+typedef network_type::variable_type&#160;</td><td class="memItemRight" valign="bottom"><b>variable_type</b></td></tr>
+<tr class="separator:ae7e834c5cec216e0e1dfd75891ba019f inherit pub_types_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25ea4de0bc5bf232a3632202a6f9d6ed inherit pub_types_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="a25ea4de0bc5bf232a3632202a6f9d6ed" name="a25ea4de0bc5bf232a3632202a6f9d6ed"></a>
+typedef variable_type::probability_type&#160;</td><td class="memItemRight" valign="bottom"><b>probability_type</b></td></tr>
+<tr class="separator:a25ea4de0bc5bf232a3632202a6f9d6ed inherit pub_types_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classbn_1_1inference_1_1parallel__inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">bn::inference::parallel_inference_algorithm&lt; Network_ &gt;</a></td></tr>
+<tr class="memitem:abec7d587a428d6fd253abc14310f3fb4 inherit pro_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="abec7d587a428d6fd253abc14310f3fb4" name="abec7d587a428d6fd253abc14310f3fb4"></a>
+virtual <a class="el" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a>&lt; probability_type &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sample_step</b> (unsigned long nsamples_per_step, unsigned int seed)=0</td></tr>
+<tr class="separator:abec7d587a428d6fd253abc14310f3fb4 inherit pro_methods_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classbn_1_1inference_1_1parallel__inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classbn_1_1inference_1_1parallel__inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">bn::inference::parallel_inference_algorithm&lt; Network_ &gt;</a></td></tr>
+<tr class="memitem:ad8009181de04431d6733b53ca575e0cf inherit pro_attribs_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="ad8009181de04431d6733b53ca575e0cf" name="ad8009181de04431d6733b53ca575e0cf"></a>
 unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>nthreads</b></td></tr>
-<tr class="separator:a71d7a7666aea5c72d2788e2b0928714d inherit pro_attribs_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classbn_1_1inference_1_1inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classbn_1_1inference_1_1inference__algorithm.html">bn::inference::inference_algorithm&lt; Probability_ &gt;</a></td></tr>
-<tr class="memitem:a0ec2d3ce04553d9e1ab361abb6e4903c inherit pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="a0ec2d3ce04553d9e1ab361abb6e4903c" name="a0ec2d3ce04553d9e1ab361abb6e4903c"></a>
+<tr class="separator:ad8009181de04431d6733b53ca575e0cf inherit pro_attribs_classbn_1_1inference_1_1parallel__inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classbn_1_1inference_1_1inference__algorithm')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classbn_1_1inference_1_1inference__algorithm.html">bn::inference::inference_algorithm&lt; Network_ &gt;</a></td></tr>
+<tr class="memitem:ac5d121fbcabecfd24f3002403cd5967e inherit pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="ac5d121fbcabecfd24f3002403cd5967e" name="ac5d121fbcabecfd24f3002403cd5967e"></a>
+const network_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>bn</b></td></tr>
+<tr class="separator:ac5d121fbcabecfd24f3002403cd5967e inherit pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a440657533069c15e90d913c589a0500e inherit pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="a440657533069c15e90d913c589a0500e" name="a440657533069c15e90d913c589a0500e"></a>
 unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>nsamples</b></td></tr>
-<tr class="separator:a0ec2d3ce04553d9e1ab361abb6e4903c inherit pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b43f19e7b31469f2d8bce30e2534f3e inherit pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="a6b43f19e7b31469f2d8bce30e2534f3e" name="a6b43f19e7b31469f2d8bce30e2534f3e"></a>
+<tr class="separator:a440657533069c15e90d913c589a0500e inherit pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae74be9fdacda79a8244db24a463e7d5c inherit pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td class="memItemLeft" align="right" valign="top"><a id="ae74be9fdacda79a8244db24a463e7d5c" name="ae74be9fdacda79a8244db24a463e7d5c"></a>
 unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>seed</b></td></tr>
-<tr class="separator:a6b43f19e7b31469f2d8bce30e2534f3e inherit pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ae74be9fdacda79a8244db24a463e7d5c inherit pro_attribs_classbn_1_1inference_1_1inference__algorithm"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename Probability_ = double, typename Generator_ = std::mt19937&gt;<br />
-class bn::inference::rejection_sampling&lt; Probability_, Generator_ &gt;</div><p >========== Rejection Sampling Algorithm ========= This class represents the rejection sampling approximate inference algorithm for discrete bayesian networks. It allows to specify a custom generator and a custom initial seed. Please NOTICE: to use a non-standard generator you must overload</p><ul>
+<div class="textblock"><div class="compoundTemplParams">template&lt;BNetDerived Network_, typename Generator_ = std::mt19937&gt;<br />
+class bn::inference::rejection_sampling&lt; Network_, Generator_ &gt;</div><p >========== Rejection Sampling Algorithm ========= This class represents the rejection sampling approximate inference algorithm for discrete bayesian networks. It allows to specify a custom generator and a custom initial seed. Please NOTICE: to use a non-standard generator you must overload</p><ul>
 <li>min()</li>
 <li>max()</li>
 <li>operator () as they're required by std::discrete_distribution <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Probability_</td><td>: the type expressing the probability </td></tr>
-    <tr><td class="paramname">Generator_</td><td>: the random generator (default Mersenne Twister pseudo-random generator) </td></tr>
+    <tr><td class="paramname">Network_</td><td>: the type of bayesian network (must inherit from <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>) </td></tr>
+    <tr><td class="paramname">Generator_</td><td>: the type of random generator (default Mersenne Twister pseudo-random generator) </td></tr>
   </table>
   </dd>
 </dl>

@@ -173,9 +173,9 @@
 
 boxfont setfont
 1 boundaspect scale
-(bn::inference::likelihood_weighting< Probability_, Generator_ >) cw
-(bn::inference::parallel_inference_algorithm< double >) cw
-(bn::inference::inference_algorithm< double >) cw
+(bn::inference::likelihood_weighting< Network_, Generator_ >) cw
+(bn::inference::parallel_inference_algorithm< Network_ >) cw
+(bn::inference::inference_algorithm< Network_ >) cw
 /boxwidth boxwidth marginwidth 2 mul add def
 /xspacing boxwidth distx add def
 /yspacing boxheight disty add def
@@ -187,9 +187,9 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- classes -----
 
- (bn::inference::likelihood_weighting< Probability_, Generator_ >) 0.000000 0.000000 box
- (bn::inference::parallel_inference_algorithm< double >) 0.000000 1.000000 box
- (bn::inference::inference_algorithm< double >) 0.000000 2.000000 box
+ (bn::inference::likelihood_weighting< Network_, Generator_ >) 0.000000 0.000000 box
+ (bn::inference::parallel_inference_algorithm< Network_ >) 0.000000 1.000000 box
+ (bn::inference::inference_algorithm< Network_ >) 0.000000 2.000000 box
 
 % ----- relations -----
 

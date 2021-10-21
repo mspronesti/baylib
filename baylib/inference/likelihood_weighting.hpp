@@ -21,9 +21,9 @@ namespace bn {
          * inference algorithm for discrete Bayesian Networks.
          * It offers the possibility to use a custom generator and
          * an initial seed
-         * @tparam Probability : the type expressing the probability
-         * @tparam Generator_  : the random generator
-         *                     (default Mersenne Twister pseudo-random generator)
+         * @tparam Network_   : the type of bayesian network (must inherit from bn::bayesian_network)
+         * @tparam Generator_ : the type of random generator
+         *                  (default Mersenne Twister pseudo-random generator)
          */
         template <
                 BNetDerived Network_,

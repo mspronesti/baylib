@@ -1,0 +1,37 @@
+\hypertarget{baylib__concepts_8hpp_source}{}\doxysection{baylib\+\_\+concepts.\+hpp}
+\label{baylib__concepts_8hpp_source}\index{/home/mspronesti/Desktop/baylib/baylib/baylib\_concepts.hpp@{/home/mspronesti/Desktop/baylib/baylib/baylib\_concepts.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by elle on 19/10/21.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef BAYLIB\_BAYLIB\_CONCEPTS\_HPP}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define BAYLIB\_BAYLIB\_CONCEPTS\_HPP}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <concepts>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{template} < \textcolor{keyword}{typename} P\_ >}
+\DoxyCodeLine{11 \textcolor{keyword}{concept }Arithmetic = std::is\_arithmetic\_v<P\_>;}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{comment}{// forward declaration of random\_variable}}
+\DoxyCodeLine{14 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
+\DoxyCodeLine{15     \textcolor{keyword}{template}<Arithmetic>}
+\DoxyCodeLine{16     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1random__variable}{random\_variable}};}
+\DoxyCodeLine{17 \}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{template} < \textcolor{keyword}{typename} V\_ >}
+\DoxyCodeLine{20 \textcolor{keyword}{concept }RVarDerived = std::is\_base\_of\_v< bn::random\_variable<typename V\_::probability\_type>, V\_ >;}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{comment}{// forward declaration of bayesian\_network}}
+\DoxyCodeLine{23 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
+\DoxyCodeLine{24     \textcolor{keyword}{template}<RVarDerived>}
+\DoxyCodeLine{25     \textcolor{keyword}{class }bayesian\_network;}
+\DoxyCodeLine{26 \}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{keyword}{template} < \textcolor{keyword}{typename} N\_ >}
+\DoxyCodeLine{29 \textcolor{keyword}{concept }BNetDerived = std::is\_base\_of\_v< bn::bayesian\_network<typename N\_::variable\_type>, N\_>;}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_BAYLIB\_CONCEPTS\_HPP}}
+
+\end{DoxyCode}

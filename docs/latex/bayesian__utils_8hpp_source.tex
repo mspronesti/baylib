@@ -12,21 +12,21 @@
 \DoxyCodeLine{8 }
 \DoxyCodeLine{9 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{bayesian__network_8hpp}{baylib/network/bayesian\_network.hpp}}>}}
 \DoxyCodeLine{10 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{condition__factory_8hpp}{baylib/probability/condition\_factory.hpp}}>}}
-\DoxyCodeLine{11 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <baylib/baylib\_concepts.hpp>}}
 \DoxyCodeLine{12 \textcolor{preprocessor}{\#include <unordered\_set>}}
-\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <mutex>}}
-\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <shared\_mutex>}}
-\DoxyCodeLine{15 }
-\DoxyCodeLine{18 }
-\DoxyCodeLine{30 \textcolor{keyword}{namespace  }\mbox{\hyperlink{namespacebn}{bn}}\{}
-\DoxyCodeLine{39     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability_>}
-\DoxyCodeLine{40     std::vector<bn::vertex<Probability_>> \mbox{\hyperlink{namespacebn_a3d7493f846b1dc83dfff870d49bc558e}{sampling\_order}}(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \&\mbox{\hyperlink{namespacebn}{bn}})\{}
-\DoxyCodeLine{41         \textcolor{keyword}{using} vertex\_t = bn::vertex<Probability_>;}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{16 }
+\DoxyCodeLine{28 \textcolor{keyword}{namespace  }\mbox{\hyperlink{namespacebn}{bn}}\{}
+\DoxyCodeLine{37     \textcolor{keyword}{template} <BNetDerived Network\_>}
+\DoxyCodeLine{38     std::vector<unsigned long> \mbox{\hyperlink{namespacebn_af3d46b351f924835802c271a247183b5}{sampling\_order}} (}
+\DoxyCodeLine{39             \textcolor{keyword}{const} Network\_ \&\mbox{\hyperlink{namespacebn}{bn}}}
+\DoxyCodeLine{40     )}
+\DoxyCodeLine{41     \{}
 \DoxyCodeLine{42         ulong nvars = \mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables();}
 \DoxyCodeLine{43 }
 \DoxyCodeLine{44         \textcolor{comment}{// initially, the all have rank 0}}
-\DoxyCodeLine{45         \textcolor{keyword}{auto} ranks = std::vector<vertex\_t>(nvars, 0);}
-\DoxyCodeLine{46         \textcolor{keyword}{auto} roots = std::vector<vertex\_t>\{\};}
+\DoxyCodeLine{45         \textcolor{keyword}{auto} ranks = std::vector<unsigned long>(nvars, 0);}
+\DoxyCodeLine{46         \textcolor{keyword}{auto} roots = std::vector<unsigned long>\{\};}
 \DoxyCodeLine{47 }
 \DoxyCodeLine{48         \textcolor{keywordflow}{for}(ulong vid = 0; vid < nvars; ++vid)}
 \DoxyCodeLine{49             \textcolor{keywordflow}{if}(\mbox{\hyperlink{namespacebn}{bn}}.is\_root(vid))}
@@ -37,7 +37,7 @@
 \DoxyCodeLine{54                       std::runtime\_error)}
 \DoxyCodeLine{55 }
 \DoxyCodeLine{56         \textcolor{keywordflow}{while}(!roots.empty()) \{}
-\DoxyCodeLine{57             vertex\_t curr\_node = roots.back();}
+\DoxyCodeLine{57             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} curr\_node = roots.back();}
 \DoxyCodeLine{58             roots.pop\_back();}
 \DoxyCodeLine{59 }
 \DoxyCodeLine{60             \textcolor{keywordflow}{for}(ulong vid = 0; vid < nvars; ++vid) \{}
@@ -50,7 +50,7 @@
 \DoxyCodeLine{67             \}}
 \DoxyCodeLine{68         \}}
 \DoxyCodeLine{69 }
-\DoxyCodeLine{70         \textcolor{keyword}{auto} order = std::vector<vertex\_t>(nvars);}
+\DoxyCodeLine{70         \textcolor{keyword}{auto} order = std::vector<unsigned long>(nvars);}
 \DoxyCodeLine{71         std::iota(order.begin(), order.end(), 0);}
 \DoxyCodeLine{72 }
 \DoxyCodeLine{73         std::sort(order.begin(), order.end(), [\&ranks](\textcolor{keyword}{auto} \&a, \textcolor{keyword}{auto}\&b)\{}
@@ -60,88 +60,91 @@
 \DoxyCodeLine{77         \textcolor{keywordflow}{return} order;}
 \DoxyCodeLine{78     \}}
 \DoxyCodeLine{79 }
-\DoxyCodeLine{88     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability_>}
-\DoxyCodeLine{89     std::unordered\_set<bn::vertex<Probability_>> \mbox{\hyperlink{namespacebn_a50031effa8d1404809812f29907212a4}{markov\_blanket}}}
-\DoxyCodeLine{90      (  \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{91         \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability_>}} \&rv}
-\DoxyCodeLine{92      ) \{}
-\DoxyCodeLine{93         \textcolor{keyword}{auto} rv\_id = rv.\mbox{\hyperlink{classbn_1_1random__variable_a34f34d4def2b2a3c17913c996abbfd15}{id}}();}
-\DoxyCodeLine{94         \textcolor{keyword}{auto} marblank = std::unordered\_set<bn::vertex<Probability_>>\{\};}
-\DoxyCodeLine{95         \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& pv : \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(rv\_id))}
+\DoxyCodeLine{88     \textcolor{keyword}{template} <BNetDerived Network\_>}
+\DoxyCodeLine{89     std::unordered\_set<unsigned long> \mbox{\hyperlink{namespacebn_a30b478c81538a7b88a827deb6c465ba2}{markov\_blanket}} (}
+\DoxyCodeLine{90          \textcolor{keyword}{const} Network\_ \&\mbox{\hyperlink{namespacebn}{bn}},}
+\DoxyCodeLine{91          \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} vid}
+\DoxyCodeLine{92      )}
+\DoxyCodeLine{93      \{}
+\DoxyCodeLine{94         \textcolor{keyword}{auto} marblank = std::unordered\_set<unsigned long>\{\};}
+\DoxyCodeLine{95         \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& pv : \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(vid))}
 \DoxyCodeLine{96             marblank.insert(pv);}
 \DoxyCodeLine{97 }
-\DoxyCodeLine{98         \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& vid : \mbox{\hyperlink{namespacebn}{bn}}.children\_of(rv\_id))\{}
+\DoxyCodeLine{98         \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& v : \mbox{\hyperlink{namespacebn}{bn}}.children\_of(vid))\{}
 \DoxyCodeLine{99             marblank.insert(vid);}
-\DoxyCodeLine{100             \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} pv : \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(vid))}
-\DoxyCodeLine{101                 \textcolor{keywordflow}{if}(vid != rv\_id)}
+\DoxyCodeLine{100             \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} pv : \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(v))}
+\DoxyCodeLine{101                 \textcolor{keywordflow}{if}(v != vid)}
 \DoxyCodeLine{102                     marblank.insert(pv);}
 \DoxyCodeLine{103         \}}
 \DoxyCodeLine{104 }
 \DoxyCodeLine{105         \textcolor{keywordflow}{return} marblank;}
 \DoxyCodeLine{106     \}}
 \DoxyCodeLine{107 }
-\DoxyCodeLine{116     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability_>}
-\DoxyCodeLine{117     \textcolor{keywordtype}{bool} \mbox{\hyperlink{namespacebn_acc5dce26e8f0ea7d4ec84de1c194998a}{cpt\_filled\_out}}(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability_>}} \&cpt\_owner)}
-\DoxyCodeLine{118     \{}
-\DoxyCodeLine{119         \mbox{\hyperlink{classbn_1_1condition__factory}{bn::condition\_factory}} factory(cpt\_owner);}
-\DoxyCodeLine{120         \textcolor{keyword}{const} \textcolor{keyword}{auto} \&cpt = cpt\_owner.\mbox{\hyperlink{classbn_1_1random__variable_a51961c59bb1c2054bac08a8e95f31d22}{table}}();}
-\DoxyCodeLine{121 }
-\DoxyCodeLine{122         \textcolor{keywordflow}{if}(factory.\mbox{\hyperlink{classbn_1_1condition__factory_abec2a596316802d7aede04ac7fcee4f7}{number\_of\_combinations}}() != cpt.size())}
-\DoxyCodeLine{123             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{116     \textcolor{keyword}{template} <BNetDerived Network\_>}
+\DoxyCodeLine{117     \textcolor{keywordtype}{bool} \mbox{\hyperlink{namespacebn_a8488fe928f91fd19041fd541611ed1cf}{cpt\_filled\_out}}(}
+\DoxyCodeLine{118          \textcolor{keyword}{const} Network\_ \&\mbox{\hyperlink{namespacebn}{bn}},}
+\DoxyCodeLine{119          \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} cpt\_owner}
+\DoxyCodeLine{120     )}
+\DoxyCodeLine{121     \{}
+\DoxyCodeLine{122         \mbox{\hyperlink{classbn_1_1condition__factory}{bn::condition\_factory}} factory(\mbox{\hyperlink{namespacebn}{bn}}, cpt\_owner);}
+\DoxyCodeLine{123         \textcolor{keyword}{const} \textcolor{keyword}{auto} \&cpt = \mbox{\hyperlink{namespacebn}{bn}}[cpt\_owner].table();}
 \DoxyCodeLine{124 }
-\DoxyCodeLine{125         \textcolor{keywordflow}{do} \{}
-\DoxyCodeLine{126             \textcolor{keyword}{auto} cond = factory.\mbox{\hyperlink{classbn_1_1condition__factory_a98f87e544c9f0d74b27fda6ba8f331fb}{get}}();}
-\DoxyCodeLine{127             \textcolor{keywordflow}{if}(!cpt.has\_entry\_for(cond))}
-\DoxyCodeLine{128                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
-\DoxyCodeLine{129         \} \textcolor{keywordflow}{while}(factory.\mbox{\hyperlink{classbn_1_1condition__factory_afb6c28c041f40fd9c916ad25eeb98ec6}{has\_next}}());}
-\DoxyCodeLine{130 }
-\DoxyCodeLine{131         \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& row : cpt) \{}
-\DoxyCodeLine{132             Probability_ sum = std::accumulate(row.begin(), row.end(), 0.0);}
-\DoxyCodeLine{133             \textcolor{keywordflow}{if} (abs(sum -\/ 1.0) > 1.0e-\/5) \{}
-\DoxyCodeLine{134                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
-\DoxyCodeLine{135             \}}
-\DoxyCodeLine{136         \}}
-\DoxyCodeLine{137 }
-\DoxyCodeLine{138         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
-\DoxyCodeLine{139     \}}
+\DoxyCodeLine{125         \textcolor{keywordflow}{if}(factory.\mbox{\hyperlink{classbn_1_1condition__factory_a7bf97461b195a7384b7cf13a41ed9ac4}{number\_of\_combinations}}() != cpt.size())}
+\DoxyCodeLine{126             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128         \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{129             \textcolor{keyword}{auto} cond = factory.\mbox{\hyperlink{classbn_1_1condition__factory_a344ceae066be946ef4c5652464ee0351}{get}}();}
+\DoxyCodeLine{130             \textcolor{keywordflow}{if}(!cpt.has\_entry\_for(cond))}
+\DoxyCodeLine{131                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{132         \} \textcolor{keywordflow}{while}(factory.\mbox{\hyperlink{classbn_1_1condition__factory_a5c941efbf6456134cc2ead072419ab51}{has\_next}}());}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134         \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& row : cpt) \{}
+\DoxyCodeLine{135             \textcolor{keyword}{auto} sum = std::accumulate(row.begin(), row.end(), 0.0);}
+\DoxyCodeLine{136             \textcolor{keywordflow}{if} (abs(sum -\/ 1.0) > 1.0e-\/5) \{}
+\DoxyCodeLine{137                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{138             \}}
+\DoxyCodeLine{139         \}}
 \DoxyCodeLine{140 }
-\DoxyCodeLine{146     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability_>}
-\DoxyCodeLine{147     \textcolor{keywordtype}{void} \mbox{\hyperlink{namespacebn_a10d33e1dd9b5ea8b7214787f1d2f7631}{clear\_network\_evidences}}(\mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \&\mbox{\hyperlink{namespacebn}{bn}})}
-\DoxyCodeLine{148     \{}
-\DoxyCodeLine{149         std::for\_each(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end(), [](\mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability_>}} \& var)\{}
-\DoxyCodeLine{150             if(var.is\_evidence())}
-\DoxyCodeLine{151                 var.clear\_evidence();}
-\DoxyCodeLine{152         \});}
-\DoxyCodeLine{153     \}}
-\DoxyCodeLine{154 }
-\DoxyCodeLine{162     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability_>}
-\DoxyCodeLine{163     std::vector<ulong> \mbox{\hyperlink{namespacebn_ae868320d9db0ea6331f8df7b6e7ccaef}{ancestors\_of\_evidence}}(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability_>}} \&\mbox{\hyperlink{namespacebn}{bn}})\{}
-\DoxyCodeLine{164         std::vector<bool> ancestor(\mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables(), \textcolor{keyword}{false});}
-\DoxyCodeLine{165         std::function<void(ulong)> mark\_ancestors;}
-\DoxyCodeLine{166         mark\_ancestors = [\&\mbox{\hyperlink{namespacebn}{bn}}, \&ancestor, \&mark\_ancestors](ulong v\_id)\{}
-\DoxyCodeLine{167             ancestor[v\_id] = \textcolor{keyword}{true};}
-\DoxyCodeLine{168             \textcolor{keywordflow}{for} (ulong p\_id: \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(v\_id)) \{}
-\DoxyCodeLine{169                 \textcolor{keywordflow}{if}(ancestor[p\_id])}
-\DoxyCodeLine{170                     \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{171                 ancestor[p\_id] = \textcolor{keyword}{true};}
-\DoxyCodeLine{172                 mark\_ancestors(p\_id);}
-\DoxyCodeLine{173             \}}
-\DoxyCodeLine{174         \};}
-\DoxyCodeLine{175         \textcolor{keywordflow}{for} (uint i = 0; i < \mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables(); ++i) \{}
-\DoxyCodeLine{176             \textcolor{keywordflow}{if}(\mbox{\hyperlink{namespacebn}{bn}}[i].is\_evidence())}
-\DoxyCodeLine{177                 mark\_ancestors(i);}
-\DoxyCodeLine{178         \}}
-\DoxyCodeLine{179         std::vector<ulong> ordered\_result;}
-\DoxyCodeLine{180         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} vertex: \mbox{\hyperlink{namespacebn_a3d7493f846b1dc83dfff870d49bc558e}{sampling\_order}}(\mbox{\hyperlink{namespacebn}{bn}})) \{}
-\DoxyCodeLine{181             \textcolor{keywordflow}{if}(ancestor[vertex])}
-\DoxyCodeLine{182                 ordered\_result.emplace\_back(vertex);}
-\DoxyCodeLine{183         \}}
-\DoxyCodeLine{184         \textcolor{keywordflow}{return} ordered\_result;}
-\DoxyCodeLine{185     \}}
-\DoxyCodeLine{186 }
-\DoxyCodeLine{187 }
-\DoxyCodeLine{188 \} \textcolor{comment}{// namespace bn}}
+\DoxyCodeLine{141         \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{142     \}}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{149     \textcolor{keyword}{template} <BNetDerived Network\_>}
+\DoxyCodeLine{150     \textcolor{keywordtype}{void} \mbox{\hyperlink{namespacebn_a9c43b0143bddb71614754619d81f8010}{clear\_network\_evidences}}(Network\_ \&\mbox{\hyperlink{namespacebn}{bn}})}
+\DoxyCodeLine{151     \{}
+\DoxyCodeLine{152         std::for\_each(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end(), [](\textcolor{keyword}{auto} \& var)\{}
+\DoxyCodeLine{153             if(var.is\_evidence())}
+\DoxyCodeLine{154                 var.clear\_evidence();}
+\DoxyCodeLine{155         \});}
+\DoxyCodeLine{156     \}}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{165     \textcolor{keyword}{template} <BNetDerived Network\_>}
+\DoxyCodeLine{166     std::vector<ulong> \mbox{\hyperlink{namespacebn_a458aec071117b23c396cd2bddc27bc58}{ancestors\_of\_evidence}}(\textcolor{keyword}{const} Network\_ \&\mbox{\hyperlink{namespacebn}{bn}})\{}
+\DoxyCodeLine{167         std::vector<bool> ancestor(\mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables(), \textcolor{keyword}{false});}
+\DoxyCodeLine{168         std::function<void(ulong)> mark\_ancestors;}
+\DoxyCodeLine{169         mark\_ancestors = [\&\mbox{\hyperlink{namespacebn}{bn}}, \&ancestor, \&mark\_ancestors](ulong v\_id)\{}
+\DoxyCodeLine{170             ancestor[v\_id] = \textcolor{keyword}{true};}
+\DoxyCodeLine{171             \textcolor{keywordflow}{for} (ulong p\_id: \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(v\_id)) \{}
+\DoxyCodeLine{172                 \textcolor{keywordflow}{if}(ancestor[p\_id])}
+\DoxyCodeLine{173                     \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{174                 ancestor[p\_id] = \textcolor{keyword}{true};}
+\DoxyCodeLine{175                 mark\_ancestors(p\_id);}
+\DoxyCodeLine{176             \}}
+\DoxyCodeLine{177         \};}
+\DoxyCodeLine{178         \textcolor{keywordflow}{for} (uint i = 0; i < \mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables(); ++i) \{}
+\DoxyCodeLine{179             \textcolor{keywordflow}{if}(\mbox{\hyperlink{namespacebn}{bn}}[i].is\_evidence())}
+\DoxyCodeLine{180                 mark\_ancestors(i);}
+\DoxyCodeLine{181         \}}
+\DoxyCodeLine{182         std::vector<ulong> ordered\_result;}
+\DoxyCodeLine{183         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} vertex: \mbox{\hyperlink{namespacebn_af3d46b351f924835802c271a247183b5}{sampling\_order}}(\mbox{\hyperlink{namespacebn}{bn}})) \{}
+\DoxyCodeLine{184             \textcolor{keywordflow}{if}(ancestor[vertex])}
+\DoxyCodeLine{185                 ordered\_result.emplace\_back(vertex);}
+\DoxyCodeLine{186         \}}
+\DoxyCodeLine{187         \textcolor{keywordflow}{return} ordered\_result;}
+\DoxyCodeLine{188     \}}
 \DoxyCodeLine{189 }
-\DoxyCodeLine{190 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_BAYESIAN\_UTILS\_HPP}}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191 \} \textcolor{comment}{// namespace bn}}
+\DoxyCodeLine{192 }
+\DoxyCodeLine{193 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_BAYESIAN\_UTILS\_HPP}}
 
 \end{DoxyCode}

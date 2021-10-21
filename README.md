@@ -32,9 +32,15 @@ Here's a list of the main requested features:
 | adaptive importance sampling   |    &check;  	|     &check;           |     &check;       |  &check;  |
 
 *It's a very well-known limitation of the Gibbs sampling approach
-## Install Dependencies
-Under Linux, you can use 
-the provided script [install_dependencies.sh](scripts/install_dependencies.sh) as follows
+## Dependencies
+* cmake >= 2.8
+* boost >= 1.65
+* gcc >= 10.3.0 (or any compiler fully supporting C++20)
+* libtbb 
+* ocl-icd-opencl
+* mesa-opencl-icd
+
+Under Linux, you can install the required dependencies using the provided script [install_dependencies.sh](scripts/install_dependencies.sh) as follows
 ```bash
  cd scripts/
  chmod u+x install_dependencies.sh

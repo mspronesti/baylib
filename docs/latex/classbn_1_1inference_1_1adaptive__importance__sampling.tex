@@ -1,10 +1,10 @@
-\hypertarget{classbn_1_1inference_1_1adaptive__importance__sampling}{}\doxysection{bn\+::inference\+::adaptive\+\_\+importance\+\_\+sampling\texorpdfstring{$<$}{<} Probability_, Generator_ \texorpdfstring{$>$}{>} Class Template Reference}
-\label{classbn_1_1inference_1_1adaptive__importance__sampling}\index{bn::inference::adaptive\_importance\_sampling$<$ Probability_, Generator_ $>$@{bn::inference::adaptive\_importance\_sampling$<$ Probability_, Generator_ $>$}}
+\hypertarget{classbn_1_1inference_1_1adaptive__importance__sampling}{}\doxysection{bn\+::inference\+::adaptive\+\_\+importance\+\_\+sampling\texorpdfstring{$<$}{<} Network\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1inference_1_1adaptive__importance__sampling}\index{bn::inference::adaptive\_importance\_sampling$<$ Network\_, Generator\_ $>$@{bn::inference::adaptive\_importance\_sampling$<$ Network\_, Generator\_ $>$}}
 
 
 {\ttfamily \#include $<$adaptive\+\_\+importance\+\_\+sampling.\+hpp$>$}
 
-Inheritance diagram for bn\+::inference\+::adaptive\+\_\+importance\+\_\+sampling\texorpdfstring{$<$}{<} Probability_, Generator_ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+Inheritance diagram for bn\+::inference\+::adaptive\+\_\+importance\+\_\+sampling\texorpdfstring{$<$}{<} Network\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=3.000000cm]{classbn_1_1inference_1_1adaptive__importance__sampling}
@@ -13,23 +13,23 @@ Inheritance diagram for bn\+::inference\+::adaptive\+\_\+importance\+\_\+samplin
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classbn_1_1inference_1_1adaptive__importance__sampling_a22e16ba6c1d945e25142e55d78526a7d}{adaptive\+\_\+importance\+\_\+sampling}} (ulong nsamples, size\+\_\+t memory, double initial\+\_\+learning\+\_\+rate=1, double final\+\_\+learning\+\_\+rate=0.\+05, uint learning\+\_\+step=1000, uint seed=0, const compute\+::device \&device=compute\+::system\+::default\+\_\+device())
+\mbox{\hyperlink{classbn_1_1inference_1_1adaptive__importance__sampling_a98dc105271c6b04c2b23d47c057d6f04}{adaptive\+\_\+importance\+\_\+sampling}} (ulong nsamples, size\+\_\+t memory, double initial\+\_\+learning\+\_\+rate=1, double final\+\_\+learning\+\_\+rate=0.\+05, uint learning\+\_\+step=1000, uint seed=0, const compute\+::device \&device=compute\+::system\+::default\+\_\+device())
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Types}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1inference_1_1adaptive__importance__sampling_a0d916fe9048c8b92feff0dd2605ca61b}\label{classbn_1_1inference_1_1adaptive__importance__sampling_a0d916fe9048c8b92feff0dd2605ca61b}} 
-using {\bfseries icpt\+\_\+vector} = std\+::vector$<$ \mbox{\hyperlink{classbn_1_1cow_1_1icpt}{cow\+::icpt}}$<$ Probability_ $>$ $>$
+\mbox{\Hypertarget{classbn_1_1inference_1_1adaptive__importance__sampling_a6bc6e7b533e5319c552f5c2820299e76}\label{classbn_1_1inference_1_1adaptive__importance__sampling_a6bc6e7b533e5319c552f5c2820299e76}} 
+typedef std\+::vector$<$ \mbox{\hyperlink{classbn_1_1cow_1_1icpt}{cow\+::icpt}}$<$ probability\+\_\+type $>$ $>$ {\bfseries icpt\+\_\+vector}
 \item 
-\mbox{\Hypertarget{classbn_1_1inference_1_1adaptive__importance__sampling_a70283f5f5f7e035963f7fc793d72ccb8}\label{classbn_1_1inference_1_1adaptive__importance__sampling_a70283f5f5f7e035963f7fc793d72ccb8}} 
-using {\bfseries simulation\+\_\+matrix} = std\+::vector$<$ std\+::vector$<$ uint $>$ $>$
+\mbox{\Hypertarget{classbn_1_1inference_1_1adaptive__importance__sampling_a02ad8f6af35b8d86c44044e04ffe955d}\label{classbn_1_1inference_1_1adaptive__importance__sampling_a02ad8f6af35b8d86c44044e04ffe955d}} 
+typedef std\+::vector$<$ std\+::vector$<$ uint $>$ $>$ {\bfseries simulation\+\_\+matrix}
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
 \doxysubsection{Detailed Description}
-\subsubsection*{template$<$typename Probability_, typename Generator_ = std\+::mt19937$>$\newline
-class bn\+::inference\+::adaptive\+\_\+importance\+\_\+sampling$<$ Probability_, Generator_ $>$}
+\subsubsection*{template$<$BNet\+Derived Network\+\_\+, typename Generator\+\_\+ = std\+::mt19937$>$\newline
+class bn\+::inference\+::adaptive\+\_\+importance\+\_\+sampling$<$ Network\+\_\+, Generator\+\_\+ $>$}
 This class represents a possible implementation of the Adaptive Importance Sampling algorithm. The implementation exploits two different types of parallelization, multithreading with the tbb library in the first approximation part and GPGPU with boost\+::compute in the sampling part. The steps of the approximation part are\+:
 \begin{DoxyEnumerate}
 \item create the sub-\/graph of the nodes that are ancestors of evidence nodes
@@ -45,21 +45,21 @@ This class represents a possible implementation of the Adaptive Importance Sampl
 \item each evidence node simulation is set to the evidence value
 \item estimate the marginal probabilities from the simulations 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em Probability_} & \+: probability type \\
+{\em Network\+\_\+} & \+: the type of bayesian network (must inherit from \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}) \\
 \hline
-{\em Generator_} & \+: the random generator used in the approximation part (default Mersenne Twister pseudo-\/random generator) \\
+{\em Generator\+\_\+} & \+: the type of random generator (default Mersenne Twister pseudo-\/random generator) \\
 \hline
 \end{DoxyTemplParams}
 
 \end{DoxyEnumerate}
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classbn_1_1inference_1_1adaptive__importance__sampling_a22e16ba6c1d945e25142e55d78526a7d}\label{classbn_1_1inference_1_1adaptive__importance__sampling_a22e16ba6c1d945e25142e55d78526a7d}} 
-\index{bn::inference::adaptive\_importance\_sampling$<$ Probability_, Generator_ $>$@{bn::inference::adaptive\_importance\_sampling$<$ Probability_, Generator_ $>$}!adaptive\_importance\_sampling@{adaptive\_importance\_sampling}}
-\index{adaptive\_importance\_sampling@{adaptive\_importance\_sampling}!bn::inference::adaptive\_importance\_sampling$<$ Probability_, Generator_ $>$@{bn::inference::adaptive\_importance\_sampling$<$ Probability_, Generator_ $>$}}
+\mbox{\Hypertarget{classbn_1_1inference_1_1adaptive__importance__sampling_a98dc105271c6b04c2b23d47c057d6f04}\label{classbn_1_1inference_1_1adaptive__importance__sampling_a98dc105271c6b04c2b23d47c057d6f04}} 
+\index{bn::inference::adaptive\_importance\_sampling$<$ Network\_, Generator\_ $>$@{bn::inference::adaptive\_importance\_sampling$<$ Network\_, Generator\_ $>$}!adaptive\_importance\_sampling@{adaptive\_importance\_sampling}}
+\index{adaptive\_importance\_sampling@{adaptive\_importance\_sampling}!bn::inference::adaptive\_importance\_sampling$<$ Network\_, Generator\_ $>$@{bn::inference::adaptive\_importance\_sampling$<$ Network\_, Generator\_ $>$}}
 \doxysubsubsection{\texorpdfstring{adaptive\_importance\_sampling()}{adaptive\_importance\_sampling()}}
-{\footnotesize\ttfamily template$<$typename Probability_ , typename Generator_  = std\+::mt19937$>$ \\
-\mbox{\hyperlink{classbn_1_1inference_1_1adaptive__importance__sampling}{bn\+::inference\+::adaptive\+\_\+importance\+\_\+sampling}}$<$ Probability_, Generator_ $>$\+::\mbox{\hyperlink{classbn_1_1inference_1_1adaptive__importance__sampling}{adaptive\+\_\+importance\+\_\+sampling}} (\begin{DoxyParamCaption}\item[{ulong}]{nsamples,  }\item[{size\+\_\+t}]{memory,  }\item[{double}]{initial\+\_\+learning\+\_\+rate = {\ttfamily 1},  }\item[{double}]{final\+\_\+learning\+\_\+rate = {\ttfamily 0.05},  }\item[{uint}]{learning\+\_\+step = {\ttfamily 1000},  }\item[{uint}]{seed = {\ttfamily 0},  }\item[{const compute\+::device \&}]{device = {\ttfamily compute\+:\+:system\+:\+:default\+\_\+device()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+, typename Generator\+\_\+  = std\+::mt19937$>$ \\
+\mbox{\hyperlink{classbn_1_1inference_1_1adaptive__importance__sampling}{bn\+::inference\+::adaptive\+\_\+importance\+\_\+sampling}}$<$ Network\+\_\+, Generator\+\_\+ $>$\+::\mbox{\hyperlink{classbn_1_1inference_1_1adaptive__importance__sampling}{adaptive\+\_\+importance\+\_\+sampling}} (\begin{DoxyParamCaption}\item[{ulong}]{nsamples,  }\item[{size\+\_\+t}]{memory,  }\item[{double}]{initial\+\_\+learning\+\_\+rate = {\ttfamily 1},  }\item[{double}]{final\+\_\+learning\+\_\+rate = {\ttfamily 0.05},  }\item[{uint}]{learning\+\_\+step = {\ttfamily 1000},  }\item[{uint}]{seed = {\ttfamily 0},  }\item[{const compute\+::device \&}]{device = {\ttfamily compute\+:\+:system\+:\+:default\+\_\+device()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
 
 Adaptive Sampling algorithm constructor 
 \begin{DoxyParams}{Parameters}

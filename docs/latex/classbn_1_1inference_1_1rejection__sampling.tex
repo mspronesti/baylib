@@ -1,10 +1,10 @@
-\hypertarget{classbn_1_1inference_1_1rejection__sampling}{}\doxysection{bn\+::inference\+::rejection\+\_\+sampling\texorpdfstring{$<$}{<} Probability_, Generator_ \texorpdfstring{$>$}{>} Class Template Reference}
-\label{classbn_1_1inference_1_1rejection__sampling}\index{bn::inference::rejection\_sampling$<$ Probability_, Generator_ $>$@{bn::inference::rejection\_sampling$<$ Probability_, Generator_ $>$}}
+\hypertarget{classbn_1_1inference_1_1rejection__sampling}{}\doxysection{bn\+::inference\+::rejection\+\_\+sampling\texorpdfstring{$<$}{<} Network\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1inference_1_1rejection__sampling}\index{bn::inference::rejection\_sampling$<$ Network\_, Generator\_ $>$@{bn::inference::rejection\_sampling$<$ Network\_, Generator\_ $>$}}
 
 
 {\ttfamily \#include $<$rejection\+\_\+sampling.\+hpp$>$}
 
-Inheritance diagram for bn\+::inference\+::rejection\+\_\+sampling\texorpdfstring{$<$}{<} Probability_, Generator_ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+Inheritance diagram for bn\+::inference\+::rejection\+\_\+sampling\texorpdfstring{$<$}{<} Network\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=3.000000cm]{classbn_1_1inference_1_1rejection__sampling}
@@ -13,33 +13,33 @@ Inheritance diagram for bn\+::inference\+::rejection\+\_\+sampling\texorpdfstrin
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1inference_1_1rejection__sampling_a686d5119849292f48cabbfc944ca7489}\label{classbn_1_1inference_1_1rejection__sampling_a686d5119849292f48cabbfc944ca7489}} 
-{\bfseries rejection\+\_\+sampling} (ulong nsamples, uint nthreads=1, uint seed=0)
+\mbox{\Hypertarget{classbn_1_1inference_1_1rejection__sampling_aec78269a8dd62cdd03f5861dca878239}\label{classbn_1_1inference_1_1rejection__sampling_aec78269a8dd62cdd03f5861dca878239}} 
+{\bfseries rejection\+\_\+sampling} (const network\+\_\+type \&bn, ulong nsamples, uint nthreads=1, uint seed=0)
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1inference_1_1rejection__sampling_a4287514581dc650dd17759fc787a0b78}\label{classbn_1_1inference_1_1rejection__sampling_a4287514581dc650dd17759fc787a0b78}} 
-\mbox{\hyperlink{classbn_1_1marginal__distribution}{bn\+::marginal\+\_\+distribution}}$<$ Probability_ $>$ {\bfseries sample\+\_\+step} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability_ $>$ \&bn, ulong nsamples, uint seed) override
+\mbox{\Hypertarget{classbn_1_1inference_1_1rejection__sampling_ab001c016327d87c042c2eb039a60167a}\label{classbn_1_1inference_1_1rejection__sampling_ab001c016327d87c042c2eb039a60167a}} 
+\mbox{\hyperlink{classbn_1_1marginal__distribution}{bn\+::marginal\+\_\+distribution}}$<$ probability\+\_\+type $>$ {\bfseries sample\+\_\+step} (ulong nsamples, uint seed) override
 \item 
-\mbox{\Hypertarget{classbn_1_1inference_1_1rejection__sampling_ad4afc7eb334359808eb24030c54960c8}\label{classbn_1_1inference_1_1rejection__sampling_ad4afc7eb334359808eb24030c54960c8}} 
-bn\+::state\+\_\+t {\bfseries prior\+\_\+sample} (unsigned long n, const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability_ $>$ \&bn, const std\+::vector$<$ bn\+::state\+\_\+t $>$ \&var\+\_\+state\+\_\+values, Generator_ \&gen)
+\mbox{\Hypertarget{classbn_1_1inference_1_1rejection__sampling_aa547906b6e4abd7ccbb8fcb54ab3cb81}\label{classbn_1_1inference_1_1rejection__sampling_aa547906b6e4abd7ccbb8fcb54ab3cb81}} 
+bn\+::state\+\_\+t {\bfseries prior\+\_\+sample} (unsigned long n, const std\+::vector$<$ bn\+::state\+\_\+t $>$ \&var\+\_\+state\+\_\+values, Generator\+\_\+ \&gen)
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
 \doxysubsection{Detailed Description}
-\subsubsection*{template$<$typename Probability_ = double, typename Generator_ = std\+::mt19937$>$\newline
-class bn\+::inference\+::rejection\+\_\+sampling$<$ Probability_, Generator_ $>$}
+\subsubsection*{template$<$BNet\+Derived Network\+\_\+, typename Generator\+\_\+ = std\+::mt19937$>$\newline
+class bn\+::inference\+::rejection\+\_\+sampling$<$ Network\+\_\+, Generator\+\_\+ $>$}
 ========== Rejection Sampling Algorithm ========= This class represents the rejection sampling approximate inference algorithm for discrete bayesian networks. It allows to specify a custom generator and a custom initial seed. Please NOTICE\+: to use a non-\/standard generator you must overload
 \begin{DoxyItemize}
 \item min()
 \item max()
 \item operator () as they\textquotesingle{}re required by std\+::discrete\+\_\+distribution 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em Probability_} & \+: the type expressing the probability \\
+{\em Network\+\_\+} & \+: the type of bayesian network (must inherit from \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}) \\
 \hline
-{\em Generator_} & \+: the random generator (default Mersenne Twister pseudo-\/random generator) \\
+{\em Generator\+\_\+} & \+: the type of random generator (default Mersenne Twister pseudo-\/random generator) \\
 \hline
 \end{DoxyTemplParams}
 

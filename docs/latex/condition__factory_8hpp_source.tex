@@ -13,62 +13,62 @@
 \DoxyCodeLine{9 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{condition_8hpp}{baylib/probability/condition.hpp}}>}}
 \DoxyCodeLine{10 }
 \DoxyCodeLine{17 \textcolor{keyword}{namespace  }\mbox{\hyperlink{namespacebn}{bn}} \{}
-\DoxyCodeLine{18     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability_>}
-\DoxyCodeLine{19     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1condition__factory}{condition\_factory}} \{}
-\DoxyCodeLine{26     \textcolor{keyword}{public}:}
-\DoxyCodeLine{36         \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1condition__factory_ae899f6a4b47777c4a9a32cb0db2e3bca}{condition\_factory}}(}
-\DoxyCodeLine{37              \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability_>}} \&rv,}
-\DoxyCodeLine{38              \textcolor{keyword}{const} std::vector<std::string>\& parents = \{\}}
-\DoxyCodeLine{39         )}
-\DoxyCodeLine{40         : var(rv)}
-\DoxyCodeLine{41         , condition\_index(0)}
-\DoxyCodeLine{42         , ncombinations(1)}
-\DoxyCodeLine{43         , \_parents(parents)}
-\DoxyCodeLine{44         \{}
-\DoxyCodeLine{45             \textcolor{keywordflow}{if}(parents.empty())}
-\DoxyCodeLine{46                 \_parents = var.parents\_info.names();}
-\DoxyCodeLine{47 }
-\DoxyCodeLine{48             \textcolor{comment}{// load first condition and compute the number}}
-\DoxyCodeLine{49             \textcolor{comment}{// of combinations}}
-\DoxyCodeLine{50             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&parent : \_parents) \{}
-\DoxyCodeLine{51                 \textcolor{comment}{// parent\_states\_number throws if invalid}}
-\DoxyCodeLine{52                 \textcolor{comment}{// parent, hence no extra check needed}}
-\DoxyCodeLine{53                 c.\mbox{\hyperlink{classbn_1_1condition_aaa01e66363ee3a94e9ec88e7931ffb40}{add}}(parent, condition\_index / ncombinations \% var.parents\_info.num\_states\_of(parent));}
-\DoxyCodeLine{54                 ncombinations *= var.parents\_info.num\_states\_of(parent);}
-\DoxyCodeLine{55             \}}
-\DoxyCodeLine{56         \}}
-\DoxyCodeLine{57 }
-\DoxyCodeLine{72         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1condition__factory_afb6c28c041f40fd9c916ad25eeb98ec6}{has\_next}}() \{}
-\DoxyCodeLine{73             \textcolor{keywordflow}{if} (++condition\_index >= ncombinations)}
-\DoxyCodeLine{74                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
-\DoxyCodeLine{75 }
-\DoxyCodeLine{76             \textcolor{comment}{// next condition}}
-\DoxyCodeLine{77             std::uint64\_t cum\_card = 1;}
-\DoxyCodeLine{78             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} name : \_parents) \{}
-\DoxyCodeLine{79                 c.\mbox{\hyperlink{classbn_1_1condition_aaa01e66363ee3a94e9ec88e7931ffb40}{add}}(name, condition\_index / cum\_card \% var.parents\_info.num\_states\_of(name));}
-\DoxyCodeLine{80                 cum\_card *= var.parents\_info.num\_states\_of(name);}
-\DoxyCodeLine{81             \}}
-\DoxyCodeLine{82             \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
-\DoxyCodeLine{83         \}}
-\DoxyCodeLine{84 }
-\DoxyCodeLine{91         std::uint64\_t \mbox{\hyperlink{classbn_1_1condition__factory_abec2a596316802d7aede04ac7fcee4f7}{number\_of\_combinations}}()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{92             \textcolor{keywordflow}{return} ncombinations;}
-\DoxyCodeLine{93         \}}
-\DoxyCodeLine{94 }
-\DoxyCodeLine{99         \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \mbox{\hyperlink{classbn_1_1condition__factory_a98f87e544c9f0d74b27fda6ba8f331fb}{get}}()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{100             \textcolor{keywordflow}{return} c;}
-\DoxyCodeLine{101         \}}
-\DoxyCodeLine{102 }
-\DoxyCodeLine{103     \textcolor{keyword}{private}:}
-\DoxyCodeLine{104 }
-\DoxyCodeLine{105         \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} c;}
-\DoxyCodeLine{106         \mbox{\hyperlink{classbn_1_1random__variable}{bn::random\_variable<Probability_>}} var;}
-\DoxyCodeLine{107         std::vector<std::string> \_parents;}
-\DoxyCodeLine{108         std::uint64\_t condition\_index;}
-\DoxyCodeLine{109         std::uint64\_t ncombinations;}
-\DoxyCodeLine{110     \};}
-\DoxyCodeLine{111 \}}
-\DoxyCodeLine{112 }
-\DoxyCodeLine{113 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_CONDITION\_FACTORY\_HPP}}
+\DoxyCodeLine{27     \textcolor{keyword}{template} < BNetDerived Network\_ >}
+\DoxyCodeLine{28     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1condition__factory}{condition\_factory}} \{}
+\DoxyCodeLine{29     \textcolor{keyword}{public}:}
+\DoxyCodeLine{39         \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1condition__factory_a100e159ddb7fdfe8eac98174e1aaa126}{condition\_factory}} (}
+\DoxyCodeLine{40              \textcolor{keyword}{const} Network\_ \&\mbox{\hyperlink{namespacebn}{bn}},}
+\DoxyCodeLine{41              \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} var\_id,}
+\DoxyCodeLine{42              \textcolor{keyword}{const} std::vector<unsigned long>\& parents = \{\}}
+\DoxyCodeLine{43         )}
+\DoxyCodeLine{44         : \mbox{\hyperlink{namespacebn}{bn}}(\mbox{\hyperlink{namespacebn}{bn}})}
+\DoxyCodeLine{45         , condition\_index(0)}
+\DoxyCodeLine{46         , ncombinations(1)}
+\DoxyCodeLine{47         , \_parents(parents)}
+\DoxyCodeLine{48         \{}
+\DoxyCodeLine{49             \textcolor{keywordflow}{if}(parents.empty())}
+\DoxyCodeLine{50                 \_parents = \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(var\_id);}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52             \textcolor{comment}{// load first condition and compute the number}}
+\DoxyCodeLine{53             \textcolor{comment}{// of combinations}}
+\DoxyCodeLine{54             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&parent : \_parents) \{}
+\DoxyCodeLine{55                 \textcolor{comment}{// parent\_states\_number throws if invalid}}
+\DoxyCodeLine{56                 \textcolor{comment}{// parent, hence no extra check needed}}
+\DoxyCodeLine{57                 c.\mbox{\hyperlink{classbn_1_1condition_ace731b0369dc443b364192007dbbab68}{add}}(parent, condition\_index / ncombinations \% \mbox{\hyperlink{namespacebn}{bn}}[parent].number\_of\_states());}
+\DoxyCodeLine{58                 ncombinations *= \mbox{\hyperlink{namespacebn}{bn}}[parent].number\_of\_states();}
+\DoxyCodeLine{59             \}}
+\DoxyCodeLine{60         \}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{76         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1condition__factory_a5c941efbf6456134cc2ead072419ab51}{has\_next}}() \{}
+\DoxyCodeLine{77             \textcolor{keywordflow}{if} (++condition\_index >= ncombinations)}
+\DoxyCodeLine{78                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80             \textcolor{comment}{// next condition}}
+\DoxyCodeLine{81             std::uint64\_t cum\_card = 1;}
+\DoxyCodeLine{82             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} parent : \_parents) \{}
+\DoxyCodeLine{83                 c.\mbox{\hyperlink{classbn_1_1condition_ace731b0369dc443b364192007dbbab68}{add}}(parent, condition\_index / cum\_card \% \mbox{\hyperlink{namespacebn}{bn}}[parent].number\_of\_states());}
+\DoxyCodeLine{84                 cum\_card *= \mbox{\hyperlink{namespacebn}{bn}}[parent].number\_of\_states();}
+\DoxyCodeLine{85             \}}
+\DoxyCodeLine{86             \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{87         \}}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{95         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \mbox{\hyperlink{classbn_1_1condition__factory_a7bf97461b195a7384b7cf13a41ed9ac4}{number\_of\_combinations}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{96             \textcolor{keywordflow}{return} ncombinations;}
+\DoxyCodeLine{97         \}}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{103         \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \mbox{\hyperlink{classbn_1_1condition__factory_a344ceae066be946ef4c5652464ee0351}{get}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{104             \textcolor{keywordflow}{return} c;}
+\DoxyCodeLine{105         \}}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107     \textcolor{keyword}{private}:}
+\DoxyCodeLine{108         \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} c;}
+\DoxyCodeLine{109         \textcolor{keyword}{const} Network\_ \&\mbox{\hyperlink{namespacebn}{bn}};}
+\DoxyCodeLine{110         std::vector<unsigned long> \_parents;}
+\DoxyCodeLine{111         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} condition\_index;}
+\DoxyCodeLine{112         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} ncombinations;}
+\DoxyCodeLine{113     \};}
+\DoxyCodeLine{114 \}}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_CONDITION\_FACTORY\_HPP}}
 
 \end{DoxyCode}

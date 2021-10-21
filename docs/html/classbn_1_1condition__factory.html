@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>baylib: bn::condition_factory&lt; Probability_ &gt; Class Template Reference</title>
+<title>baylib: bn::condition_factory&lt; Network_ &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,61 +69,77 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a>  </div>
-  <div class="headertitle"><div class="title">bn::condition_factory&lt; Probability_ &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">bn::condition_factory&lt; Network_ &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="condition__factory_8hpp_source.html">condition_factory.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae899f6a4b47777c4a9a32cb0db2e3bca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1condition__factory.html#ae899f6a4b47777c4a9a32cb0db2e3bca">condition_factory</a> (const <a class="el" href="classbn_1_1random__variable.html">bn::random_variable</a>&lt; Probability_ &gt; &amp;rv, const std::vector&lt; std::string &gt; &amp;parents={})</td></tr>
-<tr class="separator:ae899f6a4b47777c4a9a32cb0db2e3bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb6c28c041f40fd9c916ad25eeb98ec6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1condition__factory.html#afb6c28c041f40fd9c916ad25eeb98ec6">has_next</a> ()</td></tr>
-<tr class="separator:afb6c28c041f40fd9c916ad25eeb98ec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abec2a596316802d7aede04ac7fcee4f7"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1condition__factory.html#abec2a596316802d7aede04ac7fcee4f7">number_of_combinations</a> () const</td></tr>
-<tr class="separator:abec2a596316802d7aede04ac7fcee4f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98f87e544c9f0d74b27fda6ba8f331fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbn_1_1condition.html">bn::condition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1condition__factory.html#a98f87e544c9f0d74b27fda6ba8f331fb">get</a> () const</td></tr>
-<tr class="separator:a98f87e544c9f0d74b27fda6ba8f331fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a100e159ddb7fdfe8eac98174e1aaa126"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1condition__factory.html#a100e159ddb7fdfe8eac98174e1aaa126">condition_factory</a> (const Network_ &amp;bn, const unsigned long var_id, const std::vector&lt; unsigned long &gt; &amp;parents={})</td></tr>
+<tr class="separator:a100e159ddb7fdfe8eac98174e1aaa126"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c941efbf6456134cc2ead072419ab51"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1condition__factory.html#a5c941efbf6456134cc2ead072419ab51">has_next</a> ()</td></tr>
+<tr class="separator:a5c941efbf6456134cc2ead072419ab51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bf97461b195a7384b7cf13a41ed9ac4"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1condition__factory.html#a7bf97461b195a7384b7cf13a41ed9ac4">number_of_combinations</a> () const</td></tr>
+<tr class="separator:a7bf97461b195a7384b7cf13a41ed9ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a344ceae066be946ef4c5652464ee0351"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbn_1_1condition.html">bn::condition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classbn_1_1condition__factory.html#a344ceae066be946ef4c5652464ee0351">get</a> () const</td></tr>
+<tr class="separator:a344ceae066be946ef4c5652464ee0351"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a5b67510087dce14f1715d74eb012230a"><td class="memItemLeft" align="right" valign="top"><a id="a5b67510087dce14f1715d74eb012230a" name="a5b67510087dce14f1715d74eb012230a"></a>
+<tr class="memitem:a98647f07233541d93ed02c4e92b8ee13"><td class="memItemLeft" align="right" valign="top"><a id="a98647f07233541d93ed02c4e92b8ee13" name="a98647f07233541d93ed02c4e92b8ee13"></a>
 <a class="el" href="classbn_1_1condition.html">bn::condition</a>&#160;</td><td class="memItemRight" valign="bottom"><b>c</b></td></tr>
-<tr class="separator:a5b67510087dce14f1715d74eb012230a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8eaefd7d54a1ccc29b89277e3d8dc31"><td class="memItemLeft" align="right" valign="top"><a id="af8eaefd7d54a1ccc29b89277e3d8dc31" name="af8eaefd7d54a1ccc29b89277e3d8dc31"></a>
-<a class="el" href="classbn_1_1random__variable.html">bn::random_variable</a>&lt; Probability_ &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>var</b></td></tr>
-<tr class="separator:af8eaefd7d54a1ccc29b89277e3d8dc31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a373cc77d67197a62e9ed19def46c15d3"><td class="memItemLeft" align="right" valign="top"><a id="a373cc77d67197a62e9ed19def46c15d3" name="a373cc77d67197a62e9ed19def46c15d3"></a>
-std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_parents</b></td></tr>
-<tr class="separator:a373cc77d67197a62e9ed19def46c15d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff67d52f713aa7f5d6491e210a2a986b"><td class="memItemLeft" align="right" valign="top"><a id="aff67d52f713aa7f5d6491e210a2a986b" name="aff67d52f713aa7f5d6491e210a2a986b"></a>
-std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>condition_index</b></td></tr>
-<tr class="separator:aff67d52f713aa7f5d6491e210a2a986b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8feb53286d8afb38645fd1400e91e8d3"><td class="memItemLeft" align="right" valign="top"><a id="a8feb53286d8afb38645fd1400e91e8d3" name="a8feb53286d8afb38645fd1400e91e8d3"></a>
-std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>ncombinations</b></td></tr>
-<tr class="separator:a8feb53286d8afb38645fd1400e91e8d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a98647f07233541d93ed02c4e92b8ee13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac810b10260fe7f7d46fe3aafde8692ec"><td class="memItemLeft" align="right" valign="top"><a id="ac810b10260fe7f7d46fe3aafde8692ec" name="ac810b10260fe7f7d46fe3aafde8692ec"></a>
+const Network_ &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>bn</b></td></tr>
+<tr class="separator:ac810b10260fe7f7d46fe3aafde8692ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a42b27cb9d543eb7ca35ab9f80e7b89"><td class="memItemLeft" align="right" valign="top"><a id="a2a42b27cb9d543eb7ca35ab9f80e7b89" name="a2a42b27cb9d543eb7ca35ab9f80e7b89"></a>
+std::vector&lt; unsigned long &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_parents</b></td></tr>
+<tr class="separator:a2a42b27cb9d543eb7ca35ab9f80e7b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8f4ed7e90c68fd4e25248fa6d2d392f"><td class="memItemLeft" align="right" valign="top"><a id="af8f4ed7e90c68fd4e25248fa6d2d392f" name="af8f4ed7e90c68fd4e25248fa6d2d392f"></a>
+unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>condition_index</b></td></tr>
+<tr class="separator:af8f4ed7e90c68fd4e25248fa6d2d392f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab459867e2a705572b6245e5e9b2cd5a8"><td class="memItemLeft" align="right" valign="top"><a id="ab459867e2a705572b6245e5e9b2cd5a8" name="ab459867e2a705572b6245e5e9b2cd5a8"></a>
+unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>ncombinations</b></td></tr>
+<tr class="separator:ab459867e2a705572b6245e5e9b2cd5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae899f6a4b47777c4a9a32cb0db2e3bca" name="ae899f6a4b47777c4a9a32cb0db2e3bca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae899f6a4b47777c4a9a32cb0db2e3bca">&#9670;&nbsp;</a></span>condition_factory()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;BNetDerived Network_&gt;<br />
+class bn::condition_factory&lt; Network_ &gt;</div><p >this class produces all the combinations for a given random variable of a bayesian network to fill its conditional probability table </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Network_</td><td>: the type of network the factory works on (must inherit from <a class="el" href="classbn_1_1bayesian__network.html">bn::bayesian_network</a>) </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a100e159ddb7fdfe8eac98174e1aaa126" name="a100e159ddb7fdfe8eac98174e1aaa126"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a100e159ddb7fdfe8eac98174e1aaa126">&#9670;&nbsp;</a></span>condition_factory()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Probability_ &gt; </div>
+template&lt;BNetDerived Network_&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classbn_1_1condition__factory.html">bn::condition_factory</a>&lt; Probability_ &gt;::<a class="el" href="classbn_1_1condition__factory.html">condition_factory</a> </td>
+          <td class="memname"><a class="el" href="classbn_1_1condition__factory.html">bn::condition_factory</a>&lt; Network_ &gt;::<a class="el" href="classbn_1_1condition__factory.html">condition_factory</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classbn_1_1random__variable.html">bn::random_variable</a>&lt; Probability_ &gt; &amp;&#160;</td>
-          <td class="paramname"><em>rv</em>, </td>
+          <td class="paramtype">const Network_ &amp;&#160;</td>
+          <td class="paramname"><em>bn</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramtype">const unsigned long&#160;</td>
+          <td class="paramname"><em>var_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; unsigned long &gt; &amp;&#160;</td>
           <td class="paramname"><em>parents</em> = <code>{}</code>&#160;</td>
         </tr>
         <tr>
@@ -138,7 +154,7 @@ template&lt;typename Probability_ &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >this class produces all the combinations for a given random variable of a bayesian network to fill its conditional probability table builts a condition factory </p><dl class="params"><dt>Parameters</dt><dd>
+<p >builts a condition factory </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">rv</td><td>: random variable </td></tr>
     <tr><td class="paramname">parents</td><td>the vector of rv's parents. If a specific order of the parents is needed (e.g. to parse xdsl) you can pass your vector, otherwise it employs the default one, taken from rv </td></tr>
@@ -149,19 +165,19 @@ template&lt;typename Probability_ &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a98f87e544c9f0d74b27fda6ba8f331fb" name="a98f87e544c9f0d74b27fda6ba8f331fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98f87e544c9f0d74b27fda6ba8f331fb">&#9670;&nbsp;</a></span>get()</h2>
+<a id="a344ceae066be946ef4c5652464ee0351" name="a344ceae066be946ef4c5652464ee0351"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a344ceae066be946ef4c5652464ee0351">&#9670;&nbsp;</a></span>get()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Probability_ &gt; </div>
+template&lt;BNetDerived Network_&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classbn_1_1condition.html">bn::condition</a> <a class="el" href="classbn_1_1condition__factory.html">bn::condition_factory</a>&lt; Probability_ &gt;::get </td>
+          <td class="memname"><a class="el" href="classbn_1_1condition.html">bn::condition</a> <a class="el" href="classbn_1_1condition__factory.html">bn::condition_factory</a>&lt; Network_ &gt;::get </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -177,19 +193,19 @@ template&lt;typename Probability_ &gt; </div>
 
 </div>
 </div>
-<a id="afb6c28c041f40fd9c916ad25eeb98ec6" name="afb6c28c041f40fd9c916ad25eeb98ec6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb6c28c041f40fd9c916ad25eeb98ec6">&#9670;&nbsp;</a></span>has_next()</h2>
+<a id="a5c941efbf6456134cc2ead072419ab51" name="a5c941efbf6456134cc2ead072419ab51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c941efbf6456134cc2ead072419ab51">&#9670;&nbsp;</a></span>has_next()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Probability_ &gt; </div>
+template&lt;BNetDerived Network_&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classbn_1_1condition__factory.html">bn::condition_factory</a>&lt; Probability_ &gt;::has_next </td>
+          <td class="memname">bool <a class="el" href="classbn_1_1condition__factory.html">bn::condition_factory</a>&lt; Network_ &gt;::has_next </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -208,19 +224,19 @@ template&lt;typename Probability_ &gt; </div>
 
 </div>
 </div>
-<a id="abec2a596316802d7aede04ac7fcee4f7" name="abec2a596316802d7aede04ac7fcee4f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abec2a596316802d7aede04ac7fcee4f7">&#9670;&nbsp;</a></span>number_of_combinations()</h2>
+<a id="a7bf97461b195a7384b7cf13a41ed9ac4" name="a7bf97461b195a7384b7cf13a41ed9ac4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bf97461b195a7384b7cf13a41ed9ac4">&#9670;&nbsp;</a></span>number_of_combinations()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Probability_ &gt; </div>
+template&lt;BNetDerived Network_&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::uint64_t <a class="el" href="classbn_1_1condition__factory.html">bn::condition_factory</a>&lt; Probability_ &gt;::number_of_combinations </td>
+          <td class="memname">unsigned long <a class="el" href="classbn_1_1condition__factory.html">bn::condition_factory</a>&lt; Network_ &gt;::number_of_combinations </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>

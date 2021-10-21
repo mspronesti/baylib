@@ -61,14 +61,18 @@ namespace bn {
         std::vector <std::string> _states;
     };
 
-    /**
+  /**
   * This methods builds a {name: id} map scanning a bayesian_network
   * whose nodes are named_random_variables
   * @tparam Variable_
-  * @param bn
+  * @param bn : bayesian network of type Network_
   * @return
   */
     template <RVarDerived Variable_>
+    requires std::is_same_v <
+                            Variable_,
+                            named_random_variable<typename Variable_::probability_type>
+                            >
     std::map<std::string, unsigned long> make_name_map (
             const bn::bayesian_network<Variable_> & bn
     )

@@ -37,7 +37,9 @@ namespace bn {
         *   3. simulate each child node given the parents previous simulation
         *   4. throw out each simulation that doesn't comply with observed evidences
         *   5. estimate the marginal distribution from the valid simulations
-        * @tparam Probability : the type expressing the probability
+         * @tparam Network_ : the type of bayesian network (must inherit from bn::bayesian_network)
+         * @tparam Generator_ : the type of random generator
+         *                  (default Mersenne Twister pseudo-random generator)
         **/
         template <
                 BNetDerived Network_,

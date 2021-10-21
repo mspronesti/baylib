@@ -10,17 +10,17 @@
 \item 
 \mbox{\hyperlink{classbn_1_1condition}{condition}} \& \mbox{\hyperlink{classbn_1_1condition_a543832ad634f0f4e85fa43f5476ecae6}{operator=}} (const \mbox{\hyperlink{classbn_1_1condition}{condition}} \&other)
 \item 
-void \mbox{\hyperlink{classbn_1_1condition_aaa01e66363ee3a94e9ec88e7931ffb40}{add}} (const std\+::string \&node\+\_\+name, state\+\_\+t val)
+void \mbox{\hyperlink{classbn_1_1condition_ace731b0369dc443b364192007dbbab68}{add}} (const unsigned long node\+\_\+id, state\+\_\+t val)
 \item 
-state\+\_\+t \& \mbox{\hyperlink{classbn_1_1condition_aaa064fe73dfe2a5ff26c6583a7f2d0cc}{operator\mbox{[}$\,$\mbox{]}}} (const std\+::string \&node\+\_\+name)
+state\+\_\+t \& \mbox{\hyperlink{classbn_1_1condition_a08fd6de920519b2c425ea50ccc950538}{operator\mbox{[}$\,$\mbox{]}}} (const unsigned long node\+\_\+id)
 \item 
-const state\+\_\+t \& \mbox{\hyperlink{classbn_1_1condition_af75f6ef5fb6b9914e3f2cc8aa87fdb47}{operator\mbox{[}$\,$\mbox{]}}} (const std\+::string \&node\+\_\+name) const
+const state\+\_\+t \& \mbox{\hyperlink{classbn_1_1condition_a88cd6a39ffb7b0ae008a23cb6207a7cf}{operator\mbox{[}$\,$\mbox{]}}} (const unsigned long node\+\_\+id) const
 \item 
 void \mbox{\hyperlink{classbn_1_1condition_ab13c6095de0e9e5cdae9acca64cd01f3}{swap}} (\mbox{\hyperlink{classbn_1_1condition}{condition}} \&other)
 \item 
 void \mbox{\hyperlink{classbn_1_1condition_ae385f9a70256dd0ed973cbc58d155c59}{clear}} ()
 \item 
-bool \mbox{\hyperlink{classbn_1_1condition_a179acd721f79ab740a230b36a016f7aa}{contains}} (const std\+::string \&node\+\_\+name) const
+bool \mbox{\hyperlink{classbn_1_1condition_a7900cfd6c4f2b7000f1c1d671c7d5c6e}{contains}} (const unsigned long node\+\_\+id) const
 \item 
 auto \mbox{\hyperlink{classbn_1_1condition_adf8a1082874d74df924d46957fe30da0}{begin}} () const
 \item 
@@ -38,8 +38,8 @@ bool {\bfseries operator$<$} (const \mbox{\hyperlink{classbn_1_1condition}{condi
 \doxysubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1condition_a9b0f015c76573f98a2c14f52af2a44b3}\label{classbn_1_1condition_a9b0f015c76573f98a2c14f52af2a44b3}} 
-std\+::map$<$ std\+::string, state\+\_\+t $>$ {\bfseries cmap}
+\mbox{\Hypertarget{classbn_1_1condition_a1659399bd6c1aad91093b75b0e2ddc3a}\label{classbn_1_1condition_a1659399bd6c1aad91093b75b0e2ddc3a}} 
+std\+::map$<$ unsigned long, state\+\_\+t $>$ {\bfseries cmap}
 \end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -58,15 +58,15 @@ std\+::ostream \& \mbox{\hyperlink{classbn_1_1condition_adc5e5683ce3fb46e30898b4
 Let X to be a random variable, then P(X $\vert$ c) is the probability of X conditioned to \char`\"{}c\char`\"{}. This class models \char`\"{}c\char`\"{} and it is used in the conditional probability table and the joint probability table. 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classbn_1_1condition_aaa01e66363ee3a94e9ec88e7931ffb40}\label{classbn_1_1condition_aaa01e66363ee3a94e9ec88e7931ffb40}} 
+\mbox{\Hypertarget{classbn_1_1condition_ace731b0369dc443b364192007dbbab68}\label{classbn_1_1condition_ace731b0369dc443b364192007dbbab68}} 
 \index{bn::condition@{bn::condition}!add@{add}}
 \index{add@{add}!bn::condition@{bn::condition}}
 \doxysubsubsection{\texorpdfstring{add()}{add()}}
-{\footnotesize\ttfamily void bn\+::condition\+::add (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{node\+\_\+name,  }\item[{state\+\_\+t}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily void bn\+::condition\+::add (\begin{DoxyParamCaption}\item[{const unsigned long}]{node\+\_\+id,  }\item[{state\+\_\+t}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-Add a new pair of node name + value of node 
+Add a new pair of id, value of node 
 \begin{DoxyParams}{Parameters}
-{\em node\+\_\+name} & \+: name of node \\
+{\em node\+\_\+id} & \+: id of node \\
 \hline
 {\em val} & \+: value of node \\
 \hline
@@ -86,19 +86,19 @@ begin iterator of condition contents \begin{DoxyReturn}{Returns}
 \doxysubsubsection{\texorpdfstring{clear()}{clear()}}
 {\footnotesize\ttfamily void bn\+::condition\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-empty the condition of its contents \mbox{\Hypertarget{classbn_1_1condition_a179acd721f79ab740a230b36a016f7aa}\label{classbn_1_1condition_a179acd721f79ab740a230b36a016f7aa}} 
+empty the condition of its contents \mbox{\Hypertarget{classbn_1_1condition_a7900cfd6c4f2b7000f1c1d671c7d5c6e}\label{classbn_1_1condition_a7900cfd6c4f2b7000f1c1d671c7d5c6e}} 
 \index{bn::condition@{bn::condition}!contains@{contains}}
 \index{contains@{contains}!bn::condition@{bn::condition}}
 \doxysubsubsection{\texorpdfstring{contains()}{contains()}}
-{\footnotesize\ttfamily bool bn\+::condition\+::contains (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{node\+\_\+name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily bool bn\+::condition\+::contains (\begin{DoxyParamCaption}\item[{const unsigned long}]{node\+\_\+id }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 check if a node was set in the condition 
 \begin{DoxyParams}{Parameters}
-{\em node\+\_\+name} & \+: node name \\
+{\em node\+\_\+id} & \+: node id \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-\+: true if node\+\_\+name corresponds to a set state in the condition 
+true if node\+\_\+id corresponds to a set state in the condition 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classbn_1_1condition_a5a74ad63c485e07ba2485940cda2a627}\label{classbn_1_1condition_a5a74ad63c485e07ba2485940cda2a627}} 
 \index{bn::condition@{bn::condition}!end@{end}}
@@ -123,29 +123,29 @@ copy operator
 \begin{DoxyReturn}{Returns}
 \+: new condition 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classbn_1_1condition_aaa064fe73dfe2a5ff26c6583a7f2d0cc}\label{classbn_1_1condition_aaa064fe73dfe2a5ff26c6583a7f2d0cc}} 
+\mbox{\Hypertarget{classbn_1_1condition_a08fd6de920519b2c425ea50ccc950538}\label{classbn_1_1condition_a08fd6de920519b2c425ea50ccc950538}} 
 \index{bn::condition@{bn::condition}!operator\mbox{[}\mbox{]}@{operator[]}}
 \index{operator\mbox{[}\mbox{]}@{operator[]}!bn::condition@{bn::condition}}
 \doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily state\+\_\+t \& bn\+::condition\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{node\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily state\+\_\+t \& bn\+::condition\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const unsigned long}]{node\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 Operator to retrieve the state of a given node 
 \begin{DoxyParams}{Parameters}
-{\em node\+\_\+name} & \+: node name \\
+{\em node\+\_\+id} & \+: node id \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \+: state 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classbn_1_1condition_af75f6ef5fb6b9914e3f2cc8aa87fdb47}\label{classbn_1_1condition_af75f6ef5fb6b9914e3f2cc8aa87fdb47}} 
+\mbox{\Hypertarget{classbn_1_1condition_a88cd6a39ffb7b0ae008a23cb6207a7cf}\label{classbn_1_1condition_a88cd6a39ffb7b0ae008a23cb6207a7cf}} 
 \index{bn::condition@{bn::condition}!operator\mbox{[}\mbox{]}@{operator[]}}
 \index{operator\mbox{[}\mbox{]}@{operator[]}!bn::condition@{bn::condition}}
 \doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily const state\+\_\+t \& bn\+::condition\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{node\+\_\+name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily const state\+\_\+t \& bn\+::condition\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const unsigned long}]{node\+\_\+id }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 Operator to retrieve the state of a given node 
 \begin{DoxyParams}{Parameters}
-{\em node\+\_\+name} & \+: node name \\
+{\em node\+\_\+id} & \+: node id \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

@@ -12,7 +12,7 @@
 \DoxyCodeLine{8 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{random__variable_8hpp}{baylib/network/random\_variable.hpp}}>}}
 \DoxyCodeLine{9 }
 \DoxyCodeLine{16 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
-\DoxyCodeLine{26     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability_>}
+\DoxyCodeLine{26     \textcolor{keyword}{template} <Arithmetic Probability\_>}
 \DoxyCodeLine{27     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution}} \{}
 \DoxyCodeLine{28     \textcolor{keyword}{public}:}
 \DoxyCodeLine{29         \textcolor{keyword}{template} <\textcolor{keyword}{typename} Container>}
@@ -24,10 +24,10 @@
 \DoxyCodeLine{35         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Iterator>}
 \DoxyCodeLine{36         \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution}}(Iterator begin, Iterator end) \{}
 \DoxyCodeLine{37             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} it = begin; it != end; ++it)}
-\DoxyCodeLine{38                 mdistr.emplace\_back((*it).states().size(), 0.0);}
+\DoxyCodeLine{38                 mdistr.emplace\_back((*it).number\_of\_states(), 0.0);}
 \DoxyCodeLine{39         \}}
 \DoxyCodeLine{40 }
-\DoxyCodeLine{41         \textcolor{keywordtype}{void} set(ulong vid, ulong state\_value, Probability_ p) \{}
+\DoxyCodeLine{41         \textcolor{keywordtype}{void} set(ulong vid, ulong state\_value, Probability\_ p) \{}
 \DoxyCodeLine{42             BAYLIB\_ASSERT(vid < mdistr.size() \&\&}
 \DoxyCodeLine{43                           state\_value < mdistr[vid].size(),}
 \DoxyCodeLine{44                           \textcolor{stringliteral}{"{}out of bound access to marginal "{}}}
@@ -35,14 +35,14 @@
 \DoxyCodeLine{46                           std::out\_of\_range)}
 \DoxyCodeLine{47 }
 \DoxyCodeLine{48             BAYLIB\_ASSERT(p >= 0.0 \&\& p <= 1.0,}
-\DoxyCodeLine{49                           \textcolor{stringliteral}{"{}Probability_ value "{}} << p}
+\DoxyCodeLine{49                           \textcolor{stringliteral}{"{}Probability value "{}} << p}
 \DoxyCodeLine{50                           << \textcolor{stringliteral}{"{} ain't included in [0, 1]"{}},}
 \DoxyCodeLine{51                           std::logic\_error)}
 \DoxyCodeLine{52 }
 \DoxyCodeLine{53             mdistr[vid][state\_value] = p;}
 \DoxyCodeLine{54         \}}
 \DoxyCodeLine{55 }
-\DoxyCodeLine{56         std::vector<Probability_> \&operator[](ulong vid) \{}
+\DoxyCodeLine{56         std::vector<Probability\_> \&operator[](ulong vid) \{}
 \DoxyCodeLine{57             BAYLIB\_ASSERT(vid < mdistr.size(),}
 \DoxyCodeLine{58                           \textcolor{stringliteral}{"{}out of bound access to marginal "{}}}
 \DoxyCodeLine{59                           \textcolor{stringliteral}{"{}distribution"{}},}
@@ -51,14 +51,14 @@
 \DoxyCodeLine{62             \textcolor{keywordflow}{return} mdistr[vid];}
 \DoxyCodeLine{63         \}}
 \DoxyCodeLine{64 }
-\DoxyCodeLine{65         \textcolor{keywordtype}{void} operator/=(Probability_ value) \{}
+\DoxyCodeLine{65         \textcolor{keywordtype}{void} operator/=(Probability\_ value) \{}
 \DoxyCodeLine{66             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&row : mdistr)}
 \DoxyCodeLine{67                 \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&entry : row)}
 \DoxyCodeLine{68                     entry /= value;}
 \DoxyCodeLine{69         \}}
 \DoxyCodeLine{70 }
-\DoxyCodeLine{71         \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability_>}} \&operator+=(}
-\DoxyCodeLine{72                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability_>}} \&other}
+\DoxyCodeLine{71         \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability\_>}} \&operator+=(}
+\DoxyCodeLine{72                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability\_>}} \&other}
 \DoxyCodeLine{73         ) \{}
 \DoxyCodeLine{74             BAYLIB\_ASSERT(mdistr.size() == other.mdistr.size(),}
 \DoxyCodeLine{75                           \textcolor{stringliteral}{"{}Incompatible second operand of type"{}}}
@@ -77,39 +77,40 @@
 \DoxyCodeLine{88             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
 \DoxyCodeLine{89         \}}
 \DoxyCodeLine{90 }
-\DoxyCodeLine{91         \textcolor{keyword}{friend} std::ostream \&operator<<(}
+\DoxyCodeLine{91         \textcolor{keyword}{friend} std::ostream \&operator << (}
 \DoxyCodeLine{92                 std::ostream \&os,}
-\DoxyCodeLine{93                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability_>}} \&md}
-\DoxyCodeLine{94         ) \{}
-\DoxyCodeLine{95             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&row : md.mdistr) \{}
-\DoxyCodeLine{96                 os << \textcolor{stringliteral}{"{} | "{}};}
-\DoxyCodeLine{97                 \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&p : row)}
-\DoxyCodeLine{98                     os << \textcolor{charliteral}{' '} << p << \textcolor{stringliteral}{"{} | "{}};}
-\DoxyCodeLine{99                 os << \textcolor{charliteral}{'\(\backslash\)n'};}
-\DoxyCodeLine{100             \}}
-\DoxyCodeLine{101             \textcolor{keywordflow}{return} os;}
-\DoxyCodeLine{102         \}}
-\DoxyCodeLine{103 }
-\DoxyCodeLine{104         \textcolor{keywordtype}{void} normalize() \{}
-\DoxyCodeLine{105             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&row : mdistr) \{}
-\DoxyCodeLine{106                 Probability_ sum = std::accumulate(row.begin(), row.end(), 0.0);}
-\DoxyCodeLine{107                 \textcolor{keywordflow}{if} (abs(sum) > 1.0e-\/5)}
-\DoxyCodeLine{108                     std::for\_each(row.begin(), row.end(), [sum](\textcolor{keyword}{auto} \&val) \{}
-\DoxyCodeLine{109                         val /= sum;}
-\DoxyCodeLine{110                     \});}
-\DoxyCodeLine{111             \}}
-\DoxyCodeLine{112         \}}
-\DoxyCodeLine{113 }
-\DoxyCodeLine{114     \textcolor{keyword}{private}:}
-\DoxyCodeLine{115         std::vector<std::vector<Probability_>> mdistr;}
-\DoxyCodeLine{116     \};}
-\DoxyCodeLine{117 }
-\DoxyCodeLine{118     \textcolor{comment}{// type deduction guide}}
-\DoxyCodeLine{119     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Iterator>}
-\DoxyCodeLine{120     \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution}}(Iterator begin, Iterator end) -\/> \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution}}<std::decay\_t<\textcolor{keyword}{decltype}(*begin)>>;}
-\DoxyCodeLine{121 }
-\DoxyCodeLine{122 \} \textcolor{comment}{// namespace bn}}
-\DoxyCodeLine{123 }
-\DoxyCodeLine{124 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_MARGINAL\_DISTRIBUTION\_HPP}}
+\DoxyCodeLine{93                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability\_>}} \&md}
+\DoxyCodeLine{94         )}
+\DoxyCodeLine{95         \{}
+\DoxyCodeLine{96             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&row : md.mdistr) \{}
+\DoxyCodeLine{97                 os << \textcolor{stringliteral}{"{} | "{}};}
+\DoxyCodeLine{98                 \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&p : row)}
+\DoxyCodeLine{99                     os << \textcolor{charliteral}{' '} << p << \textcolor{stringliteral}{"{} | "{}};}
+\DoxyCodeLine{100                 os << \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{101             \}}
+\DoxyCodeLine{102             \textcolor{keywordflow}{return} os;}
+\DoxyCodeLine{103         \}}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105         \textcolor{keywordtype}{void} normalize() \{}
+\DoxyCodeLine{106             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&row : mdistr) \{}
+\DoxyCodeLine{107                 Probability\_ sum = std::accumulate(row.begin(), row.end(), 0.0);}
+\DoxyCodeLine{108                 \textcolor{keywordflow}{if} (abs(sum) > 1.0e-\/5)}
+\DoxyCodeLine{109                     std::for\_each(row.begin(), row.end(), [sum](\textcolor{keyword}{auto} \&val) \{}
+\DoxyCodeLine{110                         val /= sum;}
+\DoxyCodeLine{111                     \});}
+\DoxyCodeLine{112             \}}
+\DoxyCodeLine{113         \}}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115     \textcolor{keyword}{private}:}
+\DoxyCodeLine{116         std::vector<std::vector<Probability\_>> mdistr;}
+\DoxyCodeLine{117     \};}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{119     \textcolor{comment}{// type deduction guide}}
+\DoxyCodeLine{120     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Iterator>}
+\DoxyCodeLine{121     \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution}}(Iterator begin, Iterator end) -\/> \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution}}<std::decay\_t<\textcolor{keyword}{decltype}(*begin)>>;}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123 \} \textcolor{comment}{// namespace bn}}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_MARGINAL\_DISTRIBUTION\_HPP}}
 
 \end{DoxyCode}

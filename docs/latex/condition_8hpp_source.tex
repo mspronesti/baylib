@@ -33,26 +33,26 @@
 \DoxyCodeLine{44             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
 \DoxyCodeLine{45         \}}
 \DoxyCodeLine{46 }
-\DoxyCodeLine{52         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1condition_aaa01e66363ee3a94e9ec88e7931ffb40}{add}}(\textcolor{keyword}{const} std::string \&node\_name, state\_t val) \{}
-\DoxyCodeLine{53             cmap[node\_name] = val;}
+\DoxyCodeLine{52         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1condition_ace731b0369dc443b364192007dbbab68}{add}}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} node\_id, state\_t val) \{}
+\DoxyCodeLine{53             cmap[node\_id] = val;}
 \DoxyCodeLine{54         \}}
 \DoxyCodeLine{55 }
-\DoxyCodeLine{61         state\_t \&\mbox{\hyperlink{classbn_1_1condition_aaa064fe73dfe2a5ff26c6583a7f2d0cc}{operator[]}}(\textcolor{keyword}{const} std::string \&node\_name) \{}
-\DoxyCodeLine{62             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1condition_a179acd721f79ab740a230b36a016f7aa}{contains}}(node\_name),}
+\DoxyCodeLine{61         state\_t \&\mbox{\hyperlink{classbn_1_1condition_a08fd6de920519b2c425ea50ccc950538}{operator[]}}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} node\_id) \{}
+\DoxyCodeLine{62             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1condition_a7900cfd6c4f2b7000f1c1d671c7d5c6e}{contains}}(node\_id),}
 \DoxyCodeLine{63                     \textcolor{stringliteral}{"{}condition doesn't contain node"{}}}
-\DoxyCodeLine{64                     + node\_name,}
+\DoxyCodeLine{64                     << node\_id,}
 \DoxyCodeLine{65                     std::runtime\_error)}
 \DoxyCodeLine{66 }
-\DoxyCodeLine{67             \textcolor{keywordflow}{return} cmap[node\_name];}
+\DoxyCodeLine{67             \textcolor{keywordflow}{return} cmap[node\_id];}
 \DoxyCodeLine{68         \}}
 \DoxyCodeLine{69 }
-\DoxyCodeLine{75         \textcolor{keyword}{const} state\_t \&\mbox{\hyperlink{classbn_1_1condition_af75f6ef5fb6b9914e3f2cc8aa87fdb47}{operator[]}}(\textcolor{keyword}{const} std::string \&node\_name)\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{76             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1condition_a179acd721f79ab740a230b36a016f7aa}{contains}}(node\_name),}
+\DoxyCodeLine{75         \textcolor{keyword}{const} state\_t \&\mbox{\hyperlink{classbn_1_1condition_a88cd6a39ffb7b0ae008a23cb6207a7cf}{operator[]}}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} node\_id)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{76             BAYLIB\_ASSERT(\mbox{\hyperlink{classbn_1_1condition_a7900cfd6c4f2b7000f1c1d671c7d5c6e}{contains}}(node\_id),}
 \DoxyCodeLine{77                           \textcolor{stringliteral}{"{}condition doesn't contain node"{}}}
-\DoxyCodeLine{78                           + node\_name,}
+\DoxyCodeLine{78                           << node\_id,}
 \DoxyCodeLine{79                           std::runtime\_error)}
 \DoxyCodeLine{80 }
-\DoxyCodeLine{81             \textcolor{keywordflow}{return} cmap.at(node\_name);}
+\DoxyCodeLine{81             \textcolor{keywordflow}{return} cmap.at(node\_id);}
 \DoxyCodeLine{82         \}}
 \DoxyCodeLine{83 }
 \DoxyCodeLine{88         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1condition_ab13c6095de0e9e5cdae9acca64cd01f3}{swap}}(\mbox{\hyperlink{classbn_1_1condition}{condition}} \&other) \{}
@@ -63,8 +63,8 @@
 \DoxyCodeLine{96             cmap.clear();}
 \DoxyCodeLine{97         \}}
 \DoxyCodeLine{98 }
-\DoxyCodeLine{104         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1condition_a179acd721f79ab740a230b36a016f7aa}{contains}}(\textcolor{keyword}{const} std::string \&node\_name)\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{105             \textcolor{keywordflow}{return} cmap.find(node\_name) != cmap.end();}
+\DoxyCodeLine{104         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1condition_a7900cfd6c4f2b7000f1c1d671c7d5c6e}{contains}}(\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} node\_id)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{105             \textcolor{keywordflow}{return} cmap.find(node\_id) != cmap.end();}
 \DoxyCodeLine{106         \}}
 \DoxyCodeLine{107 }
 \DoxyCodeLine{112         \textcolor{keyword}{auto} \mbox{\hyperlink{classbn_1_1condition_adf8a1082874d74df924d46957fe30da0}{begin}}()\textcolor{keyword}{ const }\{}
@@ -120,9 +120,9 @@
 \DoxyCodeLine{184 }
 \DoxyCodeLine{185 }
 \DoxyCodeLine{186     \textcolor{keyword}{private}:}
-\DoxyCodeLine{187         \textcolor{comment}{// ! key   : node name}}
+\DoxyCodeLine{187         \textcolor{comment}{// ! key   : node id}}
 \DoxyCodeLine{188         \textcolor{comment}{// ! value : state value}}
-\DoxyCodeLine{189         std::map<std::string, state\_t> cmap;}
+\DoxyCodeLine{189         std::map<unsigned long, state\_t> cmap;}
 \DoxyCodeLine{190     \};}
 \DoxyCodeLine{191 \}}
 \DoxyCodeLine{192 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_CONDITION\_HPP}}

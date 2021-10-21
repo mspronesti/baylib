@@ -85,125 +85,129 @@ $(function() {
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacebn.html">bn</a> {</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">namespace </span>inference {</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Probability_ = <span class="keywordtype">double</span>, <span class="keyword">typename</span> Generator_=std::mt19937&gt;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classbn_1_1inference_1_1gibbs__sampling.html">   34</a></span>        <span class="keyword">class </span><a class="code hl_class" href="classbn_1_1inference_1_1gibbs__sampling.html">gibbs_sampling</a> : <span class="keyword">public</span> <a class="code hl_class" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">parallel_inference_algorithm</a>&lt;Probability_&gt;{</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            <span class="keyword">explicit</span> <a class="code hl_class" href="classbn_1_1inference_1_1gibbs__sampling.html">gibbs_sampling</a> (</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                    ulong nsamples,</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                    uint nthreads = 1,</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                    uint seed = 0</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            )</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            : <a class="code hl_class" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">parallel_inference_algorithm&lt;Probability_&gt;</a>(nsamples, nthreads, seed)</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            { }</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <a class="code hl_class" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution&lt;Probability_&gt;</a> sample_step (</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                    <span class="keyword">const</span> <a class="code hl_class" href="classbn_1_1bayesian__network.html">bn::bayesian_network&lt;Probability_&gt;</a> &amp; <a class="code hl_namespace" href="namespacebn.html">bn</a>,</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                    <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> nsamples, <span class="comment">// the number of samples of each thread</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> seed</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            )<span class="keyword"> override</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">            </span>{</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                ulong nvars = <a class="code hl_namespace" href="namespacebn.html">bn</a>.number_of_variables();</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                <span class="comment">// contains, for each variable, the current state value</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                <span class="keyword">auto</span> var_state_values = std::vector&lt;bn::state_t&gt;(nvars);</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                <a class="code hl_class" href="classbn_1_1random__generator.html">bn::random_generator&lt;Probability_, Generator_&gt;</a> rnd_gen(seed);</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                <a class="code hl_class" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution&lt;Probability_&gt;</a> marginal_distr(<a class="code hl_namespace" href="namespacebn.html">bn</a>.begin(), <a class="code hl_namespace" href="namespacebn.html">bn</a>.end());</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                <span class="keywordflow">for</span>(ulong i = 0; i &lt; nsamples; ++i)</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                    <span class="keywordflow">for</span>(ulong n = 0; n &lt; nvars; ++n)</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                    {</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                        <span class="keyword">auto</span> sample = <a class="code hl_function" href="classbn_1_1inference_1_1gibbs__sampling.html#ab6ab0a10381c5300f51795decea6c283">sample_single_variable</a>(<a class="code hl_namespace" href="namespacebn.html">bn</a>, n, var_state_values, rnd_gen);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                        ++marginal_distr[n][sample];</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                    }</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keyword">template</span> &lt;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                BNetDerived Network_,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                <span class="keyword">typename</span> Generator_ = std::mt19937</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                &gt;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classbn_1_1inference_1_1gibbs__sampling.html">   37</a></span>        <span class="keyword">class </span><a class="code hl_class" href="classbn_1_1inference_1_1gibbs__sampling.html">gibbs_sampling</a> : <span class="keyword">public</span> <a class="code hl_class" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">parallel_inference_algorithm</a>&lt;Network_&gt;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keyword">typedef</span> Network_ network_type;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            <span class="keyword">using</span> <span class="keyword">typename</span> parallel_inference_algorithm&lt;Network_&gt;::probability_type;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            <span class="keyword">using</span> <a class="code hl_class" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">parallel_inference_algorithm&lt;Network_&gt;::bn</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keyword">explicit</span> <a class="code hl_class" href="classbn_1_1inference_1_1gibbs__sampling.html">gibbs_sampling</a> (</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                    <span class="keyword">const</span> network_type &amp;<a class="code hl_namespace" href="namespacebn.html">bn</a>,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                    ulong nsamples,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                    uint nthreads = 1,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                    uint seed = 0</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            )</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            : <a class="code hl_class" href="classbn_1_1inference_1_1parallel__inference__algorithm.html">parallel_inference_algorithm&lt;Network_&gt;</a>(<a class="code hl_namespace" href="namespacebn.html">bn</a>, nsamples, nthreads, seed)</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            { }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <a class="code hl_class" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution&lt;probability_type&gt;</a> sample_step (</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                    <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> nsamples, <span class="comment">// the number of samples of each thread</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> seed</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            )<span class="keyword"> override</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">            </span>{</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                ulong nvars = <a class="code hl_namespace" href="namespacebn.html">bn</a>.number_of_variables();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                <span class="comment">// contains, for each variable, the current state value</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                <span class="keyword">auto</span> var_state_values = std::vector&lt;bn::state_t&gt;(nvars);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                <a class="code hl_class" href="classbn_1_1random__generator.html">bn::random_generator&lt;probability_type, Generator_&gt;</a> rnd_gen(seed);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                <a class="code hl_class" href="classbn_1_1marginal__distribution.html">bn::marginal_distribution&lt;probability_type&gt;</a> marginal_distr(<a class="code hl_namespace" href="namespacebn.html">bn</a>.begin(), <a class="code hl_namespace" href="namespacebn.html">bn</a>.end());</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                <span class="keywordflow">return</span> marginal_distr;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            }</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classbn_1_1inference_1_1gibbs__sampling.html#ab6ab0a10381c5300f51795decea6c283">   78</a></span>            ulong <a class="code hl_function" href="classbn_1_1inference_1_1gibbs__sampling.html#ab6ab0a10381c5300f51795decea6c283">sample_single_variable</a>(</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                <span class="keyword">const</span> <a class="code hl_class" href="classbn_1_1bayesian__network.html">bn::bayesian_network&lt;Probability_&gt;</a> &amp;<a class="code hl_namespace" href="namespacebn.html">bn</a>,</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>                <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> n,</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                std::vector&lt;bn::state_t&gt; &amp;var_state_values,</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                <a class="code hl_class" href="classbn_1_1random__generator.html">bn::random_generator&lt;Probability_, Generator_&gt;</a> &amp;rnd_gen</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            )</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            {</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>                <span class="keyword">auto</span> var = <a class="code hl_namespace" href="namespacebn.html">bn</a>[n];</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                <span class="keywordflow">if</span>(var.is_evidence()) {</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                    var_state_values[n] = var.evidence_state();</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                    <span class="keywordflow">return</span> var.evidence_state();</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                }</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                <span class="keyword">auto</span> samples = std::vector&lt;Probability_&gt;(var.states().size(), 0.0);</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                <span class="keywordflow">for</span>(ulong i = 0; i &lt; samples.size(); ++i) {</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                    var_state_values[n] = i;</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                    <span class="comment">// here we evaluate P(Xi | x_t, t = 1, 2, ..., i-1, 1+1, ..., n)</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                    <span class="comment">// which is P(Xi | markov_blanket(Xi))</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                    <span class="comment">// which is proportional to</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                    <span class="comment">//  P(Xi | parents(Xi)) * prod_{j=1}^{k} P(Yj | parents(Yj))</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                    <span class="comment">//</span></div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                    <span class="comment">// where</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                    <span class="comment">// - prod is the product from j = 1 to k</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                    <span class="comment">// - k is the number of children of Xi</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                    <span class="comment">// - Yj is the j-th child of X</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                    samples[i] = <a class="code hl_function" href="classbn_1_1inference_1_1gibbs__sampling.html#a8bd3fda26eb78487e3ed8e37ca11a7ab">get_probability</a>(<a class="code hl_namespace" href="namespacebn.html">bn</a>, n, var_state_values);</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                    <span class="keywordflow">for</span>(ulong j : <a class="code hl_namespace" href="namespacebn.html">bn</a>.children_of(n))</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                        samples[i] *= <a class="code hl_function" href="classbn_1_1inference_1_1gibbs__sampling.html#a8bd3fda26eb78487e3ed8e37ca11a7ab">get_probability</a>(<a class="code hl_namespace" href="namespacebn.html">bn</a>, j, var_state_values);</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                }</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                <span class="comment">// normalize</span></div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                Probability_ sum = std::accumulate(samples.begin(), samples.end(), 0.0);</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                std::for_each(samples.begin(), samples.end(), [sum](<span class="keyword">auto</span> &amp; val){</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                    val /= sum;</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                });</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                Probability_ prob = rnd_gen.get_random();</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                ulong j;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                <span class="keywordflow">for</span>(j = 0; j &lt; samples.size() - 1; ++j)</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                    <span class="keywordflow">if</span>(prob &lt;= samples[j])</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>                        <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>                    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>                        prob -= samples[j];</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                }</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                var_state_values[n] = j;</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                <span class="keywordflow">return</span> j;</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            }</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="classbn_1_1inference_1_1gibbs__sampling.html#a8bd3fda26eb78487e3ed8e37ca11a7ab">  131</a></span>            Probability_ <a class="code hl_function" href="classbn_1_1inference_1_1gibbs__sampling.html#a8bd3fda26eb78487e3ed8e37ca11a7ab">get_probability</a> (</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                <span class="keyword">const</span> <a class="code hl_class" href="classbn_1_1bayesian__network.html">bn::bayesian_network&lt;Probability_&gt;</a> &amp;<a class="code hl_namespace" href="namespacebn.html">bn</a>,</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> n,</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                <span class="keyword">const</span> std::vector&lt;bn::state_t&gt; &amp;var_state_values</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            )</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            {</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                <a class="code hl_class" href="classbn_1_1condition.html">bn::condition</a> c;</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                <span class="comment">// builds a condition using parents and</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                <span class="comment">// their states</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                <span class="keywordflow">for</span>(<span class="keyword">auto</span> &amp; p : <a class="code hl_namespace" href="namespacebn.html">bn</a>.parents_of(n))</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>                    c.<a class="code hl_function" href="classbn_1_1condition.html#aaa01e66363ee3a94e9ec88e7931ffb40">add</a>(</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                            <a class="code hl_namespace" href="namespacebn.html">bn</a>[p].name(),</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>                            var_state_values[p]</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>                    );</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                <span class="keyword">const</span> <span class="keyword">auto</span>&amp; cpt = <a class="code hl_namespace" href="namespacebn.html">bn</a>[n].table();</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                <span class="keywordflow">return</span>  cpt[c][var_state_values[n]];</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            }</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        };</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                <span class="keywordflow">for</span>(ulong i = 0; i &lt; nsamples; ++i)</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                    <span class="keywordflow">for</span>(ulong n = 0; n &lt; nvars; ++n)</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                    {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                        <span class="keyword">auto</span> sample = <a class="code hl_function" href="classbn_1_1inference_1_1gibbs__sampling.html#a6b1a6243e5aa5857db56292a0b2af6bd">sample_single_variable</a>(n, var_state_values, rnd_gen);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                        ++marginal_distr[n][sample];</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                    }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                <span class="keywordflow">return</span> marginal_distr;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classbn_1_1inference_1_1gibbs__sampling.html#a6b1a6243e5aa5857db56292a0b2af6bd">   85</a></span>            ulong <a class="code hl_function" href="classbn_1_1inference_1_1gibbs__sampling.html#a6b1a6243e5aa5857db56292a0b2af6bd">sample_single_variable</a>(</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> n,</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                std::vector&lt;bn::state_t&gt; &amp;var_state_values,</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                <a class="code hl_class" href="classbn_1_1random__generator.html">bn::random_generator&lt;probability_type, Generator_&gt;</a> &amp;rnd_gen</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            )</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                <span class="keyword">auto</span> var = <a class="code hl_namespace" href="namespacebn.html">bn</a>[n];</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                <span class="keywordflow">if</span>(var.is_evidence()) {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                    var_state_values[n] = var.evidence_state();</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                    <span class="keywordflow">return</span> var.evidence_state();</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                <span class="keyword">auto</span> samples = std::vector&lt;probability_type&gt;(var.number_of_states(), 0.0);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                <span class="keywordflow">for</span>(ulong i = 0; i &lt; samples.size(); ++i) {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                    var_state_values[n] = i;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                    <span class="comment">// here we evaluate P(Xi | x_t, t = 1, 2, ..., i-1, 1+1, ..., n)</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                    <span class="comment">// which is P(Xi | markov_blanket(Xi))</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                    <span class="comment">// which is proportional to</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                    <span class="comment">//  P(Xi | parents(Xi)) * prod_{j=1}^{k} P(Yj | parents(Yj))</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                    <span class="comment">//</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                    <span class="comment">// where</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                    <span class="comment">// - prod is the product from j = 1 to k</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                    <span class="comment">// - k is the number of children of Xi</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                    <span class="comment">// - Yj is the j-th child of X</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                    samples[i] = <a class="code hl_function" href="classbn_1_1inference_1_1gibbs__sampling.html#a1a05b417e1a05d2cd573972f898912f9">get_probability</a>(n, var_state_values);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                    <span class="keywordflow">for</span>(ulong j : <a class="code hl_namespace" href="namespacebn.html">bn</a>.children_of(n))</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                        samples[i] *= <a class="code hl_function" href="classbn_1_1inference_1_1gibbs__sampling.html#a1a05b417e1a05d2cd573972f898912f9">get_probability</a>(j, var_state_values);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                <span class="comment">// normalize</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                probability_type sum = std::accumulate(samples.begin(), samples.end(), 0.0);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                std::for_each(samples.begin(), samples.end(), [sum](<span class="keyword">auto</span> &amp; val){</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                    val /= sum;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                });</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>                probability_type prob = rnd_gen.get_random();</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>                ulong j;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                <span class="keywordflow">for</span>(j = 0; j &lt; samples.size() - 1; ++j)</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                {</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                    <span class="keywordflow">if</span>(prob &lt;= samples[j])</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                        prob -= samples[j];</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                }</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                var_state_values[n] = j;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                <span class="keywordflow">return</span> j;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            }</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="classbn_1_1inference_1_1gibbs__sampling.html#a1a05b417e1a05d2cd573972f898912f9">  137</a></span>            probability_type <a class="code hl_function" href="classbn_1_1inference_1_1gibbs__sampling.html#a1a05b417e1a05d2cd573972f898912f9">get_probability</a> (</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> n,</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                <span class="keyword">const</span> std::vector&lt;bn::state_t&gt; &amp;var_state_values</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            )</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            {</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                <a class="code hl_class" href="classbn_1_1condition.html">bn::condition</a> c;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>                <span class="comment">// builds a condition using parents and</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>                <span class="comment">// their states</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>                <span class="keywordflow">for</span>(<span class="keyword">auto</span> &amp; p : <a class="code hl_namespace" href="namespacebn.html">bn</a>.parents_of(n))</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                    c.<a class="code hl_function" href="classbn_1_1condition.html#ace731b0369dc443b364192007dbbab68">add</a>(</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                            p,</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                            var_state_values[p]</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                    );</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    }  <span class="comment">// namespace inference</span></div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>} <span class="comment">// namespace bn</span></div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#endif </span><span class="comment">//BAYLIB_GIBBS_SAMPLING_HPP</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>                <span class="keyword">const</span> <span class="keyword">auto</span>&amp; cpt = <a class="code hl_namespace" href="namespacebn.html">bn</a>[n].table();</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                <span class="keywordflow">return</span>  cpt[c][var_state_values[n]];</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>            }</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        };</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    }  <span class="comment">// namespace inference</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>} <span class="comment">// namespace bn</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#endif </span><span class="comment">//BAYLIB_GIBBS_SAMPLING_HPP</span></div>
 <div class="ttc" id="aabstract__inference__algorithm_8hpp_html"><div class="ttname"><a href="abstract__inference__algorithm_8hpp.html">abstract_inference_algorithm.hpp</a></div><div class="ttdoc">Abstract classes for stocastic algorithms.</div></div>
-<div class="ttc" id="aclassbn_1_1bayesian__network_html"><div class="ttname"><a href="classbn_1_1bayesian__network.html">bn::bayesian_network</a></div><div class="ttdef"><b>Definition:</b> bayesian_network.hpp:21</div></div>
 <div class="ttc" id="aclassbn_1_1condition_html"><div class="ttname"><a href="classbn_1_1condition.html">bn::condition</a></div><div class="ttdef"><b>Definition:</b> condition.hpp:16</div></div>
-<div class="ttc" id="aclassbn_1_1condition_html_aaa01e66363ee3a94e9ec88e7931ffb40"><div class="ttname"><a href="classbn_1_1condition.html#aaa01e66363ee3a94e9ec88e7931ffb40">bn::condition::add</a></div><div class="ttdeci">void add(const std::string &amp;node_name, state_t val)</div><div class="ttdef"><b>Definition:</b> condition.hpp:52</div></div>
-<div class="ttc" id="aclassbn_1_1inference_1_1gibbs__sampling_html"><div class="ttname"><a href="classbn_1_1inference_1_1gibbs__sampling.html">bn::inference::gibbs_sampling</a></div><div class="ttdef"><b>Definition:</b> gibbs_sampling.hpp:34</div></div>
-<div class="ttc" id="aclassbn_1_1inference_1_1gibbs__sampling_html_a8bd3fda26eb78487e3ed8e37ca11a7ab"><div class="ttname"><a href="classbn_1_1inference_1_1gibbs__sampling.html#a8bd3fda26eb78487e3ed8e37ca11a7ab">bn::inference::gibbs_sampling::get_probability</a></div><div class="ttdeci">Probability_ get_probability(const bn::bayesian_network&lt; Probability_ &gt; &amp;bn, const unsigned long n, const std::vector&lt; bn::state_t &gt; &amp;var_state_values)</div><div class="ttdef"><b>Definition:</b> gibbs_sampling.hpp:131</div></div>
-<div class="ttc" id="aclassbn_1_1inference_1_1gibbs__sampling_html_ab6ab0a10381c5300f51795decea6c283"><div class="ttname"><a href="classbn_1_1inference_1_1gibbs__sampling.html#ab6ab0a10381c5300f51795decea6c283">bn::inference::gibbs_sampling::sample_single_variable</a></div><div class="ttdeci">ulong sample_single_variable(const bn::bayesian_network&lt; Probability_ &gt; &amp;bn, const unsigned long n, std::vector&lt; bn::state_t &gt; &amp;var_state_values, bn::random_generator&lt; Probability_, Generator_ &gt; &amp;rnd_gen)</div><div class="ttdef"><b>Definition:</b> gibbs_sampling.hpp:78</div></div>
-<div class="ttc" id="aclassbn_1_1inference_1_1parallel__inference__algorithm_html"><div class="ttname"><a href="classbn_1_1inference_1_1parallel__inference__algorithm.html">bn::inference::parallel_inference_algorithm</a></div><div class="ttdef"><b>Definition:</b> abstract_inference_algorithm.hpp:75</div></div>
+<div class="ttc" id="aclassbn_1_1condition_html_ace731b0369dc443b364192007dbbab68"><div class="ttname"><a href="classbn_1_1condition.html#ace731b0369dc443b364192007dbbab68">bn::condition::add</a></div><div class="ttdeci">void add(const unsigned long node_id, state_t val)</div><div class="ttdef"><b>Definition:</b> condition.hpp:52</div></div>
+<div class="ttc" id="aclassbn_1_1inference_1_1gibbs__sampling_html"><div class="ttname"><a href="classbn_1_1inference_1_1gibbs__sampling.html">bn::inference::gibbs_sampling</a></div><div class="ttdef"><b>Definition:</b> gibbs_sampling.hpp:38</div></div>
+<div class="ttc" id="aclassbn_1_1inference_1_1gibbs__sampling_html_a1a05b417e1a05d2cd573972f898912f9"><div class="ttname"><a href="classbn_1_1inference_1_1gibbs__sampling.html#a1a05b417e1a05d2cd573972f898912f9">bn::inference::gibbs_sampling::get_probability</a></div><div class="ttdeci">probability_type get_probability(const unsigned long n, const std::vector&lt; bn::state_t &gt; &amp;var_state_values)</div><div class="ttdef"><b>Definition:</b> gibbs_sampling.hpp:137</div></div>
+<div class="ttc" id="aclassbn_1_1inference_1_1gibbs__sampling_html_a6b1a6243e5aa5857db56292a0b2af6bd"><div class="ttname"><a href="classbn_1_1inference_1_1gibbs__sampling.html#a6b1a6243e5aa5857db56292a0b2af6bd">bn::inference::gibbs_sampling::sample_single_variable</a></div><div class="ttdeci">ulong sample_single_variable(const unsigned long n, std::vector&lt; bn::state_t &gt; &amp;var_state_values, bn::random_generator&lt; probability_type, Generator_ &gt; &amp;rnd_gen)</div><div class="ttdef"><b>Definition:</b> gibbs_sampling.hpp:85</div></div>
+<div class="ttc" id="aclassbn_1_1inference_1_1parallel__inference__algorithm_html"><div class="ttname"><a href="classbn_1_1inference_1_1parallel__inference__algorithm.html">bn::inference::parallel_inference_algorithm</a></div><div class="ttdef"><b>Definition:</b> abstract_inference_algorithm.hpp:84</div></div>
 <div class="ttc" id="aclassbn_1_1marginal__distribution_html"><div class="ttname"><a href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a></div><div class="ttdef"><b>Definition:</b> marginal_distribution.hpp:27</div></div>
 <div class="ttc" id="aclassbn_1_1random__generator_html"><div class="ttname"><a href="classbn_1_1random__generator.html">bn::random_generator</a></div><div class="ttdef"><b>Definition:</b> random_generator.hpp:28</div></div>
-<div class="ttc" id="anamespacebn_html"><div class="ttname"><a href="namespacebn.html">bn</a></div><div class="ttdef"><b>Definition:</b> graph.hpp:17</div></div>
+<div class="ttc" id="anamespacebn_html"><div class="ttname"><a href="namespacebn.html">bn</a></div><div class="ttdef"><b>Definition:</b> baylib_concepts.hpp:14</div></div>
 <div class="ttc" id="arandom__generator_8hpp_html"><div class="ttname"><a href="random__generator_8hpp.html">random_generator.hpp</a></div><div class="ttdoc">random generator class used in sampling algorithms</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

@@ -12,12 +12,12 @@
 \DoxyCodeLine{8 }
 \DoxyCodeLine{20 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}}\{}
 \DoxyCodeLine{21     \textcolor{keyword}{namespace }cow \{}
-\DoxyCodeLine{22         \textcolor{keyword}{template} <\textcolor{keyword}{typename} Tp_>}
+\DoxyCodeLine{22         \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
 \DoxyCodeLine{23         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr}} \{}
-\DoxyCodeLine{24             Tp_ *d;}
+\DoxyCodeLine{24             T *d;}
 \DoxyCodeLine{25 }
 \DoxyCodeLine{26             \textcolor{keywordtype}{void} detach\_helper() \{}
-\DoxyCodeLine{27                 Tp_ *x = clone();}
+\DoxyCodeLine{27                 T *x = clone();}
 \DoxyCodeLine{28                 ++x-\/>ref;}
 \DoxyCodeLine{29                 \textcolor{keywordflow}{if} (!-\/-\/d-\/>ref)}
 \DoxyCodeLine{30                     \textcolor{keyword}{delete} d;}
@@ -25,7 +25,7 @@
 \DoxyCodeLine{32             \}}
 \DoxyCodeLine{33 }
 \DoxyCodeLine{34         \textcolor{keyword}{protected}:}
-\DoxyCodeLine{35             Tp_* clone()\{ \textcolor{keywordflow}{return} \textcolor{keyword}{new} Tp_(*d); \}}
+\DoxyCodeLine{35             T* clone()\{ \textcolor{keywordflow}{return} \textcolor{keyword}{new} T(*d); \}}
 \DoxyCodeLine{36 }
 \DoxyCodeLine{37         \textcolor{keyword}{public}:}
 \DoxyCodeLine{38             \textcolor{keyword}{inline} \textcolor{keywordtype}{void} detach() \{}
@@ -33,25 +33,25 @@
 \DoxyCodeLine{40             \}}
 \DoxyCodeLine{41 }
 \DoxyCodeLine{42             \textcolor{comment}{// operators}}
-\DoxyCodeLine{43             \textcolor{keyword}{inline} Tp_\& operator * () \{ detach(); \textcolor{keywordflow}{return} *d; \}}
-\DoxyCodeLine{44             \textcolor{keyword}{inline} \textcolor{keyword}{const} Tp_\& operator*()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} *d; \}}
+\DoxyCodeLine{43             \textcolor{keyword}{inline} T\& operator * () \{ detach(); \textcolor{keywordflow}{return} *d; \}}
+\DoxyCodeLine{44             \textcolor{keyword}{inline} \textcolor{keyword}{const} T\& operator*()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} *d; \}}
 \DoxyCodeLine{45 }
-\DoxyCodeLine{46             \textcolor{keyword}{inline} Tp_* operator-\/>() \{ detach(); \textcolor{keywordflow}{return} d; \}}
-\DoxyCodeLine{47             \textcolor{keyword}{inline} \textcolor{keyword}{const} Tp_* operator-\/>()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} d; \}}
+\DoxyCodeLine{46             \textcolor{keyword}{inline} T* operator-\/>() \{ detach(); \textcolor{keywordflow}{return} d; \}}
+\DoxyCodeLine{47             \textcolor{keyword}{inline} \textcolor{keyword}{const} T* operator-\/>()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} d; \}}
 \DoxyCodeLine{48 }
-\DoxyCodeLine{49             \textcolor{keyword}{inline} \textcolor{keyword}{explicit} \textcolor{keyword}{operator} Tp_*() \{ detach(); \textcolor{keywordflow}{return} d; \}}
-\DoxyCodeLine{50             \textcolor{keyword}{inline} \textcolor{keyword}{explicit} \textcolor{keyword}{operator} \textcolor{keyword}{const} Tp_*() \textcolor{keyword}{const} \{ \textcolor{keywordflow}{return} d; \}}
+\DoxyCodeLine{49             \textcolor{keyword}{inline} \textcolor{keyword}{explicit} \textcolor{keyword}{operator} T*() \{ detach(); \textcolor{keywordflow}{return} d; \}}
+\DoxyCodeLine{50             \textcolor{keyword}{inline} \textcolor{keyword}{explicit} \textcolor{keyword}{operator} \textcolor{keyword}{const} T*() \textcolor{keyword}{const} \{ \textcolor{keywordflow}{return} d; \}}
 \DoxyCodeLine{51 }
-\DoxyCodeLine{52             \textcolor{keyword}{inline} Tp_* data() \{ detach(); \textcolor{keywordflow}{return} d; \}}
-\DoxyCodeLine{53             \textcolor{keyword}{inline} \textcolor{keyword}{const} Tp_* data()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} d; \}}
+\DoxyCodeLine{52             \textcolor{keyword}{inline} T* data() \{ detach(); \textcolor{keywordflow}{return} d; \}}
+\DoxyCodeLine{53             \textcolor{keyword}{inline} \textcolor{keyword}{const} T* data()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} d; \}}
 \DoxyCodeLine{54 }
-\DoxyCodeLine{55             \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator==(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr<Tp_>}}\& other)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} d == other.d; \}}
-\DoxyCodeLine{56             \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator!=(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr<Tp_>}}\& other)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} d != other.d; \}}
+\DoxyCodeLine{55             \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator==(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr<T>}}\& other)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} d == other.d; \}}
+\DoxyCodeLine{56             \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator!=(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr<T>}}\& other)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} d != other.d; \}}
 \DoxyCodeLine{57 }
 \DoxyCodeLine{58             \textcolor{comment}{// constructors}}
 \DoxyCodeLine{59             \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr}}() : d(0) \{\}}
 \DoxyCodeLine{60 }
-\DoxyCodeLine{61             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr}}(Tp_* data) : d(data) \{}
+\DoxyCodeLine{61             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr}}(T* data) : d(data) \{}
 \DoxyCodeLine{62                 \textcolor{keywordflow}{if}(d) ++d-\/>ref;}
 \DoxyCodeLine{63             \}}
 \DoxyCodeLine{64 }
@@ -59,15 +59,15 @@
 \DoxyCodeLine{66                 \textcolor{keywordflow}{if}(d \&\& !-\/-\/d-\/>ref) \textcolor{keyword}{delete} d;}
 \DoxyCodeLine{67             \}}
 \DoxyCodeLine{68 }
-\DoxyCodeLine{69             \textcolor{keyword}{inline} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr}}(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr<Tp_>}}\& o) : d(o.d) \{ \textcolor{keywordflow}{if} (d) ++d-\/>ref; \}}
+\DoxyCodeLine{69             \textcolor{keyword}{inline} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr}}(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr<T>}}\& o) : d(o.d) \{ \textcolor{keywordflow}{if} (d) ++d-\/>ref; \}}
 \DoxyCodeLine{70 }
-\DoxyCodeLine{71             \textcolor{keyword}{inline} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr<Tp_>}} \& operator=(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr<Tp_>}}\& o)}
+\DoxyCodeLine{71             \textcolor{keyword}{inline} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr<T>}} \& operator=(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr<T>}}\& o)}
 \DoxyCodeLine{72             \{}
 \DoxyCodeLine{73                 \textcolor{keywordflow}{if} (o.d != d)}
 \DoxyCodeLine{74                 \{}
 \DoxyCodeLine{75                     \textcolor{keywordflow}{if} (o.d)}
 \DoxyCodeLine{76                         ++o.d-\/>ref;}
-\DoxyCodeLine{77                     Tp_ *old = d;}
+\DoxyCodeLine{77                     T *old = d;}
 \DoxyCodeLine{78                     d = o.d;}
 \DoxyCodeLine{79                     \textcolor{keywordflow}{if} (old \&\& !-\/-\/old-\/>ref)}
 \DoxyCodeLine{80                         \textcolor{keyword}{delete} old;}
@@ -75,13 +75,13 @@
 \DoxyCodeLine{82                 \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
 \DoxyCodeLine{83             \}}
 \DoxyCodeLine{84 }
-\DoxyCodeLine{85             \textcolor{keyword}{inline} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr}} \&operator=(Tp_ *o)}
+\DoxyCodeLine{85             \textcolor{keyword}{inline} \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{shared\_ptr}} \&operator=(T *o)}
 \DoxyCodeLine{86             \{}
 \DoxyCodeLine{87                 \textcolor{keywordflow}{if} (o != d)}
 \DoxyCodeLine{88                 \{}
 \DoxyCodeLine{89                     \textcolor{keywordflow}{if} (o)}
 \DoxyCodeLine{90                         ++o-\/>ref;}
-\DoxyCodeLine{91                     Tp_ *old = d;}
+\DoxyCodeLine{91                     T *old = d;}
 \DoxyCodeLine{92                     d = o;}
 \DoxyCodeLine{93                     \textcolor{keywordflow}{if} (old \&\& !-\/-\/old-\/>ref)}
 \DoxyCodeLine{94                         \textcolor{keyword}{delete} old;}

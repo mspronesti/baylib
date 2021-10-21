@@ -1,5 +1,5 @@
-\hypertarget{classbn_1_1random__generator}{}\doxysection{bn\+::random\+\_\+generator\texorpdfstring{$<$}{<} Tp_, Generator_ \texorpdfstring{$>$}{>} Class Template Reference}
-\label{classbn_1_1random__generator}\index{bn::random\_generator$<$ Tp_, Generator_ $>$@{bn::random\_generator$<$ Tp_, Generator_ $>$}}
+\hypertarget{classbn_1_1random__generator}{}\doxysection{bn\+::random\+\_\+generator\texorpdfstring{$<$}{<} Tp\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1random__generator}\index{bn::random\_generator$<$ Tp\_, Generator\_ $>$@{bn::random\_generator$<$ Tp\_, Generator\_ $>$}}
 
 
 {\ttfamily \#include $<$random\+\_\+generator.\+hpp$>$}
@@ -7,47 +7,47 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1random__generator_afd53ab0459e109f18350d7abafa80d6d}\label{classbn_1_1random__generator_afd53ab0459e109f18350d7abafa80d6d}} 
+\mbox{\Hypertarget{classbn_1_1random__generator_af82ba2172fdcea12d5410d8f7de22957}\label{classbn_1_1random__generator_af82ba2172fdcea12d5410d8f7de22957}} 
 {\bfseries random\+\_\+generator} (uint seed=0)
 \item 
-\mbox{\Hypertarget{classbn_1_1random__generator_a6873f123bfc3d1eed1bfbc53083c1515}\label{classbn_1_1random__generator_a6873f123bfc3d1eed1bfbc53083c1515}} 
-Tp_ {\bfseries get\+\_\+random} (Tp_ from=.\+0, Tp_ to=1.)
+\mbox{\Hypertarget{classbn_1_1random__generator_a2c5850dad885edbd864aa0b787583143}\label{classbn_1_1random__generator_a2c5850dad885edbd864aa0b787583143}} 
+Tp\+\_\+ {\bfseries get\+\_\+random} (Tp\+\_\+ from=.\+0, Tp\+\_\+ to=1.)
 \item 
-\mbox{\Hypertarget{classbn_1_1random__generator_abd1501422ef2ab36b91c3eaf7d59ec4a}\label{classbn_1_1random__generator_abd1501422ef2ab36b91c3eaf7d59ec4a}} 
-Tp_ {\bfseries operator()} (Tp_ from=0., Tp_ to=1.)
+\mbox{\Hypertarget{classbn_1_1random__generator_a27bd5c0df6bf964d2100199ee90884ad}\label{classbn_1_1random__generator_a27bd5c0df6bf964d2100199ee90884ad}} 
+Tp\+\_\+ {\bfseries operator()} (Tp\+\_\+ from=0., Tp\+\_\+ to=1.)
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Types}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1random__generator_ab84eadfcf18aa5a3531112d83d841bd4}\label{classbn_1_1random__generator_ab84eadfcf18aa5a3531112d83d841bd4}} 
-using {\bfseries dist\+\_\+type} = typename std\+::conditional$<$ std\+::is\+\_\+integral$<$ Tp_ $>$\+::value, std\+::uniform\+\_\+int\+\_\+distribution$<$ Tp_ $>$, std\+::uniform\+\_\+real\+\_\+distribution$<$ Tp_ $>$ $>$\+::type
+\mbox{\Hypertarget{classbn_1_1random__generator_a40987d56ff115a5c293cf9c93b695fb4}\label{classbn_1_1random__generator_a40987d56ff115a5c293cf9c93b695fb4}} 
+using {\bfseries dist\+\_\+type} = typename std\+::conditional$<$ std\+::is\+\_\+integral$<$ Tp\+\_\+ $>$\+::value, std\+::uniform\+\_\+int\+\_\+distribution$<$ Tp\+\_\+ $>$, std\+::uniform\+\_\+real\+\_\+distribution$<$ Tp\+\_\+ $>$ $>$\+::type
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1random__generator_a1e7de48136694214f3c63662da333488}\label{classbn_1_1random__generator_a1e7de48136694214f3c63662da333488}} 
+\mbox{\Hypertarget{classbn_1_1random__generator_a29551ed833fad5c02e47cfe986fac71f}\label{classbn_1_1random__generator_a29551ed833fad5c02e47cfe986fac71f}} 
 uint {\bfseries prime} (uint seed)
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1random__generator_aad5505059d5f2ee2b757b1bce85cbe82}\label{classbn_1_1random__generator_aad5505059d5f2ee2b757b1bce85cbe82}} 
-Generator_ {\bfseries gen}
+\mbox{\Hypertarget{classbn_1_1random__generator_ae21edee2edc6cc817c93a8dafa0588a8}\label{classbn_1_1random__generator_ae21edee2edc6cc817c93a8dafa0588a8}} 
+Generator\+\_\+ {\bfseries gen}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-\subsubsection*{template$<$typename Tp_, typename Generator_ = std\+::mt19937$>$\newline
-class bn\+::random\+\_\+generator$<$ Tp_, Generator_ $>$}
+\subsubsection*{template$<$typename Tp\+\_\+, typename Generator\+\_\+ = std\+::mt19937$>$\newline
+class bn\+::random\+\_\+generator$<$ Tp\+\_\+, Generator\+\_\+ $>$}
 Random generator wrapper for sampling-\/based inference algorithms Offered customization capabilities\+:
 \begin{DoxyItemize}
 \item custom generator
 \item custom seed
 \item custom type for the random number 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em Tp_} & \+: the type of the random number \\
+{\em Tp\+\_\+} & \+: the type of the random number \\
 \hline
-{\em Generator_} & \+: the type of generator (default Marsenne Twister) \\
+{\em Generator\+\_\+} & \+: the type of generator (default Marsenne Twister) \\
 \hline
 \end{DoxyTemplParams}
 

@@ -1,10 +1,10 @@
-\hypertarget{classbn_1_1inference_1_1likelihood__weighting}{}\doxysection{bn\+::inference\+::likelihood\+\_\+weighting\texorpdfstring{$<$}{<} Probability_, Generator_ \texorpdfstring{$>$}{>} Class Template Reference}
-\label{classbn_1_1inference_1_1likelihood__weighting}\index{bn::inference::likelihood\_weighting$<$ Probability_, Generator_ $>$@{bn::inference::likelihood\_weighting$<$ Probability_, Generator_ $>$}}
+\hypertarget{classbn_1_1inference_1_1likelihood__weighting}{}\doxysection{bn\+::inference\+::likelihood\+\_\+weighting\texorpdfstring{$<$}{<} Network\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbn_1_1inference_1_1likelihood__weighting}\index{bn::inference::likelihood\_weighting$<$ Network\_, Generator\_ $>$@{bn::inference::likelihood\_weighting$<$ Network\_, Generator\_ $>$}}
 
 
 {\ttfamily \#include $<$likelihood\+\_\+weighting.\+hpp$>$}
 
-Inheritance diagram for bn\+::inference\+::likelihood\+\_\+weighting\texorpdfstring{$<$}{<} Probability_, Generator_ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+Inheritance diagram for bn\+::inference\+::likelihood\+\_\+weighting\texorpdfstring{$<$}{<} Network\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=3.000000cm]{classbn_1_1inference_1_1likelihood__weighting}
@@ -13,40 +13,43 @@ Inheritance diagram for bn\+::inference\+::likelihood\+\_\+weighting\texorpdfstr
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_a62a4ea33b537dd65f9db136b2113c94d}\label{classbn_1_1inference_1_1likelihood__weighting_a62a4ea33b537dd65f9db136b2113c94d}} 
-{\bfseries likelihood\+\_\+weighting} (ulong nsamples, uint nthreads=1, uint seed=0)
+\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_a3527c74d5e993527025a4b9fdedb52eb}\label{classbn_1_1inference_1_1likelihood__weighting_a3527c74d5e993527025a4b9fdedb52eb}} 
+{\bfseries likelihood\+\_\+weighting} (const network\+\_\+type \&bn, ulong nsamples, uint nthreads=1, uint seed=0)
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Types}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_a8b16d1d21f3f24a714d149584dd1bc3b}\label{classbn_1_1inference_1_1likelihood__weighting_a8b16d1d21f3f24a714d149584dd1bc3b}} 
+\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_aa932586519f61a80ed630e6e752be0ca}\label{classbn_1_1inference_1_1likelihood__weighting_aa932586519f61a80ed630e6e752be0ca}} 
+typedef Network\+\_\+ {\bfseries network\+\_\+type}
+\item 
+\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_a776866860bc530161fc5618387907bdb}\label{classbn_1_1inference_1_1likelihood__weighting_a776866860bc530161fc5618387907bdb}} 
 typedef std\+::vector$<$ ulong $>$ {\bfseries pattern\+\_\+t}
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_a3558fc5207796ab47640a44dbd36616a}\label{classbn_1_1inference_1_1likelihood__weighting_a3558fc5207796ab47640a44dbd36616a}} 
-\mbox{\hyperlink{classbn_1_1marginal__distribution}{bn\+::marginal\+\_\+distribution}}$<$ Probability_ $>$ {\bfseries sample\+\_\+step} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability_ $>$ \&bn, ulong nsamples, uint seed) override
+\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_a020f2cd48015ed844871dae381f78afa}\label{classbn_1_1inference_1_1likelihood__weighting_a020f2cd48015ed844871dae381f78afa}} 
+\mbox{\hyperlink{classbn_1_1marginal__distribution}{bn\+::marginal\+\_\+distribution}}$<$ probability\+\_\+type $>$ {\bfseries sample\+\_\+step} (ulong nsamples, uint seed)
 \item 
-\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_ad2d70c2497f48246bbd5e5b927bc31f5}\label{classbn_1_1inference_1_1likelihood__weighting_ad2d70c2497f48246bbd5e5b927bc31f5}} 
-std\+::pair$<$ pattern\+\_\+t, Probability_ $>$ {\bfseries weighted\+\_\+sample} (const \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}$<$ Probability_ $>$ \&bn, \mbox{\hyperlink{classbn_1_1random__generator}{bn\+::random\+\_\+generator}}$<$ Probability_ $>$ \&rnd\+\_\+gen)
+\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_a9cd5e25f4df8eac5b1dc9f9d37a1ae24}\label{classbn_1_1inference_1_1likelihood__weighting_a9cd5e25f4df8eac5b1dc9f9d37a1ae24}} 
+std\+::pair$<$ pattern\+\_\+t, probability\+\_\+type $>$ {\bfseries weighted\+\_\+sample} (\mbox{\hyperlink{classbn_1_1random__generator}{bn\+::random\+\_\+generator}}$<$ probability\+\_\+type $>$ \&rnd\+\_\+gen)
 \item 
-\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_a701aecaaef2b387268acf0948379fc94}\label{classbn_1_1inference_1_1likelihood__weighting_a701aecaaef2b387268acf0948379fc94}} 
-uint {\bfseries make\+\_\+random\+\_\+by\+\_\+weight} (const Probability_ p, const std\+::vector$<$ Probability_ $>$ \&weight)
+\mbox{\Hypertarget{classbn_1_1inference_1_1likelihood__weighting_ab65dd4e91d01faef5ef9ec7916d79783}\label{classbn_1_1inference_1_1likelihood__weighting_ab65dd4e91d01faef5ef9ec7916d79783}} 
+uint {\bfseries make\+\_\+random\+\_\+by\+\_\+weight} (const probability\+\_\+type p, const std\+::vector$<$ probability\+\_\+type $>$ \&weight)
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
 \doxysubsection{Detailed Description}
-\subsubsection*{template$<$typename Probability_ = double, typename Generator_ = std\+::mt19937$>$\newline
-class bn\+::inference\+::likelihood\+\_\+weighting$<$ Probability_, Generator_ $>$}
+\subsubsection*{template$<$BNet\+Derived Network\+\_\+, typename Generator\+\_\+ = std\+::mt19937$>$\newline
+class bn\+::inference\+::likelihood\+\_\+weighting$<$ Network\+\_\+, Generator\+\_\+ $>$}
 ===== Likelihood Weighting Algorithm ===
 
 This class represents the likelihood-\/weighting approximate inference algorithm for discrete Bayesian Networks. It offers the possibility to use a custom generator and an initial seed 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em Probability_} & \+: the type expressing the probability \\
+{\em Network\+\_\+} & \+: the type of bayesian network (must inherit from \mbox{\hyperlink{classbn_1_1bayesian__network}{bn\+::bayesian\+\_\+network}}) \\
 \hline
-{\em Generator_} & \+: the random generator (default Mersenne Twister pseudo-\/random generator) \\
+{\em Generator\+\_\+} & \+: the type of random generator (default Mersenne Twister pseudo-\/random generator) \\
 \hline
 \end{DoxyTemplParams}
 

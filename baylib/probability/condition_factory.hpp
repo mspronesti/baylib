@@ -15,14 +15,17 @@
 
 
 namespace  bn {
-    template<RVarDerived Variable_>
+    /**
+     * this class produces all the combinations
+     * for a given random variable of a bayesian
+     * network to fill its conditional probability
+     * table
+     * @tparam Network_ : the type of network the
+     *                    factory works on
+     *                   (must inherit from bn::bayesian_network)
+     */
+    template < BNetDerived Network_ >
     class condition_factory {
-        /**
-         * this class produces all the combinations
-         * for a given random variable of a bayesian
-         * network to fill its conditional probability
-         * table
-         */
     public:
         /**
          * builts a condition factory
@@ -33,8 +36,8 @@ namespace  bn {
          *                 your vector, otherwise it employs the default
          *                 one, taken from rv
          */
-        explicit condition_factory(
-             const bn::bayesian_network<Variable_> &bn,
+        explicit condition_factory (
+             const Network_ &bn,
              const unsigned long var_id,
              const std::vector<unsigned long>& parents = {}
         )
@@ -103,7 +106,7 @@ namespace  bn {
 
     private:
         bn::condition c;
-        const bn::bayesian_network<Variable_> &bn;
+        const Network_ &bn;
         std::vector<unsigned long> _parents;
         unsigned long condition_index;
         unsigned long ncombinations;

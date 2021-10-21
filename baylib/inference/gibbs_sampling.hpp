@@ -26,9 +26,9 @@ namespace bn {
          * NOTICE: Gibbs sampling should not be used for bayesian networks
          *         with deterministic nodes, i.e. nodes with some entry
          *         in the cpt equal to 1.0
-         * @tparam Probability : the type expressing the probability
-         * @tparam Generator_  : the random generator
-         *                     (default Mersenne Twister pseudo-random generator)
+         * @tparam Network_   : the type of bayesian network (must inherit from bn::bayesian_network)
+         * @tparam Generator_ : the type of random generator
+         *                  (default Mersenne Twister pseudo-random generator)
          */
         template <
                 BNetDerived Network_,

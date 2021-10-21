@@ -70,8 +70,6 @@ namespace  bn {
             return _id;
         }
 
-        void set_id(unsigned long id) { _id = id; }
-
         /**
          * @return the number of variable's states
          */
