@@ -35,7 +35,6 @@ Here's a list of the main requested features:
 ## Dependencies
 * cmake >= 2.8
 * boost >= 1.65
-* gcc >= 10.3.0 (or any compiler fully supporting C++20)
 * libtbb 
 * ocl-icd-opencl
 * mesa-opencl-icd

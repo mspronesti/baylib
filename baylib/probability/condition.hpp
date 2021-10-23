@@ -13,15 +13,13 @@
 namespace bn {
     using state_t = std::uint64_t;
 
+    /**
+     * Let X be a random variable, then
+     * P(X | c) is the probability of  X given c.
+     * This class models c and it is used  in the
+     * conditional probability table
+     */
     class condition {
-        /**
-         * Let X to be a random variable, then
-         * P(X | c) is the probability of
-         * X conditioned to "c".
-         * This class models "c" and it is used
-         * in the conditional probability table and
-         * the joint probability table.
-         */
     public:
         condition() = default;
 

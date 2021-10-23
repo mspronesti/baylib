@@ -1,5 +1,5 @@
-#ifndef BAYLIB_XDSL_PARSER_HPP
-#define BAYLIB_XDSL_PARSER_HPP
+#ifndef BAYLIB_SMILE_UTILS_HPP
+#define BAYLIB_SMILE_UTILS_HPP
 
 #include <string>
 #include <fstream>
@@ -18,6 +18,13 @@ using namespace rapidxml;
 //! \brief utilities to support the xdsl format from SMILE library
 
 namespace bn {
+    /**
+     * This class is used to support xdsl additional features associated
+     * to a random variable, inheriting from random_variable.
+     * Offers to possibility to name the variable and its states.
+     * @tparam Probability_ : the type expressing the probability
+     *                        must be arithmetic
+     */
     template <Arithmetic Probability_ = double>
     class named_random_variable : public bn::random_variable<Probability_> {
     public:
@@ -69,10 +76,12 @@ namespace bn {
   * @return
   */
     template <RVarDerived Variable_>
+#ifdef __concepts_supported
     requires std::is_same_v <
                             Variable_,
                             named_random_variable<typename Variable_::probability_type>
                             >
+#endif
     std::map<std::string, unsigned long> make_name_map (
             const bn::bayesian_network<Variable_> & bn
     )
@@ -85,7 +94,12 @@ namespace bn {
         return name_map;
     }
 
-
+    /**
+     * This class models an xml parser for the xdsl format, used
+     * to support the compatibility with the SMILE library
+     * @tparam Probability_ : the type expressing the probability
+     *                        must be arithmetic
+     */
     template<Arithmetic Probability_ = double>
     class xdsl_parser {
         typedef bn::bayesian_network<named_random_variable<Probability_>> named_bayesian_network;
@@ -209,4 +223,4 @@ namespace bn {
 
 
 } // namespace bn
-#endif //BAYLIB_XDSL_PARSER_HPP
+#endif //BAYLIB_SMILE_UTILS_HPP

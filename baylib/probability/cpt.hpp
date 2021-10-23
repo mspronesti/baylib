@@ -49,25 +49,27 @@ namespace bn{
             unsigned long nstates{};
         };
 
+        /**
+        * This class models a condition probability
+        * table indirectly mapping condition to probability
+        * row (and employing copy on write to spare memory)
+        *
+        *  Example:
+        *  bn::condition c = {{"var1": 1}, {"var2": 3}}
+        *  bn::cow::cpt cpt{n}
+        *  ...
+        *  auto & probs = cpt[c]
+        *
+        *  probs[0] :  P(var3=0 | var1=1, var2=3)
+        *  probs[1] :  P(var3=1 | var1=1, var2=3)
+        *     .                 .
+        *     .                 .
+        *  probs[n] :  P(var3=n | var=1, var2=3)
+        *  @tparam Probability_ : the type expressing probability.
+        *                        Must be arithmetic
+        **/
         template<Arithmetic Probability_>
         class cpt {
-            /**
-            * This class models a condition probability
-            * table indirectly mapping condition to probability
-            * row (and employing copy on write to spare memory)
-            *
-            *  Example:
-            *  bn::condition c = {{"var1": 1}, {"var2": 3}}
-            *  bn::cow::cpt cpt{n}
-            *  ...
-            *  auto & probs = cpt[c]
-            *
-            *  probs[0] :  P(var3=0 | var1=1, var2=3)
-            *  probs[1] :  P(var3=1 | var1=1, var2=3)
-            *     .                 .
-            *     .                 .
-            *  probs[n] :  P(var3=n | var=1, var2=3)
-            */
         public:
             explicit cpt(unsigned long nstates = 2) {
                 d = new CPTData<Probability_>();
