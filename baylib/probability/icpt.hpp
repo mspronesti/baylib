@@ -14,15 +14,15 @@
  */
 
 
-namespace bn {
+namespace baylib {
     namespace cow {
         /**
          * ICPT is a child class of CPT that enables learning of unknown distributions starting from
          * a known CPT or an empty table
          * @tparam Probability_ : type of ICPT entry
          */
-        template <Arithmetic Probability_>
-        class icpt: public bn::cow::cpt<Probability_>{
+        template <Arithmetic Probability_ = double >
+        class icpt: public baylib::cow::cpt<Probability_>{
 
         public:
             icpt()= default;
@@ -49,7 +49,7 @@ namespace bn {
                     cow::cpt<Probability_>& cpt,
                     bool empty=false
             )
-            : bn::cow::cpt<Probability_>(cpt)
+            : baylib::cow::cpt<Probability_>(cpt)
             {
                 if(empty){
                     for(auto& row: this->d->table){
@@ -63,7 +63,7 @@ namespace bn {
              * @param cond : condition
              * @return     : probability distribution
             */
-            std::vector<Probability_> &operator[] (const bn::condition &cond){
+            std::vector<Probability_> &operator[] (const baylib::condition &cond){
                 return this->d->table[this->cond_map.at(cond)];
             }
 

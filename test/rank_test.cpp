@@ -8,7 +8,7 @@
 
 
 TEST(test_rank, _test){
-   auto bn = bn::bayesian_network<bn::named_random_variable<double>>();
+   auto bn = baylib::bayesian_net<baylib::named_random_variable<double>>();
    ulong a = bn.add_variable("a", std::vector<std::string>{"s1", "s2"});
    ulong b = bn.add_variable("b", std::vector<std::string>{"s1", "s2"});
    ulong c = bn.add_variable("c", std::vector<std::string>{"s1", "s2"});
@@ -25,14 +25,14 @@ TEST(test_rank, _test){
    ASSERT_TRUE(bn.is_root(a));
    ASSERT_TRUE(bn.is_root(b));
 
-    auto order = bn::sampling_order(bn);
+    auto order = baylib::sampling_order(bn);
     int exp_order[] = {0, 1, 2, 3, 4};
     for (int j = 0; j < order.size(); ++j)
         ASSERT_EQ(order[j], exp_order[j]);
 }
 
 TEST(test_rank, test_from_book){
-    auto bn = bn::bayesian_network<bn::named_random_variable<double>>();
+    auto bn = baylib::bayesian_net<baylib::named_random_variable<double>>();
     auto v1 = bn.add_variable("1", std::vector<std::string>{"1", "2", "3"});
     auto v2 = bn.add_variable("2", std::vector<std::string>{"1", "2", "3"});
     auto v3 = bn.add_variable("3", std::vector<std::string>{"1", "2", "3"});
@@ -57,7 +57,7 @@ TEST(test_rank, test_from_book){
     ASSERT_TRUE(bn.is_root(v1));
     ASSERT_FALSE(bn.is_root(v7));
 
-    auto order = bn::sampling_order(bn);
+    auto order = baylib::sampling_order(bn);
     int exp_order[] = {0, 2, 1, 5, 3, 4, 6};
     for (int j = 0; j < order.size(); ++j)
         ASSERT_EQ(order[j], exp_order[j]);

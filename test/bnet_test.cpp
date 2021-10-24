@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <baylib/network/bayesian_network.hpp>
+#include <baylib/network/bayesian_net.hpp>
 
 class bnet_tests : public ::testing::Test {
 protected:
@@ -15,7 +15,7 @@ protected:
         E
     };
 
-    bn::bayesian_network<bn::random_variable<double>> bn;
+    baylib::bayesian_net<baylib::random_variable<double>> bn;
 
     bnet_tests()= default;
 

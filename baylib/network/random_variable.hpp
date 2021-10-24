@@ -5,18 +5,23 @@
 #ifndef BAYLIB_RANDOM_VARIABLE_HPP
 #define BAYLIB_RANDOM_VARIABLE_HPP
 
-#include <baylib/network/bayesian_network.hpp>
+#include <baylib/network/bayesian_net.hpp>
 #include <utility>
 #include <baylib/baylib_concepts.hpp>
 
 //! \file random_variable.hpp
-//! \brief Node class of bayesian_network
+//! \brief Node class of bayesian_net
 
-namespace  bn {
+namespace  baylib {
     // forward declaration
     template<RVarDerived Variable_>
-    class bayesian_network;
+    class bayesian_net;
 
+    /**
+     * Class that represents a generic node of a bayesian network, its main purpose is
+     * encapsulating the cpt table
+     * @tparam Probability_ type of the cpt elements
+     */
     template<Arithmetic Probability_ = double>
     class random_variable {
     public:
@@ -40,8 +45,8 @@ namespace  bn {
          * @param p           : probability relative to the entry
          */
         void set_probability(
-                bn::state_t state_value,
-                const bn::condition &cond,
+                baylib::state_t state_value,
+                const baylib::condition &cond,
                 Probability_ p
         )
         {
@@ -52,14 +57,14 @@ namespace  bn {
         /**
          * @return cpt relative to the variable
          */
-        bn::cow::cpt<Probability_> &table() {
+        baylib::cow::cpt<Probability_> &table() {
             return cpt;
         }
 
         /**
          * @return cpt relative to the variable
          */
-        const  bn::cow::cpt<Probability_> &table() const {
+        const  baylib::cow::cpt<Probability_> &table() const {
             return cpt;
         }
 
@@ -120,14 +125,14 @@ namespace  bn {
         }
 
     protected:
-        template <RVarDerived Variable_> friend class bn::bayesian_network;
+        template <RVarDerived Variable_> friend class baylib::bayesian_net;
 
-        bn::cow::cpt<Probability_> cpt;
+        baylib::cow::cpt<Probability_> cpt;
         bool _is_evidence;
         unsigned long _state_value;
         unsigned long _id;
 
     };
-} // namespace bn
+} // namespace baylib
 
 #endif //BAYLIB_RANDOM_VARIABLE_HPP

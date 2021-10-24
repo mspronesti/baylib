@@ -19,7 +19,7 @@
  * (which already implements the copy on write in an
  * efficient way)
  */
-namespace bn{
+namespace baylib{
     namespace cow {
         class shared_data {
         public:
@@ -32,6 +32,6 @@ namespace bn{
             shared_data& operator = (const shared_data&) = delete;
         };
     } // namespace cow
-} //namespace bn
+} //namespace baylib
 
 #endif //BAYLIB_SHARED_DATA_HPP

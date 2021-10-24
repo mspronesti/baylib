@@ -7,6 +7,7 @@
 
 #define AVALANCHE_FACTOR 0x45D9F3B // from papers and experiments
 #include <random>
+#include <baylib_concepts.hpp>
 
 /**
  * @file random_generator.hpp
@@ -14,7 +15,7 @@
  */
 
 
-namespace bn {
+namespace baylib {
     /**
      * Random generator wrapper for sampling-based inference algorithms
      * Offered customization capabilities:
@@ -24,7 +25,10 @@ namespace bn {
      * @tparam Tp_           : the type of the random number
      * @tparam Generator_   : the type of generator (default Marsenne Twister)
      */
-    template<typename Tp_, typename Generator_ = std::mt19937>
+    template<
+            typename Tp_,
+            STDEngineCompatible Generator_ = std::mt19937
+            >
     class random_generator {
         using dist_type = typename std::conditional
                 <

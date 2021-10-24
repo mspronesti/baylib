@@ -16,22 +16,30 @@
     concept Arithmetic = std::is_arithmetic_v<P_>;
 
     // forward declaration of random_variable
-    namespace bn {
+    namespace baylib {
         template<Arithmetic>
         class random_variable;
     }
 
     template < typename V_ >
-    concept RVarDerived = std::is_base_of_v< bn::random_variable<typename V_::probability_type>, V_ >;
+    concept RVarDerived = std::is_base_of_v< baylib::random_variable<typename V_::probability_type>, V_ >;
 
-    // forward declaration of bayesian_network
-    namespace bn {
+    // forward declaration of bayesian_net
+    namespace baylib {
         template<RVarDerived>
-        class bayesian_network;
+        class bayesian_net;
     }
 
     template < typename N_ >
-    concept BNetDerived = std::is_base_of_v< bn::bayesian_network<typename N_::variable_type>, N_>;
+    concept BNetDerived = std::is_base_of_v< baylib::bayesian_net<typename N_::variable_type>, N_>;
+
+
+    template < typename G_ >
+    concept STDEngineCompatible = requires(G_ gen) {
+        gen();
+        gen.min();
+        gen.max();
+    };
 #else
 #define Arithmetic typename
 #define RVarDerived typename

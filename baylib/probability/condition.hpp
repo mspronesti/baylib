@@ -10,7 +10,7 @@
 //! @file condition.hpp
 //! @brief Condition class used for CPT indexing
 
-namespace bn {
+namespace baylib {
     using state_t = std::uint64_t;
 
     /**
@@ -160,7 +160,6 @@ namespace bn {
                         return true;
                     else if (k > it->first)
                         return false;
-
                     it++;
                 }
                 return false;

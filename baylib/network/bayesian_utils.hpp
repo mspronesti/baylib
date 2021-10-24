@@ -6,13 +6,13 @@
 #define BAYLIB_BAYESIAN_UTILS_HPP
 
 
-#include <baylib/network/bayesian_network.hpp>
+#include <baylib/network/bayesian_net.hpp>
 #include <baylib/probability/condition_factory.hpp>
 #include <baylib/baylib_concepts.hpp>
 #include <unordered_set>
 
 //! \file bayesian_utils.hpp
-//! \brief Collection of utilities for bayesian_network
+//! \brief Collection of utilities for bayesian_net
 
 /**
  * this file contains some useful algorithms
@@ -25,7 +25,7 @@
  *  of exact inference algorithms
  */
 
-namespace  bn{
+namespace  baylib{
     /**
     * Applies ranking function to the DAG representing the
     * bayesian network to get the appropriate sampling order
@@ -119,7 +119,7 @@ namespace  bn{
          const unsigned long cpt_owner
     )
     {
-        bn::condition_factory factory(bn, cpt_owner);
+        baylib::condition_factory factory(bn, cpt_owner);
         const auto &cpt = bn[cpt_owner].table();
 
         if(factory.number_of_combinations() != cpt.size())
@@ -188,6 +188,6 @@ namespace  bn{
     }
 
 
-} // namespace bn
+} // namespace baylib
 
 #endif //BAYLIB_BAYESIAN_UTILS_HPP

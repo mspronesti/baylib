@@ -17,7 +17,7 @@
  * in an efficient way
  */
 
-namespace bn{
+namespace baylib{
     namespace cow {
         template <typename T>
         class shared_ptr {
@@ -106,6 +106,6 @@ namespace bn{
 
         };
     } // namespace cow
-} //namespace bn
+} //namespace baylib
 
 #endif //BAYLIB_SHARED_PTR_HPP

@@ -21,7 +21,7 @@
 //! \file adaptive_importance_sampling.hpp
 //! \brief Adaptive sampling implementation with GPGPU and multi-thread support
 
-namespace bn {
+namespace baylib {
     namespace inference{
 
         /**
@@ -40,7 +40,7 @@ namespace bn {
          * 3. simulate all other nodes given their parents
          * 4. each evidence node simulation is set to the evidence value
          * 5. estimate the marginal probabilities from the simulations
-         * @tparam Network_   : the type of bayesian network (must inherit from bn::bayesian_network)
+         * @tparam Network_   : the type of bayesian network (must inherit from baylib::bayesian_net)
          * @tparam Generator_ : the type of random generator
          *                  (default Mersenne Twister pseudo-random generator)
          */
@@ -70,6 +70,7 @@ namespace bn {
              * @param device : opencl device used for the simulation
              */
             explicit adaptive_importance_sampling(
+                const network_type & bn,
                 ulong nsamples,
                 size_t memory,
                 double initial_learning_rate = 1,
@@ -78,7 +79,7 @@ namespace bn {
                 uint seed = 0,
                 const compute::device& device = compute::system::default_device()
             )
-            : vectorized_inference_algorithm<Network_>(nsamples, memory, seed, device)
+            : vectorized_inference_algorithm<Network_>(bn, nsamples, memory, seed, device)
             , w_k(1)
             , initial_learning_rate(initial_learning_rate)
             , final_learning_rate(final_learning_rate)
@@ -92,10 +93,10 @@ namespace bn {
              * @param bn network
              * @return marginal distribution
              */
-            bn::marginal_distribution<probability_type> make_inference ()
+            baylib::marginal_distribution<probability_type> make_inference ()
             {
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
-                                          [this](auto &var){ return bn::cpt_filled_out(bn, var.id()); }),
+                                          [this](auto &var){ return baylib::cpt_filled_out(bn, var.id()); }),
                               "conditional probability tables must be properly filled to"
                               " run logic_sampling inference algorithm",
                               std::runtime_error);
@@ -153,7 +154,7 @@ namespace bn {
                 double k = 0;
                 uint max_k = this->nsamples / 2 / learning_step;
                 seed_factory factory(1, this->seed);
-                bn::random_generator<probability_type, Generator_> rnd_gen(this->seed);
+                baylib::random_generator<probability_type, Generator_> rnd_gen(this->seed);
 
                 for (int i = 0; i < max_k; ++i) {
                     std::future<void> el = std::async([&](){std::generate(
@@ -189,7 +190,7 @@ namespace bn {
                                         const probability_type p = random_vec[ix];
                                         ix++;
                                         std::vector<probability_type> weight;
-                                        bn::condition parents_state_cond;
+                                        baylib::condition parents_state_cond;
                                         for (auto par : bn.parents_of(v))
                                             parents_state_cond.add(
                                                     par,
@@ -294,7 +295,7 @@ namespace bn {
                 marginal_distribution<probability_type> marginal_result(bn.begin(), bn.end());
                 std::vector<bcvec> result_container(bn.number_of_variables());
                 marginal_distribution<probability_type> temp(bn.begin(), bn.end());
-                auto [gpu_samples, gpu_iter] = this->calculate_iterations(bn);
+                auto [gpu_samples, gpu_iter] = this->calculate_iterations();
 
                 for(int i = 0; i < gpu_iter; ++i){
                     for(ulong v : sampling_order(bn)) {
@@ -305,12 +306,12 @@ namespace bn {
                         else{
                             std::vector<bcvec*> parents_result;
                             auto parents = bn.parents_of(v);
-                            std::reverse(parents.begin(), parents.end());
+
                             for (auto p : parents) {
                                 parents_result.push_back(&result_container[p]);
                             }
 
-                            result_container[v] = this->simulate_node(icpt_vec[v] , parents_result, gpu_samples);
+                            result_container[v] = this->simulate_node(v, icpt_vec[v], parents_result, gpu_samples);
 
                             auto accumulated_result = compute_result_general(result_container[v]);
 
@@ -330,7 +331,7 @@ namespace bn {
             std::vector<ulong> compute_result_general(bcvec& res)
             {
                 std::vector<ulong> acc_res(res.cardinality);
-                for (bn::state_t i = 0; i < res.cardinality; ++i) {
+                for (baylib::state_t i = 0; i < res.cardinality; ++i) {
                     acc_res[i] = w_k * compute::count(res.state.begin(), res.state.end(), i, this->queue);
                 }
                 return acc_res;
@@ -339,7 +340,7 @@ namespace bn {
 
             /**
              * Given a random probability and the distribution return the sample realization
-             * @param p Probability
+             * @param p probability_type
              * @param weight discrete distribution
              * @return realization
              */

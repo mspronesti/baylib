@@ -17,13 +17,13 @@
 //! \file abstract_inference_algorithm.hpp
 //! \brief Abstract classes for stocastic algorithms
 
-namespace bn {
+namespace baylib {
     namespace inference {
         /**
         * This class models a generic approximate
         * inference algorithm for discrete Bayesian
         * networks
-        * @tparam Probability
+        * @tparam Network_ the type of bayesian network
         */
         template <BNetDerived Network_>
         class inference_algorithm {
@@ -60,7 +60,7 @@ namespace bn {
              * @param bn  : bayesian network
              * @return    : the marginal distributions
              */
-            virtual bn::marginal_distribution<probability_type> make_inference () = 0;
+            virtual baylib::marginal_distribution<probability_type> make_inference () = 0;
 
             void set_number_of_samples(unsigned long _nsamples) { nsamples = _nsamples; }
 
@@ -77,9 +77,9 @@ namespace bn {
          * parallelized with C++ threads.
          * Its make_inference employs the well-known approach of splitting
          * the sampling work over the number of threads and merging the results
-         * @tparam Probability  : the type expressing probability
+         * @tparam Network_  : the type of bayesian network
          */
-        template < typename Network_ >
+        template < BNetDerived Network_ >
         class parallel_inference_algorithm : public inference_algorithm<Network_>
         {
         public:
@@ -105,18 +105,18 @@ namespace bn {
              * @param bn : bayesian network graph
              * @return   : the marginal distribution of the variables post inference
              */
-            bn::marginal_distribution<probability_type> make_inference() override
+            baylib::marginal_distribution<probability_type> make_inference() override
             {
-                typedef std::future<bn::marginal_distribution<probability_type>> result;
+                typedef std::future<baylib::marginal_distribution<probability_type>> result;
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
-                                          [this](auto &var) { return bn::cpt_filled_out(bn, var.id()); }),
+                                          [this](auto &var) { return baylib::cpt_filled_out(bn, var.id()); }),
                               "conditional probability tables must be properly filled to"
                               " run an inference algorithm",
                               std::runtime_error)
 
-                bn::marginal_distribution<probability_type> inference_result(bn.begin(), bn.end());
+                baylib::marginal_distribution<probability_type> inference_result(bn.begin(), bn.end());
                 std::vector<result> results;
-                bn::seed_factory sf(nthreads, this->seed);
+                baylib::seed_factory sf(nthreads, this->seed);
 
                 auto job = [this](ulong samples_per_thread, uint seed) {
                     return sample_step(samples_per_thread, seed);
@@ -147,7 +147,7 @@ namespace bn {
             }
 
         protected:
-            virtual bn::marginal_distribution<probability_type> sample_step (
+            virtual baylib::marginal_distribution<probability_type> sample_step (
                     unsigned long nsamples_per_step,
                     unsigned int seed
             ) = 0;
@@ -164,7 +164,7 @@ namespace bn {
          * vectorized with a GPGPU approach.
          * the method simulate_node samples a node given the results of
          * previous simulations of its parents nodes
-         * @tparam Probability  : the type expressing probability
+         * @tparam Network_  : the type of bayesian network
          */
         template < BNetDerived Network_ >
         class vectorized_inference_algorithm : public inference_algorithm<Network_>
@@ -213,10 +213,17 @@ namespace bn {
                     return {this->nsamples, 1};
             }
 
-            static std::vector<probability_type> accumulate_cpt( bn::cow::cpt<probability_type> cpt) {
-                std::vector<probability_type> flat_cpt = cpt.flat();
-                for (bn::state_t i = 0; i < flat_cpt.size(); i += cpt.number_of_states())
-                    for (bn::state_t j = 1; j < cpt.number_of_states() - 1; j++)
+            std::vector<probability_type> accumulate_cpt(ulong v_id, baylib::cow::cpt<probability_type> cpt) {
+                auto factory = baylib::condition_factory(bn, v_id, bn.parents_of(v_id));
+                std::vector<probability_type> flat_cpt{};
+                uint n_states = bn[v_id].table().number_of_states();
+                do {
+                    auto temp = cpt[factory.get()];
+                    flat_cpt.insert(flat_cpt.end(), temp.begin(), temp.end());
+                } while (factory.has_next());
+
+                for (baylib::state_t i = 0; i < flat_cpt.size(); i += n_states)
+                    for (baylib::state_t j = 1; j < n_states - 1; j++)
                         flat_cpt[i + j] += flat_cpt[i + j - 1];
                 return flat_cpt;
             }
@@ -229,12 +236,13 @@ namespace bn {
              * @return result of the simulation
              */
             bcvec simulate_node(
+                    ulong v_id,
                     const cow::cpt<probability_type> &cpt,
                     std::vector<bcvec*> &parents_result,
                     int dim
             )
             {
-                std::vector<probability_type> flat_cpt_accum = accumulate_cpt(cpt);
+                std::vector<probability_type> flat_cpt_accum = accumulate_cpt(v_id, cpt);
                 bcvec result(dim, cpt.number_of_states(), context);
                 prob_v device_cpt(flat_cpt_accum.size(), context);
                 prob_v threshold_vec(dim, context);
@@ -249,7 +257,7 @@ namespace bn {
                 if(parents_result.empty())
                     compute::fill(index_vec.begin(), index_vec.end(), 0, queue);
                 else {
-                    uint coeff = cpt.number_of_states();
+                    uint coeff = bn[v_id].table().number_of_states();
                     for (int i = 0; i < parents_result.size(); i++) {
                         if (i == 0)
                             compute::transform(parents_result[i]->state.begin(),
@@ -287,7 +295,7 @@ namespace bn {
                                    queue);
 
                 // generalization in case of more than 2 states
-                for (int i = 0; i + 2 < cpt.number_of_states(); i++) {
+                for (int i = 0; i + 2 < bn[v_id].table().number_of_states(); i++) {
                     compute::vector<int> temp(dim, context);
                     compute::transform(index_vec.begin(),
                                        index_vec.end(),
@@ -313,7 +321,7 @@ namespace bn {
             }
         };
     } // namespace inference
-} // namespace bn
+} // namespace baylib
 
 #endif //BAYLIB_ABSTRACT_INFERENCE_ALGORITHM_HPP
 

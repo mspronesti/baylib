@@ -14,7 +14,7 @@
 //! \file gibbs_sampling.hpp
 //! \brief Gibbs Sampling implementation with multi-thread support
 
-namespace bn {
+namespace baylib {
     namespace inference {
         /** ===== Gibbs sampling Algorithm ===
          *
@@ -26,7 +26,7 @@ namespace bn {
          * NOTICE: Gibbs sampling should not be used for bayesian networks
          *         with deterministic nodes, i.e. nodes with some entry
          *         in the cpt equal to 1.0
-         * @tparam Network_   : the type of bayesian network (must inherit from bn::bayesian_network)
+         * @tparam Network_   : the type of bayesian network (must inherit from baylib::bayesian_net)
          * @tparam Generator_ : the type of random generator
          *                  (default Mersenne Twister pseudo-random generator)
          */
@@ -51,17 +51,17 @@ namespace bn {
             { }
 
         private:
-            bn::marginal_distribution<probability_type> sample_step (
+            baylib::marginal_distribution<probability_type> sample_step (
                     unsigned long nsamples, // the number of samples of each thread
                     unsigned int seed
             ) override
             {
                 ulong nvars = bn.number_of_variables();
                 // contains, for each variable, the current state value
-                auto var_state_values = std::vector<bn::state_t>(nvars);
+                auto var_state_values = std::vector<baylib::state_t>(nvars);
 
-                bn::random_generator<probability_type, Generator_> rnd_gen(seed);
-                bn::marginal_distribution<probability_type> marginal_distr(bn.begin(), bn.end());
+                baylib::random_generator<probability_type, Generator_> rnd_gen(seed);
+                baylib::marginal_distribution<probability_type> marginal_distr(bn.begin(), bn.end());
 
                 for(ulong i = 0; i < nsamples; ++i)
                     for(ulong n = 0; n < nvars; ++n)
@@ -83,9 +83,9 @@ namespace bn {
              * @return sampled state
              */
             ulong sample_single_variable(
-                const unsigned long n,
-                std::vector<bn::state_t> &var_state_values,
-                bn::random_generator<probability_type, Generator_> &rnd_gen
+                    const unsigned long n,
+                    std::vector<baylib::state_t> &var_state_values,
+                    baylib::random_generator<probability_type, Generator_> &rnd_gen
             )
             {
                 auto var = bn[n];
@@ -132,14 +132,14 @@ namespace bn {
             /**
             * Get the probability of the current realization of a specific node
             * @param n : numerical identifier of node
-            * @return  : Probability of the current realization of n
+            * @return  : probability_type of the current realization of n
             */
             probability_type get_probability (
                 const unsigned long n,
-                const std::vector<bn::state_t> &var_state_values
+                const std::vector<baylib::state_t> &var_state_values
             )
             {
-                bn::condition c;
+                baylib::condition c;
                 // builds a condition using parents and
                 // their states
                 for(auto & p : bn.parents_of(n))
@@ -154,6 +154,6 @@ namespace bn {
         };
 
     }  // namespace inference
-} // namespace bn
+} // namespace baylib
 
 #endif //BAYLIB_GIBBS_SAMPLING_HPP

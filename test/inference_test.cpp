@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <baylib/network/bayesian_network.hpp>
+#include <baylib/network/bayesian_net.hpp>
 #include <baylib/smile_utils/smile_utils.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
 #include <baylib/inference/logic_sampling.hpp>
@@ -13,61 +13,33 @@
 
 
 #define THREADS std::thread::hardware_concurrency()
-#define SAMPLES 20000
+#define SAMPLES 10000
 #define MEMORY 500*(std::pow(2,30))
 #define TOLERANCE 0.05
 
-using namespace bn::inference;
-using Probability = double;
+using namespace baylib::inference;
+using probability_type = double;
 
-class inference_tests : public ::testing::Test{
-protected:
-
-    inference_tests() = default;
-    ~inference_tests() override = default;
-
-    /*
-    void SetUp() override{
-        auto logic = std::make_shared<logic_sampling<Probability>>(SAMPLES, MEMORY);
-        auto gibbs = std::make_shared<gibbs_sampling<Probability>>(SAMPLES, THREADS);
-        auto likely = std::make_shared<likelihood_weighting<Probability>>(SAMPLES, THREADS);
-        auto rejection = std::make_shared<rejection_sampling<Probability, std::default_random_engine>>(SAMPLES, THREADS);
-        auto adaptive =  std::make_shared<adaptive_importance_sampling<Probability>>(SAMPLES, MEMORY);
-
-        algorithms = { gibbs,
-                       logic,
-                       likely,
-                       rejection,
-                       adaptive
-                       };
-
-        algorithms_det = { logic,
-                           likely,
-                           rejection,
-                           adaptive
-                          };
-    }*/
-};
 
 template<typename Probability, class Variable>
-std::vector<bn::marginal_distribution<Probability>> get_results(const bn::bayesian_network<Variable> &bn){
-    std::vector<bn::marginal_distribution<Probability>> results{
-        logic_sampling<Probability>(SAMPLES, MEMORY).make_inference(bn),
-        gibbs_sampling<Probability>(SAMPLES, THREADS).make_inference(bn),
-        likelihood_weighting<Probability>(SAMPLES, THREADS).make_inference(bn),
-        rejection_sampling<Probability>(SAMPLES, THREADS).make_inference(bn),
-        adaptive_importance_sampling<Probability>(SAMPLES, MEMORY).make_inference(bn)
+std::vector<baylib::marginal_distribution<Probability>> get_results(const baylib::bayesian_net<Variable> &bn){
+    std::vector<baylib::marginal_distribution<Probability>> results{
+        logic_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+        gibbs_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+        likelihood_weighting<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+        rejection_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+        adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference()
     };
     return results;
 }
 
 template<typename Probability, class Variable>
-        std::vector<bn::marginal_distribution<Probability>> get_results_deterministic(const bn::bayesian_network<Variable> &bn){
-            std::vector<bn::marginal_distribution<Probability>> results{
-                logic_sampling<Probability>(SAMPLES, MEMORY).make_inference(bn),
-                likelihood_weighting<Probability>(SAMPLES, THREADS).make_inference(bn),
-                rejection_sampling<Probability>(SAMPLES, THREADS).make_inference(bn),
-                adaptive_importance_sampling<Probability>(SAMPLES, MEMORY).make_inference(bn)
+        std::vector<baylib::marginal_distribution<Probability>> get_results_deterministic(const baylib::bayesian_net<Variable> &bn){
+            std::vector<baylib::marginal_distribution<Probability>> results{
+                logic_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+                likelihood_weighting<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+                rejection_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+                adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference()
             };
             return results;
         }
@@ -75,13 +47,13 @@ template<typename Probability, class Variable>
 /**
  * Basic test on a quite small network
  */
-TEST_F(inference_tests, big_bang_Coma){
+TEST(inference_tests, big_bang_Coma){
 
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
-    auto net1 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Coma.xdsl");
-    //bn::inference::logic_sampling<Probability> alg = bn::inference::logic_sampling<Probability>(SAMPLES, MEMORY);
-    auto n_map = bn::make_name_map(net1);
-    for (bn::marginal_distribution<double>& result: get_results<double>(net1)){
+    auto net1 = baylib::xdsl_parser<probability_type>().deserialize("../../examples/xdsl/Coma.xdsl");
+    //baylib::inference::logic_sampling<probability_type> alg = baylib::inference::logic_sampling<probability_type>(SAMPLES, MEMORY);
+    auto n_map = baylib::make_name_map(net1);
+    for (baylib::marginal_distribution<double>& result: get_results<double>(net1)){
         ASSERT_NEAR(result[n_map["MetastCancer"]][0], .2, TOLERANCE);
         ASSERT_NEAR(result[n_map["MetastCancer"]][1], .8, TOLERANCE);
 
@@ -103,11 +75,11 @@ TEST_F(inference_tests, big_bang_Coma){
      * Test with networks with non-binary variables
      */
 
-    TEST_F(inference_tests, big_bang_VentureBNExpanded){
+    TEST(inference_tests, big_bang_VentureBNExpanded){
 
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FVentureBNExpanded.xdsl
-        auto net2 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/VentureBNExpanded.xdsl");
-        auto n_map = bn::make_name_map(net2);
+        auto net2 = baylib::xdsl_parser<probability_type>().deserialize("../../examples/xdsl/VentureBNExpanded.xdsl");
+        auto n_map = baylib::make_name_map(net2);
 
         for(auto& result : get_results<double>(net2)){
 
@@ -127,11 +99,11 @@ TEST_F(inference_tests, big_bang_Coma){
     /**
      * Test on medium-size bayesian network
      */
-    TEST_F(inference_tests, big_bang_Credit){
+    TEST(inference_tests, big_bang_Credit){
 
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
-        auto net3 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Credit.xdsl");
-        auto n_map = bn::make_name_map(net3);
+        auto net3 = baylib::xdsl_parser<probability_type>().deserialize("../../examples/xdsl/Credit.xdsl");
+        auto n_map = baylib::make_name_map(net3);
 
         for(auto& result : get_results<double>(net3)){
 
@@ -187,11 +159,11 @@ TEST_F(inference_tests, big_bang_Coma){
      * Test on mixture between absolute and non absolute probabilities
      */
 
-    TEST_F(inference_tests, big_bang_Asia){
+    TEST(inference_tests, big_bang_Asia){
 
         //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FAsiaDiagnosis.xdsl
-        auto net4 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/AsiaDiagnosis.xdsl");
-        auto n_map = bn::make_name_map(net4);
+        auto net4 = baylib::xdsl_parser<probability_type>().deserialize("../../examples/xdsl/AsiaDiagnosis.xdsl");
+        auto n_map = baylib::make_name_map(net4);
 
         for(auto& result : get_results_deterministic<double>(net4)){
 
@@ -216,20 +188,20 @@ TEST_F(inference_tests, big_bang_Coma){
      * Test a quite large network
      */
 
-    TEST_F(inference_tests, big_bang_Hail){
+    TEST(inference_tests, big_bang_Hail){
 
         https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FHailfinder2.5.xdsl
-        auto net5 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Hailfinder2.5.xdsl");
-        auto n_map = bn::make_name_map(net5);
+        auto net5 = baylib::xdsl_parser<probability_type>().deserialize("../../examples/xdsl/Hailfinder2.5.xdsl");
+        auto n_map = baylib::make_name_map(net5);
 
-        for(auto& result : get_results_deterministic<double>(net5)){
+        for(auto& res : get_results_deterministic<double>(net5)){
 
-            ASSERT_NEAR(result[n_map["R5Fcst"]][0], 0.25, TOLERANCE);
-            ASSERT_NEAR(result[n_map["R5Fcst"]][1], 0.44, TOLERANCE);
-            ASSERT_NEAR(result[n_map["R5Fcst"]][2], 0.31, TOLERANCE);
-            ASSERT_NEAR(result[n_map["CompPlFcst"]][0], 0.41 ,TOLERANCE);
-            ASSERT_NEAR(result[n_map["CompPlFcst"]][1], 0.36 ,TOLERANCE);
-            ASSERT_NEAR(result[n_map["CompPlFcst"]][2], 0.24 ,TOLERANCE);
+            ASSERT_NEAR(res[n_map["R5Fcst"]][0], 0.25, TOLERANCE);
+            ASSERT_NEAR(res[n_map["R5Fcst"]][1], 0.44, TOLERANCE);
+            ASSERT_NEAR(res[n_map["R5Fcst"]][2], 0.31, TOLERANCE);
+            ASSERT_NEAR(res[n_map["CompPlFcst"]][0], 0.41 , TOLERANCE);
+            ASSERT_NEAR(res[n_map["CompPlFcst"]][1], 0.36 , TOLERANCE);
+            ASSERT_NEAR(res[n_map["CompPlFcst"]][2], 0.24 , TOLERANCE);
         }
     }
 
@@ -237,11 +209,11 @@ TEST_F(inference_tests, big_bang_Coma){
      * Test on a large network (~ 200 000)
      */
 
-    TEST_F(inference_tests, big_bang_Link){
+    TEST(inference_tests, big_bang_Link){
 
         //https://repo.bayesfusion.com/network/permalink?net=Large+BNs%2FLink.xdsl
-        auto net6 = bn::xdsl_parser<Probability>().deserialize("../../examples/xdsl/Link.xdsl");
-        auto n_map = bn::make_name_map(net6);
+        auto net6 = baylib::xdsl_parser<probability_type>().deserialize("../../examples/xdsl/Link.xdsl");
+        auto n_map = baylib::make_name_map(net6);
 
         for(auto& result : get_results_deterministic<double>(net6)){
 

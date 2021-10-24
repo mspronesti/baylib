@@ -2,7 +2,7 @@
 // Created by paolo on 31/08/21.
 //
 
-#include <baylib/parser/xdsl_parser.hpp>
+#include <baylib/smile_utils/smile_utils.hpp>
 #include <iostream>
 
 /*
@@ -13,16 +13,20 @@
  */
 
 int main(){
-    bn::xdsl_parser<double> parser;
+    baylib::xdsl_parser<double> parser;
     auto network = parser.deserialize("../../examples/xdsl/Coma.xdsl");
 
     // Variables data can be accessed through the method variable or the [] operator
 
-    bn::random_variable<double> var;
+    baylib::named_random_variable<double> var;
     var = network.variable(0);
     var = network[0];
-    var = network.variable("Coma");
-    var = network["Coma"];
+
+    // indexes can be recovered using the name_map provided with the make_name_map util
+
+    auto name_map = baylib::make_name_map(network);
+    var = network.variable(name_map["Coma"]);
+    var = network[name_map["Coma"]];
 
     // random variable holds the data about names of the states and the cpt
     for (auto &state: var.states())

@@ -39,7 +39,7 @@ set (src
     inference/logic_sampling.hpp
     inference/rejection_sampling.hpp
     inference/adaptive_importance_sampling.hpp
-    network/bayesian_network.hpp
+        network/bayesian_net.hpp
     network/bayesian_utils.hpp
     network/random_variable.hpp
     probability/condition.hpp

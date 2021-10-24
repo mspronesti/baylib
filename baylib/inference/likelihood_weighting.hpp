@@ -13,7 +13,7 @@
 //! \file likelihood_weighting.hpp
 //! \brief Likelihood weighting implementation with multi-thread support
 
-namespace bn {
+namespace baylib {
     namespace  inference {
         /** ===== Likelihood Weighting Algorithm ===
          *
@@ -21,7 +21,7 @@ namespace bn {
          * inference algorithm for discrete Bayesian Networks.
          * It offers the possibility to use a custom generator and
          * an initial seed
-         * @tparam Network_   : the type of bayesian network (must inherit from bn::bayesian_network)
+         * @tparam Network_   : the type of bayesian network (must inherit from baylib::bayesian_net)
          * @tparam Generator_ : the type of random generator
          *                  (default Mersenne Twister pseudo-random generator)
          */
@@ -45,13 +45,13 @@ namespace bn {
             : parallel_inference_algorithm<Network_>(bn, nsamples, nthreads, seed)
             { };
         private:
-            bn::marginal_distribution<probability_type> sample_step(
+            baylib::marginal_distribution<probability_type> sample_step(
                  ulong nsamples,
                  uint seed
             )
             {
-                bn::marginal_distribution<probability_type> mdistr(bn.begin(), bn.end());
-                bn::random_generator<probability_type, Generator_> rnd_gen(seed);
+                baylib::marginal_distribution<probability_type> mdistr(bn.begin(), bn.end());
+                baylib::random_generator<probability_type, Generator_> rnd_gen(seed);
 
                 for(ulong i=0; i<nsamples; i++){
                     auto sample_pair = weighted_sample(rnd_gen);
@@ -65,7 +65,7 @@ namespace bn {
             }
 
             std::pair<pattern_t , probability_type> weighted_sample(
-                bn::random_generator<probability_type> & rnd_gen
+                    baylib::random_generator<probability_type> & rnd_gen
             )
             {
 
@@ -75,7 +75,7 @@ namespace bn {
                 for(ulong vid = 0; vid < bn.number_of_variables(); ++vid)
                 {
                     auto & var = bn[vid];
-                    bn::condition parent_state;
+                    baylib::condition parent_state;
 
                     for(auto par : bn.parents_of(vid))
                         parent_state.add(
@@ -125,6 +125,6 @@ namespace bn {
 
         };
     } // namespace inference
-} // namespace bn
+} // namespace baylib
 
 #endif //BAYLIB_LIKELIHOOD_WEIGHTING_HPP

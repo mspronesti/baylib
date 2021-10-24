@@ -3,14 +3,14 @@
 //
 
 #include <gtest/gtest.h>
-#include <baylib/network/bayesian_network.hpp>
+#include <baylib/network/bayesian_net.hpp>
 #include <baylib/probability/condition.hpp>
 #include <baylib/network/bayesian_utils.hpp>
 #include <baylib/probability/icpt.hpp>
 
 class cpt_tests : public ::testing::Test {
 protected:
-    bn::bayesian_network<bn::random_variable<double>> bn;
+    baylib::bayesian_net<baylib::random_variable<double>> bn;
     ulong var_A;
     ulong var_B;
     ulong var_C;
@@ -51,21 +51,21 @@ enum {
 };
 
 TEST_F(cpt_tests, test_root_1) {
-    ASSERT_FALSE(bn::cpt_filled_out(bn, var_B));
+    ASSERT_FALSE(baylib::cpt_filled_out(bn, var_B));
 
-    bn::condition c; // empty condition
+    baylib::condition c; // empty condition
     bn.set_variable_probability(var_B, T, c, .02);
     bn.set_variable_probability(var_B, F, c, 1 - .02);
 
     auto& b_cpt = bn[var_B].table();
     ASSERT_EQ(b_cpt[c][F], 1 - .02);
     ASSERT_EQ(b_cpt[c][T],  .02);
-    ASSERT_TRUE(bn::cpt_filled_out(bn, var_B));
+    ASSERT_TRUE(baylib::cpt_filled_out(bn, var_B));
 }
 
 
 TEST_F(cpt_tests, test_root_2) {
-    bn::condition c; // empty condition
+    baylib::condition c; // empty condition
     bn.set_variable_probability(var_C, T, c, .002);
     bn.set_variable_probability(var_C, F, c, 1 - .002);
 
@@ -75,7 +75,7 @@ TEST_F(cpt_tests, test_root_2) {
 }
 
 TEST_F(cpt_tests, test_parents) {
-    bn::condition c;
+    baylib::condition c;
     c.add(var_B, 1);
     c.add(var_C, 1);
 
@@ -89,7 +89,7 @@ TEST_F(cpt_tests, test_parents) {
     ASSERT_EQ(a_cpt[c][F], 1 - .9);
     ASSERT_EQ(a_cpt[c][T],  .9);
 
-    bn::condition c1;
+    baylib::condition c1;
     c1.add(var_B, 0);
     c1.add(var_C, 1);
     bn.set_variable_probability(var_A, T, c1, .5);
@@ -99,7 +99,7 @@ TEST_F(cpt_tests, test_parents) {
     ASSERT_EQ(a_cpt[c1][T],  .5);
 
     // (0,0) and (1,0) missing
-    ASSERT_FALSE(bn::cpt_filled_out(bn, var_A));
+    ASSERT_FALSE(baylib::cpt_filled_out(bn, var_A));
 
     c1.clear();
     c1.add(var_B, 0);
@@ -111,14 +111,14 @@ TEST_F(cpt_tests, test_parents) {
     ASSERT_EQ(a_cpt[c1][T],  .25);
 
     // (1,0) missing
-    ASSERT_FALSE(bn::cpt_filled_out(bn, var_A));
+    ASSERT_FALSE(baylib::cpt_filled_out(bn, var_A));
     c1.clear();
     c1.add(var_B, 1);
     c1.add(var_C, 0);
     bn.set_variable_probability(var_A, T, c1, .023);
     bn.set_variable_probability(var_A, F, c1, 1-.023);
 
-    ASSERT_TRUE(bn::cpt_filled_out(bn, var_A));
+    ASSERT_TRUE(baylib::cpt_filled_out(bn, var_A));
 
     c1.clear();
     c1.add(var_A, 1);
@@ -133,7 +133,7 @@ TEST_F(cpt_tests, test_parents) {
 
 
 TEST_F(cpt_tests, test_no_parent) {
-    bn::condition c;
+    baylib::condition c;
     c.add(var_A, 1);
     c.add(var_C, 1);
 
@@ -144,12 +144,12 @@ TEST_F(cpt_tests, test_no_parent) {
 }
 
 TEST_F(cpt_tests, test_wrong_line_sum) {
-    bn::condition c;
+    baylib::condition c;
     c.add(var_A, 1);
 
     bn.set_variable_probability(var_D, T, c, 0.123);
     // missing probability for state F and case a = 0
-    ASSERT_FALSE(bn::cpt_filled_out(bn, var_D));
+    ASSERT_FALSE(baylib::cpt_filled_out(bn, var_D));
     bn.set_variable_probability(var_D, F, c, 1 - .123);
 
     c.add(var_A, 0);
@@ -157,14 +157,14 @@ TEST_F(cpt_tests, test_wrong_line_sum) {
     bn.set_variable_probability(var_D, F, c, .65);
 
     // row sum is != 1
-    ASSERT_FALSE(bn::cpt_filled_out(bn, var_D));
+    ASSERT_FALSE(baylib::cpt_filled_out(bn, var_D));
     // now it sums to 1
     bn.set_variable_probability(var_D, F, c, 1 - .3);
-    ASSERT_TRUE(bn::cpt_filled_out(bn, var_D));
+    ASSERT_TRUE(baylib::cpt_filled_out(bn, var_D));
 }
 
 TEST_F(cpt_tests, test_cpt_equal){
-    bn::condition c;
+    baylib::condition c;
     bn.set_variable_probability(var_B, 0, c, 0.2);
     bn.set_variable_probability(var_B, 0, c, 0.8);
     bn.set_variable_probability(var_C, 0, c, 0.2);
@@ -177,7 +177,7 @@ TEST_F(cpt_tests, test_cpt_equal){
     ASSERT_FALSE(bn[var_C].table() == bn[var_B].table());
 }
 TEST_F(cpt_tests, cow){
-    bn::condition c;
+    baylib::condition c;
     bn.set_variable_probability(var_B, 0, c, 0.2);
     bn.set_variable_probability(var_B, 1, c, 0.8);
     bn.set_variable_probability(var_C, 0, c, 0.2);

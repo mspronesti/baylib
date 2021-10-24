@@ -12,13 +12,14 @@
 
 #include <boost/compute.hpp>
 #include <boost/compute/device.hpp>
+#include <probability/condition_factory.hpp>
 
 #include <baylib/inference/abstract_inference_algorithm.hpp>
 
 //! \file logic_sampling.hpp
 //! \brief Logic Sampling implementation with GPGPU support
 
-namespace bn {
+namespace baylib {
     namespace inference{
         namespace compute = boost::compute;
         using boost::compute::lambda::_1;
@@ -37,7 +38,7 @@ namespace bn {
         *   3. simulate each child node given the parents previous simulation
         *   4. throw out each simulation that doesn't comply with observed evidences
         *   5. estimate the marginal distribution from the valid simulations
-         * @tparam Network_ : the type of bayesian network (must inherit from bn::bayesian_network)
+         * @tparam Network_ : the type of bayesian network (must inherit from baylib::bayesian_net)
          * @tparam Generator_ : the type of random generator
          *                  (default Mersenne Twister pseudo-random generator)
         **/
@@ -60,19 +61,19 @@ namespace bn {
                     uint seed = 0,
                     const compute::device &device = compute::system::default_device()
             )
-            : vectorized_inference_algorithm<Network_>(samples, memory, seed, device)
+            : vectorized_inference_algorithm<Network_>(bn, samples, memory, seed, device)
             { }
 
             marginal_distribution<probability_type> make_inference () override
             {
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
-                                          [this](auto &var){ return bn::cpt_filled_out(bn, var.id()); }),
+                                          [this](auto &var){ return baylib::cpt_filled_out(bn, var.id()); }),
                               "conditional probability tables must be properly filled to"
                               " run logic_sampling inference algorithm",
                               std::runtime_error);
 
-                auto [iter_samples, niter] = this->calculate_iterations(bn);
-                auto vertex_queue = bn::sampling_order(bn);
+                auto [iter_samples, niter] = this->calculate_iterations();
+                auto vertex_queue = baylib::sampling_order(bn);
                 marginal_distribution<probability_type> marginal_result(bn.begin(), bn.end());
                 for (ulong i = 0; i< niter; i++) {
 
@@ -86,12 +87,13 @@ namespace bn {
 
                         // Build parents result vector in the correct order
                         auto parents = bn.parents_of(v);
-                        std::reverse(parents.begin(), parents.end());
+                        //std::reverse(parents.begin(), parents.end());
+
                         for (auto p : parents) {
                             parents_result.push_back(&result_container[p]);
                         }
 
-                        result_container[v] = this->simulate_node(bn[v].table(), parents_result, iter_samples);
+                        result_container[v] = this->simulate_node(v, bn[v].table(), parents_result, iter_samples);
 
                         if(bn[v].is_evidence()){
                             compute::transform( result_container[v].state.begin()
@@ -133,14 +135,14 @@ namespace bn {
                                    ,(_1+1)*_2
                                    ,this->queue);
                 std::vector<ulong> acc_res(res.cardinality);
-                for (bn::state_t i = 0; i < res.cardinality; ++i) {
+                for (baylib::state_t i = 0; i < res.cardinality; ++i) {
                     acc_res[i] = compute::count(res.state.begin(), res.state.end(), i+1, this->queue);
                 }
                 return acc_res;
             }
         };
     } // namespace inference
-} // namespace bn
+} // namespace baylib
 
 
 #endif //BAYLIB_LOGIC_SAMPLING_HPP

@@ -5,8 +5,9 @@
 #ifndef BAYLIB_CONDITION_FACTORY_HPP
 #define BAYLIB_CONDITION_FACTORY_HPP
 
-#include <baylib/network/bayesian_network.hpp>
+#include <baylib/network/bayesian_net.hpp>
 #include <baylib/probability/condition.hpp>
+#include <baylib_concepts.hpp>
 
 /**
  * @file condition_factory.hpp
@@ -14,7 +15,7 @@
  */
 
 
-namespace  bn {
+namespace  baylib {
     /**
      * this class produces all the combinations
      * for a given random variable of a bayesian
@@ -22,7 +23,7 @@ namespace  bn {
      * table
      * @tparam Network_ : the type of network the
      *                    factory works on
-     *                   (must inherit from bn::bayesian_network)
+     *                   (must inherit from baylib::bayesian_net)
      */
     template < BNetDerived Network_ >
     class condition_factory {
@@ -100,12 +101,12 @@ namespace  bn {
          * retrieves current condition
          * @return condition
          */
-        bn::condition get() const {
+        baylib::condition get() const {
             return c;
         }
 
     private:
-        bn::condition c;
+        baylib::condition c;
         const Network_ &bn;
         std::vector<unsigned long> _parents;
         unsigned long condition_index;

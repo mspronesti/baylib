@@ -13,17 +13,17 @@
  */
 
 
-namespace bn {
+namespace baylib {
     /**
      * This class models the marginal distribution
      * of a set of random variables.
      * Can be initialized using
-     * - an iterable container containing bn::random_variables<Probability>
-     * - two iterators of bn::random_variables<Probability>
+     * - an iterable container containing baylib::random_variables<probability_type>
+     * - two iterators of baylib::random_variables<probability_type>
      *
      * @tparam Probability_  : the type expressing the probability
      */
-    template <Arithmetic Probability_>
+    template <Arithmetic Probability_ = double >
     class marginal_distribution {
     public:
         template <typename Container>
@@ -46,7 +46,7 @@ namespace bn {
                           std::out_of_range)
 
             BAYLIB_ASSERT(p >= 0.0 && p <= 1.0,
-                          "Probability value " << p
+                          "probability_type value " << p
                           << " ain't included in [0, 1]",
                           std::logic_error)
 
@@ -120,6 +120,6 @@ namespace bn {
     template<typename Iterator>
     marginal_distribution(Iterator begin, Iterator end) -> marginal_distribution<std::decay_t<decltype(*begin)>>;
 
-} // namespace bn
+} // namespace baylib
 
 #endif //BAYLIB_MARGINAL_DISTRIBUTION_HPP

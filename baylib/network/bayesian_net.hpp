@@ -1,5 +1,5 @@
-﻿#ifndef BAYLIB_BAYESIAN_NETWORK_HPP
-#define BAYLIB_BAYESIAN_NETWORK_HPP
+﻿#ifndef BAYLIB_BAYESIAN_NET_HPP
+#define BAYLIB_BAYESIAN_NET_HPP
 
 #include <baylib/graph/graph.hpp>
 #include <baylib/network/random_variable.hpp>
@@ -7,10 +7,10 @@
 #include <baylib/network/bayesian_utils.hpp>
 #include <baylib/baylib_concepts.hpp>
 
-//! \file bayesian_network.hpp
+//! \file bayesian_net.hpp
 //! \brief bayesian network implementation based on boost GPL
 
-namespace bn {
+namespace baylib {
     /**
      * This class models a Bayesian Network allowing both
      * index and name based access to its facilities for a better
@@ -18,31 +18,31 @@ namespace bn {
      * @tparam Probability : Type of cpts entries
      */
     template <RVarDerived Variable_>
-    class bayesian_network {
-        typedef bn::graph<Variable_> graph_type;
-        typedef bn::vertex<Variable_> vertex_id;
+    class bayesian_net {
+        typedef baylib::graph<Variable_> graph_type;
+        typedef baylib::vertex<Variable_> vertex_id;
     public:
         typedef Variable_ variable_type;
         typedef typename variable_type::probability_type probability_type;
 
-        bayesian_network() : graph(std::make_shared<graph_type>()) { }
+        bayesian_net() : graph(std::make_shared<graph_type>()) { }
 
         // overloading begin and end to easily loop over random_variables
         // avoiding packing copies inside other facilities
         auto begin(){
-            return bn::bundles(*graph).begin();
+            return baylib::bundles(*graph).begin();
         }
 
         auto begin() const {
-            return bn::bundles(*graph).begin();
+            return baylib::bundles(*graph).begin();
         }
 
         auto end() {
-            return bn::bundles(*graph).end();
+            return baylib::bundles(*graph).end();
         }
 
         auto end() const {
-            return bn::bundles(*graph).end();
+            return baylib::bundles(*graph).end();
         }
 
         /**
@@ -218,8 +218,8 @@ namespace bn {
          */
         void set_variable_probability(
                 const vertex_id var_id,
-                bn::state_t state_value,
-                const bn::condition& cond,
+                baylib::state_t state_value,
+                const baylib::condition& cond,
                 probability_type p
         )
         {
@@ -301,6 +301,6 @@ namespace bn {
             cpt_hash_map[seed] = id;
         }
     };
-} // namespace bn
+} // namespace baylib
 
-#endif //BAYLIB_BAYESIAN_NETWORK_HPP
+#endif //BAYLIB_BAYESIAN_NET_HPP

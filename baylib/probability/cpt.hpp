@@ -7,6 +7,7 @@
 
 
 #include <baylib/probability/condition.hpp>
+#include <baylib/probability/condition_factory.hpp>
 #include <numeric>
 #include <vector>
 #include <boost/functional/hash/hash.hpp>
@@ -21,21 +22,21 @@
  */
 
 /**
- * ========= Conditional Probability Table ==========
+ * ========= Conditional probability_type Table ==========
  * This class models the conditional probability table
  * associated to each variable of the bayesian network.
- * Employs custom shared_ptr from bn::cow namespace
+ * Employs custom shared_ptr from baylib::cow namespace
  * adapted from Qt library source code to implement
  * copy-on-write
  */
 
-namespace bn{
+namespace baylib{
     template<RVarDerived Variable_>
-    class bayesian_network;
+    class bayesian_net;
 
     namespace cow {
         template<Arithmetic Probability_>
-        struct CPTData : public bn::cow::shared_data {
+        struct CPTData : public baylib::cow::shared_data {
             /**
              * "table" doesn't map condition into a probability
              * vector using a map because this struct is used for
@@ -55,8 +56,8 @@ namespace bn{
         * row (and employing copy on write to spare memory)
         *
         *  Example:
-        *  bn::condition c = {{"var1": 1}, {"var2": 3}}
-        *  bn::cow::cpt cpt{n}
+        *  baylib::condition c = {{"var1": 1}, {"var2": 3}}
+        *  baylib::cow::cpt cpt{n}
         *  ...
         *  auto & probs = cpt[c]
         *
@@ -68,7 +69,7 @@ namespace bn{
         *  @tparam Probability_ : the type expressing probability.
         *                        Must be arithmetic
         **/
-        template<Arithmetic Probability_>
+        template<Arithmetic Probability_ = double>
         class cpt {
         public:
             explicit cpt(unsigned long nstates = 2) {
@@ -77,8 +78,8 @@ namespace bn{
             }
 
             void set_probability(
-                    const bn::condition &cond,
-                    bn::state_t state_val,
+                    const baylib::condition &cond,
+                    baylib::state_t state_val,
                     Probability_ p
             ) {
                 BAYLIB_ASSERT(state_val < d->nstates,
@@ -100,7 +101,7 @@ namespace bn{
                 }
             }
 
-            const std::vector<Probability_> &operator[] (const bn::condition &cond) const{
+            const std::vector<Probability_> &operator[] (const baylib::condition &cond) const{
                 BAYLIB_ASSERT(has_entry_for(cond),
                               "bad condition value",
                               std::out_of_range)
@@ -109,7 +110,7 @@ namespace bn{
             }
 
 
-            const std::vector<Probability_>  &at(const bn::condition &cond) const{
+            const std::vector<Probability_>  &at(const baylib::condition &cond) const{
                 BAYLIB_ASSERT(has_entry_for(cond),
                               "bad condition value",
                               std::out_of_range)
@@ -122,7 +123,7 @@ namespace bn{
                 cond_map.clear();
             }
 
-            bool has_entry_for(const bn::condition &c) const {
+            bool has_entry_for(const baylib::condition &c) const {
                 return cond_map.find(c) != cond_map.end();
             }
 
@@ -134,17 +135,6 @@ namespace bn{
                 return d->table.size();
             }
 
-            std::vector<Probability_> flat() const{
-                auto flat_cpt = std::vector<Probability_>{};
-                flat_cpt.reserve(d->table.size() * d->nstates);
-
-                for(auto &[cond, cond_id] : cond_map) {
-                    const auto cpt_row = d->table[cond_id];
-                    flat_cpt.insert(flat_cpt.end(), cpt_row.begin(), cpt_row.end());
-                }
-
-                return flat_cpt;
-            }
 
             friend std::ostream& operator << (std::ostream &os, const cpt &cpt) {
                 for(auto &[cond, cond_id] : cpt.cond_map){
@@ -188,16 +178,16 @@ namespace bn{
 
 
         protected:
-            template <RVarDerived Variable_> friend class bn::bayesian_network;
-            bn::cow::shared_ptr<CPTData<Probability_>> d;
+            template <RVarDerived Variable_> friend class baylib::bayesian_net;
+            baylib::cow::shared_ptr<CPTData<Probability_>> d;
             // assigns a condition its index in the cpt
             // ! key   : condition
             // ! value : row index
-            std::map<bn::condition, unsigned long> cond_map;
+            std::map<baylib::condition, unsigned long> cond_map;
         };
 
 
     } // namespace cow
-} // namespace bn
+} // namespace baylib
 
 #endif //BAYLIB_CPT_HPP

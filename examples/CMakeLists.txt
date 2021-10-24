@@ -10,5 +10,6 @@ endmacro()
 
 add_demo(example_inference)
 add_demo(example_load_network)
-add_demo(example_create_network)
+add_demo(example_network)
+add_demo(example_named_network)
 add_demo(example_interact_network)

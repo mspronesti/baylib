@@ -15,7 +15,7 @@
  */
 
 
-namespace bn{
+namespace baylib{
     /**
      * Container for gpu vectors with built in auto release of the memory after set number of uses
      */

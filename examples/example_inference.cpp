@@ -9,8 +9,8 @@
 // rest of the network
 
 int main(int argc, char** argv){
-    using namespace bn;
-    using namespace bn::inference;
+    using namespace baylib;
+    using namespace baylib::inference;
 
     // Evidences can be applied to all types of networks, we use Credit as an example
     // https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
@@ -21,7 +21,7 @@ int main(int argc, char** argv){
     // PLEASE NOTICE: Gibbs Sampling fails with bayesian networks with deterministic nodes
     //                (it computes wrong marginal probabilities, it's a well known theoretical
     //                limit of this sampling approach) hence it should not be used in such cases
-    bn::inference::gibbs_sampling  gibbs_sampler(network, 10000, 4);
+    baylib::inference::gibbs_sampling  gibbs_sampler(network, 10000, 4);
 
     // getting the output only takes passing the bayesian network to the make_inference
     // method. Every algorithm has this method

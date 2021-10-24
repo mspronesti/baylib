@@ -11,7 +11,7 @@
 //! \file rejection_sampling.hpp
 //! \brief Rejection Sampling implementation with multi-thread support
 
-namespace bn{
+namespace baylib{
     namespace inference {
         /**
          *  ========== Rejection Sampling Algorithm =========
@@ -24,13 +24,13 @@ namespace bn{
          * - max()
          * - operator ()
          * as they're required by std::discrete_distribution
-         * @tparam Network_ : the type of bayesian network (must inherit from bn::bayesian_network)
+         * @tparam Network_ : the type of bayesian network (must inherit from baylib::bayesian_net)
          * @tparam Generator_ : the type of random generator
          *                  (default Mersenne Twister pseudo-random generator)
          */
         template <
                 BNetDerived Network_,
-                typename Generator_ = std::mt19937
+                STDEngineCompatible Generator_ = std::mt19937
                 >
         class rejection_sampling : public parallel_inference_algorithm<Network_>
         {
@@ -49,23 +49,23 @@ namespace bn{
 
 
         private:
-            bn::marginal_distribution<probability_type> sample_step (
+            baylib::marginal_distribution<probability_type> sample_step (
                 ulong nsamples,
                 uint seed
             ) override
             {
-                std::vector<bn::state_t> var_state_values;
+                std::vector<baylib::state_t> var_state_values;
                 Generator_ rnd_gen(seed);
 
                 marginal_distribution<probability_type> marginal_distr(bn.begin(), bn.end());
                 ulong nvars =  bn.number_of_variables();
 
-                var_state_values = std::vector<bn::state_t>(nvars, 0);
-                std::vector<bn::state_t> samples;
+                var_state_values = std::vector<baylib::state_t>(nvars, 0);
+                std::vector<baylib::state_t> samples;
                 for(ulong i = 0; i < nsamples; ++i) {
                     bool reject = false;
                     for (ulong n = 0; n < nvars; ++n) {
-                        bn::state_t state_val = prior_sample(n, bn, var_state_values, rnd_gen);
+                        baylib::state_t state_val = prior_sample(n, var_state_values, rnd_gen);
                         // if evidences are not sampled accordingly, discard the samples
                         if(bn[n].is_evidence() && bn[n].evidence_state() != state_val)
                         {
@@ -89,13 +89,13 @@ namespace bn{
                 return marginal_distr;
             }
 
-            bn::state_t prior_sample(
+            baylib::state_t prior_sample(
                     unsigned long n,
-                    const std::vector<bn::state_t> &var_state_values,
+                    const std::vector<baylib::state_t> &var_state_values,
                     Generator_ &gen
             )
             {
-                bn::condition c;
+                baylib::condition c;
                 // builds a condition using parents and
                 // their states
                 for(auto & p : bn.parents_of(n))
@@ -106,11 +106,11 @@ namespace bn{
 
                 const auto& cpt = bn[n].table();
                 // build discrete distribution from the parent states
-                std::discrete_distribution<bn::state_t> distr(cpt[c].begin(), cpt[c].end());
+                std::discrete_distribution<baylib::state_t> distr(cpt[c].begin(), cpt[c].end());
                 return distr(gen);
             }
         };
     } // namespace inference
-} //namespace bn
+} //namespace baylib
 
 #endif //BAYLIB_REJECTION_SAMPLING_HPP

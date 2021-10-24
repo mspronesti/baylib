@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <baylib/network/bayesian_network.hpp>
+#include <baylib/network/bayesian_net.hpp>
 #include <baylib/probability/cpt.hpp>
 #include "rapidxml/rapidxml.hpp"
 
@@ -17,7 +17,7 @@ using namespace rapidxml;
 //! \file smile_utils.hpp
 //! \brief utilities to support the xdsl format from SMILE library
 
-namespace bn {
+namespace baylib {
     /**
      * This class is used to support xdsl additional features associated
      * to a random variable, inheriting from random_variable.
@@ -26,7 +26,7 @@ namespace bn {
      *                        must be arithmetic
      */
     template <Arithmetic Probability_ = double>
-    class named_random_variable : public bn::random_variable<Probability_> {
+    class named_random_variable : public baylib::random_variable<Probability_> {
     public:
         named_random_variable() = default;
 
@@ -69,7 +69,7 @@ namespace bn {
     };
 
   /**
-  * This methods builds a {name: id} map scanning a bayesian_network
+  * This methods builds a {name: id} map scanning a bayesian_net
   * whose nodes are named_random_variables
   * @tparam Variable_
   * @param bn : bayesian network of type Network_
@@ -83,7 +83,7 @@ namespace bn {
                             >
 #endif
     std::map<std::string, unsigned long> make_name_map (
-            const bn::bayesian_network<Variable_> & bn
+            const baylib::bayesian_net<Variable_> & bn
     )
     {
         auto name_map = std::map<std::string, unsigned long>{};
@@ -102,12 +102,12 @@ namespace bn {
      */
     template<Arithmetic Probability_ = double>
     class xdsl_parser {
-        typedef bn::bayesian_network<named_random_variable<Probability_>> named_bayesian_network;
+        typedef baylib::bayesian_net<named_random_variable<Probability_>> named_bayesian_network;
     public:
         xdsl_parser() = default;
 
         /**
-         * Create a bayesian_network starting from an xdsl file, the format is the same as specified in the
+         * Create a bayesian_net starting from an xdsl file, the format is the same as specified in the
          * smile library, if specified file can't be found an exception is thrown
          * @param file_name : file name
          * @return         : bayesian network
@@ -168,7 +168,7 @@ namespace bn {
                         parents = split<std::string>(pStates->value(), [](const std::string &t){return t;});
                 }
 
-                // Build the bayesian_network
+                // Build the bayesian_net
                 ulong var_id = bn.add_variable(varname, state_names);
                 name_map[varname] = var_id;
                 std::vector<ulong> parents_id{};
@@ -179,7 +179,7 @@ namespace bn {
 
                 // fill CPTs
                 std::reverse(parents_id.begin(), parents_id.end());
-                bn::condition_factory cf(bn, var_id, parents_id);
+                baylib::condition_factory cf(bn, var_id, parents_id);
                 unsigned int i = 0;
                 do {
                     auto cond = cf.get();
@@ -222,5 +222,5 @@ namespace bn {
     };
 
 
-} // namespace bn
+} // namespace baylib
 #endif //BAYLIB_SMILE_UTILS_HPP

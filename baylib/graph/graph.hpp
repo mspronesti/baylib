@@ -14,7 +14,7 @@
 //! \brief
 
 
-namespace bn {
+namespace baylib {
     template <typename Vertex>
     using graph = boost::adjacency_list<boost::listS, // edge container
                                         boost::vecS, // vertex container
@@ -28,7 +28,7 @@ namespace bn {
      * retrieves bundled properties (custom vertices) range
      * from the given boost graph transforming boost "vertices"
      * iterator
-     * Useful to overload iterators in bn::bayesian_network<Probability>
+     * Useful to overload iterators in baylib::bayesian_net<probability_type>
      * @tparam Graph : the boost graph descriptor
      * @param _g     : the boost graph const reference
      * @return       : bundled properties range
@@ -44,6 +44,6 @@ namespace bn {
     }
 
 
-} // namespace bn
+} // namespace baylib
 
 #endif //BAYLIB_GRAPH_HPP
