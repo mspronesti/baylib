@@ -2,10 +2,6 @@
 // Created by paolo on 24/10/21.
 //
 
-//
-// Created by paolo on 31/08/21.
-//
-
 #include <baylib/network/bayesian_net.hpp>
 #include <baylib/smile_utils/smile_utils.hpp>
 #include <iostream>
@@ -19,20 +15,8 @@
 */
 
 int main(){
-
-
-    baylib::bayesian_net<baylib::named_random_variable<double>> bn;
-
-    //
-    // b    c
-    // \   /
-    //  \ /
-    //   v
-    //   a
-    //   |
-    //   |
-    //   v
-    //   d
+    using namespace baylib;
+    bayesian_net<named_random_variable<double>> bn;
 
     // Use add_variable to add a new random variable with its random states
     bn.add_variable("Gandalf", std::vector<std::string>{"T", "F"});

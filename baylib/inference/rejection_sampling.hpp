@@ -19,14 +19,12 @@ namespace baylib{
          * inference algorithm for discrete bayesian networks.
          * It allows to specify a custom generator and a custom initial
          * seed.
-         * Please NOTICE: to use a non-standard generator you must overload
-         * - min()
-         * - max()
-         * - operator ()
          * as they're required by std::discrete_distribution
          * @tparam Network_ : the type of bayesian network (must inherit from baylib::bayesian_net)
          * @tparam Generator_ : the type of random generator
          *                  (default Mersenne Twister pseudo-random generator)
+         *                  must overload min(), max() and the functional operator
+         *                  to comply with std library constraints
          */
         template <
                 BNetDerived Network_,

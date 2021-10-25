@@ -53,7 +53,7 @@ namespace baylib {
          * @return       : numerical identifier assigned to the node
          */
         template <typename ...A>
-        vertex_id add_variable(const A &...args){
+        vertex_id add_variable(const A &...args) {
             vertex_id v = boost::add_vertex(Variable_{args...}, *graph);
             (*graph)[v]._id = v;
             return v;

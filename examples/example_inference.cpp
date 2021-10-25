@@ -16,33 +16,41 @@ int main(int argc, char** argv){
     // https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FCredit.xdsl
     xdsl_parser<double> parser;
     auto network = parser.deserialize("../../examples/xdsl/Credit.xdsl");
+    auto name_map = make_name_map(network);
 
     // Here we declare the Gibbs sampling algorithm to perform approximate inference
     // PLEASE NOTICE: Gibbs Sampling fails with bayesian networks with deterministic nodes
     //                (it computes wrong marginal probabilities, it's a well known theoretical
     //                limit of this sampling approach) hence it should not be used in such cases
-    baylib::inference::gibbs_sampling  gibbs_sampler(network, 10000, 4);
+    gibbs_sampling  gibbs_sampler(network, 10000, 4);
 
-    // getting the output only takes passing the bayesian network to the make_inference
-    // method. Every algorithm has this method
+    // You can obtain the inference output calling the make_inference
+    // method. Every baylib's inference algorithm has it.
+    // The output is a global marginal distribution for the network such that
+    // marginal[i][j] == P(i = j)
+    // where i is the id of the random_variable
+    //       j is the id of the state
     std::cout << gibbs_sampler.make_inference();
 
     // Let's now assume we know, as evidence, the values of "Debit" and "Income"
     // to see how to inference simulation behaves
-    //network["Debit"].set_as_evidence(0);
-    //network["Income"].set_as_evidence(1);
+    unsigned long Debit = name_map["Debit"];
+    unsigned long Income = name_map["Income"];
+
+    network[Debit].set_as_evidence(0);
+    network[Income].set_as_evidence(1);
 
     // To detect if a node was set as evidence you can use the is_evidence and evidence_state methods
-    //if(network["Debit"].is_evidence())
-    //    std::cout << network["Debit"].evidence_state() << '\n';
+    if(network[Debit].is_evidence())
+        std::cout << network[Debit].evidence_state() << '\n';
 
     // The algorithm will automatically detect all evidences set and use them in the inferences
     std::cout << gibbs_sampler.make_inference() << '\n';
 
     // To clear the evidences use the clear_evidence on the desired nodes or use the util clear_network_evidences
     // to clean all the network from evidences
-    //network["Debit"].clear_evidence();
-    //clear_network_evidences(network);
+    network[Debit].clear_evidence();
+    clear_network_evidences(network);
 
     // The network now should be on its base state
     // Let's know try with a different algorithm to see if the results are coherent
@@ -53,8 +61,8 @@ int main(int argc, char** argv){
 
     // Different evidences can now be specified
     // let's see how likelihood-weighting behaves
-    //network["Debit"].set_as_evidence(1);
-    //network["Income"].set_as_evidence(0);
+    network[Debit].set_as_evidence(1);
+    network[Income].set_as_evidence(0);
 
     std::cout << likely_weigh.make_inference() << '\n';
     return 0;

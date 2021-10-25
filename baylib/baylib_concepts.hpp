@@ -33,7 +33,9 @@
     template < typename N_ >
     concept BNetDerived = std::is_base_of_v< baylib::bayesian_net<typename N_::variable_type>, N_>;
 
-
+    // to be compliant with std random engines,
+    // the custom one must overload min(), max() and the
+    // functional operator
     template < typename G_ >
     concept STDEngineCompatible = requires(G_ gen) {
         gen();
@@ -44,6 +46,7 @@
 #define Arithmetic typename
 #define RVarDerived typename
 #define BNetDerived typename
+#define STDEngineCompatible typename
 #endif
 
 #endif //BAYLIB_BAYLIB_CONCEPTS_HPP

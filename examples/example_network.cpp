@@ -14,12 +14,10 @@
 */
 
 int main(){
-
-    // Network creation can be done manually
-
-    baylib::bayesian_net<baylib::random_variable<double>> bn;
-
-    //
+    using namespace baylib;
+    bayesian_net<random_variable<double>> bn;
+    // We want to create manually the following
+    // Bayesain network
     // b    c
     // \   /
     //  \ /
@@ -30,11 +28,12 @@ int main(){
     //   v
     //   d
 
-    // Use add_variable to add a new random variable with its random states
-    ulong A = bn.add_variable((ulong)2);
-    ulong B = bn.add_variable((ulong)2);
-    ulong C = bn.add_variable((ulong)2);
-    ulong D = bn.add_variable((ulong)2);
+    // Use add_variable to add a new random variable with
+    // its random states (default 2 states)
+    ulong A = bn.add_variable();
+    ulong B = bn.add_variable();
+    ulong C = bn.add_variable();
+    ulong D = bn.add_variable();
 
     // Use add_dependency to add an edge between two variables
     bn.add_dependency(B, A);
