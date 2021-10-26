@@ -1,0 +1,69 @@
+\hypertarget{classbaylib_1_1marginal__distribution}{}\doxysection{baylib\+::marginal\+\_\+distribution\texorpdfstring{$<$}{<} Probability\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1marginal__distribution}\index{baylib::marginal\_distribution$<$ Probability\_ $>$@{baylib::marginal\_distribution$<$ Probability\_ $>$}}
+
+
+{\ttfamily \#include $<$marginal\+\_\+distribution.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_ad0de342a623be0c9a814c9d9aa7bf6f7}\label{classbaylib_1_1marginal__distribution_ad0de342a623be0c9a814c9d9aa7bf6f7}} 
+{\footnotesize template$<$typename Container $>$ }\\{\bfseries marginal\+\_\+distribution} (const Container \&vars)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_a35d66add438951091a70ca63eb1f3a9e}\label{classbaylib_1_1marginal__distribution_a35d66add438951091a70ca63eb1f3a9e}} 
+{\footnotesize template$<$typename Iterator $>$ }\\{\bfseries marginal\+\_\+distribution} (Iterator begin, Iterator end)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_acecaf9d61cf4714318574866d1561571}\label{classbaylib_1_1marginal__distribution_acecaf9d61cf4714318574866d1561571}} 
+void {\bfseries set} (ulong vid, ulong state\+\_\+value, Probability\+\_\+ p)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_a14da242aef87fd7a4c607b3e7a1520c4}\label{classbaylib_1_1marginal__distribution_a14da242aef87fd7a4c607b3e7a1520c4}} 
+std\+::vector$<$ Probability\+\_\+ $>$ \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (ulong vid)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_aed648cf992870808a22ef09624b0b944}\label{classbaylib_1_1marginal__distribution_aed648cf992870808a22ef09624b0b944}} 
+void {\bfseries operator/=} (Probability\+\_\+ value)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_affcc152ff7229ddfcae7354c5c12b103}\label{classbaylib_1_1marginal__distribution_affcc152ff7229ddfcae7354c5c12b103}} 
+\mbox{\hyperlink{classbaylib_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability\+\_\+ $>$ \& {\bfseries operator+=} (const \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability\+\_\+ $>$ \&other)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_a9c4b2585fcdde6ca727d32682eb9ab68}\label{classbaylib_1_1marginal__distribution_a9c4b2585fcdde6ca727d32682eb9ab68}} 
+auto {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_a591b87b3f47c4f33578d655d7020d4b7}\label{classbaylib_1_1marginal__distribution_a591b87b3f47c4f33578d655d7020d4b7}} 
+auto {\bfseries end} () const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_a0ac9dafbd66045b099c8ab5dd42eaadd}\label{classbaylib_1_1marginal__distribution_a0ac9dafbd66045b099c8ab5dd42eaadd}} 
+void {\bfseries normalize} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_a5ecafdf7661aa3fc4fd951e08b46bb25}\label{classbaylib_1_1marginal__distribution_a5ecafdf7661aa3fc4fd951e08b46bb25}} 
+std\+::vector$<$ std\+::vector$<$ Probability\+\_\+ $>$ $>$ {\bfseries mdistr}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1marginal__distribution_a9b3e173db08a6f654668708163433883}\label{classbaylib_1_1marginal__distribution_a9b3e173db08a6f654668708163433883}} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ Probability\+\_\+ $>$ \&md)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$Arithmetic Probability\+\_\+ = double$>$\newline
+class baylib\+::marginal\+\_\+distribution$<$ Probability\+\_\+ $>$}
+This class models the marginal distribution of a set of random variables. Can be initialized using
+\begin{DoxyItemize}
+\item an iterable container containing baylib\+::random\+\_\+variables$<$probability\+\_\+type$>$
+\item two iterators of baylib\+::random\+\_\+variables$<$probability\+\_\+type$>$
+\end{DoxyItemize}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Probability\+\_\+} & \+: the type expressing the probability \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/probability/\mbox{\hyperlink{marginal__distribution_8hpp}{marginal\+\_\+distribution.\+hpp}}\end{DoxyCompactItemize}

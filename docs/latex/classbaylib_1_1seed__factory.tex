@@ -1,0 +1,38 @@
+\hypertarget{classbaylib_1_1seed__factory}{}\doxysection{baylib\+::seed\+\_\+factory Class Reference}
+\label{classbaylib_1_1seed__factory}\index{baylib::seed\_factory@{baylib::seed\_factory}}
+
+
+{\ttfamily \#include $<$random\+\_\+generator.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1seed__factory_a64fa1918f33ce3270b359a7df9b13b41}\label{classbaylib_1_1seed__factory_a64fa1918f33ce3270b359a7df9b13b41}} 
+{\bfseries seed\+\_\+factory} (uint nseeds, uint seed=0)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1seed__factory_a03cfb3e47d7e250fbfd37eafa8ef9adc}\label{classbaylib_1_1seed__factory_a03cfb3e47d7e250fbfd37eafa8ef9adc}} 
+{\bfseries seed\+\_\+factory} (const \mbox{\hyperlink{classbaylib_1_1seed__factory}{seed\+\_\+factory}} \&other)=delete
+\item 
+\mbox{\Hypertarget{classbaylib_1_1seed__factory_a34f2db86db271c8c45d9daf71a0632fe}\label{classbaylib_1_1seed__factory_a34f2db86db271c8c45d9daf71a0632fe}} 
+\mbox{\hyperlink{classbaylib_1_1seed__factory}{seed\+\_\+factory}} \& {\bfseries operator=} (const \mbox{\hyperlink{classbaylib_1_1seed__factory}{seed\+\_\+factory}} \&other)=delete
+\item 
+\mbox{\Hypertarget{classbaylib_1_1seed__factory_ab618d9e3632d4dc6d7010c95d0ea9d11}\label{classbaylib_1_1seed__factory_ab618d9e3632d4dc6d7010c95d0ea9d11}} 
+uint {\bfseries get\+\_\+new} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1seed__factory_a144531ec1adf4987127ed439a5afae43}\label{classbaylib_1_1seed__factory_a144531ec1adf4987127ed439a5afae43}} 
+std\+::vector$<$ uint $>$ {\bfseries seeds}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1seed__factory_a71e60ae59a4b0657faf0e698c331c817}\label{classbaylib_1_1seed__factory_a71e60ae59a4b0657faf0e698c331c817}} 
+ulong {\bfseries next}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Factory class to generate N seeds starting from a single seed, employing std\+::seed\+\_\+seq. This class makes sure that the generated seeds are independent with respect to the one passed to the constructor 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/tools/random/\mbox{\hyperlink{random__generator_8hpp}{random\+\_\+generator.\+hpp}}\end{DoxyCompactItemize}

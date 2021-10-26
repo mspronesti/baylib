@@ -1,0 +1,45 @@
+\hypertarget{classbaylib_1_1inference_1_1rejection__sampling}{}\doxysection{baylib\+::inference\+::rejection\+\_\+sampling\texorpdfstring{$<$}{<} Network\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1inference_1_1rejection__sampling}\index{baylib::inference::rejection\_sampling$<$ Network\_, Generator\_ $>$@{baylib::inference::rejection\_sampling$<$ Network\_, Generator\_ $>$}}
+
+
+{\ttfamily \#include $<$rejection\+\_\+sampling.\+hpp$>$}
+
+Inheritance diagram for baylib\+::inference\+::rejection\+\_\+sampling\texorpdfstring{$<$}{<} Network\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbaylib_1_1inference_1_1rejection__sampling}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1rejection__sampling_ae2e2620599c592d7bda8cc0912da1a0e}\label{classbaylib_1_1inference_1_1rejection__sampling_ae2e2620599c592d7bda8cc0912da1a0e}} 
+{\bfseries rejection\+\_\+sampling} (const network\+\_\+type \&bn, ulong nsamples, uint nthreads=1, uint seed=0)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1rejection__sampling_a4d9fb2415bc126656e9fc7aa19447f4f}\label{classbaylib_1_1inference_1_1rejection__sampling_a4d9fb2415bc126656e9fc7aa19447f4f}} 
+\mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib\+::marginal\+\_\+distribution}}$<$ probability\+\_\+type $>$ {\bfseries sample\+\_\+step} (ulong nsamples, uint seed) override
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1rejection__sampling_a59b19697a4ebd53a3f16abfc4b480dbc}\label{classbaylib_1_1inference_1_1rejection__sampling_a59b19697a4ebd53a3f16abfc4b480dbc}} 
+baylib\+::state\+\_\+t {\bfseries prior\+\_\+sample} (unsigned long n, const std\+::vector$<$ baylib\+::state\+\_\+t $>$ \&var\+\_\+state\+\_\+values, Generator\+\_\+ \&gen)
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$BNet\+Derived Network\+\_\+, STDEngine\+Compatible Generator\+\_\+ = std\+::mt19937$>$\newline
+class baylib\+::inference\+::rejection\+\_\+sampling$<$ Network\+\_\+, Generator\+\_\+ $>$}
+========== Rejection Sampling Algorithm ========= This class represents the rejection sampling approximate inference algorithm for discrete bayesian networks. It allows to specify a custom generator and a custom initial seed. as they\textquotesingle{}re required by std\+::discrete\+\_\+distribution 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Network\+\_\+} & \+: the type of bayesian network (must inherit from \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}) \\
+\hline
+{\em Generator\+\_\+} & \+: the type of random generator (default Mersenne Twister pseudo-\/random generator) must overload min(), max() and the functional operator to comply with std library constraints \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/inference/\mbox{\hyperlink{rejection__sampling_8hpp}{rejection\+\_\+sampling.\+hpp}}\end{DoxyCompactItemize}

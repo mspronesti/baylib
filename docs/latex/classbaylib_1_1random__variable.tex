@@ -1,0 +1,186 @@
+\hypertarget{classbaylib_1_1random__variable}{}\doxysection{baylib\+::random\+\_\+variable\texorpdfstring{$<$}{<} Probability\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1random__variable}\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+
+
+{\ttfamily \#include $<$random\+\_\+variable.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__variable_a9b8ce491c641467bc809cc5131934ebb}\label{classbaylib_1_1random__variable_a9b8ce491c641467bc809cc5131934ebb}} 
+typedef Probability\+\_\+ {\bfseries probability\+\_\+type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbaylib_1_1random__variable_a5674f2ff6b4ecf9716b26059894c7ade}{random\+\_\+variable}} (unsigned long num\+\_\+states=2)
+\item 
+void \mbox{\hyperlink{classbaylib_1_1random__variable_afd65ff2fe1186396132593d9a9ebfd95}{set\+\_\+probability}} (baylib\+::state\+\_\+t state\+\_\+value, const \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} \&cond, Probability\+\_\+ p)
+\item 
+\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib\+::cow\+::cpt}}$<$ Probability\+\_\+ $>$ \& \mbox{\hyperlink{classbaylib_1_1random__variable_a86d07a70f88eab8c24c2d06f72819e12}{table}} ()
+\item 
+const \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib\+::cow\+::cpt}}$<$ Probability\+\_\+ $>$ \& \mbox{\hyperlink{classbaylib_1_1random__variable_af08d720a04e6601bb2479d3f8e9e1c75}{table}} () const
+\item 
+unsigned long \mbox{\hyperlink{classbaylib_1_1random__variable_a0f29da927a5624b694ea85bd86acb3cc}{id}} () const
+\item 
+unsigned long \mbox{\hyperlink{classbaylib_1_1random__variable_aa873e5e96eceb38043e506736ed1c806}{number\+\_\+of\+\_\+states}} () const
+\item 
+void \mbox{\hyperlink{classbaylib_1_1random__variable_a04a06dc5f9ea7c3eef1fe5bfddd78e58}{set\+\_\+as\+\_\+evidence}} (unsigned long value)
+\item 
+void \mbox{\hyperlink{classbaylib_1_1random__variable_ae0a9c42fd46cea961f62c5197c477f11}{clear\+\_\+evidence}} ()
+\item 
+bool \mbox{\hyperlink{classbaylib_1_1random__variable_a7982f97f0bb8dcecf30cb59da1dec485}{is\+\_\+evidence}} () const
+\item 
+unsigned long \mbox{\hyperlink{classbaylib_1_1random__variable_a6e61ad4e1205e67f5ba200ecc461af9e}{evidence\+\_\+state}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__variable_a89521d7321c29b54e7485d376b8ea174}\label{classbaylib_1_1random__variable_a89521d7321c29b54e7485d376b8ea174}} 
+\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib\+::cow\+::cpt}}$<$ Probability\+\_\+ $>$ {\bfseries cpt}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__variable_a202bdb731311bbc365dfb3fe27118f7f}\label{classbaylib_1_1random__variable_a202bdb731311bbc365dfb3fe27118f7f}} 
+bool {\bfseries \+\_\+is\+\_\+evidence}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__variable_a8eb5ff492e431629cc94a6c1f9743cfe}\label{classbaylib_1_1random__variable_a8eb5ff492e431629cc94a6c1f9743cfe}} 
+unsigned long {\bfseries \+\_\+state\+\_\+value}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__variable_ad26c1e5501e32e6db35dc3183438da8e}\label{classbaylib_1_1random__variable_ad26c1e5501e32e6db35dc3183438da8e}} 
+unsigned long {\bfseries \+\_\+id}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__variable_a2791bc5dcfa0411aa659f1195dd69ad0}\label{classbaylib_1_1random__variable_a2791bc5dcfa0411aa659f1195dd69ad0}} 
+{\footnotesize template$<$RVar\+Derived Variable\+\_\+$>$ }\\class {\bfseries baylib\+::bayesian\+\_\+net}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$Arithmetic Probability\+\_\+ = double$>$\newline
+class baylib\+::random\+\_\+variable$<$ Probability\+\_\+ $>$}
+Class that represents a generic node of a bayesian network, its main purpose is encapsulating the cpt table 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Probability\+\_\+} & type of the cpt elements \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classbaylib_1_1random__variable_a5674f2ff6b4ecf9716b26059894c7ade}\label{classbaylib_1_1random__variable_a5674f2ff6b4ecf9716b26059894c7ade}} 
+\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}!random\_variable@{random\_variable}}
+\index{random\_variable@{random\_variable}!baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{random\_variable()}{random\_variable()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+\mbox{\hyperlink{classbaylib_1_1random__variable}{baylib\+::random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::\mbox{\hyperlink{classbaylib_1_1random__variable}{random\+\_\+variable}} (\begin{DoxyParamCaption}\item[{unsigned long}]{num\+\_\+states = {\ttfamily 2} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+random variable constructor 
+\begin{DoxyParams}{Parameters}
+{\em name} & \+: name of the variable \\
+\hline
+{\em states} & \+: vector of possible states \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1random__variable_ae0a9c42fd46cea961f62c5197c477f11}\label{classbaylib_1_1random__variable_ae0a9c42fd46cea961f62c5197c477f11}} 
+\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}!clear\_evidence@{clear\_evidence}}
+\index{clear\_evidence@{clear\_evidence}!baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{clear\_evidence()}{clear\_evidence()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+void \mbox{\hyperlink{classbaylib_1_1random__variable}{baylib\+::random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::clear\+\_\+evidence (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+unset the evidence state if it was previously set \mbox{\Hypertarget{classbaylib_1_1random__variable_a6e61ad4e1205e67f5ba200ecc461af9e}\label{classbaylib_1_1random__variable_a6e61ad4e1205e67f5ba200ecc461af9e}} 
+\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}!evidence\_state@{evidence\_state}}
+\index{evidence\_state@{evidence\_state}!baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{evidence\_state()}{evidence\_state()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+unsigned long \mbox{\hyperlink{classbaylib_1_1random__variable}{baylib\+::random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::evidence\+\_\+state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+return the evidence state if it was previously set, if no evidence was set an exception is thrown \begin{DoxyReturn}{Returns}
+numerical identifier of the evidence state 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1random__variable_a0f29da927a5624b694ea85bd86acb3cc}\label{classbaylib_1_1random__variable_a0f29da927a5624b694ea85bd86acb3cc}} 
+\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}!id@{id}}
+\index{id@{id}!baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{id()}{id()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+unsigned long \mbox{\hyperlink{classbaylib_1_1random__variable}{baylib\+::random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+unique numerical identifier of the variable 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1random__variable_a7982f97f0bb8dcecf30cb59da1dec485}\label{classbaylib_1_1random__variable_a7982f97f0bb8dcecf30cb59da1dec485}} 
+\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}!is\_evidence@{is\_evidence}}
+\index{is\_evidence@{is\_evidence}!baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{is\_evidence()}{is\_evidence()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+bool \mbox{\hyperlink{classbaylib_1_1random__variable}{baylib\+::random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::is\+\_\+evidence (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+true if the node was set as an evidence 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1random__variable_aa873e5e96eceb38043e506736ed1c806}\label{classbaylib_1_1random__variable_aa873e5e96eceb38043e506736ed1c806}} 
+\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}!number\_of\_states@{number\_of\_states}}
+\index{number\_of\_states@{number\_of\_states}!baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{number\_of\_states()}{number\_of\_states()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+unsigned long \mbox{\hyperlink{classbaylib_1_1random__variable}{baylib\+::random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::number\+\_\+of\+\_\+states (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+the number of variable\textquotesingle{}s states 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1random__variable_a04a06dc5f9ea7c3eef1fe5bfddd78e58}\label{classbaylib_1_1random__variable_a04a06dc5f9ea7c3eef1fe5bfddd78e58}} 
+\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}!set\_as\_evidence@{set\_as\_evidence}}
+\index{set\_as\_evidence@{set\_as\_evidence}!baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{set\_as\_evidence()}{set\_as\_evidence()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+void \mbox{\hyperlink{classbaylib_1_1random__variable}{baylib\+::random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::set\+\_\+as\+\_\+evidence (\begin{DoxyParamCaption}\item[{unsigned long}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+set the variable as an observed evidence for a specific state, this will alter how the inference process will be executed 
+\begin{DoxyParams}{Parameters}
+{\em value} & \+: evidence state \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbaylib_1_1random__variable_afd65ff2fe1186396132593d9a9ebfd95}\label{classbaylib_1_1random__variable_afd65ff2fe1186396132593d9a9ebfd95}} 
+\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}!set\_probability@{set\_probability}}
+\index{set\_probability@{set\_probability}!baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{set\_probability()}{set\_probability()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+void \mbox{\hyperlink{classbaylib_1_1random__variable}{baylib\+::random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::set\+\_\+probability (\begin{DoxyParamCaption}\item[{baylib\+::state\+\_\+t}]{state\+\_\+value,  }\item[{const \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} \&}]{cond,  }\item[{Probability\+\_\+}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Set a specific value for a cpt entry 
+\begin{DoxyParams}{Parameters}
+{\em state\+\_\+value} & \+: state name of the entry \\
+\hline
+{\em cond} & \+: condition related to the entry \\
+\hline
+{\em p} & \+: probability relative to the entry \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbaylib_1_1random__variable_a86d07a70f88eab8c24c2d06f72819e12}\label{classbaylib_1_1random__variable_a86d07a70f88eab8c24c2d06f72819e12}} 
+\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}!table@{table}}
+\index{table@{table}!baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{table()}{table()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib\+::cow\+::cpt}}$<$ Probability\+\_\+ $>$ \& \mbox{\hyperlink{classbaylib_1_1random__variable}{baylib\+::random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+cpt relative to the variable 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1random__variable_af08d720a04e6601bb2479d3f8e9e1c75}\label{classbaylib_1_1random__variable_af08d720a04e6601bb2479d3f8e9e1c75}} 
+\index{baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}!table@{table}}
+\index{table@{table}!baylib::random\_variable$<$ Probability\_ $>$@{baylib::random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{table()}{table()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+const \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib\+::cow\+::cpt}}$<$ Probability\+\_\+ $>$ \& \mbox{\hyperlink{classbaylib_1_1random__variable}{baylib\+::random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+cpt relative to the variable 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/network/\mbox{\hyperlink{random__variable_8hpp}{random\+\_\+variable.\+hpp}}\end{DoxyCompactItemize}

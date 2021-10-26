@@ -16,233 +16,260 @@
 \DoxyCodeLine{12 \textcolor{preprocessor}{\#include <boost/compute.hpp>}}
 \DoxyCodeLine{13 \textcolor{preprocessor}{\#include <boost/compute/device.hpp>}}
 \DoxyCodeLine{14 \textcolor{preprocessor}{\#include <future>}}
-\DoxyCodeLine{15 }
-\DoxyCodeLine{18 }
-\DoxyCodeLine{19 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
-\DoxyCodeLine{20     \textcolor{keyword}{namespace }inference \{}
-\DoxyCodeLine{27         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
-\DoxyCodeLine{28         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm}{inference\_algorithm}} \{}
-\DoxyCodeLine{29         \textcolor{keyword}{public}:}
-\DoxyCodeLine{38             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm_a5b7fadbe1918dfb4de6b9939464693bc}{inference\_algorithm}}(}
-\DoxyCodeLine{39                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples,}
-\DoxyCodeLine{40                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} seed = 0}
-\DoxyCodeLine{41                             )}
-\DoxyCodeLine{42                             : nsamples(nsamples), seed(seed) \{\}}
-\DoxyCodeLine{43 }
-\DoxyCodeLine{44             \textcolor{keyword}{virtual} \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm}{\string~inference\_algorithm}}() = \textcolor{keywordflow}{default};}
-\DoxyCodeLine{45 }
-\DoxyCodeLine{54             \textcolor{keyword}{virtual} \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm_a717239e2a561fb79fe9c67a5b3effef7}{make\_inference}}(}
-\DoxyCodeLine{55                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}}}
-\DoxyCodeLine{56                     ) = 0;}
-\DoxyCodeLine{57 }
-\DoxyCodeLine{58             \textcolor{keywordtype}{void} set\_number\_of\_samples(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \_nsamples) \{ nsamples = \_nsamples; \}}
-\DoxyCodeLine{59 }
-\DoxyCodeLine{60             \textcolor{keywordtype}{void} set\_seed(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \_seed) \{ seed = \_seed; \}}
-\DoxyCodeLine{61 }
-\DoxyCodeLine{62         \textcolor{keyword}{protected}:}
-\DoxyCodeLine{63             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples;}
-\DoxyCodeLine{64             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} seed;}
-\DoxyCodeLine{65         \};}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <baylib/baylib\_concepts.hpp>}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}} \{}
+\DoxyCodeLine{21     \textcolor{keyword}{namespace }inference \{}
+\DoxyCodeLine{28         \textcolor{keyword}{template} <BNetDerived Network\_>}
+\DoxyCodeLine{29         \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{inference\_algorithm}} \{}
+\DoxyCodeLine{30         \textcolor{keyword}{public}:}
+\DoxyCodeLine{31             \textcolor{keyword}{typedef} Network\_ network\_type;}
+\DoxyCodeLine{32             \textcolor{keyword}{typedef} \textcolor{keyword}{typename} network\_type::variable\_type variable\_type;}
+\DoxyCodeLine{33             \textcolor{keyword}{typedef} \textcolor{keyword}{typename} variable\_type::probability\_type probability\_type;}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{43             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm_a65742bb3c059aff81c0269984559068f}{inference\_algorithm}}(}
+\DoxyCodeLine{44                     \textcolor{keyword}{const} network\_type \& bn,}
+\DoxyCodeLine{45                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples,}
+\DoxyCodeLine{46                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} seed = 0}
+\DoxyCodeLine{47             )}
+\DoxyCodeLine{48             : bn(bn)}
+\DoxyCodeLine{49             , nsamples(nsamples)}
+\DoxyCodeLine{50             , seed(seed)}
+\DoxyCodeLine{51             \{\}}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53             \textcolor{keyword}{virtual} \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{\string~inference\_algorithm}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{63             \textcolor{keyword}{virtual} \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib::marginal\_distribution<probability\_type>}} \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm_a0bef5f3133e2a3bed05eb7d9b004e243}{make\_inference}} () = 0;}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65             \textcolor{keywordtype}{void} set\_number\_of\_samples(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \_nsamples) \{ nsamples = \_nsamples; \}}
 \DoxyCodeLine{66 }
-\DoxyCodeLine{74         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
-\DoxyCodeLine{75         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm}{inference\_algorithm}}<Probability> \{}
-\DoxyCodeLine{76         \textcolor{keyword}{public}:}
-\DoxyCodeLine{77             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm}}(}
-\DoxyCodeLine{78                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples,}
-\DoxyCodeLine{79                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nthreads = 1,}
-\DoxyCodeLine{80                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} seed = 0}
-\DoxyCodeLine{81             )}
-\DoxyCodeLine{82             : \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm}{inference\_algorithm<Probability>}}(nsamples, seed)}
-\DoxyCodeLine{83             \{}
-\DoxyCodeLine{84                 set\_number\_of\_threads(nthreads);}
-\DoxyCodeLine{85             \}}
-\DoxyCodeLine{86 }
-\DoxyCodeLine{94             \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} \mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm_afbed1ed3f1d785215c1858afb3413ed7}{make\_inference}}(}
-\DoxyCodeLine{95                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}}}
-\DoxyCodeLine{96             )\textcolor{keyword}{ override}}
-\DoxyCodeLine{97 \textcolor{keyword}{            }\{}
-\DoxyCodeLine{98                 \textcolor{keyword}{typedef} std::future<bn::marginal\_distribution<Probability>> result;}
-\DoxyCodeLine{99                 BAYLIB\_ASSERT(std::all\_of(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end(),}
-\DoxyCodeLine{100                                           [](\textcolor{keyword}{auto} \&var) \{ return bn::cpt\_filled\_out(var); \}),}
-\DoxyCodeLine{101                               \textcolor{stringliteral}{"{}conditional probability tables must be properly filled to"{}}}
-\DoxyCodeLine{102                               \textcolor{stringliteral}{"{} run gibbs sampling inference algorithm"{}},}
-\DoxyCodeLine{103                               std::runtime\_error)}
-\DoxyCodeLine{104 }
-\DoxyCodeLine{105                               \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} inference\_result(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
-\DoxyCodeLine{106                 std::vector<result> results;}
-\DoxyCodeLine{107                 \mbox{\hyperlink{classbn_1_1seed__factory}{bn::seed\_factory}} sf(nthreads, this-\/>seed);}
-\DoxyCodeLine{108 }
-\DoxyCodeLine{109                 \textcolor{keyword}{auto} job = [\textcolor{keyword}{this}, \&\mbox{\hyperlink{namespacebn}{bn}}](ulong samples\_per\_thread, uint seed) \{}
-\DoxyCodeLine{110                     \textcolor{keywordflow}{return} sample\_step(\mbox{\hyperlink{namespacebn}{bn}}, samples\_per\_thread, seed);}
-\DoxyCodeLine{111                 \};}
-\DoxyCodeLine{112 }
-\DoxyCodeLine{113                 ulong samples\_per\_thread = this-\/>nsamples / nthreads;}
-\DoxyCodeLine{114                 \textcolor{comment}{// assigning jobs}}
-\DoxyCodeLine{115                 \textcolor{keywordflow}{for} (uint i = 0; i < nthreads -\/ 1; ++i)}
-\DoxyCodeLine{116                     results.emplace\_back(std::async(job, samples\_per\_thread, sf.get\_new()));}
-\DoxyCodeLine{117 }
-\DoxyCodeLine{118                 \textcolor{comment}{// last thread (doing the extra samples if nsamples \% nthreads != 0)}}
-\DoxyCodeLine{119                 ulong left\_samples = this-\/>nsamples -\/ (nthreads -\/ 1) * samples\_per\_thread;}
-\DoxyCodeLine{120                 results.emplace\_back(std::async(job, samples\_per\_thread, sf.get\_new()));}
-\DoxyCodeLine{121 }
-\DoxyCodeLine{122                 \textcolor{comment}{// accumulate results of each parallel execution}}
-\DoxyCodeLine{123                 \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&res: results)}
-\DoxyCodeLine{124                     inference\_result += res.get();}
-\DoxyCodeLine{125 }
-\DoxyCodeLine{126                 \textcolor{comment}{// normalize the distribution before retrieving it}}
-\DoxyCodeLine{127                 inference\_result.normalize();}
-\DoxyCodeLine{128                 \textcolor{keywordflow}{return} inference\_result;}
-\DoxyCodeLine{129             \}}
-\DoxyCodeLine{130 }
-\DoxyCodeLine{131             \textcolor{keywordtype}{void} set\_number\_of\_threads(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \_nthreads) \{}
-\DoxyCodeLine{132                 nthreads = \_nthreads >= std::thread::hardware\_concurrency() ?}
-\DoxyCodeLine{133                         std::thread::hardware\_concurrency() : \_nthreads > 0 ?}
-\DoxyCodeLine{134                         \_nthreads : 1;}
-\DoxyCodeLine{135             \}}
-\DoxyCodeLine{136 }
-\DoxyCodeLine{137         \textcolor{keyword}{protected}:}
-\DoxyCodeLine{138             \textcolor{keyword}{virtual} \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} sample\_step(}
-\DoxyCodeLine{139                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{140                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples\_per\_step,}
-\DoxyCodeLine{141                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} seed}
-\DoxyCodeLine{142             ) = 0;}
-\DoxyCodeLine{143 }
-\DoxyCodeLine{144             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nthreads;}
-\DoxyCodeLine{145         \};}
-\DoxyCodeLine{146 }
-\DoxyCodeLine{147 }
-\DoxyCodeLine{148         \textcolor{keyword}{namespace }compute = boost::compute;}
-\DoxyCodeLine{149         \textcolor{keyword}{using} boost::compute::lambda::\_1;}
-\DoxyCodeLine{150         \textcolor{keyword}{using} boost::compute::lambda::\_2;}
-\DoxyCodeLine{158         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
-\DoxyCodeLine{159         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm}{inference\_algorithm}}<Probability> \{}
-\DoxyCodeLine{160         \textcolor{keyword}{public}:}
-\DoxyCodeLine{161             \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}(}
-\DoxyCodeLine{162                     ulong n\_samples, \textcolor{keywordtype}{size\_t} memory,}
-\DoxyCodeLine{163                     uint seed = 0,}
-\DoxyCodeLine{164                     \textcolor{keyword}{const} compute::device \&device = compute::system::default\_device()}
-\DoxyCodeLine{165             )}
-\DoxyCodeLine{166             : \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm}{inference\_algorithm<Probability>}}(n\_samples, seed)}
-\DoxyCodeLine{167             , memory(memory)}
-\DoxyCodeLine{168             , device(device)}
-\DoxyCodeLine{169             , context(device)}
-\DoxyCodeLine{170             , queue(context, device)}
-\DoxyCodeLine{171             , rand(queue, seed)}
-\DoxyCodeLine{172             \{\}}
-\DoxyCodeLine{173 }
-\DoxyCodeLine{174             \textcolor{keyword}{using} prob\_v = boost::compute::vector<Probability>;}
-\DoxyCodeLine{175 }
-\DoxyCodeLine{176         \textcolor{keyword}{protected}:}
-\DoxyCodeLine{177             compute::device device;}
-\DoxyCodeLine{178             compute::context context;}
-\DoxyCodeLine{179             compute::command\_queue queue;}
-\DoxyCodeLine{180             compute::default\_random\_engine rand;}
-\DoxyCodeLine{181             \textcolor{keywordtype}{size\_t} memory;}
-\DoxyCodeLine{182 }
-\DoxyCodeLine{189             std::pair<ulong, ulong> \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm_a668209d974d4e5ec5eb96566bd64d27f}{calculate\_iterations}}(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}})}
-\DoxyCodeLine{190             \{}
-\DoxyCodeLine{191                 ulong sample\_p = this-\/>memory / (\mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables() * \textcolor{keyword}{sizeof}(Probability) + 3 * \textcolor{keyword}{sizeof}(cl\_ushort)) * MEMORY\_SLACK;}
-\DoxyCodeLine{192                 \textcolor{keywordflow}{if}(sample\_p < this-\/>nsamples)}
-\DoxyCodeLine{193                     \textcolor{keywordflow}{return} \{sample\_p, this-\/>nsamples / sample\_p\};}
-\DoxyCodeLine{194                 \textcolor{keywordflow}{else}}
-\DoxyCodeLine{195                     \textcolor{keywordflow}{return} \{this-\/>nsamples, 1\};}
-\DoxyCodeLine{196             \}}
-\DoxyCodeLine{197 }
-\DoxyCodeLine{198             \textcolor{keyword}{static} std::vector<Probability> accumulate\_cpt(\mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt<Probability>}} cpt) \{}
-\DoxyCodeLine{199                 std::vector<Probability> flat\_cpt = cpt.flat();}
-\DoxyCodeLine{200                 \textcolor{keywordflow}{for} (bn::state\_t i = 0; i < flat\_cpt.size(); i += cpt.number\_of\_states())}
-\DoxyCodeLine{201                     \textcolor{keywordflow}{for} (bn::state\_t j = 1; j < cpt.number\_of\_states() -\/ 1; j++)}
-\DoxyCodeLine{202                         flat\_cpt[i + j] += flat\_cpt[i + j -\/ 1];}
-\DoxyCodeLine{203                 \textcolor{keywordflow}{return} flat\_cpt;}
-\DoxyCodeLine{204             \}}
-\DoxyCodeLine{205 }
-\DoxyCodeLine{213             \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}} \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm_a4af003210116dd1b40a1ba28a5c97c39}{simulate\_node}}(}
-\DoxyCodeLine{214                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{cow::cpt<Probability>}} \&cpt,}
-\DoxyCodeLine{215                     std::vector<bcvec*> \&parents\_result,}
-\DoxyCodeLine{216                     \textcolor{keywordtype}{int} dim}
-\DoxyCodeLine{217             )}
-\DoxyCodeLine{218             \{}
-\DoxyCodeLine{219                 std::vector<Probability> flat\_cpt\_accum = accumulate\_cpt(cpt);}
-\DoxyCodeLine{220                 \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}} result(dim, cpt.number\_of\_states(), context);}
-\DoxyCodeLine{221                 prob\_v device\_cpt(flat\_cpt\_accum.size(), context);}
-\DoxyCodeLine{222                 prob\_v threshold\_vec(dim, context);}
-\DoxyCodeLine{223                 prob\_v random\_vec(dim, context);}
-\DoxyCodeLine{224                 compute::uniform\_real\_distribution<Probability> distribution(0, 1);}
-\DoxyCodeLine{225                 compute::vector<int> index\_vec(dim, context);}
-\DoxyCodeLine{226 }
-\DoxyCodeLine{227                 \textcolor{comment}{// Async copy of the cpt in gpu memory}}
-\DoxyCodeLine{228                 compute::copy(flat\_cpt\_accum.begin(), flat\_cpt\_accum.end(), device\_cpt.begin(), queue);}
-\DoxyCodeLine{229 }
-\DoxyCodeLine{230                 \textcolor{comment}{// cycle for deducing the row of the cpt given the parents state in the previous simulation}}
-\DoxyCodeLine{231                 \textcolor{keywordflow}{if}(parents\_result.empty())}
-\DoxyCodeLine{232                     compute::fill(index\_vec.begin(), index\_vec.end(), 0, queue);}
-\DoxyCodeLine{233                 \textcolor{keywordflow}{else} \{}
-\DoxyCodeLine{234                     uint coeff = cpt.number\_of\_states();}
-\DoxyCodeLine{235                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < parents\_result.size(); i++) \{}
-\DoxyCodeLine{236                         \textcolor{keywordflow}{if} (i == 0)}
-\DoxyCodeLine{237                             compute::transform(parents\_result[i]-\/>state.begin(),}
-\DoxyCodeLine{238                                                parents\_result[i]-\/>state.end(),}
-\DoxyCodeLine{239                                                index\_vec.begin(),}
-\DoxyCodeLine{240                                                \_1 * coeff, queue);}
-\DoxyCodeLine{241                         \textcolor{keywordflow}{else}}
-\DoxyCodeLine{242                             compute::transform(parents\_result[i]-\/>state.begin(),}
-\DoxyCodeLine{243                                                parents\_result[i]-\/>state.end(),}
-\DoxyCodeLine{244                                                index\_vec.begin(),}
-\DoxyCodeLine{245                                                index\_vec.begin(),}
-\DoxyCodeLine{246                                                \_1 * coeff + \_2, queue);}
-\DoxyCodeLine{247                         coeff *= parents\_result[i]-\/>cardinality;}
-\DoxyCodeLine{248                     \}}
-\DoxyCodeLine{249                 \}}
-\DoxyCodeLine{250 }
-\DoxyCodeLine{251                 \textcolor{comment}{// get the threshold corresponding to the specific row of the cpt for every single simulation}}
-\DoxyCodeLine{252                 compute::gather(index\_vec.begin(),}
-\DoxyCodeLine{253                                 index\_vec.end(),}
-\DoxyCodeLine{254                                 device\_cpt.begin(),}
-\DoxyCodeLine{255                                 threshold\_vec.begin(), queue);}
-\DoxyCodeLine{256 }
-\DoxyCodeLine{257 }
-\DoxyCodeLine{258                 \textcolor{comment}{// generate random vector}}
-\DoxyCodeLine{259                 distribution.generate(random\_vec.begin(),}
-\DoxyCodeLine{260                                       random\_vec.end(),}
-\DoxyCodeLine{261                                       rand, queue);}
-\DoxyCodeLine{262 }
-\DoxyCodeLine{263                 \textcolor{comment}{// confront the random vector with the threshold}}
-\DoxyCodeLine{264                 compute::transform(random\_vec.begin(),}
-\DoxyCodeLine{265                                    random\_vec.end(),}
-\DoxyCodeLine{266                                    threshold\_vec.begin(),}
-\DoxyCodeLine{267                                    result.state.begin(),}
-\DoxyCodeLine{268                                    \_1 > \_2,}
-\DoxyCodeLine{269                                    queue);}
-\DoxyCodeLine{270 }
-\DoxyCodeLine{271                 \textcolor{comment}{// generalization in case of more than 2 states}}
-\DoxyCodeLine{272                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i + 2 < cpt.number\_of\_states(); i++) \{}
-\DoxyCodeLine{273                     compute::vector<int> temp(dim, context);}
-\DoxyCodeLine{274                     compute::transform(index\_vec.begin(),}
-\DoxyCodeLine{275                                        index\_vec.end(),}
-\DoxyCodeLine{276                                        index\_vec.begin(),}
-\DoxyCodeLine{277                                        \_1 + 1, queue);}
-\DoxyCodeLine{278                     compute::gather(index\_vec.begin(),}
-\DoxyCodeLine{279                                     index\_vec.end(),}
-\DoxyCodeLine{280                                     device\_cpt.begin(),}
-\DoxyCodeLine{281                                     threshold\_vec.begin(), queue);}
-\DoxyCodeLine{282                     compute::transform(random\_vec.begin(),}
-\DoxyCodeLine{283                                        random\_vec.end(),}
-\DoxyCodeLine{284                                        threshold\_vec.begin(),}
-\DoxyCodeLine{285                                        temp.begin(),}
-\DoxyCodeLine{286                                        \_1 > \_2, queue);}
-\DoxyCodeLine{287                     compute::transform(temp.begin(),}
-\DoxyCodeLine{288                                        temp.end(),}
-\DoxyCodeLine{289                                        result.state.begin(),}
-\DoxyCodeLine{290                                        result.state.begin(),}
-\DoxyCodeLine{291                                        \_1 + \_2, queue);}
-\DoxyCodeLine{292                 \}}
-\DoxyCodeLine{293 }
-\DoxyCodeLine{294                 \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{295             \}}
-\DoxyCodeLine{296         \};}
-\DoxyCodeLine{297     \} \textcolor{comment}{// namespace inference}}
-\DoxyCodeLine{298 \} \textcolor{comment}{// namespace bn}}
-\DoxyCodeLine{299 }
-\DoxyCodeLine{300 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_ABSTRACT\_INFERENCE\_ALGORITHM\_HPP}}
+\DoxyCodeLine{67             \textcolor{keywordtype}{void} set\_seed(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \_seed) \{ seed = \_seed; \}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69         \textcolor{keyword}{protected}:}
+\DoxyCodeLine{70             \textcolor{keyword}{const} network\_type \& bn;}
+\DoxyCodeLine{71             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples;}
+\DoxyCodeLine{72             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} seed;}
+\DoxyCodeLine{73         \};}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{82         \textcolor{keyword}{template} < BNetDerived Network\_ >}
+\DoxyCodeLine{83         \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{inference\_algorithm}}<Network\_>}
+\DoxyCodeLine{84         \{}
+\DoxyCodeLine{85         \textcolor{keyword}{public}:}
+\DoxyCodeLine{86             \textcolor{keyword}{typedef} Network\_ network\_type;}
+\DoxyCodeLine{87             \textcolor{keyword}{using} \textcolor{keyword}{typename} inference\_algorithm<Network\_>::probability\_type;}
+\DoxyCodeLine{88             \textcolor{keyword}{using}  \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{inference\_algorithm<Network\_>::bn}};}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm}}(}
+\DoxyCodeLine{91                     \textcolor{keyword}{const} network\_type \& bn,}
+\DoxyCodeLine{92                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples,}
+\DoxyCodeLine{93                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nthreads = 1,}
+\DoxyCodeLine{94                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} seed = 0}
+\DoxyCodeLine{95             )}
+\DoxyCodeLine{96             : \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{inference\_algorithm<Network\_>}}(bn, nsamples, seed)}
+\DoxyCodeLine{97             \{}
+\DoxyCodeLine{98                 set\_number\_of\_threads(nthreads);}
+\DoxyCodeLine{99             \}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{108             \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib::marginal\_distribution<probability\_type>}} \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm_aeedf03da80dadb50952fd604d2cb6653}{make\_inference}}()\textcolor{keyword}{ override}}
+\DoxyCodeLine{109 \textcolor{keyword}{            }\{}
+\DoxyCodeLine{110                 \textcolor{keyword}{typedef} std::future<baylib::marginal\_distribution<probability\_type>> result;}
+\DoxyCodeLine{111                 BAYLIB\_ASSERT(std::all\_of(bn.begin(), bn.end(),}
+\DoxyCodeLine{112                                           [\textcolor{keyword}{this}](\textcolor{keyword}{auto} \&var) \{ return baylib::cpt\_filled\_out(bn, var.id()); \}),}
+\DoxyCodeLine{113                               \textcolor{stringliteral}{"{}conditional probability tables must be properly filled to"{}}}
+\DoxyCodeLine{114                               \textcolor{stringliteral}{"{} run an inference algorithm"{}},}
+\DoxyCodeLine{115                               std::runtime\_error)}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117                 \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib::marginal\_distribution<probability\_type>}} inference\_result(bn.begin(), bn.end());}
+\DoxyCodeLine{118                 std::vector<result> results;}
+\DoxyCodeLine{119                 \mbox{\hyperlink{classbaylib_1_1seed__factory}{baylib::seed\_factory}} sf(nthreads, this-\/>seed);}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121                 \textcolor{keyword}{auto} job = [\textcolor{keyword}{this}](ulong samples\_per\_thread, uint seed) \{}
+\DoxyCodeLine{122                     \textcolor{keywordflow}{return} sample\_step(samples\_per\_thread, seed);}
+\DoxyCodeLine{123                 \};}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125                 ulong samples\_per\_thread = this-\/>nsamples / nthreads;}
+\DoxyCodeLine{126                 \textcolor{comment}{// assigning jobs}}
+\DoxyCodeLine{127                 \textcolor{keywordflow}{for} (uint i = 0; i < nthreads -\/ 1; ++i)}
+\DoxyCodeLine{128                     results.emplace\_back(std::async(job, samples\_per\_thread, sf.get\_new()));}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{130                 \textcolor{comment}{// last thread (doing the extra samples if nsamples \% nthreads != 0)}}
+\DoxyCodeLine{131                 ulong left\_samples = this-\/>nsamples -\/ (nthreads -\/ 1) * samples\_per\_thread;}
+\DoxyCodeLine{132                 results.emplace\_back(std::async(job, samples\_per\_thread, sf.get\_new()));}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134                 \textcolor{comment}{// accumulate results of each parallel execution}}
+\DoxyCodeLine{135                 \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \&res: results)}
+\DoxyCodeLine{136                     inference\_result += res.get();}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138                 \textcolor{comment}{// normalize the distribution before retrieving it}}
+\DoxyCodeLine{139                 inference\_result.normalize();}
+\DoxyCodeLine{140                 \textcolor{keywordflow}{return} inference\_result;}
+\DoxyCodeLine{141             \}}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143             \textcolor{keywordtype}{void} set\_number\_of\_threads(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \_nthreads) \{}
+\DoxyCodeLine{144                 nthreads = \_nthreads >= std::thread::hardware\_concurrency() ?}
+\DoxyCodeLine{145                            std::thread::hardware\_concurrency() : \_nthreads > 0 ?}
+\DoxyCodeLine{146                                                                  \_nthreads : 1;}
+\DoxyCodeLine{147             \}}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149         \textcolor{keyword}{protected}:}
+\DoxyCodeLine{150             \textcolor{keyword}{virtual} \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib::marginal\_distribution<probability\_type>}} sample\_step (}
+\DoxyCodeLine{151                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nsamples\_per\_step,}
+\DoxyCodeLine{152                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} seed}
+\DoxyCodeLine{153             ) = 0;}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nthreads;}
+\DoxyCodeLine{156         \};}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159         \textcolor{keyword}{namespace }compute = boost::compute;}
+\DoxyCodeLine{160         \textcolor{keyword}{using} boost::compute::lambda::\_1;}
+\DoxyCodeLine{161         \textcolor{keyword}{using} boost::compute::lambda::\_2;}
+\DoxyCodeLine{169         \textcolor{keyword}{template} < BNetDerived Network\_ >}
+\DoxyCodeLine{170         \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{inference\_algorithm}}<Network\_>}
+\DoxyCodeLine{171         \{}
+\DoxyCodeLine{172         \textcolor{keyword}{public}:}
+\DoxyCodeLine{173             \textcolor{keyword}{using} \textcolor{keyword}{typename} inference\_algorithm<Network\_>::network\_type;}
+\DoxyCodeLine{174             \textcolor{keyword}{using} \textcolor{keyword}{typename} inference\_algorithm<Network\_>::probability\_type;}
+\DoxyCodeLine{175             \textcolor{keyword}{using}  \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{inference\_algorithm<Network\_>::bn}};}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{177             \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}(}
+\DoxyCodeLine{178                     \textcolor{keyword}{const} network\_type \& bn,}
+\DoxyCodeLine{179                     ulong n\_samples,}
+\DoxyCodeLine{180                     \textcolor{keywordtype}{size\_t} memory,}
+\DoxyCodeLine{181                     uint seed = 0,}
+\DoxyCodeLine{182                     \textcolor{keyword}{const} compute::device \&device = compute::system::default\_device()}
+\DoxyCodeLine{183             )}
+\DoxyCodeLine{184             : \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{inference\_algorithm<Network\_>}}(bn, n\_samples, seed)}
+\DoxyCodeLine{185             , memory(memory)}
+\DoxyCodeLine{186             , device(device)}
+\DoxyCodeLine{187             , context(device)}
+\DoxyCodeLine{188             , queue(context, device)}
+\DoxyCodeLine{189             , rand(queue, seed)}
+\DoxyCodeLine{190             \{\}}
+\DoxyCodeLine{191 }
+\DoxyCodeLine{192             \textcolor{keyword}{using} prob\_v = boost::compute::vector<probability\_type>;}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194         \textcolor{keyword}{protected}:}
+\DoxyCodeLine{195             compute::device device;}
+\DoxyCodeLine{196             compute::context context;}
+\DoxyCodeLine{197             compute::command\_queue queue;}
+\DoxyCodeLine{198             compute::default\_random\_engine rand;}
+\DoxyCodeLine{199             \textcolor{keywordtype}{size\_t} memory;}
+\DoxyCodeLine{200 }
+\DoxyCodeLine{207             std::pair<ulong, ulong> \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a8dd4c99eb211a42bee8d4a746c673c10}{calculate\_iterations}}()}
+\DoxyCodeLine{208             \{}
+\DoxyCodeLine{209                 ulong sample\_p = this-\/>memory / (bn.number\_of\_variables() * \textcolor{keyword}{sizeof}(probability\_type) + 3 * \textcolor{keyword}{sizeof}(cl\_ushort)) * MEMORY\_SLACK;}
+\DoxyCodeLine{210                 \textcolor{keywordflow}{if}(sample\_p < this-\/>nsamples)}
+\DoxyCodeLine{211                     \textcolor{keywordflow}{return} \{sample\_p, this-\/>nsamples / sample\_p\};}
+\DoxyCodeLine{212                 \textcolor{keywordflow}{else}}
+\DoxyCodeLine{213                     \textcolor{keywordflow}{return} \{this-\/>nsamples, 1\};}
+\DoxyCodeLine{214             \}}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216             std::vector<probability\_type> accumulate\_cpt(ulong v\_id, \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib::cow::cpt<probability\_type>}} cpt) \{}
+\DoxyCodeLine{217                 \textcolor{keyword}{auto} factory = \mbox{\hyperlink{classbaylib_1_1condition__factory}{baylib::condition\_factory}}(bn, v\_id, bn.parents\_of(v\_id));}
+\DoxyCodeLine{218                 std::vector<probability\_type> flat\_cpt\{\};}
+\DoxyCodeLine{219                 uint n\_states = bn[v\_id].table().number\_of\_states();}
+\DoxyCodeLine{220                 \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{221                     \textcolor{keyword}{auto} temp = cpt[factory.get()];}
+\DoxyCodeLine{222                     flat\_cpt.insert(flat\_cpt.end(), temp.begin(), temp.end());}
+\DoxyCodeLine{223                 \} \textcolor{keywordflow}{while} (factory.has\_next());}
+\DoxyCodeLine{224 }
+\DoxyCodeLine{225                 \textcolor{keywordflow}{for} (baylib::state\_t i = 0; i < flat\_cpt.size(); i += n\_states)}
+\DoxyCodeLine{226                     \textcolor{keywordflow}{for} (baylib::state\_t j = 1; j < n\_states -\/ 1; j++)}
+\DoxyCodeLine{227                         flat\_cpt[i + j] += flat\_cpt[i + j -\/ 1];}
+\DoxyCodeLine{228                 \textcolor{keywordflow}{return} flat\_cpt;}
+\DoxyCodeLine{229             \}}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{238             \mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}} \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a32c2bfde82eef5beed8e7eb98663740d}{simulate\_node}}(}
+\DoxyCodeLine{239                     ulong v\_id,}
+\DoxyCodeLine{240                     \textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cow::cpt<probability\_type>}} \&cpt,}
+\DoxyCodeLine{241                     std::vector<bcvec*> \&parents\_result,}
+\DoxyCodeLine{242                     \textcolor{keywordtype}{int} dim}
+\DoxyCodeLine{243             )}
+\DoxyCodeLine{244             \{}
+\DoxyCodeLine{245                 std::vector<probability\_type> flat\_cpt\_accum = accumulate\_cpt(v\_id, cpt);}
+\DoxyCodeLine{246                 \mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}} result(dim, cpt.number\_of\_states(), context);}
+\DoxyCodeLine{247                 prob\_v device\_cpt(flat\_cpt\_accum.size(), context);}
+\DoxyCodeLine{248                 prob\_v threshold\_vec(dim, context);}
+\DoxyCodeLine{249                 prob\_v random\_vec(dim, context);}
+\DoxyCodeLine{250                 compute::uniform\_real\_distribution<probability\_type> distribution(0, 1);}
+\DoxyCodeLine{251                 compute::vector<int> index\_vec(dim, context);}
+\DoxyCodeLine{252 }
+\DoxyCodeLine{253                 \textcolor{comment}{// Async copy of the cpt in gpu memory}}
+\DoxyCodeLine{254                 compute::copy(flat\_cpt\_accum.begin(), flat\_cpt\_accum.end(), device\_cpt.begin(), queue);}
+\DoxyCodeLine{255 }
+\DoxyCodeLine{256                 \textcolor{comment}{// cycle for deducing the row of the cpt given the parents state in the previous simulation}}
+\DoxyCodeLine{257                 \textcolor{keywordflow}{if}(parents\_result.empty())}
+\DoxyCodeLine{258                     compute::fill(index\_vec.begin(), index\_vec.end(), 0, queue);}
+\DoxyCodeLine{259                 \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{260                     uint coeff = bn[v\_id].table().number\_of\_states();}
+\DoxyCodeLine{261                     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < parents\_result.size(); i++) \{}
+\DoxyCodeLine{262                         \textcolor{keywordflow}{if} (i == 0)}
+\DoxyCodeLine{263                             compute::transform(parents\_result[i]-\/>state.begin(),}
+\DoxyCodeLine{264                                                parents\_result[i]-\/>state.end(),}
+\DoxyCodeLine{265                                                index\_vec.begin(),}
+\DoxyCodeLine{266                                                \_1 * coeff, queue);}
+\DoxyCodeLine{267                         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{268                             compute::transform(parents\_result[i]-\/>state.begin(),}
+\DoxyCodeLine{269                                                parents\_result[i]-\/>state.end(),}
+\DoxyCodeLine{270                                                index\_vec.begin(),}
+\DoxyCodeLine{271                                                index\_vec.begin(),}
+\DoxyCodeLine{272                                                \_1 * coeff + \_2, queue);}
+\DoxyCodeLine{273                         coeff *= parents\_result[i]-\/>cardinality;}
+\DoxyCodeLine{274                     \}}
+\DoxyCodeLine{275                 \}}
+\DoxyCodeLine{276 }
+\DoxyCodeLine{277                 \textcolor{comment}{// get the threshold corresponding to the specific row of the cpt for every single simulation}}
+\DoxyCodeLine{278                 compute::gather(index\_vec.begin(),}
+\DoxyCodeLine{279                                 index\_vec.end(),}
+\DoxyCodeLine{280                                 device\_cpt.begin(),}
+\DoxyCodeLine{281                                 threshold\_vec.begin(), queue);}
+\DoxyCodeLine{282 }
+\DoxyCodeLine{283 }
+\DoxyCodeLine{284                 \textcolor{comment}{// generate random vector}}
+\DoxyCodeLine{285                 distribution.generate(random\_vec.begin(),}
+\DoxyCodeLine{286                                       random\_vec.end(),}
+\DoxyCodeLine{287                                       rand, queue);}
+\DoxyCodeLine{288 }
+\DoxyCodeLine{289                 \textcolor{comment}{// confront the random vector with the threshold}}
+\DoxyCodeLine{290                 compute::transform(random\_vec.begin(),}
+\DoxyCodeLine{291                                    random\_vec.end(),}
+\DoxyCodeLine{292                                    threshold\_vec.begin(),}
+\DoxyCodeLine{293                                    result.state.begin(),}
+\DoxyCodeLine{294                                    \_1 > \_2,}
+\DoxyCodeLine{295                                    queue);}
+\DoxyCodeLine{296 }
+\DoxyCodeLine{297                 \textcolor{comment}{// generalization in case of more than 2 states}}
+\DoxyCodeLine{298                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i + 2 < bn[v\_id].table().number\_of\_states(); i++) \{}
+\DoxyCodeLine{299                     compute::vector<int> temp(dim, context);}
+\DoxyCodeLine{300                     compute::transform(index\_vec.begin(),}
+\DoxyCodeLine{301                                        index\_vec.end(),}
+\DoxyCodeLine{302                                        index\_vec.begin(),}
+\DoxyCodeLine{303                                        \_1 + 1, queue);}
+\DoxyCodeLine{304                     compute::gather(index\_vec.begin(),}
+\DoxyCodeLine{305                                     index\_vec.end(),}
+\DoxyCodeLine{306                                     device\_cpt.begin(),}
+\DoxyCodeLine{307                                     threshold\_vec.begin(), queue);}
+\DoxyCodeLine{308                     compute::transform(random\_vec.begin(),}
+\DoxyCodeLine{309                                        random\_vec.end(),}
+\DoxyCodeLine{310                                        threshold\_vec.begin(),}
+\DoxyCodeLine{311                                        temp.begin(),}
+\DoxyCodeLine{312                                        \_1 > \_2, queue);}
+\DoxyCodeLine{313                     compute::transform(temp.begin(),}
+\DoxyCodeLine{314                                        temp.end(),}
+\DoxyCodeLine{315                                        result.state.begin(),}
+\DoxyCodeLine{316                                        result.state.begin(),}
+\DoxyCodeLine{317                                        \_1 + \_2, queue);}
+\DoxyCodeLine{318                 \}}
+\DoxyCodeLine{319 }
+\DoxyCodeLine{320                 \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{321             \}}
+\DoxyCodeLine{322         \};}
+\DoxyCodeLine{323     \} \textcolor{comment}{// namespace inference}}
+\DoxyCodeLine{324 \} \textcolor{comment}{// namespace baylib}}
+\DoxyCodeLine{325 }
+\DoxyCodeLine{326 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_ABSTRACT\_INFERENCE\_ALGORITHM\_HPP}}
+\DoxyCodeLine{327 }
 
 \end{DoxyCode}

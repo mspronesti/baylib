@@ -1,0 +1,211 @@
+\hypertarget{classbaylib_1_1condition}{}\doxysection{baylib\+::condition Class Reference}
+\label{classbaylib_1_1condition}\index{baylib::condition@{baylib::condition}}
+
+
+{\ttfamily \#include $<$condition.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1condition_ac000c9c30da26e687ee56f9a191207e7}\label{classbaylib_1_1condition_ac000c9c30da26e687ee56f9a191207e7}} 
+{\bfseries condition} (const \mbox{\hyperlink{classbaylib_1_1condition}{condition}} \&c)
+\item 
+\mbox{\hyperlink{classbaylib_1_1condition}{condition}} \& \mbox{\hyperlink{classbaylib_1_1condition_af72d2b8c96a5937e9ff12b29f3854b4d}{operator=}} (const \mbox{\hyperlink{classbaylib_1_1condition}{condition}} \&other)
+\item 
+void \mbox{\hyperlink{classbaylib_1_1condition_adf589c151462247c4ffbd19f40f8dece}{add}} (const unsigned long node\+\_\+id, state\+\_\+t val)
+\item 
+state\+\_\+t \& \mbox{\hyperlink{classbaylib_1_1condition_a4458aae6f54723d6489f25e5f8a05330}{operator\mbox{[}$\,$\mbox{]}}} (const unsigned long node\+\_\+id)
+\item 
+const state\+\_\+t \& \mbox{\hyperlink{classbaylib_1_1condition_a2bdfaad079b454080af29fbb1629a7a8}{operator\mbox{[}$\,$\mbox{]}}} (const unsigned long node\+\_\+id) const
+\item 
+void \mbox{\hyperlink{classbaylib_1_1condition_aa4b4abc23afa94d4f913f47b3d11abd7}{swap}} (\mbox{\hyperlink{classbaylib_1_1condition}{condition}} \&other)
+\item 
+void \mbox{\hyperlink{classbaylib_1_1condition_a623b562fc6b5665e1a8d76c98f398b07}{clear}} ()
+\item 
+bool \mbox{\hyperlink{classbaylib_1_1condition_ac9ef6114e5904c528a30ab6dbd754d62}{contains}} (const unsigned long node\+\_\+id) const
+\item 
+auto \mbox{\hyperlink{classbaylib_1_1condition_a8b58ccb3bfc3898fe56b25b6208e8cdc}{begin}} () const
+\item 
+auto \mbox{\hyperlink{classbaylib_1_1condition_ae2b6abcd27110625ed81cb986e4a39ff}{end}} () const
+\item 
+auto \mbox{\hyperlink{classbaylib_1_1condition_a142ebe051f1e0e442c39512c48e9c30d}{rbegin}} () const
+\item 
+auto \mbox{\hyperlink{classbaylib_1_1condition_ac4d89282e2332d431a18f50b58d3a2bb}{rend}} () const
+\item 
+unsigned int \mbox{\hyperlink{classbaylib_1_1condition_aad72af1503800d85248793623526a210}{size}} () const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1condition_af6414b5415a4aa3cd2f2b24015b4e744}\label{classbaylib_1_1condition_af6414b5415a4aa3cd2f2b24015b4e744}} 
+bool {\bfseries operator$<$} (const \mbox{\hyperlink{classbaylib_1_1condition}{condition}} \&other) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1condition_a99a6f99a60798a538394c09c6c145253}\label{classbaylib_1_1condition_a99a6f99a60798a538394c09c6c145253}} 
+std\+::map$<$ unsigned long, state\+\_\+t $>$ {\bfseries cmap}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classbaylib_1_1condition_adc5e5683ce3fb46e30898b4e750a8762}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{classbaylib_1_1condition}{condition}} \&c)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Let X be a random variable, then P(X $\vert$ c) is the probability of X given c. This class models c and it is used in the conditional probability table 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1condition_adf589c151462247c4ffbd19f40f8dece}\label{classbaylib_1_1condition_adf589c151462247c4ffbd19f40f8dece}} 
+\index{baylib::condition@{baylib::condition}!add@{add}}
+\index{add@{add}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{add()}{add()}}
+{\footnotesize\ttfamily void baylib\+::condition\+::add (\begin{DoxyParamCaption}\item[{const unsigned long}]{node\+\_\+id,  }\item[{state\+\_\+t}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Add a new pair of id, value of node 
+\begin{DoxyParams}{Parameters}
+{\em node\+\_\+id} & \+: id of node \\
+\hline
+{\em val} & \+: value of node \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbaylib_1_1condition_a8b58ccb3bfc3898fe56b25b6208e8cdc}\label{classbaylib_1_1condition_a8b58ccb3bfc3898fe56b25b6208e8cdc}} 
+\index{baylib::condition@{baylib::condition}!begin@{begin}}
+\index{begin@{begin}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily auto baylib\+::condition\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+begin iterator of condition contents \begin{DoxyReturn}{Returns}
+\+: iterator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1condition_a623b562fc6b5665e1a8d76c98f398b07}\label{classbaylib_1_1condition_a623b562fc6b5665e1a8d76c98f398b07}} 
+\index{baylib::condition@{baylib::condition}!clear@{clear}}
+\index{clear@{clear}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void baylib\+::condition\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+empty the condition of its contents \mbox{\Hypertarget{classbaylib_1_1condition_ac9ef6114e5904c528a30ab6dbd754d62}\label{classbaylib_1_1condition_ac9ef6114e5904c528a30ab6dbd754d62}} 
+\index{baylib::condition@{baylib::condition}!contains@{contains}}
+\index{contains@{contains}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily bool baylib\+::condition\+::contains (\begin{DoxyParamCaption}\item[{const unsigned long}]{node\+\_\+id }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+check if a node was set in the condition 
+\begin{DoxyParams}{Parameters}
+{\em node\+\_\+id} & \+: node id \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if node\+\_\+id corresponds to a set state in the condition 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1condition_ae2b6abcd27110625ed81cb986e4a39ff}\label{classbaylib_1_1condition_ae2b6abcd27110625ed81cb986e4a39ff}} 
+\index{baylib::condition@{baylib::condition}!end@{end}}
+\index{end@{end}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily auto baylib\+::condition\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+end iterator of condition contents \begin{DoxyReturn}{Returns}
+\+: iterator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1condition_af72d2b8c96a5937e9ff12b29f3854b4d}\label{classbaylib_1_1condition_af72d2b8c96a5937e9ff12b29f3854b4d}} 
+\index{baylib::condition@{baylib::condition}!operator=@{operator=}}
+\index{operator=@{operator=}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classbaylib_1_1condition}{condition}} \& baylib\+::condition\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classbaylib_1_1condition}{condition}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+copy operator 
+\begin{DoxyParams}{Parameters}
+{\em other} & \+: condition to be copied \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: new condition 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1condition_a4458aae6f54723d6489f25e5f8a05330}\label{classbaylib_1_1condition_a4458aae6f54723d6489f25e5f8a05330}} 
+\index{baylib::condition@{baylib::condition}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily state\+\_\+t \& baylib\+::condition\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const unsigned long}]{node\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Operator to retrieve the state of a given node 
+\begin{DoxyParams}{Parameters}
+{\em node\+\_\+id} & \+: node id \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: state 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1condition_a2bdfaad079b454080af29fbb1629a7a8}\label{classbaylib_1_1condition_a2bdfaad079b454080af29fbb1629a7a8}} 
+\index{baylib::condition@{baylib::condition}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily const state\+\_\+t \& baylib\+::condition\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const unsigned long}]{node\+\_\+id }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Operator to retrieve the state of a given node 
+\begin{DoxyParams}{Parameters}
+{\em node\+\_\+id} & \+: node id \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: state 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1condition_a142ebe051f1e0e442c39512c48e9c30d}\label{classbaylib_1_1condition_a142ebe051f1e0e442c39512c48e9c30d}} 
+\index{baylib::condition@{baylib::condition}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}}
+{\footnotesize\ttfamily auto baylib\+::condition\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+begin reverse iterator of condition contents \begin{DoxyReturn}{Returns}
+\+: iterator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1condition_ac4d89282e2332d431a18f50b58d3a2bb}\label{classbaylib_1_1condition_ac4d89282e2332d431a18f50b58d3a2bb}} 
+\index{baylib::condition@{baylib::condition}!rend@{rend}}
+\index{rend@{rend}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{rend()}{rend()}}
+{\footnotesize\ttfamily auto baylib\+::condition\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+end reverse iterator of condition contents \begin{DoxyReturn}{Returns}
+\+: iterator 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1condition_aad72af1503800d85248793623526a210}\label{classbaylib_1_1condition_aad72af1503800d85248793623526a210}} 
+\index{baylib::condition@{baylib::condition}!size@{size}}
+\index{size@{size}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily unsigned int baylib\+::condition\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+get the number of set nodes in the condition \begin{DoxyReturn}{Returns}
+size of condition 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1condition_aa4b4abc23afa94d4f913f47b3d11abd7}\label{classbaylib_1_1condition_aa4b4abc23afa94d4f913f47b3d11abd7}} 
+\index{baylib::condition@{baylib::condition}!swap@{swap}}
+\index{swap@{swap}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{swap()}{swap()}}
+{\footnotesize\ttfamily void baylib\+::condition\+::swap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classbaylib_1_1condition}{condition}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+utility to swap content of two conditions 
+\begin{DoxyParams}{Parameters}
+{\em other} & \+: other condition \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1condition_adc5e5683ce3fb46e30898b4e750a8762}\label{classbaylib_1_1condition_adc5e5683ce3fb46e30898b4e750a8762}} 
+\index{baylib::condition@{baylib::condition}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!baylib::condition@{baylib::condition}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream \& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{classbaylib_1_1condition}{condition}} \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+operator for printing the condition on stream 
+\begin{DoxyParams}{Parameters}
+{\em os} & \+: stream \\
+\hline
+{\em c} & \+: condition \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: stream 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/probability/\mbox{\hyperlink{condition_8hpp}{condition.\+hpp}}\end{DoxyCompactItemize}

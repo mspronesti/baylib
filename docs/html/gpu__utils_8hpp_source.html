@@ -80,18 +80,18 @@ $(function() {
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;boost/compute/device.hpp&gt;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacebn.html">bn</a>{</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structbn_1_1bcvec.html">   22</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structbn_1_1bcvec.html">bcvec</a>{</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacebaylib.html">baylib</a>{</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structbaylib_1_1bcvec.html">   22</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structbaylib_1_1bcvec.html">bcvec</a>{</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_struct" href="structbn_1_1bcvec.html">bcvec</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_struct" href="structbaylib_1_1bcvec.html">bcvec</a>() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <a class="code hl_struct" href="structbn_1_1bcvec.html">bcvec</a>(uint dimension, uint cardinality, boost::compute::context &amp;context):</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <a class="code hl_struct" href="structbaylib_1_1bcvec.html">bcvec</a>(uint dimension, uint cardinality, boost::compute::context &amp;context):</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        state(dimension, context), cardinality(cardinality){}</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_struct" href="structbn_1_1bcvec.html">bcvec</a>(boost::compute::vector&lt;int&gt; state, uint cardinality, uint uses):</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_struct" href="structbaylib_1_1bcvec.html">bcvec</a>(boost::compute::vector&lt;int&gt; state, uint cardinality, uint uses):</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        state(std::move(state)), cardinality(cardinality), isevidence(<span class="keyword">false</span>), evidence_state(0), uses(uses == 0 ? 1 : uses){}</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <a class="code hl_struct" href="structbn_1_1bcvec.html">bcvec</a>(uint evidence_state, uint cardinality):</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <a class="code hl_struct" href="structbaylib_1_1bcvec.html">bcvec</a>(uint evidence_state, uint cardinality):</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        isevidence(<span class="keyword">true</span>), cardinality(cardinality), evidence_state(evidence_state), uses(0) {}</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordtype">void</span> add_use(){</div>
@@ -114,8 +114,8 @@ $(function() {
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#endif </span><span class="comment">//BAYLIB_GPU_UTILS_HPP</span></div>
-<div class="ttc" id="anamespacebn_html"><div class="ttname"><a href="namespacebn.html">bn</a></div><div class="ttdef"><b>Definition:</b> graph.hpp:17</div></div>
-<div class="ttc" id="astructbn_1_1bcvec_html"><div class="ttname"><a href="structbn_1_1bcvec.html">bn::bcvec</a></div><div class="ttdef"><b>Definition:</b> gpu_utils.hpp:22</div></div>
+<div class="ttc" id="anamespacebaylib_html"><div class="ttname"><a href="namespacebaylib.html">baylib</a></div><div class="ttdef"><b>Definition:</b> graph.hpp:17</div></div>
+<div class="ttc" id="astructbaylib_1_1bcvec_html"><div class="ttname"><a href="structbaylib_1_1bcvec.html">baylib::bcvec</a></div><div class="ttdef"><b>Definition:</b> gpu_utils.hpp:22</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

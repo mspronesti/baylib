@@ -13,88 +13,93 @@
 \DoxyCodeLine{9 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{random__generator_8hpp}{baylib/tools/random/random\_generator.hpp}}>}}
 \DoxyCodeLine{10 }
 \DoxyCodeLine{13 }
-\DoxyCodeLine{14 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}}\{}
+\DoxyCodeLine{14 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}}\{}
 \DoxyCodeLine{15     \textcolor{keyword}{namespace }inference \{}
-\DoxyCodeLine{31         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability = \textcolor{keywordtype}{double}, \textcolor{keyword}{typename} Generator = std::mt19937>}
-\DoxyCodeLine{32         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1rejection__sampling}{rejection\_sampling}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm}}<Probability> \{}
-\DoxyCodeLine{33         \textcolor{keyword}{public}:}
-\DoxyCodeLine{34             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1inference_1_1rejection__sampling}{rejection\_sampling}}(}
-\DoxyCodeLine{35                     ulong nsamples,}
-\DoxyCodeLine{36                     uint nthreads = 1,}
-\DoxyCodeLine{37                     uint seed = 0}
-\DoxyCodeLine{38             )}
-\DoxyCodeLine{39             : \mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm<Probability>}}(nsamples, nthreads, seed)}
-\DoxyCodeLine{40             \{ \};}
-\DoxyCodeLine{41 }
-\DoxyCodeLine{42 }
-\DoxyCodeLine{43         \textcolor{keyword}{private}:}
-\DoxyCodeLine{44             \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} sample\_step (}
-\DoxyCodeLine{45                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \& \mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{46                 ulong nsamples,}
-\DoxyCodeLine{47                 uint seed}
-\DoxyCodeLine{48             )\textcolor{keyword}{ override}}
-\DoxyCodeLine{49 \textcolor{keyword}{            }\{}
-\DoxyCodeLine{50                 std::vector<bn::state\_t> var\_state\_values;}
-\DoxyCodeLine{51                 Generator rnd\_gen(seed);}
-\DoxyCodeLine{52 }
-\DoxyCodeLine{53                 \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability>}} marginal\_distr(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
-\DoxyCodeLine{54                 ulong nvars =  \mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables();}
-\DoxyCodeLine{55 }
-\DoxyCodeLine{56                 var\_state\_values = std::vector<bn::state\_t>(nvars, 0);}
-\DoxyCodeLine{57                 std::vector<bn::state\_t> samples;}
-\DoxyCodeLine{58                 \textcolor{keywordflow}{for}(ulong i = 0; i < nsamples; ++i) \{}
-\DoxyCodeLine{59                     \textcolor{keywordtype}{bool} reject = \textcolor{keyword}{false};}
-\DoxyCodeLine{60                     \textcolor{keywordflow}{for} (ulong n = 0; n < nvars; ++n) \{}
-\DoxyCodeLine{61                         bn::state\_t state\_val = prior\_sample(n, \mbox{\hyperlink{namespacebn}{bn}}, var\_state\_values, rnd\_gen);}
-\DoxyCodeLine{62                         \textcolor{comment}{// if evidences are not sampled accordingly, discard the samples}}
-\DoxyCodeLine{63                         \textcolor{keywordflow}{if}(\mbox{\hyperlink{namespacebn}{bn}}[n].is\_evidence() \&\& \mbox{\hyperlink{namespacebn}{bn}}[n].evidence\_state() != state\_val)}
-\DoxyCodeLine{64                         \{}
-\DoxyCodeLine{65                             reject = \textcolor{keyword}{true};}
-\DoxyCodeLine{66                             \textcolor{keywordflow}{break};}
-\DoxyCodeLine{67                         \}}
-\DoxyCodeLine{68 }
-\DoxyCodeLine{69                         var\_state\_values[n] = state\_val;}
-\DoxyCodeLine{70                         samples.push\_back(state\_val);}
-\DoxyCodeLine{71                     \}}
-\DoxyCodeLine{72 }
-\DoxyCodeLine{73                     \textcolor{keywordflow}{if}(!reject) \{}
-\DoxyCodeLine{74                         ulong vid = 0;}
-\DoxyCodeLine{75                         \textcolor{keywordflow}{for}(ulong s : samples)}
-\DoxyCodeLine{76                             ++marginal\_distr[vid++][s];}
-\DoxyCodeLine{77                     \}}
-\DoxyCodeLine{78 }
-\DoxyCodeLine{79                     samples.clear();}
-\DoxyCodeLine{80                 \}}
-\DoxyCodeLine{81 }
-\DoxyCodeLine{82                 \textcolor{keywordflow}{return} marginal\_distr;}
-\DoxyCodeLine{83             \}}
-\DoxyCodeLine{84 }
-\DoxyCodeLine{85 }
-\DoxyCodeLine{86             bn::state\_t prior\_sample(}
-\DoxyCodeLine{87                   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n,}
-\DoxyCodeLine{88                   \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{89                   \textcolor{keyword}{const} std::vector<bn::state\_t> \&var\_state\_values,}
-\DoxyCodeLine{90                   Generator \&gen}
-\DoxyCodeLine{91             )}
-\DoxyCodeLine{92             \{}
-\DoxyCodeLine{93                 \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} c;}
-\DoxyCodeLine{94                 \textcolor{comment}{// builds a condition using parents and}}
-\DoxyCodeLine{95                 \textcolor{comment}{// their states}}
-\DoxyCodeLine{96                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& p : \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(n))}
-\DoxyCodeLine{97                     c.\mbox{\hyperlink{classbn_1_1condition_aaa01e66363ee3a94e9ec88e7931ffb40}{add}}(}
-\DoxyCodeLine{98                         \mbox{\hyperlink{namespacebn}{bn}}[p].name(),}
-\DoxyCodeLine{99                         var\_state\_values[p]}
-\DoxyCodeLine{100                     );}
-\DoxyCodeLine{101 }
-\DoxyCodeLine{102                 \textcolor{keyword}{const} \textcolor{keyword}{auto}\& cpt = \mbox{\hyperlink{namespacebn}{bn}}[n].table();}
-\DoxyCodeLine{103                 \textcolor{comment}{// build discrete distribution from the parent states}}
-\DoxyCodeLine{104                 std::discrete\_distribution<bn::state\_t> distr(cpt[c].begin(), cpt[c].end());}
-\DoxyCodeLine{105                 \textcolor{keywordflow}{return} distr(gen);}
-\DoxyCodeLine{106             \}}
-\DoxyCodeLine{107         \};}
-\DoxyCodeLine{108     \} \textcolor{comment}{// namespace inference}}
-\DoxyCodeLine{109 \} \textcolor{comment}{//namespace bn}}
-\DoxyCodeLine{110 }
-\DoxyCodeLine{111 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_REJECTION\_SAMPLING\_HPP}}
+\DoxyCodeLine{29         \textcolor{keyword}{template} <}
+\DoxyCodeLine{30                 BNetDerived Network\_,}
+\DoxyCodeLine{31                 STDEngineCompatible Generator\_ = std::mt19937}
+\DoxyCodeLine{32                 >}
+\DoxyCodeLine{33         \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1inference_1_1rejection__sampling}{rejection\_sampling}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm}}<Network\_>}
+\DoxyCodeLine{34         \{}
+\DoxyCodeLine{35             \textcolor{keyword}{using} \textcolor{keyword}{typename} parallel\_inference\_algorithm<Network\_>::network\_type;}
+\DoxyCodeLine{36             \textcolor{keyword}{using} \textcolor{keyword}{typename} parallel\_inference\_algorithm<Network\_>::probability\_type;}
+\DoxyCodeLine{37             \textcolor{keyword}{using} \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm<Network\_>::bn}};}
+\DoxyCodeLine{38         \textcolor{keyword}{public}:}
+\DoxyCodeLine{39             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1inference_1_1rejection__sampling}{rejection\_sampling}}(}
+\DoxyCodeLine{40                     \textcolor{keyword}{const} network\_type \& bn,}
+\DoxyCodeLine{41                     ulong nsamples,}
+\DoxyCodeLine{42                     uint nthreads = 1,}
+\DoxyCodeLine{43                     uint seed = 0}
+\DoxyCodeLine{44             )}
+\DoxyCodeLine{45             : \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm<Network\_>}}(bn, nsamples, nthreads, seed)}
+\DoxyCodeLine{46             \{ \};}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49         \textcolor{keyword}{private}:}
+\DoxyCodeLine{50             \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib::marginal\_distribution<probability\_type>}} sample\_step (}
+\DoxyCodeLine{51                 ulong nsamples,}
+\DoxyCodeLine{52                 uint seed}
+\DoxyCodeLine{53             )\textcolor{keyword}{ override}}
+\DoxyCodeLine{54 \textcolor{keyword}{            }\{}
+\DoxyCodeLine{55                 std::vector<baylib::state\_t> var\_state\_values;}
+\DoxyCodeLine{56                 Generator\_ rnd\_gen(seed);}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58                 \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{marginal\_distribution<probability\_type>}} marginal\_distr(bn.begin(), bn.end());}
+\DoxyCodeLine{59                 ulong nvars =  bn.number\_of\_variables();}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61                 var\_state\_values = std::vector<baylib::state\_t>(nvars, 0);}
+\DoxyCodeLine{62                 std::vector<baylib::state\_t> samples;}
+\DoxyCodeLine{63                 \textcolor{keywordflow}{for}(ulong i = 0; i < nsamples; ++i) \{}
+\DoxyCodeLine{64                     \textcolor{keywordtype}{bool} reject = \textcolor{keyword}{false};}
+\DoxyCodeLine{65                     \textcolor{keywordflow}{for} (ulong n = 0; n < nvars; ++n) \{}
+\DoxyCodeLine{66                         baylib::state\_t state\_val = prior\_sample(n, var\_state\_values, rnd\_gen);}
+\DoxyCodeLine{67                         \textcolor{comment}{// if evidences are not sampled accordingly, discard the samples}}
+\DoxyCodeLine{68                         \textcolor{keywordflow}{if}(bn[n].is\_evidence() \&\& bn[n].evidence\_state() != state\_val)}
+\DoxyCodeLine{69                         \{}
+\DoxyCodeLine{70                             reject = \textcolor{keyword}{true};}
+\DoxyCodeLine{71                             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{72                         \}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74                         var\_state\_values[n] = state\_val;}
+\DoxyCodeLine{75                         samples.push\_back(state\_val);}
+\DoxyCodeLine{76                     \}}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78                     \textcolor{keywordflow}{if}(!reject) \{}
+\DoxyCodeLine{79                         ulong vid = 0;}
+\DoxyCodeLine{80                         \textcolor{keywordflow}{for}(ulong s : samples)}
+\DoxyCodeLine{81                             ++marginal\_distr[vid++][s];}
+\DoxyCodeLine{82                     \}}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84                     samples.clear();}
+\DoxyCodeLine{85                 \}}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87                 \textcolor{keywordflow}{return} marginal\_distr;}
+\DoxyCodeLine{88             \}}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90             baylib::state\_t prior\_sample(}
+\DoxyCodeLine{91                     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} n,}
+\DoxyCodeLine{92                     \textcolor{keyword}{const} std::vector<baylib::state\_t> \&var\_state\_values,}
+\DoxyCodeLine{93                     Generator\_ \&gen}
+\DoxyCodeLine{94             )}
+\DoxyCodeLine{95             \{}
+\DoxyCodeLine{96                 \mbox{\hyperlink{classbaylib_1_1condition}{baylib::condition}} c;}
+\DoxyCodeLine{97                 \textcolor{comment}{// builds a condition using parents and}}
+\DoxyCodeLine{98                 \textcolor{comment}{// their states}}
+\DoxyCodeLine{99                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& p : bn.parents\_of(n))}
+\DoxyCodeLine{100                     c.\mbox{\hyperlink{classbaylib_1_1condition_adf589c151462247c4ffbd19f40f8dece}{add}}(}
+\DoxyCodeLine{101                         p,}
+\DoxyCodeLine{102                         var\_state\_values[p]}
+\DoxyCodeLine{103                     );}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105                 \textcolor{keyword}{const} \textcolor{keyword}{auto}\& cpt = bn[n].table();}
+\DoxyCodeLine{106                 \textcolor{comment}{// build discrete distribution from the parent states}}
+\DoxyCodeLine{107                 std::discrete\_distribution<baylib::state\_t> distr(cpt[c].begin(), cpt[c].end());}
+\DoxyCodeLine{108                 \textcolor{keywordflow}{return} distr(gen);}
+\DoxyCodeLine{109             \}}
+\DoxyCodeLine{110         \};}
+\DoxyCodeLine{111     \} \textcolor{comment}{// namespace inference}}
+\DoxyCodeLine{112 \} \textcolor{comment}{//namespace baylib}}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_REJECTION\_SAMPLING\_HPP}}
 
 \end{DoxyCode}

@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['has_5fdependency_0',['has_dependency',['../classbn_1_1bayesian__network.html#a4f8923ccbabb8428ce8d88c4bccb3372',1,'bn::bayesian_network::has_dependency(const std::string &amp;name1, const std::string &amp;name2)'],['../classbn_1_1bayesian__network.html#af86626625cf7763d00a7a66ccf592ec7',1,'bn::bayesian_network::has_dependency(vertex_id v1, vertex_id v2) const']]],
-  ['has_5fnext_1',['has_next',['../classbn_1_1condition__factory.html#afb6c28c041f40fd9c916ad25eeb98ec6',1,'bn::condition_factory']]],
-  ['has_5fstate_2',['has_state',['../classbn_1_1random__variable.html#a1d19cfcc2bd83ea88f069246baf3858f',1,'bn::random_variable']]],
-  ['has_5fvariable_3',['has_variable',['../classbn_1_1bayesian__network.html#abdd0b554f0a9cb1366a50973d436acd4',1,'bn::bayesian_network::has_variable(const std::string &amp;name) const'],['../classbn_1_1bayesian__network.html#a3617d5b2fb86771e03c682fb4d996c31',1,'bn::bayesian_network::has_variable(vertex_id v) const']]],
+  ['has_5fdependency_0',['has_dependency',['../classbaylib_1_1bayesian__net.html#ac90c008c13b92ee6100240be7eab7444',1,'baylib::bayesian_net']]],
+  ['has_5fnext_1',['has_next',['../classbaylib_1_1condition__factory.html#a9475562765f5c61fceff368fd5b19679',1,'baylib::condition_factory']]],
+  ['has_5fstate_2',['has_state',['../classbaylib_1_1named__random__variable.html#a7534b95a096848138fbbaafa38c569b1',1,'baylib::named_random_variable']]],
+  ['has_5fvariable_3',['has_variable',['../classbaylib_1_1bayesian__net.html#a6405a6ee7bc77761747d1bfbfb0cbf04',1,'baylib::bayesian_net']]],
   ['header_4',['header',['../structrapidxml_1_1memory__pool_1_1header.html',1,'rapidxml::memory_pool']]]
 ];

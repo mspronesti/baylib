@@ -15,107 +15,110 @@
 \DoxyCodeLine{11 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{abstract__inference__algorithm_8hpp}{baylib/inference/abstract\_inference\_algorithm.hpp}}>}}
 \DoxyCodeLine{12 }
 \DoxyCodeLine{15 }
-\DoxyCodeLine{16 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
+\DoxyCodeLine{16 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}} \{}
 \DoxyCodeLine{17     \textcolor{keyword}{namespace  }inference \{}
-\DoxyCodeLine{28         \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability = \textcolor{keywordtype}{double}, \textcolor{keyword}{typename} Generator = std::mt19937>}
-\DoxyCodeLine{29         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1likelihood__weighting}{likelihood\_weighting}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm}}<Probability>}
-\DoxyCodeLine{30         \{}
-\DoxyCodeLine{31             \textcolor{keyword}{typedef} std::vector<ulong> pattern\_t;}
-\DoxyCodeLine{32         \textcolor{keyword}{public}:}
-\DoxyCodeLine{33             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1inference_1_1likelihood__weighting}{likelihood\_weighting}}(}
-\DoxyCodeLine{34                     ulong nsamples,}
-\DoxyCodeLine{35                     uint nthreads = 1,}
-\DoxyCodeLine{36                     uint seed = 0}
-\DoxyCodeLine{37             )}
-\DoxyCodeLine{38             : \mbox{\hyperlink{classbn_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm<Probability>}}(nsamples, nthreads, seed)}
-\DoxyCodeLine{39             \{ \};}
-\DoxyCodeLine{40 }
-\DoxyCodeLine{41         \textcolor{keyword}{private}:}
-\DoxyCodeLine{42             \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} sample\_step(}
-\DoxyCodeLine{43                  \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{44                  ulong nsamples,}
-\DoxyCodeLine{45                  uint seed}
-\DoxyCodeLine{46             )\textcolor{keyword}{ override}}
-\DoxyCodeLine{47 \textcolor{keyword}{            }\{}
-\DoxyCodeLine{48                 \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} mdistr(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
-\DoxyCodeLine{49                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability, Generator>}} rnd\_gen(seed);}
-\DoxyCodeLine{50 }
-\DoxyCodeLine{51                 \textcolor{keywordflow}{for}(ulong i=0; i<nsamples; i++)\{}
-\DoxyCodeLine{52                     \textcolor{keyword}{auto} sample\_pair = weighted\_sample(\mbox{\hyperlink{namespacebn}{bn}}, rnd\_gen);}
-\DoxyCodeLine{53                     ulong vid = 0;}
-\DoxyCodeLine{54                     \textcolor{keyword}{auto} weight = sample\_pair.second;}
+\DoxyCodeLine{28         \textcolor{keyword}{template} <}
+\DoxyCodeLine{29                 BNetDerived Network\_,}
+\DoxyCodeLine{30                 \textcolor{keyword}{typename} Generator\_ = std::mt19937}
+\DoxyCodeLine{31                 >}
+\DoxyCodeLine{32         \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1inference_1_1likelihood__weighting}{likelihood\_weighting}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm}}<Network\_>}
+\DoxyCodeLine{33         \{}
+\DoxyCodeLine{34             \textcolor{keyword}{typedef} Network\_ network\_type;}
+\DoxyCodeLine{35             \textcolor{keyword}{using} \textcolor{keyword}{typename} parallel\_inference\_algorithm<Network\_>::probability\_type;}
+\DoxyCodeLine{36             \textcolor{keyword}{using} \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm<Network\_>::bn}};}
+\DoxyCodeLine{37             \textcolor{keyword}{typedef} std::vector<ulong> pattern\_t;}
+\DoxyCodeLine{38         \textcolor{keyword}{public}:}
+\DoxyCodeLine{39             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1inference_1_1likelihood__weighting}{likelihood\_weighting}}(}
+\DoxyCodeLine{40                     \textcolor{keyword}{const} network\_type \& bn,}
+\DoxyCodeLine{41                     ulong nsamples,}
+\DoxyCodeLine{42                     uint nthreads = 1,}
+\DoxyCodeLine{43                     uint seed = 0}
+\DoxyCodeLine{44             )}
+\DoxyCodeLine{45             : \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm}{parallel\_inference\_algorithm<Network\_>}}(bn, nsamples, nthreads, seed)}
+\DoxyCodeLine{46             \{ \};}
+\DoxyCodeLine{47         \textcolor{keyword}{private}:}
+\DoxyCodeLine{48             \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib::marginal\_distribution<probability\_type>}} sample\_step(}
+\DoxyCodeLine{49                  ulong nsamples,}
+\DoxyCodeLine{50                  uint seed}
+\DoxyCodeLine{51             )}
+\DoxyCodeLine{52             \{}
+\DoxyCodeLine{53                 \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib::marginal\_distribution<probability\_type>}} mdistr(bn.begin(), bn.end());}
+\DoxyCodeLine{54                 \mbox{\hyperlink{classbaylib_1_1random__generator}{baylib::random\_generator<probability\_type, Generator\_>}} rnd\_gen(seed);}
 \DoxyCodeLine{55 }
-\DoxyCodeLine{56                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& samp : sample\_pair.first)}
-\DoxyCodeLine{57                         mdistr[vid++][samp] += weight ;}
-\DoxyCodeLine{58                 \}}
-\DoxyCodeLine{59                 \textcolor{keywordflow}{return} mdistr;}
-\DoxyCodeLine{60             \}}
-\DoxyCodeLine{61 }
-\DoxyCodeLine{62 }
-\DoxyCodeLine{63             std::pair<pattern\_t , Probability> weighted\_sample(}
-\DoxyCodeLine{64                 \textcolor{keyword}{const}  \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{65                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability>}} \& rnd\_gen}
-\DoxyCodeLine{66             )}
-\DoxyCodeLine{67             \{}
-\DoxyCodeLine{68 }
-\DoxyCodeLine{69                 Probability weight = 1.0;}
-\DoxyCodeLine{70                 \textcolor{keyword}{auto} pattern = pattern\_t(\mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables(), 0.0);}
+\DoxyCodeLine{56                 \textcolor{keywordflow}{for}(ulong i=0; i<nsamples; i++)\{}
+\DoxyCodeLine{57                     \textcolor{keyword}{auto} sample\_pair = weighted\_sample(rnd\_gen);}
+\DoxyCodeLine{58                     ulong vid = 0;}
+\DoxyCodeLine{59                     \textcolor{keyword}{auto} weight = sample\_pair.second;}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \& samp : sample\_pair.first)}
+\DoxyCodeLine{62                         mdistr[vid++][samp] += weight ;}
+\DoxyCodeLine{63                 \}}
+\DoxyCodeLine{64                 \textcolor{keywordflow}{return} mdistr;}
+\DoxyCodeLine{65             \}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67             std::pair<pattern\_t , probability\_type> weighted\_sample(}
+\DoxyCodeLine{68                     \mbox{\hyperlink{classbaylib_1_1random__generator}{baylib::random\_generator<probability\_type>}} \& rnd\_gen}
+\DoxyCodeLine{69             )}
+\DoxyCodeLine{70             \{}
 \DoxyCodeLine{71 }
-\DoxyCodeLine{72                 \textcolor{keywordflow}{for}(ulong vid = 0; vid < \mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables(); ++vid)}
-\DoxyCodeLine{73                 \{}
-\DoxyCodeLine{74                     \textcolor{keyword}{auto} \& var = \mbox{\hyperlink{namespacebn}{bn}}[vid];}
-\DoxyCodeLine{75                     \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} parent\_state;}
-\DoxyCodeLine{76 }
-\DoxyCodeLine{77                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} par : \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(vid))}
-\DoxyCodeLine{78                         parent\_state.\mbox{\hyperlink{classbn_1_1condition_aaa01e66363ee3a94e9ec88e7931ffb40}{add}}(}
-\DoxyCodeLine{79                                 \mbox{\hyperlink{namespacebn}{bn}}[par].name(),}
-\DoxyCodeLine{80                                 pattern[par]}
-\DoxyCodeLine{81                         );}
-\DoxyCodeLine{82 }
-\DoxyCodeLine{83                     \textcolor{keyword}{const} \textcolor{keyword}{auto} \& cpt = var.table();}
-\DoxyCodeLine{84                     \textcolor{keywordflow}{if}(var.is\_evidence()) \{}
-\DoxyCodeLine{85                         ulong evidence\_state = var.evidence\_state();}
-\DoxyCodeLine{86                         weight *= cpt[parent\_state][evidence\_state];}
-\DoxyCodeLine{87                         pattern[vid] = evidence\_state;}
-\DoxyCodeLine{88                     \} \textcolor{keywordflow}{else} \{}
-\DoxyCodeLine{89                         pattern[vid] = make\_random\_by\_weight(}
-\DoxyCodeLine{90                                 rnd\_gen.get\_random(),}
-\DoxyCodeLine{91                                 cpt[parent\_state]}
-\DoxyCodeLine{92                         );}
-\DoxyCodeLine{93                     \}}
-\DoxyCodeLine{94                 \}}
-\DoxyCodeLine{95 }
-\DoxyCodeLine{96                 \textcolor{keywordflow}{return} std::make\_pair(pattern, weight);}
-\DoxyCodeLine{97             \}}
+\DoxyCodeLine{72                 probability\_type weight = 1.0;}
+\DoxyCodeLine{73                 \textcolor{keyword}{auto} pattern = pattern\_t(bn.number\_of\_variables(), 0.0);}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75                 \textcolor{keywordflow}{for}(ulong vid = 0; vid < bn.number\_of\_variables(); ++vid)}
+\DoxyCodeLine{76                 \{}
+\DoxyCodeLine{77                     \textcolor{keyword}{auto} \& var = bn[vid];}
+\DoxyCodeLine{78                     \mbox{\hyperlink{classbaylib_1_1condition}{baylib::condition}} parent\_state;}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} par : bn.parents\_of(vid))}
+\DoxyCodeLine{81                         parent\_state.\mbox{\hyperlink{classbaylib_1_1condition_adf589c151462247c4ffbd19f40f8dece}{add}}(}
+\DoxyCodeLine{82                                 par,}
+\DoxyCodeLine{83                                 pattern[par]}
+\DoxyCodeLine{84                         );}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86                     \textcolor{keyword}{const} \textcolor{keyword}{auto} \& cpt = var.table();}
+\DoxyCodeLine{87                     \textcolor{keywordflow}{if}(var.is\_evidence()) \{}
+\DoxyCodeLine{88                         ulong evidence\_state = var.evidence\_state();}
+\DoxyCodeLine{89                         weight *= cpt[parent\_state][evidence\_state];}
+\DoxyCodeLine{90                         pattern[vid] = evidence\_state;}
+\DoxyCodeLine{91                     \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{92                         pattern[vid] = make\_random\_by\_weight(}
+\DoxyCodeLine{93                                 rnd\_gen.get\_random(),}
+\DoxyCodeLine{94                                 cpt[parent\_state]}
+\DoxyCodeLine{95                         );}
+\DoxyCodeLine{96                     \}}
+\DoxyCodeLine{97                 \}}
 \DoxyCodeLine{98 }
-\DoxyCodeLine{99             uint make\_random\_by\_weight(}
-\DoxyCodeLine{100                     \textcolor{keyword}{const} Probability p,}
-\DoxyCodeLine{101                     \textcolor{keyword}{const} std::vector<Probability> \& weight}
-\DoxyCodeLine{102             )}
-\DoxyCodeLine{103             \{}
-\DoxyCodeLine{104                 BAYLIB\_ASSERT(0.0 <= p \&\& p <= 1.0,}
-\DoxyCodeLine{105                               \textcolor{stringliteral}{"{}Invalid probability value"{}}}
-\DoxyCodeLine{106                               \textcolor{stringliteral}{"{} not included in [0,1]"{}},}
-\DoxyCodeLine{107                               std::logic\_error);}
-\DoxyCodeLine{108 }
-\DoxyCodeLine{109                 Probability total = 0.0;}
-\DoxyCodeLine{110                 \textcolor{keywordflow}{for}(uint i = 0; i < weight.size(); ++i)}
-\DoxyCodeLine{111                 \{}
-\DoxyCodeLine{112                     \textcolor{keyword}{auto} \textcolor{keyword}{const} old\_total = total;}
-\DoxyCodeLine{113                     total += weight[i];}
-\DoxyCodeLine{114                     \textcolor{keywordflow}{if}(old\_total <= p \&\& p < total)}
-\DoxyCodeLine{115                     \{}
-\DoxyCodeLine{116                         \textcolor{keywordflow}{return} i;}
-\DoxyCodeLine{117                     \}}
-\DoxyCodeLine{118                 \}}
-\DoxyCodeLine{119 }
-\DoxyCodeLine{120                 \textcolor{keywordflow}{return} weight.size() -\/ 1;}
-\DoxyCodeLine{121             \}}
+\DoxyCodeLine{99                 \textcolor{keywordflow}{return} std::make\_pair(pattern, weight);}
+\DoxyCodeLine{100             \}}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102             uint make\_random\_by\_weight(}
+\DoxyCodeLine{103                     \textcolor{keyword}{const} probability\_type p,}
+\DoxyCodeLine{104                     \textcolor{keyword}{const} std::vector<probability\_type> \& weight}
+\DoxyCodeLine{105             )}
+\DoxyCodeLine{106             \{}
+\DoxyCodeLine{107                 BAYLIB\_ASSERT(0.0 <= p \&\& p <= 1.0,}
+\DoxyCodeLine{108                               \textcolor{stringliteral}{"{}Invalid probability value"{}}}
+\DoxyCodeLine{109                               \textcolor{stringliteral}{"{} not included in [0,1]"{}},}
+\DoxyCodeLine{110                               std::logic\_error);}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112                 probability\_type total = 0.0;}
+\DoxyCodeLine{113                 \textcolor{keywordflow}{for}(uint i = 0; i < weight.size(); ++i)}
+\DoxyCodeLine{114                 \{}
+\DoxyCodeLine{115                     \textcolor{keyword}{auto} \textcolor{keyword}{const} old\_total = total;}
+\DoxyCodeLine{116                     total += weight[i];}
+\DoxyCodeLine{117                     \textcolor{keywordflow}{if}(old\_total <= p \&\& p < total)}
+\DoxyCodeLine{118                     \{}
+\DoxyCodeLine{119                         \textcolor{keywordflow}{return} i;}
+\DoxyCodeLine{120                     \}}
+\DoxyCodeLine{121                 \}}
 \DoxyCodeLine{122 }
-\DoxyCodeLine{123         \};}
-\DoxyCodeLine{124     \} \textcolor{comment}{// namespace inference}}
-\DoxyCodeLine{125 \} \textcolor{comment}{// namespace bn}}
-\DoxyCodeLine{126 }
-\DoxyCodeLine{127 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_LIKELIHOOD\_WEIGHTING\_HPP}}
+\DoxyCodeLine{123                 \textcolor{keywordflow}{return} weight.size() -\/ 1;}
+\DoxyCodeLine{124             \}}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126         \};}
+\DoxyCodeLine{127     \} \textcolor{comment}{// namespace inference}}
+\DoxyCodeLine{128 \} \textcolor{comment}{// namespace baylib}}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{130 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_LIKELIHOOD\_WEIGHTING\_HPP}}
 
 \end{DoxyCode}

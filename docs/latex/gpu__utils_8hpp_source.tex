@@ -13,18 +13,18 @@
 \DoxyCodeLine{9 \textcolor{preprocessor}{\#include <boost/compute/device.hpp>}}
 \DoxyCodeLine{10 \textcolor{preprocessor}{\#include <utility>}}
 \DoxyCodeLine{11 }
-\DoxyCodeLine{18 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}}\{}
-\DoxyCodeLine{22     \textcolor{keyword}{struct }\mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}\{}
+\DoxyCodeLine{18 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}}\{}
+\DoxyCodeLine{22     \textcolor{keyword}{struct }\mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}}\{}
 \DoxyCodeLine{23 }
-\DoxyCodeLine{24         \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{24         \mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}}() = \textcolor{keywordflow}{default};}
 \DoxyCodeLine{25 }
-\DoxyCodeLine{26         \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}(uint dimension, uint cardinality, boost::compute::context \&context):}
+\DoxyCodeLine{26         \mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}}(uint dimension, uint cardinality, boost::compute::context \&context):}
 \DoxyCodeLine{27         state(dimension, context), cardinality(cardinality)\{\}}
 \DoxyCodeLine{28 }
-\DoxyCodeLine{29         \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}(boost::compute::vector<int> state, uint cardinality, uint uses):}
+\DoxyCodeLine{29         \mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}}(boost::compute::vector<int> state, uint cardinality, uint uses):}
 \DoxyCodeLine{30         state(std::move(state)), cardinality(cardinality), isevidence(\textcolor{keyword}{false}), evidence\_state(0), uses(uses == 0 ? 1 : uses)\{\}}
 \DoxyCodeLine{31 }
-\DoxyCodeLine{32         \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}(uint evidence\_state, uint cardinality):}
+\DoxyCodeLine{32         \mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}}(uint evidence\_state, uint cardinality):}
 \DoxyCodeLine{33         isevidence(\textcolor{keyword}{true}), cardinality(cardinality), evidence\_state(evidence\_state), uses(0) \{\}}
 \DoxyCodeLine{34 }
 \DoxyCodeLine{35         \textcolor{keywordtype}{void} add\_use()\{}

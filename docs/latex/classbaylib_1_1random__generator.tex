@@ -1,0 +1,58 @@
+\hypertarget{classbaylib_1_1random__generator}{}\doxysection{baylib\+::random\+\_\+generator\texorpdfstring{$<$}{<} Tp\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1random__generator}\index{baylib::random\_generator$<$ Tp\_, Generator\_ $>$@{baylib::random\_generator$<$ Tp\_, Generator\_ $>$}}
+
+
+{\ttfamily \#include $<$random\+\_\+generator.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__generator_a846b1d68ce61e13f19a8eb766ff2f3e6}\label{classbaylib_1_1random__generator_a846b1d68ce61e13f19a8eb766ff2f3e6}} 
+{\bfseries random\+\_\+generator} (uint seed=0)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__generator_a23de35d0256117230050e0bff97c7758}\label{classbaylib_1_1random__generator_a23de35d0256117230050e0bff97c7758}} 
+Tp\+\_\+ {\bfseries get\+\_\+random} (Tp\+\_\+ from=.\+0, Tp\+\_\+ to=1.)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__generator_ad37dbbcf1a86fc7262070d0ce6d2506b}\label{classbaylib_1_1random__generator_ad37dbbcf1a86fc7262070d0ce6d2506b}} 
+Tp\+\_\+ {\bfseries operator()} (Tp\+\_\+ from=0., Tp\+\_\+ to=1.)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__generator_a57888da40bc7c109d8aeec239333bfb6}\label{classbaylib_1_1random__generator_a57888da40bc7c109d8aeec239333bfb6}} 
+using {\bfseries dist\+\_\+type} = typename std\+::conditional$<$ std\+::is\+\_\+integral$<$ Tp\+\_\+ $>$\+::value, std\+::uniform\+\_\+int\+\_\+distribution$<$ Tp\+\_\+ $>$, std\+::uniform\+\_\+real\+\_\+distribution$<$ Tp\+\_\+ $>$ $>$\+::type
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__generator_a52c37e9211f288355df9620d348d62fc}\label{classbaylib_1_1random__generator_a52c37e9211f288355df9620d348d62fc}} 
+uint {\bfseries prime} (uint seed)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1random__generator_a81f5e368cb50916d46459d6113582710}\label{classbaylib_1_1random__generator_a81f5e368cb50916d46459d6113582710}} 
+Generator\+\_\+ {\bfseries gen}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Tp\+\_\+, STDEngine\+Compatible Generator\+\_\+ = std\+::mt19937$>$\newline
+class baylib\+::random\+\_\+generator$<$ Tp\+\_\+, Generator\+\_\+ $>$}
+Random generator wrapper for sampling-\/based inference algorithms Offered customization capabilities\+:
+\begin{DoxyItemize}
+\item custom generator
+\item custom seed
+\item custom type for the random number 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Tp\+\_\+} & \+: the type of the random number \\
+\hline
+{\em Generator\+\_\+} & \+: the type of generator (default Marsenne Twister) \\
+\hline
+\end{DoxyTemplParams}
+
+\end{DoxyItemize}
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/tools/random/\mbox{\hyperlink{random__generator_8hpp}{random\+\_\+generator.\+hpp}}\end{DoxyCompactItemize}

@@ -11,70 +11,74 @@
 \DoxyCodeLine{7 }
 \DoxyCodeLine{8 \textcolor{preprocessor}{\#define AVALANCHE\_FACTOR 0x45D9F3B }\textcolor{comment}{// from papers and experiments}}
 \DoxyCodeLine{9 \textcolor{preprocessor}{\#include <random>}}
-\DoxyCodeLine{10 }
-\DoxyCodeLine{17 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
-\DoxyCodeLine{27     \textcolor{keyword}{template}<\textcolor{keyword}{typename} T, \textcolor{keyword}{typename} Generator=std::mt19937>}
-\DoxyCodeLine{28     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1random__generator}{random\_generator}} \{}
-\DoxyCodeLine{29         \textcolor{keyword}{using} dist\_type = \textcolor{keyword}{typename} std::conditional}
-\DoxyCodeLine{30                 <}
-\DoxyCodeLine{31                         std::is\_integral<T>::value}
-\DoxyCodeLine{32                         , std::uniform\_int\_distribution<T>}
-\DoxyCodeLine{33                         , std::uniform\_real\_distribution<T>}
-\DoxyCodeLine{34                 >::type;}
-\DoxyCodeLine{35     \textcolor{keyword}{public}:}
-\DoxyCodeLine{36         \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1random__generator}{random\_generator}}(uint seed = 0) : gen(prime(seed)) \{\}}
-\DoxyCodeLine{37 }
-\DoxyCodeLine{38         T get\_random(T from = .0, T to = 1.) \{}
-\DoxyCodeLine{39             dist\_type dist;}
-\DoxyCodeLine{40             \textcolor{keywordflow}{return} dist(gen, \textcolor{keyword}{typename} dist\_type::param\_type\{from, to\});}
-\DoxyCodeLine{41         \}}
-\DoxyCodeLine{42 }
-\DoxyCodeLine{43         T operator () (T from = 0., T to = 1.) \{}
-\DoxyCodeLine{44             \textcolor{keywordflow}{return} get\_random(from, to);}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <baylib\_concepts.hpp>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{18 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}} \{}
+\DoxyCodeLine{28     \textcolor{keyword}{template}<}
+\DoxyCodeLine{29             \textcolor{keyword}{typename} Tp\_,}
+\DoxyCodeLine{30             STDEngineCompatible Generator\_ = std::mt19937}
+\DoxyCodeLine{31             >}
+\DoxyCodeLine{32     \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1random__generator}{random\_generator}} \{}
+\DoxyCodeLine{33         \textcolor{keyword}{using} dist\_type = \textcolor{keyword}{typename} std::conditional}
+\DoxyCodeLine{34                 <}
+\DoxyCodeLine{35                         std::is\_integral<Tp\_>::value}
+\DoxyCodeLine{36                         , std::uniform\_int\_distribution<Tp\_>}
+\DoxyCodeLine{37                         , std::uniform\_real\_distribution<Tp\_>}
+\DoxyCodeLine{38                 >::type;}
+\DoxyCodeLine{39     \textcolor{keyword}{public}:}
+\DoxyCodeLine{40         \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1random__generator}{random\_generator}}(uint seed = 0) : gen(prime(seed)) \{\}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42         Tp\_ get\_random(Tp\_ from = .0, Tp\_ to = 1.) \{}
+\DoxyCodeLine{43             dist\_type dist;}
+\DoxyCodeLine{44             \textcolor{keywordflow}{return} dist(gen, \textcolor{keyword}{typename} dist\_type::param\_type\{from, to\});}
 \DoxyCodeLine{45         \}}
 \DoxyCodeLine{46 }
-\DoxyCodeLine{47     \textcolor{keyword}{private}:}
-\DoxyCodeLine{48        uint prime(uint seed)}
-\DoxyCodeLine{49        \{}
-\DoxyCodeLine{50           seed = ((seed >> 16) \string^ seed) * AVALANCHE\_FACTOR;}
-\DoxyCodeLine{51           seed = ((seed >> 16) \string^ seed) * AVALANCHE\_FACTOR;}
-\DoxyCodeLine{52           seed = (seed >> 16) \string^ seed;}
-\DoxyCodeLine{53           \textcolor{keywordflow}{return} seed;}
-\DoxyCodeLine{54        \}}
-\DoxyCodeLine{55 }
-\DoxyCodeLine{56        Generator gen;}
-\DoxyCodeLine{57     \};}
-\DoxyCodeLine{58 }
+\DoxyCodeLine{47         Tp\_ operator () (Tp\_ from = 0., Tp\_ to = 1.) \{}
+\DoxyCodeLine{48             \textcolor{keywordflow}{return} get\_random(from, to);}
+\DoxyCodeLine{49         \}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \textcolor{keyword}{private}:}
+\DoxyCodeLine{52        uint prime(uint seed)}
+\DoxyCodeLine{53        \{}
+\DoxyCodeLine{54           seed = ((seed >> 16) \string^ seed) * AVALANCHE\_FACTOR;}
+\DoxyCodeLine{55           seed = ((seed >> 16) \string^ seed) * AVALANCHE\_FACTOR;}
+\DoxyCodeLine{56           seed = (seed >> 16) \string^ seed;}
+\DoxyCodeLine{57           \textcolor{keywordflow}{return} seed;}
+\DoxyCodeLine{58        \}}
 \DoxyCodeLine{59 }
-\DoxyCodeLine{66     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1seed__factory}{seed\_factory}} \{}
-\DoxyCodeLine{67     \textcolor{keyword}{private}:}
-\DoxyCodeLine{68     \textcolor{keyword}{public}:}
-\DoxyCodeLine{69         \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1seed__factory}{seed\_factory}}(uint nseeds, uint seed = 0)}
-\DoxyCodeLine{70         : next(0)}
-\DoxyCodeLine{71         \{}
-\DoxyCodeLine{72             std::seed\_seq seq\{seed\};}
-\DoxyCodeLine{73             seeds = std::vector<uint>(nseeds);}
-\DoxyCodeLine{74             seq.generate(seeds.begin(), seeds.end());}
-\DoxyCodeLine{75         \}}
-\DoxyCodeLine{76 }
-\DoxyCodeLine{77         \mbox{\hyperlink{classbn_1_1seed__factory}{seed\_factory}}(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1seed__factory}{seed\_factory}} \& other) = \textcolor{keyword}{delete};}
-\DoxyCodeLine{78         \mbox{\hyperlink{classbn_1_1seed__factory}{seed\_factory}} \& operator = (\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1seed__factory}{seed\_factory}} \& other) = \textcolor{keyword}{delete};}
-\DoxyCodeLine{79 }
-\DoxyCodeLine{80         uint get\_new () \{}
-\DoxyCodeLine{81             BAYLIB\_ASSERT(next < seeds.size(),}
-\DoxyCodeLine{82                           \textcolor{stringliteral}{"{}seed factory already produced "{}}}
-\DoxyCodeLine{83                           \textcolor{stringliteral}{"{}the required number of seeds"{}},}
-\DoxyCodeLine{84                           std::runtime\_error)}
-\DoxyCodeLine{85 }
-\DoxyCodeLine{86             \textcolor{keywordflow}{return} seeds[next++];}
-\DoxyCodeLine{87         \}}
-\DoxyCodeLine{88 }
-\DoxyCodeLine{89     \textcolor{keyword}{private}:}
-\DoxyCodeLine{90         std::vector<uint> seeds;}
-\DoxyCodeLine{91         ulong next;}
-\DoxyCodeLine{92     \};}
-\DoxyCodeLine{93 \}}
-\DoxyCodeLine{94 }
-\DoxyCodeLine{95 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_RANDOM\_GENERATOR\_HPP}}
+\DoxyCodeLine{60        Generator\_ gen;}
+\DoxyCodeLine{61     \};}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 }
+\DoxyCodeLine{70     \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1seed__factory}{seed\_factory}} \{}
+\DoxyCodeLine{71     \textcolor{keyword}{private}:}
+\DoxyCodeLine{72     \textcolor{keyword}{public}:}
+\DoxyCodeLine{73         \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1seed__factory}{seed\_factory}}(uint nseeds, uint seed = 0)}
+\DoxyCodeLine{74         : next(0)}
+\DoxyCodeLine{75         \{}
+\DoxyCodeLine{76             std::seed\_seq seq\{seed\};}
+\DoxyCodeLine{77             seeds = std::vector<uint>(nseeds);}
+\DoxyCodeLine{78             seq.generate(seeds.begin(), seeds.end());}
+\DoxyCodeLine{79         \}}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81         \mbox{\hyperlink{classbaylib_1_1seed__factory}{seed\_factory}}(\textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1seed__factory}{seed\_factory}} \& other) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{82         \mbox{\hyperlink{classbaylib_1_1seed__factory}{seed\_factory}} \& operator = (\textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1seed__factory}{seed\_factory}} \& other) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84         uint get\_new () \{}
+\DoxyCodeLine{85             BAYLIB\_ASSERT(next < seeds.size(),}
+\DoxyCodeLine{86                           \textcolor{stringliteral}{"{}seed factory already produced "{}}}
+\DoxyCodeLine{87                           \textcolor{stringliteral}{"{}the required number of seeds"{}},}
+\DoxyCodeLine{88                           std::runtime\_error)}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90             \textcolor{keywordflow}{return} seeds[next++];}
+\DoxyCodeLine{91         \}}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93     \textcolor{keyword}{private}:}
+\DoxyCodeLine{94         std::vector<uint> seeds;}
+\DoxyCodeLine{95         ulong next;}
+\DoxyCodeLine{96     \};}
+\DoxyCodeLine{97 \}}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_RANDOM\_GENERATOR\_HPP}}
 
 \end{DoxyCode}

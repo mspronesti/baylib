@@ -1,0 +1,58 @@
+\hypertarget{baylib__concepts_8hpp_source}{}\doxysection{baylib\+\_\+concepts.\+hpp}
+\label{baylib__concepts_8hpp_source}\index{/home/mspronesti/Desktop/baylib/baylib/baylib\_concepts.hpp@{/home/mspronesti/Desktop/baylib/baylib/baylib\_concepts.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by elle on 19/10/21.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef BAYLIB\_BAYLIB\_CONCEPTS\_HPP}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define BAYLIB\_BAYLIB\_CONCEPTS\_HPP}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#if defined(\_\_cpp\_concepts) \&\& \_\_cpp\_concepts >= 201907L}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#define \_\_concepts\_supported}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifdef \_\_concepts\_supported}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{    \#include <concepts>}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15     \textcolor{keyword}{template} < \textcolor{keyword}{typename} P\_ >}
+\DoxyCodeLine{16     \textcolor{keyword}{concept }Arithmetic = std::is\_arithmetic\_v<P\_>;}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18     \textcolor{comment}{// forward declaration of random\_variable}}
+\DoxyCodeLine{19     \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}} \{}
+\DoxyCodeLine{20         \textcolor{keyword}{template}<Arithmetic>}
+\DoxyCodeLine{21         \textcolor{keyword}{class }random\_variable;}
+\DoxyCodeLine{22     \}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24     \textcolor{keyword}{template} < \textcolor{keyword}{typename} V\_ >}
+\DoxyCodeLine{25     \textcolor{keyword}{concept }RVarDerived = std::is\_base\_of\_v< baylib::random\_variable<typename V\_::probability\_type>, V\_ >;}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27     \textcolor{comment}{// forward declaration of bayesian\_net}}
+\DoxyCodeLine{28     \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}} \{}
+\DoxyCodeLine{29         \textcolor{keyword}{template}<RVarDerived>}
+\DoxyCodeLine{30         \textcolor{keyword}{class }bayesian\_net;}
+\DoxyCodeLine{31     \}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33     \textcolor{keyword}{template} < \textcolor{keyword}{typename} N\_ >}
+\DoxyCodeLine{34     \textcolor{keyword}{concept }BNetDerived = std::is\_base\_of\_v< baylib::bayesian\_net<typename N\_::variable\_type>, N\_>;}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36     \textcolor{comment}{// to be compliant with std random engines,}}
+\DoxyCodeLine{37     \textcolor{comment}{// the custom one must overload min(), max() and the}}
+\DoxyCodeLine{38     \textcolor{comment}{// functional operator}}
+\DoxyCodeLine{39     \textcolor{keyword}{template} < \textcolor{keyword}{typename} G\_ >}
+\DoxyCodeLine{40     \textcolor{keyword}{concept }STDEngineCompatible = \textcolor{keyword}{requires}(G\_ gen) \{}
+\DoxyCodeLine{41         gen();}
+\DoxyCodeLine{42         gen.min();}
+\DoxyCodeLine{43         gen.max();}
+\DoxyCodeLine{44     \};}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#define Arithmetic typename}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#define RVarDerived typename}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define BNetDerived typename}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#define STDEngineCompatible typename}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_BAYLIB\_CONCEPTS\_HPP}}
+
+\end{DoxyCode}

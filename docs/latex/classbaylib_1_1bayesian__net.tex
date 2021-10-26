@@ -1,0 +1,341 @@
+\hypertarget{classbaylib_1_1bayesian__net}{}\doxysection{baylib\+::bayesian\+\_\+net\texorpdfstring{$<$}{<} Variable\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1bayesian__net}\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+
+
+{\ttfamily \#include $<$bayesian\+\_\+net.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_ad8e254b88059968d1b5c4c9a618195b0}\label{classbaylib_1_1bayesian__net_ad8e254b88059968d1b5c4c9a618195b0}} 
+typedef Variable\+\_\+ {\bfseries variable\+\_\+type}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_aba098a91dccc9944d0ac0c958d43de41}\label{classbaylib_1_1bayesian__net_aba098a91dccc9944d0ac0c958d43de41}} 
+typedef variable\+\_\+type\+::probability\+\_\+type {\bfseries probability\+\_\+type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_adb1e7016da741a6005b7f1d8b57b852e}\label{classbaylib_1_1bayesian__net_adb1e7016da741a6005b7f1d8b57b852e}} 
+auto {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_a22918b34849d98acc7c08142dfedd3e9}\label{classbaylib_1_1bayesian__net_a22918b34849d98acc7c08142dfedd3e9}} 
+auto {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_a6599f11fb3af7b719eacbba63ace473d}\label{classbaylib_1_1bayesian__net_a6599f11fb3af7b719eacbba63ace473d}} 
+auto {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_ab343baf774ab55dbcb82829c6fc3144f}\label{classbaylib_1_1bayesian__net_ab343baf774ab55dbcb82829c6fc3144f}} 
+auto {\bfseries end} () const
+\item 
+{\footnotesize template$<$typename ... Args\+\_\+$>$ }\\vertex\+\_\+id \mbox{\hyperlink{classbaylib_1_1bayesian__net_adbd76b0f0fb9d6b028f4e2cfb5e5cb4e}{add\+\_\+variable}} (Args\+\_\+ \&\&...args)
+\item 
+void \mbox{\hyperlink{classbaylib_1_1bayesian__net_ad7324282f9f077d621a2ae89611e4466}{remove\+\_\+variable}} (vertex\+\_\+id var\+\_\+id)
+\item 
+void \mbox{\hyperlink{classbaylib_1_1bayesian__net_aa391e1f65ae2a5eb477097f814804bad}{add\+\_\+dependency}} (vertex\+\_\+id src\+\_\+id, vertex\+\_\+id dest\+\_\+id)
+\item 
+void \mbox{\hyperlink{classbaylib_1_1bayesian__net_a101dd7aa9da195ae2bf0a76538b94984}{remove\+\_\+dependency}} (vertex\+\_\+id src\+\_\+id, vertex\+\_\+id dest\+\_\+id)
+\item 
+unsigned long \mbox{\hyperlink{classbaylib_1_1bayesian__net_a46af7162c1a737264920fc379b9223a8}{number\+\_\+of\+\_\+variables}} () const
+\item 
+variable\+\_\+type \& \mbox{\hyperlink{classbaylib_1_1bayesian__net_ac042464216f1690b8b6ad11e443237e1}{operator\mbox{[}$\,$\mbox{]}}} (vertex\+\_\+id v)
+\item 
+variable\+\_\+type \& \mbox{\hyperlink{classbaylib_1_1bayesian__net_a3bc07bddf7fafaf87c7251225fc1758d}{operator\mbox{[}$\,$\mbox{]}}} (vertex\+\_\+id v) const
+\item 
+variable\+\_\+type \& \mbox{\hyperlink{classbaylib_1_1bayesian__net_af660869fd04f25b6a34d9550ac75dfbb}{variable}} (vertex\+\_\+id v)
+\item 
+bool \mbox{\hyperlink{classbaylib_1_1bayesian__net_ac90c008c13b92ee6100240be7eab7444}{has\+\_\+dependency}} (vertex\+\_\+id v1, vertex\+\_\+id v2) const
+\item 
+bool \mbox{\hyperlink{classbaylib_1_1bayesian__net_a884efcdb022e54e2ab97fb1874667e23}{is\+\_\+root}} (vertex\+\_\+id v) const
+\item 
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbaylib_1_1bayesian__net_ac6598fac6a50a4c6ecb7ace3d39ca9d4}{children\+\_\+of}} (vertex\+\_\+id v) const
+\item 
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbaylib_1_1bayesian__net_a11e3302b36482f9d1934e9fa3278c00f}{parents\+\_\+of}} (vertex\+\_\+id v) const
+\item 
+void \mbox{\hyperlink{classbaylib_1_1bayesian__net_ae50af99194fcf9c945c869377cc33677}{set\+\_\+variable\+\_\+probability}} (const vertex\+\_\+id var\+\_\+id, baylib\+::state\+\_\+t state\+\_\+value, const \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} \&cond, probability\+\_\+type p)
+\item 
+bool \mbox{\hyperlink{classbaylib_1_1bayesian__net_a6405a6ee7bc77761747d1bfbfb0cbf04}{has\+\_\+variable}} (vertex\+\_\+id v) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_a166de373f8b7a0afc5aac4591dc06510}\label{classbaylib_1_1bayesian__net_a166de373f8b7a0afc5aac4591dc06510}} 
+typedef baylib\+::graph$<$ Variable\+\_\+ $>$ {\bfseries graph\+\_\+type}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_ab424c40dcd86e67e8ece349584dbcaea}\label{classbaylib_1_1bayesian__net_ab424c40dcd86e67e8ece349584dbcaea}} 
+typedef baylib\+::vertex$<$ Variable\+\_\+ $>$ {\bfseries vertex\+\_\+id}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classbaylib_1_1bayesian__net_ad36077666433eaea86b520ebf0a59b31}{introduces\+\_\+loop}} (vertex\+\_\+id from, vertex\+\_\+id to)
+\item 
+void \mbox{\hyperlink{classbaylib_1_1bayesian__net_aa9ac162694659bc90130ac039909c481}{optimize\+\_\+cpt\+\_\+memory\+\_\+occupation}} (vertex\+\_\+id id)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_aff11ed9a082046f24278c416d45ec0b6}\label{classbaylib_1_1bayesian__net_aff11ed9a082046f24278c416d45ec0b6}} 
+std\+::shared\+\_\+ptr$<$ graph\+\_\+type $>$ {\bfseries graph}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_a9f1e62e38e901eae61c597b9b6acb0ac}\label{classbaylib_1_1bayesian__net_a9f1e62e38e901eae61c597b9b6acb0ac}} 
+std\+::unordered\+\_\+map$<$ size\+\_\+t, vertex\+\_\+id $>$ {\bfseries cpt\+\_\+hash\+\_\+map}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$RVar\+Derived Variable\+\_\+$>$\newline
+class baylib\+::bayesian\+\_\+net$<$ Variable\+\_\+ $>$}
+This class models a Bayesian Network allowing both index and name based access to its facilities for a better user experience 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Probability} & \+: Type of cpts entries \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_aa391e1f65ae2a5eb477097f814804bad}\label{classbaylib_1_1bayesian__net_aa391e1f65ae2a5eb477097f814804bad}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!add\_dependency@{add\_dependency}}
+\index{add\_dependency@{add\_dependency}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{add\_dependency()}{add\_dependency()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+void \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::add\+\_\+dependency (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{src\+\_\+id,  }\item[{vertex\+\_\+id}]{dest\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to add a dependency / arc between two nodes of the network 
+\begin{DoxyParams}{Parameters}
+{\em src\+\_\+id} & \+: parent node identifier \\
+\hline
+{\em dest\+\_\+id} & \+: child node identifier \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_adbd76b0f0fb9d6b028f4e2cfb5e5cb4e}\label{classbaylib_1_1bayesian__net_adbd76b0f0fb9d6b028f4e2cfb5e5cb4e}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!add\_variable@{add\_variable}}
+\index{add\_variable@{add\_variable}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{add\_variable()}{add\_variable()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+template$<$typename ... Args\+\_\+$>$ \\
+vertex\+\_\+id \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::add\+\_\+variable (\begin{DoxyParamCaption}\item[{Args\+\_\+ \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+adds a new variable to the bayesian network 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em A} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em args} & \+: vararg to specify the Variable constructor parameters according to the template parameter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: numerical identifier assigned to the node 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_ac6598fac6a50a4c6ecb7ace3d39ca9d4}\label{classbaylib_1_1bayesian__net_ac6598fac6a50a4c6ecb7ace3d39ca9d4}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!children\_of@{children\_of}}
+\index{children\_of@{children\_of}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{children\_of()}{children\_of()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::children\+\_\+of (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Return the vector of children of a specific node identified by numerical identifier 
+\begin{DoxyParams}{Parameters}
+{\em v} & \+: id of node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: vector of numerical ids 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_ac90c008c13b92ee6100240be7eab7444}\label{classbaylib_1_1bayesian__net_ac90c008c13b92ee6100240be7eab7444}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!has\_dependency@{has\_dependency}}
+\index{has\_dependency@{has\_dependency}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{has\_dependency()}{has\_dependency()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+bool \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::has\+\_\+dependency (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v1,  }\item[{vertex\+\_\+id}]{v2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to verify if two variables, identified by numerical id, are connected by a dependency / arc 
+\begin{DoxyParams}{Parameters}
+{\em v1} & \+: id of first node \\
+\hline
+{\em v2} & \+: id of second node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if v1 is parent of v2 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_a6405a6ee7bc77761747d1bfbfb0cbf04}\label{classbaylib_1_1bayesian__net_a6405a6ee7bc77761747d1bfbfb0cbf04}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!has\_variable@{has\_variable}}
+\index{has\_variable@{has\_variable}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{has\_variable()}{has\_variable()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+bool \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::has\+\_\+variable (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to verify if a numeric identifier is associated with an existing variable 
+\begin{DoxyParams}{Parameters}
+{\em v} & \+: numerical identifier of variable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if variable exists 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_ad36077666433eaea86b520ebf0a59b31}\label{classbaylib_1_1bayesian__net_ad36077666433eaea86b520ebf0a59b31}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!introduces\_loop@{introduces\_loop}}
+\index{introduces\_loop@{introduces\_loop}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{introduces\_loop()}{introduces\_loop()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+bool \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::introduces\+\_\+loop (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{from,  }\item[{vertex\+\_\+id}]{to }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+utility to detect whether a vertex introduces a loop in the DAG 
+\begin{DoxyParams}{Parameters}
+{\em from} & \+: edge\textquotesingle{}s driver \\
+\hline
+{\em to} & \+: edge\textquotesingle{}s loader \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if introduces a loop, false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_a884efcdb022e54e2ab97fb1874667e23}\label{classbaylib_1_1bayesian__net_a884efcdb022e54e2ab97fb1874667e23}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!is\_root@{is\_root}}
+\index{is\_root@{is\_root}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{is\_root()}{is\_root()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+bool \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::is\+\_\+root (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to verify if a node, identified by numerical identifier, is a root node / has no parent nodes 
+\begin{DoxyParams}{Parameters}
+{\em v} & \+: id of node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if node is root 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_a46af7162c1a737264920fc379b9223a8}\label{classbaylib_1_1bayesian__net_a46af7162c1a737264920fc379b9223a8}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!number\_of\_variables@{number\_of\_variables}}
+\index{number\_of\_variables@{number\_of\_variables}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{number\_of\_variables()}{number\_of\_variables()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+unsigned long \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::number\+\_\+of\+\_\+variables (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method that returns the number of variables in the network \begin{DoxyReturn}{Returns}
+number of variables 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_ac042464216f1690b8b6ad11e443237e1}\label{classbaylib_1_1bayesian__net_ac042464216f1690b8b6ad11e443237e1}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+variable\+\_\+type \& \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Operator that returns the \mbox{\hyperlink{classbaylib_1_1random__variable}{random\+\_\+variable}} class identified by id 
+\begin{DoxyParams}{Parameters}
+{\em v} & \+: variable id \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: random variable class 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_a3bc07bddf7fafaf87c7251225fc1758d}\label{classbaylib_1_1bayesian__net_a3bc07bddf7fafaf87c7251225fc1758d}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+variable\+\_\+type \& \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Operator that returns the \mbox{\hyperlink{classbaylib_1_1random__variable}{random\+\_\+variable}} class identified by id 
+\begin{DoxyParams}{Parameters}
+{\em v} & variable id \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: random variable class 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_aa9ac162694659bc90130ac039909c481}\label{classbaylib_1_1bayesian__net_aa9ac162694659bc90130ac039909c481}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!optimize\_cpt\_memory\_occupation@{optimize\_cpt\_memory\_occupation}}
+\index{optimize\_cpt\_memory\_occupation@{optimize\_cpt\_memory\_occupation}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{optimize\_cpt\_memory\_occupation()}{optimize\_cpt\_memory\_occupation()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+void \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::optimize\+\_\+cpt\+\_\+memory\+\_\+occupation (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+Checks if a specific variable, identified by numerical identifier, has a cpt that is already present in the network, if it\textquotesingle{}s the case the cpt of the node is deleted from memory and switched with a reference to the one that already exists, the cpt will be copied if a write operation is executed following the COW paradigm 
+\begin{DoxyParams}{Parameters}
+{\em id} & \+: numerical identifier of node \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_a11e3302b36482f9d1934e9fa3278c00f}\label{classbaylib_1_1bayesian__net_a11e3302b36482f9d1934e9fa3278c00f}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!parents\_of@{parents\_of}}
+\index{parents\_of@{parents\_of}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{parents\_of()}{parents\_of()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+std\+::vector$<$ vertex\+\_\+id $>$ \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::parents\+\_\+of (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Return the vector of parents of a specific node identified by numerical id 
+\begin{DoxyParams}{Parameters}
+{\em v} & \+: numerical id of node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: vector of numerical ids 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_a101dd7aa9da195ae2bf0a76538b94984}\label{classbaylib_1_1bayesian__net_a101dd7aa9da195ae2bf0a76538b94984}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!remove\_dependency@{remove\_dependency}}
+\index{remove\_dependency@{remove\_dependency}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{remove\_dependency()}{remove\_dependency()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+void \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::remove\+\_\+dependency (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{src\+\_\+id,  }\item[{vertex\+\_\+id}]{dest\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to remove a dependency / arc between two nodes of the network 
+\begin{DoxyParams}{Parameters}
+{\em src\+\_\+id} & \+: parent node identifier \\
+\hline
+{\em dest\+\_\+id} & \+: child node identifier \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_ad7324282f9f077d621a2ae89611e4466}\label{classbaylib_1_1bayesian__net_ad7324282f9f077d621a2ae89611e4466}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!remove\_variable@{remove\_variable}}
+\index{remove\_variable@{remove\_variable}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{remove\_variable()}{remove\_variable()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+void \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::remove\+\_\+variable (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{var\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Method to remove a variable from the network, dependencies are also automatically deleted 
+\begin{DoxyParams}{Parameters}
+{\em var\+\_\+id} & id of variable \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_ae50af99194fcf9c945c869377cc33677}\label{classbaylib_1_1bayesian__net_ae50af99194fcf9c945c869377cc33677}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!set\_variable\_probability@{set\_variable\_probability}}
+\index{set\_variable\_probability@{set\_variable\_probability}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{set\_variable\_probability()}{set\_variable\_probability()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+void \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::set\+\_\+variable\+\_\+probability (\begin{DoxyParamCaption}\item[{const vertex\+\_\+id}]{var\+\_\+id,  }\item[{baylib\+::state\+\_\+t}]{state\+\_\+value,  }\item[{const \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} \&}]{cond,  }\item[{probability\+\_\+type}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets the probability value of a CPT cell of a specific node, identified by id 
+\begin{DoxyParams}{Parameters}
+{\em var\+\_\+id} & \+: id of node \\
+\hline
+{\em state\+\_\+value} & \+: identifier of state associated with the set probability \\
+\hline
+{\em cond} & \+: condition associated with the set probability \\
+\hline
+{\em p} & \+: probability \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbaylib_1_1bayesian__net_af660869fd04f25b6a34d9550ac75dfbb}\label{classbaylib_1_1bayesian__net_af660869fd04f25b6a34d9550ac75dfbb}} 
+\index{baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}!variable@{variable}}
+\index{variable@{variable}!baylib::bayesian\_net$<$ Variable\_ $>$@{baylib::bayesian\_net$<$ Variable\_ $>$}}
+\doxysubsubsection{\texorpdfstring{variable()}{variable()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+variable\+\_\+type \& \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$\+::variable (\begin{DoxyParamCaption}\item[{vertex\+\_\+id}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Operator that returns the \mbox{\hyperlink{classbaylib_1_1random__variable}{random\+\_\+variable}} class identified by id 
+\begin{DoxyParams}{Parameters}
+{\em v} & \+: variable id \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: random variable class 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/network/\mbox{\hyperlink{bayesian__net_8hpp}{bayesian\+\_\+net.\+hpp}}\end{DoxyCompactItemize}

@@ -83,7 +83,7 @@ $(function() {
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="namespacebn.html">   17</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacebn.html">bn</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="namespacebaylib.html">   17</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacebaylib.html">baylib</a> {</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Vertex&gt;</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">using</span> graph = boost::adjacency_list&lt;boost::listS, <span class="comment">// edge container</span></div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                                        boost::vecS, <span class="comment">// vertex container</span></div>
@@ -94,7 +94,7 @@ $(function() {
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keyword">using</span> vertex = <span class="keyword">typename</span> graph&lt;Vertex&gt;::vertex_descriptor;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Vertex&gt;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="namespacebn.html#aabfeec14957a6a84112596fc4aa18a9f">   37</a></span>    <span class="keyword">auto</span> <a class="code hl_function" href="namespacebn.html#aabfeec14957a6a84112596fc4aa18a9f">bundles</a>(graph&lt;Vertex&gt; &amp; _g)  {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="namespacebaylib.html#a1779bf8bd4b2599df481ec059ef92996">   37</a></span>    <span class="keyword">auto</span> <a class="code hl_function" href="namespacebaylib.html#a1779bf8bd4b2599df481ec059ef92996">bundles</a>(graph&lt;Vertex&gt; &amp; _g)  {</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keyword">using</span> boost::adaptors::transformed;</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keyword">auto</span> accessor = [map = get(boost::vertex_bundle, _g)](<span class="keyword">auto</span> vid) -&gt; <span class="keyword">auto</span>&amp; {</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            <span class="keywordflow">return</span> map[vid];</div>
@@ -104,12 +104,12 @@ $(function() {
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>} <span class="comment">// namespace bn</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>} <span class="comment">// namespace baylib</span></div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#endif </span><span class="comment">//BAYLIB_GRAPH_HPP</span></div>
 <div class="ttc" id="acpt_8hpp_html"><div class="ttname"><a href="cpt_8hpp.html">cpt.hpp</a></div><div class="ttdoc">CPT class with COW optimization.</div></div>
-<div class="ttc" id="anamespacebn_html"><div class="ttname"><a href="namespacebn.html">bn</a></div><div class="ttdef"><b>Definition:</b> graph.hpp:17</div></div>
-<div class="ttc" id="anamespacebn_html_aabfeec14957a6a84112596fc4aa18a9f"><div class="ttname"><a href="namespacebn.html#aabfeec14957a6a84112596fc4aa18a9f">bn::bundles</a></div><div class="ttdeci">auto bundles(graph&lt; Vertex &gt; &amp;_g)</div><div class="ttdef"><b>Definition:</b> graph.hpp:37</div></div>
+<div class="ttc" id="anamespacebaylib_html"><div class="ttname"><a href="namespacebaylib.html">baylib</a></div><div class="ttdef"><b>Definition:</b> graph.hpp:17</div></div>
+<div class="ttc" id="anamespacebaylib_html_a1779bf8bd4b2599df481ec059ef92996"><div class="ttname"><a href="namespacebaylib.html#a1779bf8bd4b2599df481ec059ef92996">baylib::bundles</a></div><div class="ttdeci">auto bundles(graph&lt; Vertex &gt; &amp;_g)</div><div class="ttdef"><b>Definition:</b> graph.hpp:37</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

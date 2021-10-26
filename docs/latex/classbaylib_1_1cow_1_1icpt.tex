@@ -1,0 +1,134 @@
+\hypertarget{classbaylib_1_1cow_1_1icpt}{}\doxysection{baylib\+::cow\+::icpt\texorpdfstring{$<$}{<} Probability\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1cow_1_1icpt}\index{baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}}
+
+
+{\ttfamily \#include $<$icpt.\+hpp$>$}
+
+Inheritance diagram for baylib\+::cow\+::icpt\texorpdfstring{$<$}{<} Probability\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classbaylib_1_1cow_1_1icpt}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_ad27b5abafde206e299034586f1feafd8}{icpt}} (const std\+::vector$<$ ulong $>$ \&parents\+\_\+size, uint states)
+\item 
+\mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_a4a5fa43d4f73ebd951fbda2a6087341d}{icpt}} (\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cow\+::cpt}}$<$ Probability\+\_\+ $>$ \&\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}}, bool empty=false)
+\item 
+std\+::vector$<$ Probability\+\_\+ $>$ \& \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_a36faacff48a843057ca25d77d21c1873}{operator\mbox{[}$\,$\mbox{]}}} (const \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} \&cond)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1icpt_a75236b68757642f19606b4af6576947f}\label{classbaylib_1_1cow_1_1icpt_a75236b68757642f19606b4af6576947f}} 
+std\+::vector$<$ Probability\+\_\+ $>$ \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (uint index)
+\item 
+const std\+::vector$<$ Probability\+\_\+ $>$ \& \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_aa35807465ce0c12de82a36c7d306e019}{operator\mbox{[}$\,$\mbox{]}}} (uint index) const
+\item 
+void \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_ad15a61306264dc41f7d0f3d931a72a5d}{normalize}} ()
+\item 
+double \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_a340204a85b5a49156393fee27336b2bf}{absorb}} (const \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{icpt}}$<$ Probability\+\_\+ $>$ \&other, float learning\+\_\+rate)
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$Arithmetic Probability\+\_\+ = double$>$\newline
+class baylib\+::cow\+::icpt$<$ Probability\+\_\+ $>$}
+ICPT is a child class of CPT that enables learning of unknown distributions starting from a known CPT or an empty table 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Probability\+\_\+} & \+: type of ICPT entry \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1icpt_ad27b5abafde206e299034586f1feafd8}\label{classbaylib_1_1cow_1_1icpt_ad27b5abafde206e299034586f1feafd8}} 
+\index{baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}!icpt@{icpt}}
+\index{icpt@{icpt}!baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{icpt()}{icpt()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+\mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{baylib\+::cow\+::icpt}}$<$ Probability\+\_\+ $>$\+::\mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{icpt}} (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ ulong $>$ \&}]{parents\+\_\+size,  }\item[{uint}]{states }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+icpt constructor, builds a new table given the cardinality of the parents and the number of states of the variable, the distribution is automatically set to an uniform one 
+\begin{DoxyParams}{Parameters}
+{\em parents\+\_\+size} & \+: vector of sizes of the parents \\
+\hline
+{\em states} & \+: number of states \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1icpt_a4a5fa43d4f73ebd951fbda2a6087341d}\label{classbaylib_1_1cow_1_1icpt_a4a5fa43d4f73ebd951fbda2a6087341d}} 
+\index{baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}!icpt@{icpt}}
+\index{icpt@{icpt}!baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{icpt()}{icpt()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+\mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{baylib\+::cow\+::icpt}}$<$ Probability\+\_\+ $>$\+::\mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{icpt}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cow\+::cpt}}$<$ Probability\+\_\+ $>$ \&}]{cpt,  }\item[{bool}]{empty = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+constructor that builds an icpt given a cpt, optionally it empties the entries 
+\begin{DoxyParams}{Parameters}
+{\em cpt} & \+: cpt that is copied \\
+\hline
+{\em empty} & \+: if set true the icpt is filled with zeros \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1icpt_a340204a85b5a49156393fee27336b2bf}\label{classbaylib_1_1cow_1_1icpt_a340204a85b5a49156393fee27336b2bf}} 
+\index{baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}!absorb@{absorb}}
+\index{absorb@{absorb}!baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{absorb()}{absorb()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+double \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{baylib\+::cow\+::icpt}}$<$ Probability\+\_\+ $>$\+::absorb (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{icpt}}$<$ Probability\+\_\+ $>$ \&}]{other,  }\item[{float}]{learning\+\_\+rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Merge two icpts using the formula this\textquotesingle{} = this + (other -\/ this) $\ast$ learning\+\_\+rate while returning the statistical distance between the two distributions 
+\begin{DoxyParams}{Parameters}
+{\em other} & \\
+\hline
+{\em learning\+\_\+rate} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+maximum mean discrepancy distance 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1icpt_ad15a61306264dc41f7d0f3d931a72a5d}\label{classbaylib_1_1cow_1_1icpt_ad15a61306264dc41f7d0f3d931a72a5d}} 
+\index{baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}!normalize@{normalize}}
+\index{normalize@{normalize}!baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{normalize()}{normalize()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+void \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{baylib\+::cow\+::icpt}}$<$ Probability\+\_\+ $>$\+::normalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+modifies the content of the icpt by dividing each row by its sum \mbox{\Hypertarget{classbaylib_1_1cow_1_1icpt_a36faacff48a843057ca25d77d21c1873}\label{classbaylib_1_1cow_1_1icpt_a36faacff48a843057ca25d77d21c1873}} 
+\index{baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+std\+::vector$<$ Probability\+\_\+ $>$ \& \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{baylib\+::cow\+::icpt}}$<$ Probability\+\_\+ $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} \&}]{cond }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+operator that returns the distribution of a specific realization of the parents 
+\begin{DoxyParams}{Parameters}
+{\em cond} & \+: condition \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: probability distribution 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1icpt_aa35807465ce0c12de82a36c7d306e019}\label{classbaylib_1_1cow_1_1icpt_aa35807465ce0c12de82a36c7d306e019}} 
+\index{baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!baylib::cow::icpt$<$ Probability\_ $>$@{baylib::cow::icpt$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+const std\+::vector$<$ Probability\+\_\+ $>$ \& \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{baylib\+::cow\+::icpt}}$<$ Probability\+\_\+ $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{uint}]{index }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+operator that returns the row of a cpt given the index 
+\begin{DoxyParams}{Parameters}
+{\em index} & \+: index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: row of cpt 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/probability/\mbox{\hyperlink{icpt_8hpp}{icpt.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,85 @@
+\hypertarget{classbaylib_1_1cow_1_1cpt}{}\doxysection{baylib\+::cow\+::cpt\texorpdfstring{$<$}{<} Probability\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1cow_1_1cpt}\index{baylib::cow::cpt$<$ Probability\_ $>$@{baylib::cow::cpt$<$ Probability\_ $>$}}
+
+
+{\ttfamily \#include $<$cpt.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a460205dd82cf91974a4f6b714ae3ae90}\label{classbaylib_1_1cow_1_1cpt_a460205dd82cf91974a4f6b714ae3ae90}} 
+{\bfseries cpt} (unsigned long nstates=2)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a44bf50b2acfbdf0b582ffa6dc32a9174}\label{classbaylib_1_1cow_1_1cpt_a44bf50b2acfbdf0b582ffa6dc32a9174}} 
+void {\bfseries set\+\_\+probability} (const \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} \&cond, baylib\+::state\+\_\+t state\+\_\+val, Probability\+\_\+ p)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a12e5e907846495d65487a461c2704053}\label{classbaylib_1_1cow_1_1cpt_a12e5e907846495d65487a461c2704053}} 
+const std\+::vector$<$ Probability\+\_\+ $>$ \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (const \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} \&cond) const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a28d317266da1efbbc2368f5624afdecf}\label{classbaylib_1_1cow_1_1cpt_a28d317266da1efbbc2368f5624afdecf}} 
+const std\+::vector$<$ Probability\+\_\+ $>$ \& {\bfseries at} (const \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} \&cond) const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_ae25708f0b544bbb75bfbafb4642aee44}\label{classbaylib_1_1cow_1_1cpt_ae25708f0b544bbb75bfbafb4642aee44}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_ab0cea19dcfc5b7dd5d16c9a82ce071ea}\label{classbaylib_1_1cow_1_1cpt_ab0cea19dcfc5b7dd5d16c9a82ce071ea}} 
+bool {\bfseries has\+\_\+entry\+\_\+for} (const \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} \&c) const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a5ce25b9ba0f07970429c3d4b2f941d47}\label{classbaylib_1_1cow_1_1cpt_a5ce25b9ba0f07970429c3d4b2f941d47}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}}$<$ Probability\+\_\+ $>$ \&c) const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_ab933dd013ebdf1877f0a7742ecd99053}\label{classbaylib_1_1cow_1_1cpt_ab933dd013ebdf1877f0a7742ecd99053}} 
+unsigned long {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_ac00dfd870d0dc9e26a3c7baaf162ec66}\label{classbaylib_1_1cow_1_1cpt_ac00dfd870d0dc9e26a3c7baaf162ec66}} 
+auto {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_af7a2e2dafa608134648e05df03afc478}\label{classbaylib_1_1cow_1_1cpt_af7a2e2dafa608134648e05df03afc478}} 
+auto {\bfseries end} () const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_acd9bf0a87f941c75d00af1015e1bedae}\label{classbaylib_1_1cow_1_1cpt_acd9bf0a87f941c75d00af1015e1bedae}} 
+size\+\_\+t {\bfseries hash} ()
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a8aaf9ba1825ebc9378e81dab9f478565}\label{classbaylib_1_1cow_1_1cpt_a8aaf9ba1825ebc9378e81dab9f478565}} 
+unsigned long {\bfseries number\+\_\+of\+\_\+states} () const
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a1977100e61bdc5319a83f53919369347}\label{classbaylib_1_1cow_1_1cpt_a1977100e61bdc5319a83f53919369347}} 
+unsigned long {\bfseries number\+\_\+of\+\_\+conditions} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a064a29a918dbd471701db6ba7a84bab0}\label{classbaylib_1_1cow_1_1cpt_a064a29a918dbd471701db6ba7a84bab0}} 
+\mbox{\hyperlink{classbaylib_1_1cow_1_1shared__ptr}{baylib\+::cow\+::shared\+\_\+ptr}}$<$ \mbox{\hyperlink{structbaylib_1_1cow_1_1CPTData}{CPTData}}$<$ Probability\+\_\+ $>$ $>$ {\bfseries d}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a6ee6d72459759f5fe1c5f96fec63f9ab}\label{classbaylib_1_1cow_1_1cpt_a6ee6d72459759f5fe1c5f96fec63f9ab}} 
+std\+::map$<$ \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}}, unsigned long $>$ {\bfseries cond\+\_\+map}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a2791bc5dcfa0411aa659f1195dd69ad0}\label{classbaylib_1_1cow_1_1cpt_a2791bc5dcfa0411aa659f1195dd69ad0}} 
+{\footnotesize template$<$RVar\+Derived Variable\+\_\+$>$ }\\class {\bfseries baylib\+::bayesian\+\_\+net}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1cow_1_1cpt_a1f3980c6ec4355e680e2b39df50af0d9}\label{classbaylib_1_1cow_1_1cpt_a1f3980c6ec4355e680e2b39df50af0d9}} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}} \&\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$Arithmetic Probability\+\_\+ = double$>$\newline
+class baylib\+::cow\+::cpt$<$ Probability\+\_\+ $>$}
+This class models a condition probability table indirectly mapping condition to probability row (and employing copy on write to spare memory)
+
+Example\+: \mbox{\hyperlink{classbaylib_1_1condition}{baylib\+::condition}} c = \{\{\char`\"{}var1\char`\"{}\+: 1\}, \{\char`\"{}var2\char`\"{}\+: 3\}\} \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib\+::cow\+::cpt}} cpt\{n\} ... auto \& probs = cpt\mbox{[}c\mbox{]}
+
+probs\mbox{[}0\mbox{]} \+: P(var3=0 $\vert$ var1=1, var2=3) probs\mbox{[}1\mbox{]} \+: P(var3=1 $\vert$ var1=1, var2=3) . . . . probs\mbox{[}n\mbox{]} \+: P(var3=n $\vert$ var=1, var2=3) 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Probability\+\_\+} & \+: the type expressing probability. Must be arithmetic \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/probability/\mbox{\hyperlink{cpt_8hpp}{cpt.\+hpp}}\end{DoxyCompactItemize}

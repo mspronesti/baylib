@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['name_0',['name',['../classbn_1_1random__variable.html#a1e8697ef03a9cbd6bd18a44cced06c6d',1,'bn::random_variable::name()'],['../classrapidxml_1_1xml__base.html#a72e6615cd5b3133ab6c8df72c2fdcd20',1,'rapidxml::xml_base::name() const'],['../classrapidxml_1_1xml__base.html#ae55060ae958c6e6465d6c8db852ec6ce',1,'rapidxml::xml_base::name(const Ch *name, std::size_t size)'],['../classrapidxml_1_1xml__base.html#a4611ddc82ac83a527c65606600eb2a0d',1,'rapidxml::xml_base::name(const Ch *name)']]],
+  ['name_0',['name',['../classrapidxml_1_1xml__base.html#a72e6615cd5b3133ab6c8df72c2fdcd20',1,'rapidxml::xml_base::name() const'],['../classrapidxml_1_1xml__base.html#ae55060ae958c6e6465d6c8db852ec6ce',1,'rapidxml::xml_base::name(const Ch *name, std::size_t size)'],['../classrapidxml_1_1xml__base.html#a4611ddc82ac83a527c65606600eb2a0d',1,'rapidxml::xml_base::name(const Ch *name)'],['../classbaylib_1_1named__random__variable.html#ae3ab4a3696076ba5da02402b43a9c8ff',1,'baylib::named_random_variable::name()']]],
   ['name_5fsize_1',['name_size',['../classrapidxml_1_1xml__base.html#a20c8ffbe0c7a0b4231681ab8b99330a4',1,'rapidxml::xml_base']]],
-  ['names_2',['names',['../structbn_1_1random__variable_1_1parents__info__t.html#a03638549a9a7de311c3b542f36dd1dda',1,'bn::random_variable::parents_info_t']]],
+  ['named_5frandom_5fvariable_2',['named_random_variable',['../classbaylib_1_1named__random__variable.html',1,'baylib']]],
   ['next_5fattribute_3',['next_attribute',['../classrapidxml_1_1xml__attribute.html#a055de22bb0d2221a99bd8fd12d6e2fa8',1,'rapidxml::xml_attribute']]],
   ['next_5fsibling_4',['next_sibling',['../classrapidxml_1_1xml__node.html#ab7e5fd4052e4151757895c9914f5f320',1,'rapidxml::xml_node']]],
   ['node_5fcdata_5',['node_cdata',['../rapidxml_8hpp.html#abb456db38f7efb746c4330eed6072a7caccf0b363d3876a3f83ff9b1bcdaaa536',1,'rapidxml']]],
@@ -16,8 +16,8 @@ var searchData=
   ['node_5fname_5fpred_13',['node_name_pred',['../structrapidxml_1_1xml__document_1_1node__name__pred.html',1,'rapidxml::xml_document']]],
   ['node_5fpi_14',['node_pi',['../rapidxml_8hpp.html#abb456db38f7efb746c4330eed6072a7caeb73b472e77347b9aa89525f16493b87',1,'rapidxml']]],
   ['node_5ftype_15',['node_type',['../rapidxml_8hpp.html#abb456db38f7efb746c4330eed6072a7c',1,'rapidxml']]],
-  ['normalize_16',['normalize',['../classbn_1_1cow_1_1icpt.html#a0341975402ca0333a93e582bbecc9b7f',1,'bn::cow::icpt']]],
-  ['num_5fstates_5fof_17',['num_states_of',['../structbn_1_1random__variable_1_1parents__info__t.html#a6ed200d02b76e412cda4f14fe77e6d36',1,'bn::random_variable::parents_info_t']]],
-  ['number_5fof_5fcombinations_18',['number_of_combinations',['../classbn_1_1condition__factory.html#abec2a596316802d7aede04ac7fcee4f7',1,'bn::condition_factory']]],
-  ['number_5fof_5fvariables_19',['number_of_variables',['../classbn_1_1bayesian__network.html#af81e3c85d44ac89d7b774b4b82e0f200',1,'bn::bayesian_network']]]
+  ['normalize_16',['normalize',['../classbaylib_1_1cow_1_1icpt.html#ad15a61306264dc41f7d0f3d931a72a5d',1,'baylib::cow::icpt']]],
+  ['number_5fof_5fcombinations_17',['number_of_combinations',['../classbaylib_1_1condition__factory.html#a29c47a795ee2932524bbfccb625e0060',1,'baylib::condition_factory']]],
+  ['number_5fof_5fstates_18',['number_of_states',['../classbaylib_1_1random__variable.html#aa873e5e96eceb38043e506736ed1c806',1,'baylib::random_variable']]],
+  ['number_5fof_5fvariables_19',['number_of_variables',['../classbaylib_1_1bayesian__net.html#a46af7162c1a737264920fc379b9223a8',1,'baylib::bayesian_net']]]
 ];

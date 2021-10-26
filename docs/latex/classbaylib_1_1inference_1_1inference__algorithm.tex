@@ -1,0 +1,105 @@
+\hypertarget{classbaylib_1_1inference_1_1inference__algorithm}{}\doxysection{baylib\+::inference\+::inference\+\_\+algorithm\texorpdfstring{$<$}{<} Network\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1inference_1_1inference__algorithm}\index{baylib::inference::inference\_algorithm$<$ Network\_ $>$@{baylib::inference::inference\_algorithm$<$ Network\_ $>$}}
+
+
+{\ttfamily \#include $<$abstract\+\_\+inference\+\_\+algorithm.\+hpp$>$}
+
+Inheritance diagram for baylib\+::inference\+::inference\+\_\+algorithm\texorpdfstring{$<$}{<} Network\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=0.758465cm]{classbaylib_1_1inference_1_1inference__algorithm}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1inference__algorithm_a0b55d7a302f05ad7997b508bff9e2b9a}\label{classbaylib_1_1inference_1_1inference__algorithm_a0b55d7a302f05ad7997b508bff9e2b9a}} 
+typedef Network\+\_\+ {\bfseries network\+\_\+type}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1inference__algorithm_aa41f782bb935dded8774aaf3a2aa8654}\label{classbaylib_1_1inference_1_1inference__algorithm_aa41f782bb935dded8774aaf3a2aa8654}} 
+typedef network\+\_\+type\+::variable\+\_\+type {\bfseries variable\+\_\+type}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1inference__algorithm_a24db4bae54e50c0b200393746406b103}\label{classbaylib_1_1inference_1_1inference__algorithm_a24db4bae54e50c0b200393746406b103}} 
+typedef variable\+\_\+type\+::probability\+\_\+type {\bfseries probability\+\_\+type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm_a65742bb3c059aff81c0269984559068f}{inference\+\_\+algorithm}} (const network\+\_\+type \&bn, unsigned long nsamples, unsigned int seed=0)
+\item 
+virtual \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib\+::marginal\+\_\+distribution}}$<$ probability\+\_\+type $>$ \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm_a0bef5f3133e2a3bed05eb7d9b004e243}{make\+\_\+inference}} ()=0
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1inference__algorithm_a446e245144008c835357d5cbd6759066}\label{classbaylib_1_1inference_1_1inference__algorithm_a446e245144008c835357d5cbd6759066}} 
+void {\bfseries set\+\_\+number\+\_\+of\+\_\+samples} (unsigned long \+\_\+nsamples)
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1inference__algorithm_ad9fca8dc65f4a47af6785e2a90753ef3}\label{classbaylib_1_1inference_1_1inference__algorithm_ad9fca8dc65f4a47af6785e2a90753ef3}} 
+void {\bfseries set\+\_\+seed} (unsigned int \+\_\+seed)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1inference__algorithm_a2d1e0854a5aad006f932dc7c0292d79e}\label{classbaylib_1_1inference_1_1inference__algorithm_a2d1e0854a5aad006f932dc7c0292d79e}} 
+const network\+\_\+type \& {\bfseries bn}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1inference__algorithm_a15cf9aaf9b7c31c3625298955a4e325c}\label{classbaylib_1_1inference_1_1inference__algorithm_a15cf9aaf9b7c31c3625298955a4e325c}} 
+unsigned long {\bfseries nsamples}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1inference__algorithm_ab5cf27a0fb33e74b27d5467c937163fc}\label{classbaylib_1_1inference_1_1inference__algorithm_ab5cf27a0fb33e74b27d5467c937163fc}} 
+unsigned int {\bfseries seed}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$BNet\+Derived Network\+\_\+$>$\newline
+class baylib\+::inference\+::inference\+\_\+algorithm$<$ Network\+\_\+ $>$}
+This class models a generic approximate inference algorithm for discrete Bayesian networks 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Network\+\_\+} & the type of bayesian network \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1inference__algorithm_a65742bb3c059aff81c0269984559068f}\label{classbaylib_1_1inference_1_1inference__algorithm_a65742bb3c059aff81c0269984559068f}} 
+\index{baylib::inference::inference\_algorithm$<$ Network\_ $>$@{baylib::inference::inference\_algorithm$<$ Network\_ $>$}!inference\_algorithm@{inference\_algorithm}}
+\index{inference\_algorithm@{inference\_algorithm}!baylib::inference::inference\_algorithm$<$ Network\_ $>$@{baylib::inference::inference\_algorithm$<$ Network\_ $>$}}
+\doxysubsubsection{\texorpdfstring{inference\_algorithm()}{inference\_algorithm()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+$>$ \\
+\mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{baylib\+::inference\+::inference\+\_\+algorithm}}$<$ Network\+\_\+ $>$\+::\mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{inference\+\_\+algorithm}} (\begin{DoxyParamCaption}\item[{const network\+\_\+type \&}]{bn,  }\item[{unsigned long}]{nsamples,  }\item[{unsigned int}]{seed = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+The abstract inference algorithm only receives hyperparameters in the constructor 
+\begin{DoxyParams}{Parameters}
+{\em nsamples} & \+: number of samples \\
+\hline
+{\em nthreads} & \+: number of threads (default\+: 1) \\
+\hline
+{\em seed} & \+: custom seed for the generator (default\+: 0) \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1inference__algorithm_a0bef5f3133e2a3bed05eb7d9b004e243}\label{classbaylib_1_1inference_1_1inference__algorithm_a0bef5f3133e2a3bed05eb7d9b004e243}} 
+\index{baylib::inference::inference\_algorithm$<$ Network\_ $>$@{baylib::inference::inference\_algorithm$<$ Network\_ $>$}!make\_inference@{make\_inference}}
+\index{make\_inference@{make\_inference}!baylib::inference::inference\_algorithm$<$ Network\_ $>$@{baylib::inference::inference\_algorithm$<$ Network\_ $>$}}
+\doxysubsubsection{\texorpdfstring{make\_inference()}{make\_inference()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+$>$ \\
+virtual \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib\+::marginal\+\_\+distribution}}$<$ probability\+\_\+type $>$ \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm}{baylib\+::inference\+::inference\+\_\+algorithm}}$<$ Network\+\_\+ $>$\+::make\+\_\+inference (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Main method of the inference algorithm. Receives the bayesian network but doesn\textquotesingle{}t store it anywhere. It only uses its facilities to perform inference thus avoiding unwanted copies and allowing reusability of the same algorithm object 
+\begin{DoxyParams}{Parameters}
+{\em bn} & \+: bayesian network \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: the marginal distributions 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm_aeedf03da80dadb50952fd604d2cb6653}{baylib\+::inference\+::parallel\+\_\+inference\+\_\+algorithm$<$ Network\+\_\+ $>$}}, and \mbox{\hyperlink{classbaylib_1_1inference_1_1logic__sampling_a9f9589a8bcf57d41b03f889a07606ef3}{baylib\+::inference\+::logic\+\_\+sampling$<$ Network\+\_\+, Generator\+\_\+ $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/inference/\mbox{\hyperlink{abstract__inference__algorithm_8hpp}{abstract\+\_\+inference\+\_\+algorithm.\+hpp}}\end{DoxyCompactItemize}

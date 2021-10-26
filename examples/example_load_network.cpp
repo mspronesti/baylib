@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include <baylib/parser/xdsl_parser.hpp>
+#include <baylib/smile_utils/smile_utils.hpp>
 
 
 /*
@@ -16,7 +16,7 @@
 
 int main(){
 
-    bn::xdsl_parser<double> parser;
+    baylib::xdsl_parser<double> parser;
     auto network = parser.deserialize("../../examples/xdsl/Coma.xdsl");
 
     for (auto &var: network) {

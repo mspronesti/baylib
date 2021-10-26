@@ -23,265 +23,272 @@
 \DoxyCodeLine{19 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{bayesian__utils_8hpp}{network/bayesian\_utils.hpp}}>}}
 \DoxyCodeLine{20 }
 \DoxyCodeLine{23 }
-\DoxyCodeLine{24 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
+\DoxyCodeLine{24 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}} \{}
 \DoxyCodeLine{25     \textcolor{keyword}{namespace }inference\{}
 \DoxyCodeLine{26 }
-\DoxyCodeLine{47         \textcolor{keyword}{template} <\textcolor{keyword}{typename} Probability, \textcolor{keyword}{typename} Generator = std::mt19937>}
-\DoxyCodeLine{48         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1adaptive__importance__sampling}{adaptive\_importance\_sampling}}: \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Probability> \{}
-\DoxyCodeLine{49             \textcolor{keyword}{using} icpt\_vector = std::vector<cow::icpt<Probability>>;}
-\DoxyCodeLine{50             \textcolor{keyword}{using} simulation\_matrix = std::vector<std::vector<uint>>;}
-\DoxyCodeLine{51 }
-\DoxyCodeLine{52         \textcolor{keyword}{public}:}
-\DoxyCodeLine{53 }
-\DoxyCodeLine{65             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1inference_1_1adaptive__importance__sampling_a22e16ba6c1d945e25142e55d78526a7d}{adaptive\_importance\_sampling}}(}
-\DoxyCodeLine{66                 ulong nsamples,}
-\DoxyCodeLine{67                 \textcolor{keywordtype}{size\_t} memory,}
-\DoxyCodeLine{68                 \textcolor{keywordtype}{double} initial\_learning\_rate = 1,}
-\DoxyCodeLine{69                 \textcolor{keywordtype}{double} final\_learning\_rate = 0.05,}
-\DoxyCodeLine{70                 uint learning\_step = 1000,}
-\DoxyCodeLine{71                 uint seed = 0,}
-\DoxyCodeLine{72                 \textcolor{keyword}{const} compute::device\& device = compute::system::default\_device()}
-\DoxyCodeLine{73             )}
-\DoxyCodeLine{74             : \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Probability>(nsamples, memory, seed, device)}
-\DoxyCodeLine{75             , w\_k(1)}
-\DoxyCodeLine{76             , initial\_learning\_rate(initial\_learning\_rate)}
-\DoxyCodeLine{77             , final\_learning\_rate(final\_learning\_rate)}
-\DoxyCodeLine{78             , learning\_cutoff(0.005)}
-\DoxyCodeLine{79             , learning\_step(learning\_step)\{\}}
-\DoxyCodeLine{80 }
-\DoxyCodeLine{88             \mbox{\hyperlink{classbn_1_1marginal__distribution}{bn::marginal\_distribution<Probability>}} \mbox{\hyperlink{classbn_1_1inference_1_1inference__algorithm_a717239e2a561fb79fe9c67a5b3effef7}{make\_inference}} (}
-\DoxyCodeLine{89                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}}}
-\DoxyCodeLine{90             )\textcolor{keyword}{ override}}
-\DoxyCodeLine{91 \textcolor{keyword}{            }\{}
-\DoxyCodeLine{92                 icpt\_vector icptvec\{\};}
-\DoxyCodeLine{93                 \textcolor{keyword}{auto} result = \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<Probability>}}(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
-\DoxyCodeLine{94                 \textcolor{keywordtype}{bool} evidence\_found = \textcolor{keyword}{false};}
-\DoxyCodeLine{95                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} v\_id = 0; v\_id < \mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables(); ++v\_id)\{}
-\DoxyCodeLine{96                     icptvec.emplace\_back(\mbox{\hyperlink{classbn_1_1cow_1_1icpt}{cow::icpt<Probability>}}(\mbox{\hyperlink{namespacebn}{bn}}[v\_id].table()));}
-\DoxyCodeLine{97                     \textcolor{keywordflow}{if}(\mbox{\hyperlink{namespacebn}{bn}}[v\_id].is\_evidence())\{}
-\DoxyCodeLine{98                         result[v\_id][\mbox{\hyperlink{namespacebn}{bn}}[v\_id].evidence\_state()] = 1;}
-\DoxyCodeLine{99                         evidence\_found = \textcolor{keyword}{true};}
-\DoxyCodeLine{100                     \}}
-\DoxyCodeLine{101                 \}}
-\DoxyCodeLine{102                 \textcolor{comment}{// If no evidence is present the algorithm degenerates to simple}}
-\DoxyCodeLine{103                 \textcolor{comment}{// logic\_sampling, and we can skip the learning phase}}
-\DoxyCodeLine{104                 \textcolor{keywordflow}{if}(evidence\_found)\{}
-\DoxyCodeLine{105                     ancestors = \mbox{\hyperlink{namespacebn_ae868320d9db0ea6331f8df7b6e7ccaef}{ancestors\_of\_evidence}}(\mbox{\hyperlink{namespacebn}{bn}});}
-\DoxyCodeLine{106                     \textcolor{comment}{//result += learn\_icpt(bn, icptvec);}}
-\DoxyCodeLine{107                     learn\_icpt(\mbox{\hyperlink{namespacebn}{bn}}, icptvec);}
-\DoxyCodeLine{108                 \}}
-\DoxyCodeLine{109                 result += gpu\_simulation(icptvec, \mbox{\hyperlink{namespacebn}{bn}});}
-\DoxyCodeLine{110                 result.normalize();}
-\DoxyCodeLine{111                 \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{112             \}}
-\DoxyCodeLine{113 }
-\DoxyCodeLine{114 }
-\DoxyCodeLine{115         \textcolor{keyword}{private}:}
-\DoxyCodeLine{116             \textcolor{keywordtype}{double} w\_k;}
-\DoxyCodeLine{117             std::vector<ulong> ancestors;}
-\DoxyCodeLine{118             \textcolor{keywordtype}{double} initial\_learning\_rate;}
-\DoxyCodeLine{119             \textcolor{keywordtype}{double} final\_learning\_rate;}
-\DoxyCodeLine{120             \textcolor{keywordtype}{double} learning\_cutoff;}
-\DoxyCodeLine{121             uint learning\_step;}
-\DoxyCodeLine{122 }
-\DoxyCodeLine{123 }
-\DoxyCodeLine{137             \textcolor{comment}{//marginal\_distribution<Probability> learn\_icpt(}}
-\DoxyCodeLine{138             \textcolor{keywordtype}{void} learn\_icpt(}
-\DoxyCodeLine{139                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \&\mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{140                 icpt\_vector \& icptvec}
-\DoxyCodeLine{141             )}
-\DoxyCodeLine{142             \{}
-\DoxyCodeLine{143                 ulong nvars = \mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables();}
-\DoxyCodeLine{144                 simulation\_matrix graph\_state(learning\_step);}
-\DoxyCodeLine{145                 std::vector<Probability> random\_vec(learning\_step * nvars);}
-\DoxyCodeLine{146                 \textcolor{keywordtype}{double} k = 0;}
-\DoxyCodeLine{147                 uint max\_k = this-\/>nsamples / 2 / learning\_step;}
-\DoxyCodeLine{148                 seed\_factory factory(1, this-\/>seed);}
-\DoxyCodeLine{149                 \mbox{\hyperlink{classbn_1_1random__generator}{bn::random\_generator<Probability, Generator>}} rnd\_gen(this-\/>seed);}
-\DoxyCodeLine{150 }
-\DoxyCodeLine{151                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < max\_k; ++i) \{}
-\DoxyCodeLine{152                     std::future<void> el = std::async([\&]()\{std::generate(}
-\DoxyCodeLine{153                                                 random\_vec.begin(),}
-\DoxyCodeLine{154                                                 random\_vec.end(),}
-\DoxyCodeLine{155                                                 rnd\_gen);\});}
-\DoxyCodeLine{156                     \textcolor{keywordflow}{if}(i != 0)\{}
-\DoxyCodeLine{157                         \textcolor{comment}{// Formula for the learning\_rate proposed in the paper}}
-\DoxyCodeLine{158                         \textcolor{keywordtype}{double} learning\_rate = initial\_learning\_rate *}
-\DoxyCodeLine{159                                 std::pow(final\_learning\_rate / initial\_learning\_rate,k / (\textcolor{keywordtype}{double})max\_k);}
-\DoxyCodeLine{160                         \textcolor{keywordtype}{double} difference = absorb\_samples(graph\_state, \mbox{\hyperlink{namespacebn}{bn}}, icptvec, learning\_rate);}
-\DoxyCodeLine{161                         \textcolor{comment}{// if the maximum difference was low enough we stop the learning process}}
-\DoxyCodeLine{162                         \textcolor{keywordflow}{if}(difference < learning\_cutoff)\{}
-\DoxyCodeLine{163                             \textcolor{keywordflow}{break};}
-\DoxyCodeLine{164                         \}}
-\DoxyCodeLine{165                         k++;}
-\DoxyCodeLine{166                     \}}
-\DoxyCodeLine{167                     el.get();}
-\DoxyCodeLine{168 }
-\DoxyCodeLine{169                     std::transform( std::execution::par,}
-\DoxyCodeLine{170                                     boost::counting\_iterator<ulong>(0),}
-\DoxyCodeLine{171                                     boost::counting\_iterator<ulong>(graph\_state.size()),}
-\DoxyCodeLine{172                                     graph\_state.begin(),}
-\DoxyCodeLine{173                                     [\&](ulong ix)}
-\DoxyCodeLine{174                                     \{}
-\DoxyCodeLine{175                                     std::vector<uint> local\_result(nvars);}
-\DoxyCodeLine{176                                     ix *= nvars;}
-\DoxyCodeLine{177                                     for (ulong v: ancestors) \{}
-\DoxyCodeLine{178                                         if (bn[v].is\_evidence()) \{}
-\DoxyCodeLine{179                                             local\_result[v] = bn[v].evidence\_state();}
-\DoxyCodeLine{180                                             continue;}
-\DoxyCodeLine{181                                         \}}
-\DoxyCodeLine{182                                         const Probability p = random\_vec[ix];}
-\DoxyCodeLine{183                                         ix++;}
-\DoxyCodeLine{184                                         std::vector<Probability> weight;}
-\DoxyCodeLine{185                                         bn::condition parents\_state\_cond;}
-\DoxyCodeLine{186                                         for (auto par : bn.parents\_of(v))}
-\DoxyCodeLine{187                                             parents\_state\_cond.add(}
-\DoxyCodeLine{188                                                     bn[par].name(),}
-\DoxyCodeLine{189                                                     local\_result[par]}
-\DoxyCodeLine{190                                                     );}
-\DoxyCodeLine{191                                         weight = icptvec[v][parents\_state\_cond];}
-\DoxyCodeLine{192                                         ulong sample = make\_random\_by\_weight(p, weight);}
-\DoxyCodeLine{193                                         local\_result[v] = sample;}
-\DoxyCodeLine{194                                     \}}
-\DoxyCodeLine{195                                     \textcolor{keywordflow}{return} local\_result;}
-\DoxyCodeLine{196                                     \});}
-\DoxyCodeLine{197                 \}}
-\DoxyCodeLine{198                 this-\/>seed = factory.get\_new(); \textcolor{comment}{// new seed for gpu simulation}}
-\DoxyCodeLine{199             \}}
-\DoxyCodeLine{200 }
-\DoxyCodeLine{201 }
-\DoxyCodeLine{210             \textcolor{keywordtype}{double} absorb\_samples(}
-\DoxyCodeLine{211                 \textcolor{keyword}{const} simulation\_matrix \& graph\_state,}
-\DoxyCodeLine{212                 \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network<Probability>}} \& \mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{213                 icpt\_vector \& icptvec,}
-\DoxyCodeLine{214                 \textcolor{keywordtype}{double} learning\_rate}
-\DoxyCodeLine{215             )}
-\DoxyCodeLine{216             \{}
-\DoxyCodeLine{217                 Probability evidence\_score;}
-\DoxyCodeLine{218                 std::vector<Probability> sample\_weight(graph\_state.size());}
-\DoxyCodeLine{219 }
-\DoxyCodeLine{220                 \textcolor{keywordtype}{double} max\_distance = 0.;}
-\DoxyCodeLine{221 }
-\DoxyCodeLine{222                 \textcolor{comment}{// Calculate the likelihood of extracting a particular set of samples}}
-\DoxyCodeLine{223                 std::transform(std::execution::par\_unseq,}
-\DoxyCodeLine{224                                boost::counting\_iterator<uint>(0),}
-\DoxyCodeLine{225                                boost::counting\_iterator<uint>(graph\_state.size()),}
-\DoxyCodeLine{226                                sample\_weight.begin(),}
-\DoxyCodeLine{227                                [\&](uint ix)}
-\DoxyCodeLine{228                                \{}
-\DoxyCodeLine{229                                 Probability weight = 1;}
-\DoxyCodeLine{230                                 for(ulong v\_id: ancestors)\{}
-\DoxyCodeLine{231                                     condition cond;}
-\DoxyCodeLine{232                                     auto\& icpt = icptvec[v\_id];}
-\DoxyCodeLine{233                                     auto\& cpt = bn[v\_id].table();}
-\DoxyCodeLine{234                                     auto\& sample\_state = graph\_state[ix][v\_id];}
-\DoxyCodeLine{235 }
-\DoxyCodeLine{236                                     for(auto p\_id : bn.parents\_of(v\_id))}
-\DoxyCodeLine{237                                         cond.add(bn[p\_id].name(), graph\_state[ix][p\_id]);}
-\DoxyCodeLine{238                                     if(bn[v\_id].is\_evidence())\{}
-\DoxyCodeLine{239                                         weight *= cpt[cond][bn[v\_id].evidence\_state()];}
-\DoxyCodeLine{240                                     \}else\{}
-\DoxyCodeLine{241                                         weight *= cpt[cond][sample\_state] / icpt[cond][sample\_state];}
-\DoxyCodeLine{242                                     \}}
-\DoxyCodeLine{243                                 \}}
-\DoxyCodeLine{244                                 \textcolor{keywordflow}{return}  weight;\});}
-\DoxyCodeLine{245 }
-\DoxyCodeLine{246                 \textcolor{comment}{// Update the icpts and return the maximum distance}}
-\DoxyCodeLine{247                 max\_distance =  std::transform\_reduce(}
-\DoxyCodeLine{248                                 std::execution::par\_unseq,}
-\DoxyCodeLine{249                                 ancestors.begin(),}
-\DoxyCodeLine{250                                 ancestors.end(),}
-\DoxyCodeLine{251                                 0.,}
-\DoxyCodeLine{252                                 [](\textcolor{keyword}{auto} e1, \textcolor{keyword}{auto} e2)\{return e1 > e2 ? e1 : e2;\},}
-\DoxyCodeLine{253                                 [\&](\textcolor{keyword}{auto} v\_id)}
-\DoxyCodeLine{254                                 \{}
-\DoxyCodeLine{255                                     if(bn[v\_id].is\_evidence())}
-\DoxyCodeLine{256                                         return 0.;}
-\DoxyCodeLine{257                                     auto\& original\_cpt = icptvec[v\_id];}
-\DoxyCodeLine{258                                     cow::icpt<Probability> temp\_icpt(bn[v\_id].table(), true);}
-\DoxyCodeLine{259                                     for (int i = 0; i < graph\_state.size(); ++i) \{}
-\DoxyCodeLine{260                                         condition cond;}
-\DoxyCodeLine{261                                         auto sample = graph\_state[i][v\_id];}
-\DoxyCodeLine{262                                         for(auto p\_id : bn.parents\_of(v\_id))}
-\DoxyCodeLine{263                                             cond.add(bn[p\_id].name(), graph\_state[i][p\_id]);}
-\DoxyCodeLine{264                                         temp\_icpt[cond][sample] += sample\_weight[i];}
-\DoxyCodeLine{265                                     \}}
-\DoxyCodeLine{266                                     temp\_icpt.normalize();}
-\DoxyCodeLine{267                                     \textcolor{keywordtype}{double} distance = original\_cpt.absorb(temp\_icpt, learning\_rate);}
-\DoxyCodeLine{268                                     \textcolor{keywordflow}{return} distance;}
-\DoxyCodeLine{269                                 \});}
-\DoxyCodeLine{270 }
-\DoxyCodeLine{271                 \textcolor{keywordflow}{return} max\_distance;}
-\DoxyCodeLine{272             \}}
-\DoxyCodeLine{273 }
-\DoxyCodeLine{281             marginal\_distribution<Probability> gpu\_simulation(}
-\DoxyCodeLine{282                     \textcolor{keyword}{const} icpt\_vector\& icpt\_vec,}
-\DoxyCodeLine{283                     \textcolor{keyword}{const} bayesian\_network<Probability>\& \mbox{\hyperlink{namespacebn}{bn}}}
-\DoxyCodeLine{284             )}
-\DoxyCodeLine{285             \{}
-\DoxyCodeLine{286                 \textcolor{keywordtype}{int} niter = 1;}
-\DoxyCodeLine{287                 marginal\_distribution<Probability> marginal\_result(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
-\DoxyCodeLine{288                 std::vector<bcvec> result\_container(\mbox{\hyperlink{namespacebn}{bn}}.number\_of\_variables());}
-\DoxyCodeLine{289                 marginal\_distribution<Probability> temp(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
-\DoxyCodeLine{290                 \textcolor{keyword}{auto} [gpu\_samples, gpu\_iter] = this-\/>calculate\_iterations(\mbox{\hyperlink{namespacebn}{bn}});}
-\DoxyCodeLine{291 }
-\DoxyCodeLine{292                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < gpu\_iter; ++i)\{}
-\DoxyCodeLine{293                     \textcolor{keywordflow}{for}(ulong v : \mbox{\hyperlink{namespacebn_a3d7493f846b1dc83dfff870d49bc558e}{sampling\_order}}(\mbox{\hyperlink{namespacebn}{bn}})) \{}
-\DoxyCodeLine{294                         \textcolor{keywordflow}{if}(\mbox{\hyperlink{namespacebn}{bn}}[v].is\_evidence())\{}
-\DoxyCodeLine{295                             result\_container[v] = bcvec(this-\/>nsamples, \mbox{\hyperlink{namespacebn}{bn}}[v].states().size(), this-\/>context);}
-\DoxyCodeLine{296                             compute::fill(result\_container[v].state.begin(), result\_container[v].state.end(), \mbox{\hyperlink{namespacebn}{bn}}[v].evidence\_state(), this-\/>queue);}
-\DoxyCodeLine{297                         \}}
-\DoxyCodeLine{298                         \textcolor{keywordflow}{else}\{}
-\DoxyCodeLine{299                             std::vector<bcvec*> parents\_result;}
-\DoxyCodeLine{300                             \textcolor{keyword}{auto} parents = \mbox{\hyperlink{namespacebn}{bn}}[v].parents\_info.names();}
-\DoxyCodeLine{301                             std::reverse(parents.begin(), parents.end());}
-\DoxyCodeLine{302                             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} p : parents) \{}
-\DoxyCodeLine{303                                 parents\_result.push\_back(\&result\_container[\mbox{\hyperlink{namespacebn}{bn}}.index\_of(p)]);}
-\DoxyCodeLine{304                             \}}
-\DoxyCodeLine{305 }
-\DoxyCodeLine{306                             result\_container[v] = this-\/>simulate\_node(icpt\_vec[v] , parents\_result, gpu\_samples);}
-\DoxyCodeLine{307 }
-\DoxyCodeLine{308                             \textcolor{keyword}{auto} accumulated\_result = compute\_result\_general(result\_container[v]);}
+\DoxyCodeLine{47         \textcolor{keyword}{template} <}
+\DoxyCodeLine{48                 BNetDerived Network\_,}
+\DoxyCodeLine{49                 \textcolor{keyword}{typename} Generator\_ = std::mt19937}
+\DoxyCodeLine{50                 >}
+\DoxyCodeLine{51         \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1inference_1_1adaptive__importance__sampling}{adaptive\_importance\_sampling}}: \textcolor{keyword}{public} \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Network\_>}
+\DoxyCodeLine{52         \{}
+\DoxyCodeLine{53             \textcolor{keyword}{using} \textcolor{keyword}{typename} vectorized\_inference\_algorithm<Network\_>::network\_type;}
+\DoxyCodeLine{54             \textcolor{keyword}{using} \textcolor{keyword}{typename} vectorized\_inference\_algorithm<Network\_>::probability\_type;}
+\DoxyCodeLine{55             \textcolor{keyword}{using} \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm<Network\_>::bn}};}
+\DoxyCodeLine{56             \textcolor{keyword}{typedef} std::vector<cow::icpt<probability\_type>> icpt\_vector;}
+\DoxyCodeLine{57             \textcolor{keyword}{typedef} std::vector<std::vector<uint>>  simulation\_matrix;}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59         \textcolor{keyword}{public}:}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{72             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1inference_1_1adaptive__importance__sampling_acabeae2b2e5ed2e0bb8dc0433a9d531a}{adaptive\_importance\_sampling}}(}
+\DoxyCodeLine{73                 \textcolor{keyword}{const} network\_type \& bn,}
+\DoxyCodeLine{74                 ulong nsamples,}
+\DoxyCodeLine{75                 \textcolor{keywordtype}{size\_t} memory,}
+\DoxyCodeLine{76                 \textcolor{keywordtype}{double} initial\_learning\_rate = 1,}
+\DoxyCodeLine{77                 \textcolor{keywordtype}{double} final\_learning\_rate = 0.05,}
+\DoxyCodeLine{78                 uint learning\_step = 1000,}
+\DoxyCodeLine{79                 uint seed = 0,}
+\DoxyCodeLine{80                 \textcolor{keyword}{const} compute::device\& device = compute::system::default\_device()}
+\DoxyCodeLine{81             )}
+\DoxyCodeLine{82             : \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Network\_>(bn, nsamples, memory, seed, device)}
+\DoxyCodeLine{83             , w\_k(1)}
+\DoxyCodeLine{84             , initial\_learning\_rate(initial\_learning\_rate)}
+\DoxyCodeLine{85             , final\_learning\_rate(final\_learning\_rate)}
+\DoxyCodeLine{86             , learning\_cutoff(0.005)}
+\DoxyCodeLine{87             , learning\_step(learning\_step)\{\}}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{96             \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib::marginal\_distribution<probability\_type>}} \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm_a0bef5f3133e2a3bed05eb7d9b004e243}{make\_inference}} ()}
+\DoxyCodeLine{97             \{}
+\DoxyCodeLine{98                 BAYLIB\_ASSERT(std::all\_of(bn.begin(), bn.end(),}
+\DoxyCodeLine{99                                           [\textcolor{keyword}{this}](\textcolor{keyword}{auto} \&var)\{ return baylib::cpt\_filled\_out(bn, var.id()); \}),}
+\DoxyCodeLine{100                               \textcolor{stringliteral}{"{}conditional probability tables must be properly filled to"{}}}
+\DoxyCodeLine{101                               \textcolor{stringliteral}{"{} run logic\_sampling inference algorithm"{}},}
+\DoxyCodeLine{102                               std::runtime\_error);}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104                 icpt\_vector icptvec\{\};}
+\DoxyCodeLine{105                 \textcolor{keyword}{auto} result = \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{marginal\_distribution<probability\_type>}}(bn.begin(), bn.end());}
+\DoxyCodeLine{106                 \textcolor{keywordtype}{bool} evidence\_found = \textcolor{keyword}{false};}
+\DoxyCodeLine{107                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} v\_id = 0; v\_id < bn.number\_of\_variables(); ++v\_id)\{}
+\DoxyCodeLine{108                     icptvec.emplace\_back(\mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{cow::icpt<probability\_type>}}(bn[v\_id].table()));}
+\DoxyCodeLine{109                     \textcolor{keywordflow}{if}(bn[v\_id].is\_evidence())\{}
+\DoxyCodeLine{110                         result[v\_id][bn[v\_id].evidence\_state()] = 1;}
+\DoxyCodeLine{111                         evidence\_found = \textcolor{keyword}{true};}
+\DoxyCodeLine{112                     \}}
+\DoxyCodeLine{113                 \}}
+\DoxyCodeLine{114                 \textcolor{comment}{// If no evidence is present the algorithm degenerates to simple}}
+\DoxyCodeLine{115                 \textcolor{comment}{// logic\_sampling, and we can skip the learning phase}}
+\DoxyCodeLine{116                 \textcolor{keywordflow}{if}(evidence\_found)\{}
+\DoxyCodeLine{117                     ancestors = \mbox{\hyperlink{namespacebaylib_aa6db784183236df8f4133d2acec631d6}{ancestors\_of\_evidence}}(bn);}
+\DoxyCodeLine{118                     learn\_icpt(icptvec);}
+\DoxyCodeLine{119                 \}}
+\DoxyCodeLine{120                 result += gpu\_simulation(icptvec, bn);}
+\DoxyCodeLine{121                 result.normalize();}
+\DoxyCodeLine{122                 \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{123             \}}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126         \textcolor{keyword}{private}:}
+\DoxyCodeLine{127             \textcolor{keywordtype}{double} w\_k;}
+\DoxyCodeLine{128             std::vector<ulong> ancestors;}
+\DoxyCodeLine{129             \textcolor{keywordtype}{double} initial\_learning\_rate;}
+\DoxyCodeLine{130             \textcolor{keywordtype}{double} final\_learning\_rate;}
+\DoxyCodeLine{131             \textcolor{keywordtype}{double} learning\_cutoff;}
+\DoxyCodeLine{132             uint learning\_step;}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134 }
+\DoxyCodeLine{149             \textcolor{keywordtype}{void} learn\_icpt( icpt\_vector \& icptvec )}
+\DoxyCodeLine{150             \{}
+\DoxyCodeLine{151                 ulong nvars = bn.number\_of\_variables();}
+\DoxyCodeLine{152                 simulation\_matrix graph\_state(learning\_step);}
+\DoxyCodeLine{153                 std::vector<probability\_type> random\_vec(learning\_step * nvars);}
+\DoxyCodeLine{154                 \textcolor{keywordtype}{double} k = 0;}
+\DoxyCodeLine{155                 uint max\_k = this-\/>nsamples / 2 / learning\_step;}
+\DoxyCodeLine{156                 seed\_factory factory(1, this-\/>seed);}
+\DoxyCodeLine{157                 \mbox{\hyperlink{classbaylib_1_1random__generator}{baylib::random\_generator<probability\_type, Generator\_>}} rnd\_gen(this-\/>seed);}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < max\_k; ++i) \{}
+\DoxyCodeLine{160                     std::future<void> el = std::async([\&]()\{std::generate(}
+\DoxyCodeLine{161                                                 random\_vec.begin(),}
+\DoxyCodeLine{162                                                 random\_vec.end(),}
+\DoxyCodeLine{163                                                 rnd\_gen);\});}
+\DoxyCodeLine{164                     \textcolor{keywordflow}{if}(i != 0)\{}
+\DoxyCodeLine{165                         \textcolor{comment}{// Formula for the learning\_rate proposed in the paper}}
+\DoxyCodeLine{166                         \textcolor{keywordtype}{double} learning\_rate = initial\_learning\_rate *}
+\DoxyCodeLine{167                                 std::pow(final\_learning\_rate / initial\_learning\_rate,k / (\textcolor{keywordtype}{double})max\_k);}
+\DoxyCodeLine{168                         \textcolor{keywordtype}{double} difference = absorb\_samples(graph\_state, bn, icptvec, learning\_rate);}
+\DoxyCodeLine{169                         \textcolor{comment}{// if the maximum difference was low enough we stop the learning process}}
+\DoxyCodeLine{170                         \textcolor{keywordflow}{if}(difference < learning\_cutoff)\{}
+\DoxyCodeLine{171                             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{172                         \}}
+\DoxyCodeLine{173                         k++;}
+\DoxyCodeLine{174                     \}}
+\DoxyCodeLine{175                     el.get();}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{177                     std::transform( std::execution::par,}
+\DoxyCodeLine{178                                     boost::counting\_iterator<ulong>(0),}
+\DoxyCodeLine{179                                     boost::counting\_iterator<ulong>(graph\_state.size()),}
+\DoxyCodeLine{180                                     graph\_state.begin(),}
+\DoxyCodeLine{181                                     [\&](ulong ix)}
+\DoxyCodeLine{182                                     \{}
+\DoxyCodeLine{183                                     std::vector<uint> local\_result(nvars);}
+\DoxyCodeLine{184                                     ix *= nvars;}
+\DoxyCodeLine{185                                     for (ulong v: ancestors) \{}
+\DoxyCodeLine{186                                         if (bn[v].is\_evidence()) \{}
+\DoxyCodeLine{187                                             local\_result[v] = bn[v].evidence\_state();}
+\DoxyCodeLine{188                                             continue;}
+\DoxyCodeLine{189                                         \}}
+\DoxyCodeLine{190                                         const probability\_type p = random\_vec[ix];}
+\DoxyCodeLine{191                                         ix++;}
+\DoxyCodeLine{192                                         std::vector<probability\_type> weight;}
+\DoxyCodeLine{193                                         baylib::condition parents\_state\_cond;}
+\DoxyCodeLine{194                                         for (auto par : bn.parents\_of(v))}
+\DoxyCodeLine{195                                             parents\_state\_cond.add(}
+\DoxyCodeLine{196                                                     par,}
+\DoxyCodeLine{197                                                     local\_result[par]}
+\DoxyCodeLine{198                                                     );}
+\DoxyCodeLine{199                                         weight = icptvec[v][parents\_state\_cond];}
+\DoxyCodeLine{200                                         ulong sample = make\_random\_by\_weight(p, weight);}
+\DoxyCodeLine{201                                         local\_result[v] = sample;}
+\DoxyCodeLine{202                                     \}}
+\DoxyCodeLine{203                                     \textcolor{keywordflow}{return} local\_result;}
+\DoxyCodeLine{204                                     \});}
+\DoxyCodeLine{205                 \}}
+\DoxyCodeLine{206                 this-\/>seed = factory.get\_new(); \textcolor{comment}{// new seed for gpu simulation}}
+\DoxyCodeLine{207             \}}
+\DoxyCodeLine{208 }
+\DoxyCodeLine{209 }
+\DoxyCodeLine{218             \textcolor{keywordtype}{double} absorb\_samples(}
+\DoxyCodeLine{219                 \textcolor{keyword}{const} simulation\_matrix \& graph\_state,}
+\DoxyCodeLine{220                 \textcolor{keyword}{const} network\_type \& bn,}
+\DoxyCodeLine{221                 icpt\_vector \& icptvec,}
+\DoxyCodeLine{222                 \textcolor{keywordtype}{double} learning\_rate}
+\DoxyCodeLine{223             )}
+\DoxyCodeLine{224             \{}
+\DoxyCodeLine{225                 probability\_type evidence\_score;}
+\DoxyCodeLine{226                 std::vector<probability\_type> sample\_weight(graph\_state.size());}
+\DoxyCodeLine{227 }
+\DoxyCodeLine{228                 \textcolor{keywordtype}{double} max\_distance = 0.;}
+\DoxyCodeLine{229 }
+\DoxyCodeLine{230                 \textcolor{comment}{// Calculate the likelihood of extracting a particular set of samples}}
+\DoxyCodeLine{231                 std::transform(std::execution::par\_unseq,}
+\DoxyCodeLine{232                                boost::counting\_iterator<uint>(0),}
+\DoxyCodeLine{233                                boost::counting\_iterator<uint>(graph\_state.size()),}
+\DoxyCodeLine{234                                sample\_weight.begin(),}
+\DoxyCodeLine{235                                [\&](uint ix)}
+\DoxyCodeLine{236                                \{}
+\DoxyCodeLine{237                                 probability\_type weight = 1;}
+\DoxyCodeLine{238                                 for(ulong v\_id: ancestors)\{}
+\DoxyCodeLine{239                                     condition cond;}
+\DoxyCodeLine{240                                     auto\& icpt = icptvec[v\_id];}
+\DoxyCodeLine{241                                     auto\& cpt = bn[v\_id].table();}
+\DoxyCodeLine{242                                     auto\& sample\_state = graph\_state[ix][v\_id];}
+\DoxyCodeLine{243 }
+\DoxyCodeLine{244                                     for(auto p\_id : bn.parents\_of(v\_id))}
+\DoxyCodeLine{245                                         cond.add(p\_id, graph\_state[ix][p\_id]);}
+\DoxyCodeLine{246                                     if(bn[v\_id].is\_evidence())\{}
+\DoxyCodeLine{247                                         weight *= cpt[cond][bn[v\_id].evidence\_state()];}
+\DoxyCodeLine{248                                     \}else\{}
+\DoxyCodeLine{249                                         weight *= cpt[cond][sample\_state] / icpt[cond][sample\_state];}
+\DoxyCodeLine{250                                     \}}
+\DoxyCodeLine{251                                 \}}
+\DoxyCodeLine{252                                 \textcolor{keywordflow}{return}  weight;\});}
+\DoxyCodeLine{253 }
+\DoxyCodeLine{254                 \textcolor{comment}{// Update the icpts and return the maximum distance}}
+\DoxyCodeLine{255                 max\_distance =  std::transform\_reduce(}
+\DoxyCodeLine{256                                 std::execution::par\_unseq,}
+\DoxyCodeLine{257                                 ancestors.begin(),}
+\DoxyCodeLine{258                                 ancestors.end(),}
+\DoxyCodeLine{259                                 0.,}
+\DoxyCodeLine{260                                 [](\textcolor{keyword}{auto} e1, \textcolor{keyword}{auto} e2)\{return e1 > e2 ? e1 : e2;\},}
+\DoxyCodeLine{261                                 [\&](\textcolor{keyword}{auto} v\_id)}
+\DoxyCodeLine{262                                 \{}
+\DoxyCodeLine{263                                     if(bn[v\_id].is\_evidence())}
+\DoxyCodeLine{264                                         return 0.;}
+\DoxyCodeLine{265                                     auto\& original\_cpt = icptvec[v\_id];}
+\DoxyCodeLine{266                                     cow::icpt<probability\_type> temp\_icpt(bn[v\_id].table(), true);}
+\DoxyCodeLine{267                                     for (int i = 0; i < graph\_state.size(); ++i) \{}
+\DoxyCodeLine{268                                         condition cond;}
+\DoxyCodeLine{269                                         auto sample = graph\_state[i][v\_id];}
+\DoxyCodeLine{270                                         for(auto p\_id : bn.parents\_of(v\_id))}
+\DoxyCodeLine{271                                             cond.add(p\_id, graph\_state[i][p\_id]);}
+\DoxyCodeLine{272                                         temp\_icpt[cond][sample] += sample\_weight[i];}
+\DoxyCodeLine{273                                     \}}
+\DoxyCodeLine{274                                     temp\_icpt.normalize();}
+\DoxyCodeLine{275                                     \textcolor{keywordtype}{double} distance = original\_cpt.absorb(temp\_icpt, learning\_rate);}
+\DoxyCodeLine{276                                     \textcolor{keywordflow}{return} distance;}
+\DoxyCodeLine{277                                 \});}
+\DoxyCodeLine{278 }
+\DoxyCodeLine{279                 \textcolor{keywordflow}{return} max\_distance;}
+\DoxyCodeLine{280             \}}
+\DoxyCodeLine{281 }
+\DoxyCodeLine{289             marginal\_distribution<probability\_type> gpu\_simulation(}
+\DoxyCodeLine{290                     \textcolor{keyword}{const} icpt\_vector\& icpt\_vec,}
+\DoxyCodeLine{291                     \textcolor{keyword}{const} network\_type \& bn}
+\DoxyCodeLine{292             )}
+\DoxyCodeLine{293             \{}
+\DoxyCodeLine{294                 \textcolor{keywordtype}{int} niter = 1;}
+\DoxyCodeLine{295                 marginal\_distribution<probability\_type> marginal\_result(bn.begin(), bn.end());}
+\DoxyCodeLine{296                 std::vector<bcvec> result\_container(bn.number\_of\_variables());}
+\DoxyCodeLine{297                 marginal\_distribution<probability\_type> temp(bn.begin(), bn.end());}
+\DoxyCodeLine{298                 \textcolor{keyword}{auto} [gpu\_samples, gpu\_iter] = this-\/>calculate\_iterations();}
+\DoxyCodeLine{299 }
+\DoxyCodeLine{300                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < gpu\_iter; ++i)\{}
+\DoxyCodeLine{301                     \textcolor{keywordflow}{for}(ulong v : \mbox{\hyperlink{namespacebaylib_a02bd9315d6bfbb11442016299e84e7b6}{sampling\_order}}(bn)) \{}
+\DoxyCodeLine{302                         \textcolor{keywordflow}{if}(bn[v].is\_evidence())\{}
+\DoxyCodeLine{303                             result\_container[v] = bcvec(this-\/>nsamples, bn[v].number\_of\_states(), this-\/>context);}
+\DoxyCodeLine{304                             compute::fill(result\_container[v].state.begin(), result\_container[v].state.end(), bn[v].evidence\_state(), this-\/>queue);}
+\DoxyCodeLine{305                         \}}
+\DoxyCodeLine{306                         \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{307                             std::vector<bcvec*> parents\_result;}
+\DoxyCodeLine{308                             \textcolor{keyword}{auto} parents = bn.parents\_of(v);}
 \DoxyCodeLine{309 }
-\DoxyCodeLine{310                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} ix=0; ix< accumulated\_result.size(); ix++)}
-\DoxyCodeLine{311                                 marginal\_result[v][ix] += accumulated\_result[ix];}
-\DoxyCodeLine{312                         \}}
-\DoxyCodeLine{313                     \}}
-\DoxyCodeLine{314                 \}}
-\DoxyCodeLine{315                 \textcolor{keywordflow}{return} marginal\_result;}
-\DoxyCodeLine{316             \}}
+\DoxyCodeLine{310                             \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} p : parents) \{}
+\DoxyCodeLine{311                                 parents\_result.push\_back(\&result\_container[p]);}
+\DoxyCodeLine{312                             \}}
+\DoxyCodeLine{313 }
+\DoxyCodeLine{314                             result\_container[v] = this-\/>simulate\_node(v, icpt\_vec[v], parents\_result, gpu\_samples);}
+\DoxyCodeLine{315 }
+\DoxyCodeLine{316                             \textcolor{keyword}{auto} accumulated\_result = compute\_result\_general(result\_container[v]);}
 \DoxyCodeLine{317 }
-\DoxyCodeLine{323             std::vector<ulong> compute\_result\_general(bcvec\& res)}
-\DoxyCodeLine{324             \{}
-\DoxyCodeLine{325                 std::vector<ulong> acc\_res(res.cardinality);}
-\DoxyCodeLine{326                 \textcolor{keywordflow}{for} (bn::state\_t i = 0; i < res.cardinality; ++i) \{}
-\DoxyCodeLine{327                     acc\_res[i] = w\_k * compute::count(res.state.begin(), res.state.end(), i, this-\/>queue);}
-\DoxyCodeLine{328                 \}}
-\DoxyCodeLine{329                 \textcolor{keywordflow}{return} acc\_res;}
-\DoxyCodeLine{330             \}}
-\DoxyCodeLine{331 }
-\DoxyCodeLine{332 }
-\DoxyCodeLine{339             uint make\_random\_by\_weight(}
-\DoxyCodeLine{340                 \textcolor{keyword}{const} Probability p,}
-\DoxyCodeLine{341                 \textcolor{keyword}{const} std::vector<Probability> \& weight}
-\DoxyCodeLine{342             )}
-\DoxyCodeLine{343             \{}
-\DoxyCodeLine{344                 Probability total = 0.0;}
-\DoxyCodeLine{345                 \textcolor{keywordflow}{for}(uint i = 0; i < weight.size(); ++i)}
-\DoxyCodeLine{346                 \{}
-\DoxyCodeLine{347                     \textcolor{keyword}{auto} \textcolor{keyword}{const} old\_total = total;}
-\DoxyCodeLine{348                     total += weight[i];}
-\DoxyCodeLine{349                     \textcolor{keywordflow}{if}(old\_total <= p \&\& p < total)}
-\DoxyCodeLine{350                     \{}
-\DoxyCodeLine{351                         \textcolor{keywordflow}{return} i;}
-\DoxyCodeLine{352                     \}}
-\DoxyCodeLine{353                 \}}
-\DoxyCodeLine{354                 \textcolor{keywordflow}{return} weight.size() -\/ 1;}
-\DoxyCodeLine{355             \}}
-\DoxyCodeLine{356         \};}
-\DoxyCodeLine{357     \}}
-\DoxyCodeLine{358 \}}
-\DoxyCodeLine{359 }
-\DoxyCodeLine{360 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_ADAPTIVE\_IMPORTANCE\_SAMPLING\_HPP}}
+\DoxyCodeLine{318                             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} ix=0; ix< accumulated\_result.size(); ix++)}
+\DoxyCodeLine{319                                 marginal\_result[v][ix] += accumulated\_result[ix];}
+\DoxyCodeLine{320                         \}}
+\DoxyCodeLine{321                     \}}
+\DoxyCodeLine{322                 \}}
+\DoxyCodeLine{323                 \textcolor{keywordflow}{return} marginal\_result;}
+\DoxyCodeLine{324             \}}
+\DoxyCodeLine{325 }
+\DoxyCodeLine{331             std::vector<ulong> compute\_result\_general(bcvec\& res)}
+\DoxyCodeLine{332             \{}
+\DoxyCodeLine{333                 std::vector<ulong> acc\_res(res.cardinality);}
+\DoxyCodeLine{334                 \textcolor{keywordflow}{for} (baylib::state\_t i = 0; i < res.cardinality; ++i) \{}
+\DoxyCodeLine{335                     acc\_res[i] = w\_k * compute::count(res.state.begin(), res.state.end(), i, this-\/>queue);}
+\DoxyCodeLine{336                 \}}
+\DoxyCodeLine{337                 \textcolor{keywordflow}{return} acc\_res;}
+\DoxyCodeLine{338             \}}
+\DoxyCodeLine{339 }
+\DoxyCodeLine{340 }
+\DoxyCodeLine{347             uint make\_random\_by\_weight(}
+\DoxyCodeLine{348                 \textcolor{keyword}{const} probability\_type p,}
+\DoxyCodeLine{349                 \textcolor{keyword}{const} std::vector<probability\_type> \& weight}
+\DoxyCodeLine{350             )}
+\DoxyCodeLine{351             \{}
+\DoxyCodeLine{352                 probability\_type total = 0.0;}
+\DoxyCodeLine{353                 \textcolor{keywordflow}{for}(uint i = 0; i < weight.size(); ++i)}
+\DoxyCodeLine{354                 \{}
+\DoxyCodeLine{355                     \textcolor{keyword}{auto} \textcolor{keyword}{const} old\_total = total;}
+\DoxyCodeLine{356                     total += weight[i];}
+\DoxyCodeLine{357                     \textcolor{keywordflow}{if}(old\_total <= p \&\& p < total)}
+\DoxyCodeLine{358                     \{}
+\DoxyCodeLine{359                         \textcolor{keywordflow}{return} i;}
+\DoxyCodeLine{360                     \}}
+\DoxyCodeLine{361                 \}}
+\DoxyCodeLine{362                 \textcolor{keywordflow}{return} weight.size() -\/ 1;}
+\DoxyCodeLine{363             \}}
+\DoxyCodeLine{364         \};}
+\DoxyCodeLine{365     \}}
+\DoxyCodeLine{366 \}}
+\DoxyCodeLine{367 }
+\DoxyCodeLine{368 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_ADAPTIVE\_IMPORTANCE\_SAMPLING\_HPP}}
 
 \end{DoxyCode}

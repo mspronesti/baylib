@@ -13,17 +13,17 @@
  */
 
 
-namespace bn {
+namespace baylib {
     /**
      * This class models the marginal distribution
      * of a set of random variables.
      * Can be initialized using
-     * - an iterable container containing bn::random_variables<Probability>
-     * - two iterators of bn::random_variables<Probability>
+     * - an iterable container containing baylib::random_variables<probability_type>
+     * - two iterators of baylib::random_variables<probability_type>
      *
-     * @tparam Probability  : the type expressing the probability
+     * @tparam Probability_  : the type expressing the probability
      */
-    template <typename Probability>
+    template <Arithmetic Probability_ = double >
     class marginal_distribution {
     public:
         template <typename Container>
@@ -35,10 +35,10 @@ namespace bn {
         template<typename Iterator>
         marginal_distribution(Iterator begin, Iterator end) {
             for (auto it = begin; it != end; ++it)
-                mdistr.emplace_back((*it).states().size(), 0.0);
+                mdistr.emplace_back((*it).number_of_states(), 0.0);
         }
 
-        void set(ulong vid, ulong state_value, Probability p) {
+        void set(ulong vid, ulong state_value, Probability_ p) {
             BAYLIB_ASSERT(vid < mdistr.size() &&
                           state_value < mdistr[vid].size(),
                           "out of bound access to marginal "
@@ -46,14 +46,14 @@ namespace bn {
                           std::out_of_range)
 
             BAYLIB_ASSERT(p >= 0.0 && p <= 1.0,
-                          "Probability value " << p
+                          "probability_type value " << p
                           << " ain't included in [0, 1]",
                           std::logic_error)
 
             mdistr[vid][state_value] = p;
         }
 
-        std::vector<Probability> &operator[](ulong vid) {
+        std::vector<Probability_> &operator[](ulong vid) {
             BAYLIB_ASSERT(vid < mdistr.size(),
                           "out of bound access to marginal "
                           "distribution",
@@ -62,14 +62,14 @@ namespace bn {
             return mdistr[vid];
         }
 
-        void operator/=(Probability value) {
+        void operator /= (Probability_ value) {
             for (auto &row : mdistr)
                 for (auto &entry : row)
                     entry /= value;
         }
 
-        marginal_distribution<Probability> &operator+=(
-                const marginal_distribution<Probability> &other
+        marginal_distribution<Probability_> &operator += (
+                const marginal_distribution<Probability_> &other
         ) {
             BAYLIB_ASSERT(mdistr.size() == other.mdistr.size(),
                           "Incompatible second operand of type"
@@ -88,10 +88,11 @@ namespace bn {
             return *this;
         }
 
-        friend std::ostream &operator<<(
+        friend std::ostream &operator << (
                 std::ostream &os,
-                const marginal_distribution<Probability> &md
-        ) {
+                const marginal_distribution<Probability_> &md
+        )
+        {
             for (auto &row : md.mdistr) {
                 os << " | ";
                 for (auto &p : row)
@@ -101,9 +102,13 @@ namespace bn {
             return os;
         }
 
+        auto begin() const { return mdistr.begin(); }
+
+        auto end() const { return mdistr.end(); }
+
         void normalize() {
             for (auto &row : mdistr) {
-                Probability sum = std::accumulate(row.begin(), row.end(), 0.0);
+                Probability_ sum = std::accumulate(row.begin(), row.end(), 0.0);
                 if (abs(sum) > 1.0e-5)
                     std::for_each(row.begin(), row.end(), [sum](auto &val) {
                         val /= sum;
@@ -112,13 +117,13 @@ namespace bn {
         }
 
     private:
-        std::vector<std::vector<Probability>> mdistr;
+        std::vector<std::vector<Probability_>> mdistr;
     };
 
     // type deduction guide
     template<typename Iterator>
     marginal_distribution(Iterator begin, Iterator end) -> marginal_distribution<std::decay_t<decltype(*begin)>>;
 
-} // namespace bn
+} // namespace baylib
 
 #endif //BAYLIB_MARGINAL_DISTRIBUTION_HPP

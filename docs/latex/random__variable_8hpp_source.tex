@@ -9,142 +9,90 @@
 \DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef BAYLIB\_RANDOM\_VARIABLE\_HPP}}
 \DoxyCodeLine{6 \textcolor{preprocessor}{\#define BAYLIB\_RANDOM\_VARIABLE\_HPP}}
 \DoxyCodeLine{7 }
-\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{bayesian__network_8hpp}{baylib/network/bayesian\_network.hpp}}>}}
-\DoxyCodeLine{9 }
-\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <boost/range/adaptor/map.hpp>}}
-\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <boost/range/algorithm/copy.hpp>}}
-\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <utility>}}
-\DoxyCodeLine{13 }
-\DoxyCodeLine{16 }
-\DoxyCodeLine{17 \textcolor{keyword}{namespace  }\mbox{\hyperlink{namespacebn}{bn}} \{}
-\DoxyCodeLine{18     \textcolor{comment}{// forward declaration}}
-\DoxyCodeLine{19     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
-\DoxyCodeLine{20     \textcolor{keyword}{class }bayesian\_network;}
-\DoxyCodeLine{21 }
-\DoxyCodeLine{22     \textcolor{keyword}{template}<\textcolor{keyword}{typename} Probability>}
-\DoxyCodeLine{23     \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1random__variable}{random\_variable}} \{}
-\DoxyCodeLine{24     \textcolor{keyword}{public}:}
-\DoxyCodeLine{25 }
-\DoxyCodeLine{26         \mbox{\hyperlink{classbn_1_1random__variable}{random\_variable}}() = \textcolor{keywordflow}{default};}
-\DoxyCodeLine{27 }
-\DoxyCodeLine{33         \mbox{\hyperlink{classbn_1_1random__variable_a626e6fc27a6833ece134ab93b2fb827d}{random\_variable}}(}
-\DoxyCodeLine{34             std::string \mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}},}
-\DoxyCodeLine{35             \textcolor{keyword}{const} std::vector <std::string> \&\mbox{\hyperlink{classbn_1_1random__variable_a9d445bdb2a6667bbd6225208470c69dc}{states}}}
-\DoxyCodeLine{36         )}
-\DoxyCodeLine{37         : \_name(std::move(\mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}}))}
-\DoxyCodeLine{38         , cpt(\mbox{\hyperlink{classbn_1_1random__variable_a9d445bdb2a6667bbd6225208470c69dc}{states}}.size())}
-\DoxyCodeLine{39         , \_states(\mbox{\hyperlink{classbn_1_1random__variable_a9d445bdb2a6667bbd6225208470c69dc}{states}})}
-\DoxyCodeLine{40         , \_is\_evidence(false)}
-\DoxyCodeLine{41         , \_state\_value(0)}
-\DoxyCodeLine{42         \{ \}}
-\DoxyCodeLine{43 }
-\DoxyCodeLine{49         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1random__variable_a1d19cfcc2bd83ea88f069246baf3858f}{has\_state}}(\textcolor{keyword}{const} std::string \&state\_name)\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{50             \textcolor{keywordflow}{return} std::any\_of(\_states.begin(), \_states.end(),}
-\DoxyCodeLine{51                                [state\_name](\textcolor{keyword}{const} std::string\& state) \{ return state\_name == state; \});}
-\DoxyCodeLine{52         \}}
-\DoxyCodeLine{53 }
-\DoxyCodeLine{60         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1random__variable_abdba1b159448915558a666cc395efc04}{set\_probability}}(}
-\DoxyCodeLine{61             bn::state\_t state\_value,}
-\DoxyCodeLine{62             \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond,}
-\DoxyCodeLine{63             Probability p}
-\DoxyCodeLine{64         )}
-\DoxyCodeLine{65         \{}
-\DoxyCodeLine{66             cpt.set\_probability(cond, state\_value, p);}
-\DoxyCodeLine{67         \}}
-\DoxyCodeLine{68 }
-\DoxyCodeLine{72         std::string \mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}}()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{73             \textcolor{keywordflow}{return} \_name;}
-\DoxyCodeLine{74         \}}
-\DoxyCodeLine{75 }
-\DoxyCodeLine{79         std::vector <std::string> \mbox{\hyperlink{classbn_1_1random__variable_a9d445bdb2a6667bbd6225208470c69dc}{states}}()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{80             \textcolor{keywordflow}{return} \_states;}
-\DoxyCodeLine{81         \}}
-\DoxyCodeLine{82 }
-\DoxyCodeLine{86         \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt<Probability>}} \&\mbox{\hyperlink{classbn_1_1random__variable_a51961c59bb1c2054bac08a8e95f31d22}{table}}() \{}
-\DoxyCodeLine{87             \textcolor{keywordflow}{return} cpt;}
-\DoxyCodeLine{88         \}}
-\DoxyCodeLine{89 }
-\DoxyCodeLine{93         \textcolor{keyword}{const}  \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt<Probability>}} \&\mbox{\hyperlink{classbn_1_1random__variable_a44c3b9899e0eba62cc7cfc69bffdfb56}{table}}()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{94             \textcolor{keywordflow}{return} cpt;}
-\DoxyCodeLine{95         \}}
-\DoxyCodeLine{96 }
-\DoxyCodeLine{100         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \mbox{\hyperlink{classbn_1_1random__variable_a34f34d4def2b2a3c17913c996abbfd15}{id}}()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{101             \textcolor{keywordflow}{return} \_id;}
-\DoxyCodeLine{102         \}}
-\DoxyCodeLine{103 }
-\DoxyCodeLine{109         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1random__variable_ad2eedb9bc3b586628fcc91713b6e1b0c}{set\_as\_evidence}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} value)\{}
-\DoxyCodeLine{110             BAYLIB\_ASSERT(value < \_states.size(),}
-\DoxyCodeLine{111                           \textcolor{stringliteral}{"{}Invalid value for random"{}}}
-\DoxyCodeLine{112                           \textcolor{stringliteral}{"{} variable"{}} << \_name,}
-\DoxyCodeLine{113                           std::runtime\_error)}
-\DoxyCodeLine{114             \_state\_value = value;}
-\DoxyCodeLine{115             \_is\_evidence = \textcolor{keyword}{true};}
-\DoxyCodeLine{116         \}}
-\DoxyCodeLine{117 }
-\DoxyCodeLine{121         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1random__variable_af68637f29b9dfb1000ef6d2ff0e1a944}{clear\_evidence}}() \{}
-\DoxyCodeLine{122             \_is\_evidence = \textcolor{keyword}{false};}
-\DoxyCodeLine{123         \}}
-\DoxyCodeLine{124 }
-\DoxyCodeLine{128         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbn_1_1random__variable_a95a37377bd16cb1f6494bbaf7c989ed0}{is\_evidence}}()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{129             \textcolor{keywordflow}{return} \_is\_evidence;}
-\DoxyCodeLine{130         \}}
-\DoxyCodeLine{131 }
-\DoxyCodeLine{137         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \mbox{\hyperlink{classbn_1_1random__variable_ab7d22ac3bff2eccad970cadcbef4bfb2}{evidence\_state}}()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{138             BAYLIB\_ASSERT(\_is\_evidence,}
-\DoxyCodeLine{139                           \textcolor{stringliteral}{"{}Random variable "{}} << \_name}
-\DoxyCodeLine{140                           << \textcolor{stringliteral}{"{} is not an evidence"{}},}
-\DoxyCodeLine{141                           std::logic\_error)}
-\DoxyCodeLine{142 }
-\DoxyCodeLine{143             \textcolor{keywordflow}{return} \_state\_value;}
-\DoxyCodeLine{144         \}}
-\DoxyCodeLine{145 }
-\DoxyCodeLine{146         \textcolor{keyword}{struct }\mbox{\hyperlink{structbn_1_1random__variable_1_1parents__info__t}{parents\_info\_t}} \{}
-\DoxyCodeLine{152         \textcolor{keyword}{public}:}
-\DoxyCodeLine{153 }
-\DoxyCodeLine{159             \textcolor{keywordtype}{void} \mbox{\hyperlink{structbn_1_1random__variable_1_1parents__info__t_a1441702c564832072da8f08dc830c408}{add}} (\textcolor{keyword}{const} std::string \&\mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}}, ulong nstates) \{}
-\DoxyCodeLine{160                 parents\_map[\mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}}] = nstates;}
-\DoxyCodeLine{161             \}}
-\DoxyCodeLine{162 }
-\DoxyCodeLine{167             \textcolor{keywordtype}{void} \mbox{\hyperlink{structbn_1_1random__variable_1_1parents__info__t_a6259d60c62adee2baa9c8b086d136eb6}{remove}}(\textcolor{keyword}{const} std::string \&\mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}})\{}
-\DoxyCodeLine{168                 parents\_map.erase(\mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}});}
-\DoxyCodeLine{169             \}}
-\DoxyCodeLine{170 }
-\DoxyCodeLine{175             std::vector<std::string> \mbox{\hyperlink{structbn_1_1random__variable_1_1parents__info__t_a03638549a9a7de311c3b542f36dd1dda}{names}}() \{}
-\DoxyCodeLine{176                 \textcolor{keyword}{auto} pnames = std::vector<std::string>\{\};}
-\DoxyCodeLine{177                 boost::copy(parents\_map | boost::adaptors::map\_keys,}
-\DoxyCodeLine{178                             std::back\_inserter(pnames));}
-\DoxyCodeLine{179                 \textcolor{keywordflow}{return} pnames;}
-\DoxyCodeLine{180             \}}
-\DoxyCodeLine{181 }
-\DoxyCodeLine{187             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \mbox{\hyperlink{structbn_1_1random__variable_1_1parents__info__t_a6ed200d02b76e412cda4f14fe77e6d36}{num\_states\_of}}(\textcolor{keyword}{const} std::string \&\mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}})\{}
-\DoxyCodeLine{188                 \textcolor{keyword}{auto} it = parents\_map.find(\mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}});}
-\DoxyCodeLine{189                 BAYLIB\_ASSERT( it != parents\_map.end(),}
-\DoxyCodeLine{190                                \mbox{\hyperlink{classbn_1_1random__variable_a1e8697ef03a9cbd6bd18a44cced06c6d}{name}} << \textcolor{stringliteral}{"{} doesn't represent a"{}}}
-\DoxyCodeLine{191                                        \textcolor{stringliteral}{"{} valid parent for variable"{}},}
-\DoxyCodeLine{192                                std::logic\_error)}
-\DoxyCodeLine{193 }
-\DoxyCodeLine{194                 \textcolor{keywordflow}{return} it-\/>second;}
-\DoxyCodeLine{195             \}}
-\DoxyCodeLine{196         \textcolor{keyword}{private}:}
-\DoxyCodeLine{197             std::map<std::string, unsigned long> parents\_map;}
-\DoxyCodeLine{198         \};}
-\DoxyCodeLine{199 }
-\DoxyCodeLine{200         \textcolor{comment}{// public because encapsulation is performed inside}}
-\DoxyCodeLine{201         parents\_info\_t parents\_info;}
-\DoxyCodeLine{202     \textcolor{keyword}{private}:}
-\DoxyCodeLine{203 }
-\DoxyCodeLine{204         \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network}}<Probability>;}
-\DoxyCodeLine{205 }
-\DoxyCodeLine{206         std::string \_name;}
-\DoxyCodeLine{207         \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt<Probability>}} cpt;}
-\DoxyCodeLine{208         std::vector <std::string> \_states;}
-\DoxyCodeLine{209         \textcolor{keywordtype}{bool} \_is\_evidence\{\};}
-\DoxyCodeLine{210         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \_state\_value;}
-\DoxyCodeLine{211         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \_id\{\};}
-\DoxyCodeLine{212 }
-\DoxyCodeLine{213     \};}
-\DoxyCodeLine{214 \} \textcolor{comment}{// namespace bn}}
-\DoxyCodeLine{215 }
-\DoxyCodeLine{216 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_RANDOM\_VARIABLE\_HPP}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{bayesian__net_8hpp}{baylib/network/bayesian\_net.hpp}}>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <baylib/baylib\_concepts.hpp>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{namespace  }\mbox{\hyperlink{namespacebaylib}{baylib}} \{}
+\DoxyCodeLine{16     \textcolor{comment}{// forward declaration}}
+\DoxyCodeLine{17     \textcolor{keyword}{template}<RVarDerived Variable\_>}
+\DoxyCodeLine{18     \textcolor{keyword}{class }bayesian\_net;}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{25     \textcolor{keyword}{template}<Arithmetic Probability\_ = \textcolor{keywordtype}{double}>}
+\DoxyCodeLine{26     \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1random__variable}{random\_variable}} \{}
+\DoxyCodeLine{27     \textcolor{keyword}{public}:}
+\DoxyCodeLine{28         \textcolor{keyword}{typedef} Probability\_ probability\_type;}
+\DoxyCodeLine{34         \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1random__variable_a5674f2ff6b4ecf9716b26059894c7ade}{random\_variable}}( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} num\_states = 2)}
+\DoxyCodeLine{35         : cpt(num\_states)}
+\DoxyCodeLine{36         , \_is\_evidence(false)}
+\DoxyCodeLine{37         , \_state\_value(0)}
+\DoxyCodeLine{38         \{ \}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 }
+\DoxyCodeLine{47         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbaylib_1_1random__variable_afd65ff2fe1186396132593d9a9ebfd95}{set\_probability}}(}
+\DoxyCodeLine{48                 baylib::state\_t state\_value,}
+\DoxyCodeLine{49                 \textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1condition}{baylib::condition}} \&cond,}
+\DoxyCodeLine{50                 Probability\_ p}
+\DoxyCodeLine{51         )}
+\DoxyCodeLine{52         \{}
+\DoxyCodeLine{53             cpt.set\_probability(cond, state\_value, p);}
+\DoxyCodeLine{54         \}}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 }
+\DoxyCodeLine{60         \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib::cow::cpt<Probability\_>}} \&\mbox{\hyperlink{classbaylib_1_1random__variable_a86d07a70f88eab8c24c2d06f72819e12}{table}}() \{}
+\DoxyCodeLine{61             \textcolor{keywordflow}{return} cpt;}
+\DoxyCodeLine{62         \}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{67         \textcolor{keyword}{const}  \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib::cow::cpt<Probability\_>}} \&\mbox{\hyperlink{classbaylib_1_1random__variable_af08d720a04e6601bb2479d3f8e9e1c75}{table}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{68             \textcolor{keywordflow}{return} cpt;}
+\DoxyCodeLine{69         \}}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{74         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \mbox{\hyperlink{classbaylib_1_1random__variable_a0f29da927a5624b694ea85bd86acb3cc}{id}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{75             \textcolor{keywordflow}{return} \_id;}
+\DoxyCodeLine{76         \}}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{81         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \mbox{\hyperlink{classbaylib_1_1random__variable_aa873e5e96eceb38043e506736ed1c806}{number\_of\_states}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{82             \textcolor{keywordflow}{return} cpt.number\_of\_states();}
+\DoxyCodeLine{83         \}}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{90         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbaylib_1_1random__variable_a04a06dc5f9ea7c3eef1fe5bfddd78e58}{set\_as\_evidence}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} value)\{}
+\DoxyCodeLine{91             BAYLIB\_ASSERT(value < \mbox{\hyperlink{classbaylib_1_1random__variable_aa873e5e96eceb38043e506736ed1c806}{number\_of\_states}}(),}
+\DoxyCodeLine{92                           \textcolor{stringliteral}{"{}Invalid value for random"{}}}
+\DoxyCodeLine{93                           \textcolor{stringliteral}{"{} variable"{}} << \_id,}
+\DoxyCodeLine{94                           std::runtime\_error)}
+\DoxyCodeLine{95             \_state\_value = value;}
+\DoxyCodeLine{96             \_is\_evidence = \textcolor{keyword}{true};}
+\DoxyCodeLine{97         \}}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{102         \textcolor{keywordtype}{void} \mbox{\hyperlink{classbaylib_1_1random__variable_ae0a9c42fd46cea961f62c5197c477f11}{clear\_evidence}}() \{}
+\DoxyCodeLine{103             \_is\_evidence = \textcolor{keyword}{false};}
+\DoxyCodeLine{104         \}}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{109         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classbaylib_1_1random__variable_a7982f97f0bb8dcecf30cb59da1dec485}{is\_evidence}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{110             \textcolor{keywordflow}{return} \_is\_evidence;}
+\DoxyCodeLine{111         \}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{118         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \mbox{\hyperlink{classbaylib_1_1random__variable_a6e61ad4e1205e67f5ba200ecc461af9e}{evidence\_state}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{119             BAYLIB\_ASSERT(\_is\_evidence,}
+\DoxyCodeLine{120                           \textcolor{stringliteral}{"{}Random variable "{}} << \_id}
+\DoxyCodeLine{121                           << \textcolor{stringliteral}{"{} is not an evidence"{}},}
+\DoxyCodeLine{122                           std::logic\_error)}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124             \textcolor{keywordflow}{return} \_state\_value;}
+\DoxyCodeLine{125         \}}
+\DoxyCodeLine{126 }
+\DoxyCodeLine{127     \textcolor{keyword}{protected}:}
+\DoxyCodeLine{128         \textcolor{keyword}{template} <RVarDerived Variable\_> \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib::bayesian\_net}};}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{130         \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib::cow::cpt<Probability\_>}} cpt;}
+\DoxyCodeLine{131         \textcolor{keywordtype}{bool} \_is\_evidence;}
+\DoxyCodeLine{132         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \_state\_value;}
+\DoxyCodeLine{133         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \_id;}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135     \};}
+\DoxyCodeLine{136 \} \textcolor{comment}{// namespace baylib}}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_RANDOM\_VARIABLE\_HPP}}
 
 \end{DoxyCode}
