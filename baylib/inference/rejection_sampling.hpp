@@ -32,7 +32,7 @@ namespace baylib{
                 >
         class rejection_sampling : public parallel_inference_algorithm<Network_>
         {
-            using typename parallel_inference_algorithm<Network_>::network_type;
+            typedef Network_ network_type;
             using typename parallel_inference_algorithm<Network_>::probability_type;
             using parallel_inference_algorithm<Network_>::bn;
         public:

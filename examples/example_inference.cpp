@@ -30,7 +30,17 @@ int main(int argc, char** argv){
     // marginal[i][j] == P(i = j)
     // where i is the id of the random_variable
     //       j is the id of the state
+    auto inf_result = gibbs_sampler.make_inference();
     std::cout << gibbs_sampler.make_inference();
+
+    // you can also prettify the output if your network contains
+    // named nodes
+    for(ulong i = 0; i < network.number_of_variables(); ++i)
+        for(ulong j = 0; j < inf_result[i].size(); ++j)
+            std::cout << "P(" << network[i].name() << "=" << network[i].state(j) << ") = "
+                      << inf_result[i][j] << '\n';
+
+    std::cout << "\n\n";
 
     // Let's now assume we know, as evidence, the values of "Debit" and "Income"
     // to see how to inference simulation behaves
@@ -45,16 +55,8 @@ int main(int argc, char** argv){
         std::cout << network[Debit].evidence_state() << '\n';
 
     // The algorithm will automatically detect all evidences set and use them in the inferences
-    auto inf_result = gibbs_sampler.make_inference();
-    std::cout << inf_result << '\n';
+    std::cout << gibbs_sampler.make_inference() << '\n';
 
-    // you can also prettify the output if your network contains
-    // named nodes
-    for(ulong i = 0; i < network.number_of_variables(); ++i)
-        for(ulong j = 0; j < inf_result[i].size(); ++j)
-            std::cout << "P(" << network[i].name() << "=" << network[i].state(j) << ") = " << inf_result[i][j] << '\n';
-
-    std::cout << "\n\n";
     // To clear the evidences use the clear_evidence on the desired nodes or use the util clear_network_evidences
     // to clean all the network from evidences
     network[Debit].clear_evidence();

@@ -3,6 +3,7 @@
 //
 
 #include <baylib/network/bayesian_net.hpp>
+#include <baylib/inference/rejection_sampling.hpp>
 #include <iostream>
 
 /*
@@ -77,4 +78,30 @@ int main(){
         std::cout << var.id() << '\n';
         std::cout << var.table() << '\n';
     }
+
+    // we can now perform inference on the network
+    // let's use the rejection sampling approximate inference algorithm
+    // with 1e5 samples and 10 threads.
+    // The usage of other algorithms is show in example_inference
+    // with named_bayesian networks
+    using namespace baylib::inference;
+    rejection_sampling rs(bn, 10000, 10);
+
+    // the make_inference() method retrieves a marginal distribution
+    // for the entire network
+    auto inf_result = rs.make_inference();
+    // we can now print it as it is using the operator <<
+    // or prettify it a little
+    std::cout << "P(A=0) = " << inf_result[A][0] << '\n';
+    std::cout << "P(A=1) = " << inf_result[A][1] << '\n';
+    std::cout << "P(B=0) = " << inf_result[B][0] << '\n';
+    std::cout << "P(B=1) = " << inf_result[B][1] << '\n';
+    std::cout << "P(C=0) = " << inf_result[C][0] << '\n';
+    std::cout << "P(C=1) = " << inf_result[C][1] << '\n';
+    std::cout << "P(D=0) = " << inf_result[D][0] << '\n';
+    std::cout << "P(D=1) = " << inf_result[D][1] << '\n';
+    std::cout << "P(D=2) = " << inf_result[D][2] << '\n';
+    std::cout << "P(D=3) = " << inf_result[D][3] << '\n';
+    // to see how to add an evidence and make inference
+    // using that constraint, have a look at example_inference.cpp
 }

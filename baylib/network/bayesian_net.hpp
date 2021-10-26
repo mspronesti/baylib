@@ -53,13 +53,8 @@ namespace baylib {
          * @return       : numerical identifier assigned to the node
          */
         template <typename ...Args_>
-#ifdef __concepts_supported
-        requires std::is_constructible_v<Variable_, Args_&&...>
-#endif
         vertex_id add_variable(Args_ &&...args) {
-#ifndef __concepts_supported
             static_assert(std::is_constructible_v<Variable_, Args_&&...>);
-#endif
             Variable_ var(std::forward<Args_>(args)...);
             vertex_id v = boost::add_vertex(std::move(var), *graph);
             (*graph)[v]._id = v;
