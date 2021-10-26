@@ -11,157 +11,148 @@
 \DoxyCodeLine{7 }
 \DoxyCodeLine{8 }
 \DoxyCodeLine{9 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{condition_8hpp}{baylib/probability/condition.hpp}}>}}
-\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <numeric>}}
-\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <vector>}}
-\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <boost/functional/hash/hash.hpp>}}
-\DoxyCodeLine{13 }
-\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{shared__data_8hpp}{baylib/tools/cow/shared\_data.hpp}}>}}
-\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{shared__ptr_8hpp}{baylib/tools/cow/shared\_ptr.hpp}}>}}
-\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <baylib/baylib\_concepts.hpp>}}
-\DoxyCodeLine{17 }
-\DoxyCodeLine{32 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}}\{}
-\DoxyCodeLine{33     \textcolor{keyword}{template}<RVarDerived Variable\_>}
-\DoxyCodeLine{34     \textcolor{keyword}{class }bayesian\_network;}
-\DoxyCodeLine{35 }
-\DoxyCodeLine{36     \textcolor{keyword}{namespace }cow \{}
-\DoxyCodeLine{37         \textcolor{keyword}{template}<Arithmetic Probability\_>}
-\DoxyCodeLine{38         \textcolor{keyword}{struct }\mbox{\hyperlink{structbn_1_1cow_1_1CPTData}{CPTData}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1cow_1_1shared__data}{bn::cow::shared\_data}} \{}
-\DoxyCodeLine{48             std::vector<std::vector<Probability\_>> \mbox{\hyperlink{structbn_1_1cow_1_1CPTData_a628af371790f653e944f0807362a4055}{table}};}
-\DoxyCodeLine{49             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nstates\{\};}
-\DoxyCodeLine{50         \};}
-\DoxyCodeLine{51 }
-\DoxyCodeLine{52         \textcolor{keyword}{template}<Arithmetic Probability\_>}
-\DoxyCodeLine{53         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1cow_1_1cpt}{cpt}} \{}
-\DoxyCodeLine{71         \textcolor{keyword}{public}:}
-\DoxyCodeLine{72             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1cow_1_1cpt_aa8746a9faffa68efeb0e8e77cfa922f2}{cpt}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nstates = 2) \{}
-\DoxyCodeLine{73                 d = \textcolor{keyword}{new} \mbox{\hyperlink{structbn_1_1cow_1_1CPTData}{CPTData<Probability\_>}}();}
-\DoxyCodeLine{74                 d-\/>nstates = nstates;}
-\DoxyCodeLine{75             \}}
-\DoxyCodeLine{76 }
-\DoxyCodeLine{77             \textcolor{keywordtype}{void} set\_probability(}
-\DoxyCodeLine{78                     \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond,}
-\DoxyCodeLine{79                     bn::state\_t state\_val,}
-\DoxyCodeLine{80                     Probability\_ p}
-\DoxyCodeLine{81             ) \{}
-\DoxyCodeLine{82                 BAYLIB\_ASSERT(state\_val < d-\/>nstates,}
-\DoxyCodeLine{83                               \textcolor{stringliteral}{"{}invalid state value"{}}}
-\DoxyCodeLine{84                               + std::to\_string(state\_val),}
-\DoxyCodeLine{85                               std::runtime\_error)}
-\DoxyCodeLine{86 }
-\DoxyCodeLine{87                 BAYLIB\_ASSERT(p >= 0.0 \&\& p <= 1.0,}
-\DoxyCodeLine{88                               \textcolor{stringliteral}{"{}illegal probability value"{}},}
-\DoxyCodeLine{89                               std::logic\_error)}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{condition__factory_8hpp}{baylib/probability/condition\_factory.hpp}}>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <numeric>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <boost/functional/hash/hash.hpp>}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{shared__data_8hpp}{baylib/tools/cow/shared\_data.hpp}}>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{shared__ptr_8hpp}{baylib/tools/cow/shared\_ptr.hpp}}>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <baylib/baylib\_concepts.hpp>}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{33 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}}\{}
+\DoxyCodeLine{34     \textcolor{keyword}{template}<RVarDerived Variable\_>}
+\DoxyCodeLine{35     \textcolor{keyword}{class }bayesian\_net;}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keyword}{namespace }cow \{}
+\DoxyCodeLine{38         \textcolor{keyword}{template}<Arithmetic Probability\_>}
+\DoxyCodeLine{39         \textcolor{keyword}{struct }\mbox{\hyperlink{structbaylib_1_1cow_1_1CPTData}{CPTData}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbaylib_1_1cow_1_1shared__data}{baylib::cow::shared\_data}} \{}
+\DoxyCodeLine{49             std::vector<std::vector<Probability\_>> \mbox{\hyperlink{structbaylib_1_1cow_1_1CPTData_a524d0720791052daf6bbc98a1467f68c}{table}};}
+\DoxyCodeLine{50             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nstates\{\};}
+\DoxyCodeLine{51         \};}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{72         \textcolor{keyword}{template}<Arithmetic Probability\_ = \textcolor{keywordtype}{double}>}
+\DoxyCodeLine{73         \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}} \{}
+\DoxyCodeLine{74         \textcolor{keyword}{public}:}
+\DoxyCodeLine{75             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nstates = 2) \{}
+\DoxyCodeLine{76                 d = \textcolor{keyword}{new} \mbox{\hyperlink{structbaylib_1_1cow_1_1CPTData}{CPTData<Probability\_>}}();}
+\DoxyCodeLine{77                 d-\/>nstates = nstates;}
+\DoxyCodeLine{78             \}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80             \textcolor{keywordtype}{void} set\_probability(}
+\DoxyCodeLine{81                     \textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1condition}{baylib::condition}} \&cond,}
+\DoxyCodeLine{82                     baylib::state\_t state\_val,}
+\DoxyCodeLine{83                     Probability\_ p}
+\DoxyCodeLine{84             )}
+\DoxyCodeLine{85             \{}
+\DoxyCodeLine{86                 BAYLIB\_ASSERT(state\_val < d-\/>nstates,}
+\DoxyCodeLine{87                               \textcolor{stringliteral}{"{}invalid state value"{}}}
+\DoxyCodeLine{88                               + std::to\_string(state\_val),}
+\DoxyCodeLine{89                               std::runtime\_error)}
 \DoxyCodeLine{90 }
-\DoxyCodeLine{91                 \textcolor{keywordflow}{if} (has\_entry\_for(cond)) \{}
-\DoxyCodeLine{92                     d-\/>table[cond\_map.at(cond)][state\_val] = p;}
-\DoxyCodeLine{93                 \} \textcolor{keywordflow}{else} \{}
-\DoxyCodeLine{94                     \textcolor{keywordtype}{int} size = d-\/>table.size();}
-\DoxyCodeLine{95                     cond\_map[cond] = size; \textcolor{comment}{// storing condition}}
-\DoxyCodeLine{96                     d-\/>table.emplace\_back(d-\/>nstates, 0.0); \textcolor{comment}{// alloccating new row in cpt}}
-\DoxyCodeLine{97                     d-\/>table[size][state\_val] = p; \textcolor{comment}{// storing probability}}
-\DoxyCodeLine{98                 \}}
-\DoxyCodeLine{99             \}}
-\DoxyCodeLine{100 }
-\DoxyCodeLine{101             \textcolor{keyword}{const} std::vector<Probability\_> \&operator[] (\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond)\textcolor{keyword}{ const}\{}
-\DoxyCodeLine{102                 BAYLIB\_ASSERT(has\_entry\_for(cond),}
-\DoxyCodeLine{103                               \textcolor{stringliteral}{"{}bad condition value"{}},}
-\DoxyCodeLine{104                               std::out\_of\_range)}
-\DoxyCodeLine{105 }
-\DoxyCodeLine{106                  \textcolor{keywordflow}{return} d-\/>table[cond\_map.at(cond)];}
-\DoxyCodeLine{107             \}}
-\DoxyCodeLine{108 }
+\DoxyCodeLine{91                 BAYLIB\_ASSERT(p >= 0.0 \&\& p <= 1.0,}
+\DoxyCodeLine{92                               \textcolor{stringliteral}{"{}illegal probability value"{}},}
+\DoxyCodeLine{93                               std::logic\_error)}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95                 \textcolor{keywordflow}{if} (has\_entry\_for(cond)) \{}
+\DoxyCodeLine{96                     d-\/>table[cond\_map.at(cond)][state\_val] = p;}
+\DoxyCodeLine{97                 \} \textcolor{keywordflow}{else} \{}
+\DoxyCodeLine{98                     \textcolor{keywordtype}{int} size = d-\/>table.size();}
+\DoxyCodeLine{99                     cond\_map[cond] = size; \textcolor{comment}{// storing condition}}
+\DoxyCodeLine{100                     d-\/>table.emplace\_back(d-\/>nstates, 0.0); \textcolor{comment}{// allocating new row in cpt}}
+\DoxyCodeLine{101                     d-\/>table[size][state\_val] = p; \textcolor{comment}{// storing probability}}
+\DoxyCodeLine{102                 \}}
+\DoxyCodeLine{103             \}}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105             \textcolor{keyword}{const} std::vector<Probability\_> \&operator[] (\textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1condition}{baylib::condition}} \&cond)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{106                 BAYLIB\_ASSERT(has\_entry\_for(cond),}
+\DoxyCodeLine{107                               \textcolor{stringliteral}{"{}bad condition value"{}},}
+\DoxyCodeLine{108                               std::out\_of\_range)}
 \DoxyCodeLine{109 }
-\DoxyCodeLine{110             \textcolor{keyword}{const} std::vector<Probability\_>  \&at(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond)\textcolor{keyword}{ const}\{}
-\DoxyCodeLine{111                 BAYLIB\_ASSERT(has\_entry\_for(cond),}
-\DoxyCodeLine{112                               \textcolor{stringliteral}{"{}bad condition value"{}},}
-\DoxyCodeLine{113                               std::out\_of\_range)}
-\DoxyCodeLine{114 }
-\DoxyCodeLine{115                 \textcolor{keywordflow}{return} d-\/>table[cond\_map.at(cond)];}
-\DoxyCodeLine{116             \}}
-\DoxyCodeLine{117 }
-\DoxyCodeLine{118             \textcolor{keywordtype}{void} clear() \{}
-\DoxyCodeLine{119                 d-\/>table.clear();}
-\DoxyCodeLine{120                 cond\_map.clear();}
-\DoxyCodeLine{121             \}}
-\DoxyCodeLine{122 }
-\DoxyCodeLine{123             \textcolor{keywordtype}{bool} has\_entry\_for(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&c)\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{124                 \textcolor{keywordflow}{return} cond\_map.find(c) != cond\_map.end();}
+\DoxyCodeLine{110                  \textcolor{keywordflow}{return} d-\/>table[cond\_map.at(cond)];}
+\DoxyCodeLine{111             \}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114             \textcolor{keyword}{const} std::vector<Probability\_>  \&at(\textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1condition}{baylib::condition}} \&cond)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{115                 BAYLIB\_ASSERT(has\_entry\_for(cond),}
+\DoxyCodeLine{116                               \textcolor{stringliteral}{"{}bad condition value"{}},}
+\DoxyCodeLine{117                               std::out\_of\_range)}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{119                 \textcolor{keywordflow}{return} d-\/>table[cond\_map.at(cond)];}
+\DoxyCodeLine{120             \}}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122             \textcolor{keywordtype}{void} clear() \{}
+\DoxyCodeLine{123                 d-\/>table.clear();}
+\DoxyCodeLine{124                 cond\_map.clear();}
 \DoxyCodeLine{125             \}}
 \DoxyCodeLine{126 }
-\DoxyCodeLine{127             \textcolor{keywordtype}{bool} operator == (\textcolor{keyword}{const} cpt<Probability\_> \&c)\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{128                 \textcolor{keywordflow}{return} d-\/>table == c.d-\/>table;}
+\DoxyCodeLine{127             \textcolor{keywordtype}{bool} has\_entry\_for(\textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1condition}{baylib::condition}} \&c)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{128                 \textcolor{keywordflow}{return} cond\_map.find(c) != cond\_map.end();}
 \DoxyCodeLine{129             \}}
 \DoxyCodeLine{130 }
-\DoxyCodeLine{131             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} size()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{132                 \textcolor{keywordflow}{return} d-\/>table.size();}
+\DoxyCodeLine{131             \textcolor{keywordtype}{bool} operator == (\textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt<Probability\_>}} \&c)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{132                 \textcolor{keywordflow}{return} d-\/>table == c.d-\/>table;}
 \DoxyCodeLine{133             \}}
 \DoxyCodeLine{134 }
-\DoxyCodeLine{135             std::vector<Probability\_> flat()\textcolor{keyword}{ const}\{}
-\DoxyCodeLine{136                 \textcolor{keyword}{auto} flat\_cpt = std::vector<Probability\_>\{\};}
-\DoxyCodeLine{137                 flat\_cpt.reserve(d-\/>table.size() * d-\/>nstates);}
+\DoxyCodeLine{135             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} size()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{136                 \textcolor{keywordflow}{return} d-\/>table.size();}
+\DoxyCodeLine{137             \}}
 \DoxyCodeLine{138 }
-\DoxyCodeLine{139                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \&[cond, cond\_id] : cond\_map) \{}
-\DoxyCodeLine{140                     \textcolor{keyword}{const} \textcolor{keyword}{auto} cpt\_row = d-\/>table[cond\_id];}
-\DoxyCodeLine{141                     flat\_cpt.insert(flat\_cpt.end(), cpt\_row.begin(), cpt\_row.end());}
-\DoxyCodeLine{142                 \}}
-\DoxyCodeLine{143 }
-\DoxyCodeLine{144                 \textcolor{keywordflow}{return} flat\_cpt;}
-\DoxyCodeLine{145             \}}
-\DoxyCodeLine{146 }
-\DoxyCodeLine{147             \textcolor{keyword}{friend} std::ostream\& operator << (std::ostream \&os, \textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1cpt_aa8746a9faffa68efeb0e8e77cfa922f2}{cpt}} \&\mbox{\hyperlink{classbn_1_1cow_1_1cpt_aa8746a9faffa68efeb0e8e77cfa922f2}{cpt}}) \{}
-\DoxyCodeLine{148                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \&[cond, cond\_id] : \mbox{\hyperlink{classbn_1_1cow_1_1cpt_aa8746a9faffa68efeb0e8e77cfa922f2}{cpt}}.cond\_map)\{}
-\DoxyCodeLine{149                     os << cond << \textcolor{stringliteral}{"{} | "{}};}
-\DoxyCodeLine{150                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \&p : \mbox{\hyperlink{classbn_1_1cow_1_1cpt_aa8746a9faffa68efeb0e8e77cfa922f2}{cpt}}.d-\/>table[cond\_id])}
-\DoxyCodeLine{151                         os <<  \textcolor{charliteral}{' '} << p << \textcolor{stringliteral}{"{} | "{}};}
-\DoxyCodeLine{152                     os << \textcolor{charliteral}{'\(\backslash\)n'};}
-\DoxyCodeLine{153                 \}}
-\DoxyCodeLine{154                 \textcolor{keywordflow}{return} os;}
-\DoxyCodeLine{155             \}}
-\DoxyCodeLine{156 }
-\DoxyCodeLine{157             \textcolor{keyword}{auto} begin()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{158                 \textcolor{keywordflow}{return} d-\/>table.begin();}
-\DoxyCodeLine{159             \}}
-\DoxyCodeLine{160 }
-\DoxyCodeLine{161             \textcolor{keyword}{auto} end()\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{162                 \textcolor{keywordflow}{return} d-\/>table.end();}
-\DoxyCodeLine{163             \}}
-\DoxyCodeLine{164 }
-\DoxyCodeLine{165             \textcolor{keywordtype}{size\_t} hash()\{}
-\DoxyCodeLine{166                 \textcolor{keyword}{const} \textcolor{keyword}{auto} rows = d-\/>table;}
-\DoxyCodeLine{167                 \textcolor{keywordtype}{size\_t} seed = 0;}
-\DoxyCodeLine{168                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} col: rows)\{}
-\DoxyCodeLine{169                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} el: col)\{}
-\DoxyCodeLine{170                         \textcolor{keyword}{auto} \textcolor{keyword}{const} * p = \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \textcolor{keyword}{const }*\textcolor{keyword}{>}(\&el) ;}
-\DoxyCodeLine{171                         \textcolor{keywordtype}{int} n = 1;}
-\DoxyCodeLine{172                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \textcolor{keyword}{sizeof}(Probability\_) -\/ 1; i++)\{}
-\DoxyCodeLine{173                             \textcolor{keywordflow}{if}(*(\textcolor{keywordtype}{char} *)\&n == 1)}
-\DoxyCodeLine{174                                 boost::hash\_combine(seed, p[i]);}
-\DoxyCodeLine{175                             \textcolor{keywordflow}{else}}
-\DoxyCodeLine{176                                 boost::hash\_combine(seed, p[\textcolor{keyword}{sizeof}(Probability\_) -\/ 1 -\/ i]);}
-\DoxyCodeLine{177                         \}}
-\DoxyCodeLine{178                     \}}
-\DoxyCodeLine{179                 \}}
-\DoxyCodeLine{180                 \textcolor{keywordflow}{return} seed;}
-\DoxyCodeLine{181             \}}
-\DoxyCodeLine{182 }
-\DoxyCodeLine{183             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} number\_of\_states()\textcolor{keyword}{ const}\{ \textcolor{keywordflow}{return} d-\/>nstates;\}}
-\DoxyCodeLine{184 }
-\DoxyCodeLine{185             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} number\_of\_conditions()\textcolor{keyword}{ const}\{ \textcolor{keywordflow}{return} d.data()-\/>table.size();\}}
-\DoxyCodeLine{186 }
-\DoxyCodeLine{187 }
-\DoxyCodeLine{188         \textcolor{keyword}{protected}:}
-\DoxyCodeLine{189             \textcolor{keyword}{template} <RVarDerived Variable\_> \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1bayesian__network}{bn::bayesian\_network}};}
-\DoxyCodeLine{190             \mbox{\hyperlink{classbn_1_1cow_1_1shared__ptr}{bn::cow::shared\_ptr<CPTData<Probability\_>}}> d;}
-\DoxyCodeLine{191             \textcolor{comment}{// assigns a condition its index in the cpt}}
-\DoxyCodeLine{192             \textcolor{comment}{// ! key   : condition}}
-\DoxyCodeLine{193             \textcolor{comment}{// ! value : row index}}
-\DoxyCodeLine{194             std::map<bn::condition, unsigned long> cond\_map;}
-\DoxyCodeLine{195         \};}
-\DoxyCodeLine{196 }
-\DoxyCodeLine{197 }
-\DoxyCodeLine{198     \} \textcolor{comment}{// namespace cow}}
-\DoxyCodeLine{199 \} \textcolor{comment}{// namespace bn}}
-\DoxyCodeLine{200 }
-\DoxyCodeLine{201 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_CPT\_HPP}}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{140             \textcolor{keyword}{friend} std::ostream\& operator << (std::ostream \&os, \textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}} \&\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}}) \{}
+\DoxyCodeLine{141                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \&[cond, cond\_id] : \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}}.cond\_map)\{}
+\DoxyCodeLine{142                     os << cond << \textcolor{stringliteral}{"{} | "{}};}
+\DoxyCodeLine{143                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} \&p : \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}}.d-\/>table[cond\_id])}
+\DoxyCodeLine{144                         os <<  \textcolor{charliteral}{' '} << p << \textcolor{stringliteral}{"{} | "{}};}
+\DoxyCodeLine{145                     os << \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{146                 \}}
+\DoxyCodeLine{147                 \textcolor{keywordflow}{return} os;}
+\DoxyCodeLine{148             \}}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150             \textcolor{keyword}{auto} begin()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{151                 \textcolor{keywordflow}{return} d-\/>table.begin();}
+\DoxyCodeLine{152             \}}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154             \textcolor{keyword}{auto} end()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{155                 \textcolor{keywordflow}{return} d-\/>table.end();}
+\DoxyCodeLine{156             \}}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158             \textcolor{keywordtype}{size\_t} hash()\{}
+\DoxyCodeLine{159                 \textcolor{keyword}{const} \textcolor{keyword}{auto} rows = d-\/>table;}
+\DoxyCodeLine{160                 \textcolor{keywordtype}{size\_t} seed = 0;}
+\DoxyCodeLine{161                 \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} col: rows)\{}
+\DoxyCodeLine{162                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto} el: col)\{}
+\DoxyCodeLine{163                         \textcolor{keyword}{auto} \textcolor{keyword}{const} * p = \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \textcolor{keyword}{const }*\textcolor{keyword}{>}(\&el) ;}
+\DoxyCodeLine{164                         \textcolor{keywordtype}{int} n = 1;}
+\DoxyCodeLine{165                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \textcolor{keyword}{sizeof}(Probability\_) -\/ 1; i++)\{}
+\DoxyCodeLine{166                             \textcolor{keywordflow}{if}(*(\textcolor{keywordtype}{char} *)\&n == 1)}
+\DoxyCodeLine{167                                 boost::hash\_combine(seed, p[i]);}
+\DoxyCodeLine{168                             \textcolor{keywordflow}{else}}
+\DoxyCodeLine{169                                 boost::hash\_combine(seed, p[\textcolor{keyword}{sizeof}(Probability\_) -\/ 1 -\/ i]);}
+\DoxyCodeLine{170                         \}}
+\DoxyCodeLine{171                     \}}
+\DoxyCodeLine{172                 \}}
+\DoxyCodeLine{173                 \textcolor{keywordflow}{return} seed;}
+\DoxyCodeLine{174             \}}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{176             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} number\_of\_states()\textcolor{keyword}{ const}\{ \textcolor{keywordflow}{return} d-\/>nstates;\}}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} number\_of\_conditions()\textcolor{keyword}{ const}\{ \textcolor{keywordflow}{return} d.data()-\/>table.size();\}}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180 }
+\DoxyCodeLine{181         \textcolor{keyword}{protected}:}
+\DoxyCodeLine{182             \textcolor{keyword}{template} <RVarDerived Variable\_> \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib::bayesian\_net}};}
+\DoxyCodeLine{183             \mbox{\hyperlink{classbaylib_1_1cow_1_1shared__ptr}{baylib::cow::shared\_ptr<CPTData<Probability\_>}}> d;}
+\DoxyCodeLine{184             \textcolor{comment}{// assigns a condition its index in the cpt}}
+\DoxyCodeLine{185             \textcolor{comment}{// ! key   : condition}}
+\DoxyCodeLine{186             \textcolor{comment}{// ! value : row index}}
+\DoxyCodeLine{187             std::map<baylib::condition, unsigned long> cond\_map;}
+\DoxyCodeLine{188         \};}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191     \} \textcolor{comment}{// namespace cow}}
+\DoxyCodeLine{192 \} \textcolor{comment}{// namespace baylib}}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_CPT\_HPP}}
 
 \end{DoxyCode}

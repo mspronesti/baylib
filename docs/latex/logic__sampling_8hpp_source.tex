@@ -16,114 +16,116 @@
 \DoxyCodeLine{12 }
 \DoxyCodeLine{13 \textcolor{preprocessor}{\#include <boost/compute.hpp>}}
 \DoxyCodeLine{14 \textcolor{preprocessor}{\#include <boost/compute/device.hpp>}}
-\DoxyCodeLine{15 }
-\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{abstract__inference__algorithm_8hpp}{baylib/inference/abstract\_inference\_algorithm.hpp}}>}}
-\DoxyCodeLine{17 }
-\DoxyCodeLine{20 }
-\DoxyCodeLine{21 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
-\DoxyCodeLine{22     \textcolor{keyword}{namespace }inference\{}
-\DoxyCodeLine{23         \textcolor{keyword}{namespace }compute = boost::compute;}
-\DoxyCodeLine{24         \textcolor{keyword}{using} boost::compute::lambda::\_1;}
-\DoxyCodeLine{25         \textcolor{keyword}{using} boost::compute::lambda::\_2;}
-\DoxyCodeLine{26 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{condition__factory_8hpp}{probability/condition\_factory.hpp}}>}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{abstract__inference__algorithm_8hpp}{baylib/inference/abstract\_inference\_algorithm.hpp}}>}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}} \{}
+\DoxyCodeLine{23     \textcolor{keyword}{namespace }inference\{}
+\DoxyCodeLine{24         \textcolor{keyword}{namespace }compute = boost::compute;}
+\DoxyCodeLine{25         \textcolor{keyword}{using} boost::compute::lambda::\_1;}
+\DoxyCodeLine{26         \textcolor{keyword}{using} boost::compute::lambda::\_2;}
 \DoxyCodeLine{27 }
-\DoxyCodeLine{44         \textcolor{keyword}{template} <}
-\DoxyCodeLine{45                 BNetDerived Network\_,}
-\DoxyCodeLine{46                 \textcolor{keyword}{typename} Generator\_ = std::mt19937}
-\DoxyCodeLine{47                 >}
-\DoxyCodeLine{48         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling}{logic\_sampling}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Network\_>}
-\DoxyCodeLine{49         \{}
-\DoxyCodeLine{50             \textcolor{keyword}{using} \textcolor{keyword}{typename} vectorized\_inference\_algorithm<Network\_>::network\_type;}
-\DoxyCodeLine{51             \textcolor{keyword}{using} \textcolor{keyword}{typename} vectorized\_inference\_algorithm<Network\_>::probability\_type;}
-\DoxyCodeLine{52             \textcolor{keyword}{using} \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm<Network\_>::bn}};}
-\DoxyCodeLine{53             \textcolor{keyword}{using} prob\_v = boost::compute::vector<probability\_type>;}
-\DoxyCodeLine{54         \textcolor{keyword}{public}:}
-\DoxyCodeLine{55 }
-\DoxyCodeLine{56             \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling}{logic\_sampling}}(}
-\DoxyCodeLine{57                     \textcolor{keyword}{const} network\_type \&\mbox{\hyperlink{namespacebn}{bn}},}
-\DoxyCodeLine{58                     ulong samples,}
-\DoxyCodeLine{59                     \textcolor{keywordtype}{size\_t} memory,}
-\DoxyCodeLine{60                     uint seed = 0,}
-\DoxyCodeLine{61                     \textcolor{keyword}{const} compute::device \&device = compute::system::default\_device()}
-\DoxyCodeLine{62             )}
-\DoxyCodeLine{63             : \mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm<Network\_>}}(samples, memory, seed, device)}
-\DoxyCodeLine{64             \{ \}}
-\DoxyCodeLine{65 }
-\DoxyCodeLine{66             \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<probability\_type>}} \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling_a5d18603e91511f92b405c8571c42786c}{make\_inference}} ()\textcolor{keyword}{ override}}
-\DoxyCodeLine{67 \textcolor{keyword}{            }\{}
-\DoxyCodeLine{68                 BAYLIB\_ASSERT(std::all\_of(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end(),}
-\DoxyCodeLine{69                                           [\textcolor{keyword}{this}](\textcolor{keyword}{auto} \&var)\{ return bn::cpt\_filled\_out(bn, var.id()); \}),}
-\DoxyCodeLine{70                               \textcolor{stringliteral}{"{}conditional probability tables must be properly filled to"{}}}
-\DoxyCodeLine{71                               \textcolor{stringliteral}{"{} run logic\_sampling inference algorithm"{}},}
-\DoxyCodeLine{72                               std::runtime\_error);}
-\DoxyCodeLine{73 }
-\DoxyCodeLine{74                 \textcolor{keyword}{auto} [iter\_samples, niter] = this-\/>\mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm_ae8ce12c7e911361b10d605649fa89788}{calculate\_iterations}}(bn);}
-\DoxyCodeLine{75                 \textcolor{keyword}{auto} vertex\_queue = \mbox{\hyperlink{namespacebn_af3d46b351f924835802c271a247183b5}{bn::sampling\_order}}(\mbox{\hyperlink{namespacebn}{bn}});}
-\DoxyCodeLine{76                 \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<probability\_type>}} marginal\_result(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
-\DoxyCodeLine{77                 \textcolor{keywordflow}{for} (ulong i = 0; i< niter; i++) \{}
-\DoxyCodeLine{78 }
-\DoxyCodeLine{79                     std::vector<bcvec> result\_container(vertex\_queue.size());}
-\DoxyCodeLine{80                     \mbox{\hyperlink{classbn_1_1marginal__distribution}{marginal\_distribution<probability\_type>}} temp(\mbox{\hyperlink{namespacebn}{bn}}.begin(), \mbox{\hyperlink{namespacebn}{bn}}.end());}
-\DoxyCodeLine{81                     compute::vector<int> valid\_evidence\_vec(this-\/>nsamples, \textcolor{keyword}{true}, this-\/>queue);}
-\DoxyCodeLine{82 }
-\DoxyCodeLine{83                     \textcolor{keywordflow}{for}(ulong v : vertex\_queue) \{}
-\DoxyCodeLine{84 }
-\DoxyCodeLine{85                         std::vector<bcvec*> parents\_result;}
-\DoxyCodeLine{86 }
-\DoxyCodeLine{87                         \textcolor{comment}{// Build parents result vector in the correct order}}
-\DoxyCodeLine{88                         \textcolor{keyword}{auto} parents = \mbox{\hyperlink{namespacebn}{bn}}.parents\_of(v);}
-\DoxyCodeLine{89                         std::reverse(parents.begin(), parents.end());}
-\DoxyCodeLine{90                         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} p : parents) \{}
-\DoxyCodeLine{91                             parents\_result.push\_back(\&result\_container[p]);}
-\DoxyCodeLine{92                         \}}
-\DoxyCodeLine{93 }
-\DoxyCodeLine{94                         result\_container[v] = this-\/>\mbox{\hyperlink{classbn_1_1inference_1_1vectorized__inference__algorithm_ae4dde96f4ba0818522ddc05db030c5e9}{simulate\_node}}(bn[v].table(), parents\_result, iter\_samples);}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{45         \textcolor{keyword}{template} <}
+\DoxyCodeLine{46                 BNetDerived Network\_,}
+\DoxyCodeLine{47                 \textcolor{keyword}{typename} Generator\_ = std::mt19937}
+\DoxyCodeLine{48                 >}
+\DoxyCodeLine{49         \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1inference_1_1logic__sampling}{logic\_sampling}} : \textcolor{keyword}{public} \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm}}<Network\_>}
+\DoxyCodeLine{50         \{}
+\DoxyCodeLine{51             \textcolor{keyword}{using} \textcolor{keyword}{typename} vectorized\_inference\_algorithm<Network\_>::network\_type;}
+\DoxyCodeLine{52             \textcolor{keyword}{using} \textcolor{keyword}{typename} vectorized\_inference\_algorithm<Network\_>::probability\_type;}
+\DoxyCodeLine{53             \textcolor{keyword}{using} \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm<Network\_>::bn}};}
+\DoxyCodeLine{54             \textcolor{keyword}{using} prob\_v = boost::compute::vector<probability\_type>;}
+\DoxyCodeLine{55         \textcolor{keyword}{public}:}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57             \mbox{\hyperlink{classbaylib_1_1inference_1_1logic__sampling}{logic\_sampling}}(}
+\DoxyCodeLine{58                     \textcolor{keyword}{const} network\_type \&bn,}
+\DoxyCodeLine{59                     ulong samples,}
+\DoxyCodeLine{60                     \textcolor{keywordtype}{size\_t} memory,}
+\DoxyCodeLine{61                     uint seed = 0,}
+\DoxyCodeLine{62                     \textcolor{keyword}{const} compute::device \&device = compute::system::default\_device()}
+\DoxyCodeLine{63             )}
+\DoxyCodeLine{64             : \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{vectorized\_inference\_algorithm<Network\_>}}(bn, samples, memory, seed, device)}
+\DoxyCodeLine{65             \{ \}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67             \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{marginal\_distribution<probability\_type>}} \mbox{\hyperlink{classbaylib_1_1inference_1_1logic__sampling_a9f9589a8bcf57d41b03f889a07606ef3}{make\_inference}} ()\textcolor{keyword}{ override}}
+\DoxyCodeLine{68 \textcolor{keyword}{            }\{}
+\DoxyCodeLine{69                 BAYLIB\_ASSERT(std::all\_of(bn.begin(), bn.end(),}
+\DoxyCodeLine{70                                           [\textcolor{keyword}{this}](\textcolor{keyword}{auto} \&var)\{ return baylib::cpt\_filled\_out(bn, var.id()); \}),}
+\DoxyCodeLine{71                               \textcolor{stringliteral}{"{}conditional probability tables must be properly filled to"{}}}
+\DoxyCodeLine{72                               \textcolor{stringliteral}{"{} run logic\_sampling inference algorithm"{}},}
+\DoxyCodeLine{73                               std::runtime\_error);}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75                 \textcolor{keyword}{auto} [iter\_samples, niter] = this-\/>\mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a8dd4c99eb211a42bee8d4a746c673c10}{calculate\_iterations}}();}
+\DoxyCodeLine{76                 \textcolor{keyword}{auto} vertex\_queue = \mbox{\hyperlink{namespacebaylib_a02bd9315d6bfbb11442016299e84e7b6}{baylib::sampling\_order}}(bn);}
+\DoxyCodeLine{77                 \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{marginal\_distribution<probability\_type>}} marginal\_result(bn.begin(), bn.end());}
+\DoxyCodeLine{78                 \textcolor{keywordflow}{for} (ulong i = 0; i< niter; i++) \{}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80                     std::vector<bcvec> result\_container(vertex\_queue.size());}
+\DoxyCodeLine{81                     \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{marginal\_distribution<probability\_type>}} temp(bn.begin(), bn.end());}
+\DoxyCodeLine{82                     compute::vector<int> valid\_evidence\_vec(this-\/>nsamples, \textcolor{keyword}{true}, this-\/>queue);}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84                     \textcolor{keywordflow}{for}(ulong v : vertex\_queue) \{}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86                         std::vector<bcvec*> parents\_result;}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88                         \textcolor{comment}{// Build parents result vector in the correct order}}
+\DoxyCodeLine{89                         \textcolor{keyword}{auto} parents = bn.parents\_of(v);}
+\DoxyCodeLine{90                         \textcolor{comment}{//std::reverse(parents.begin(), parents.end());}}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92                         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} p : parents) \{}
+\DoxyCodeLine{93                             parents\_result.push\_back(\&result\_container[p]);}
+\DoxyCodeLine{94                         \}}
 \DoxyCodeLine{95 }
-\DoxyCodeLine{96                         \textcolor{keywordflow}{if}(\mbox{\hyperlink{namespacebn}{bn}}[v].is\_evidence())\{}
-\DoxyCodeLine{97                             compute::transform( result\_container[v].state.begin()}
-\DoxyCodeLine{98                                                ,result\_container[v].state.end()}
-\DoxyCodeLine{99                                                ,valid\_evidence\_vec.begin()}
-\DoxyCodeLine{100                                                ,valid\_evidence\_vec.begin()}
-\DoxyCodeLine{101                                                ,(\_1 == \mbox{\hyperlink{namespacebn}{bn}}[v].evidence\_state()) \&\& \_2}
-\DoxyCodeLine{102                                                ,this-\/>queue);}
-\DoxyCodeLine{103                         \}}
-\DoxyCodeLine{104                     \}}
-\DoxyCodeLine{105 }
-\DoxyCodeLine{106                     \textcolor{keywordflow}{for}(ulong v : vertex\_queue) \{}
-\DoxyCodeLine{107                         \textcolor{keyword}{auto} accumulated\_result = \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling_a445fdc4d1f7d64529f2881aedfb145c8}{compute\_result\_general}}(result\_container[v], valid\_evidence\_vec);}
-\DoxyCodeLine{108                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} ix=0; ix< accumulated\_result.size(); ix++)}
-\DoxyCodeLine{109                             marginal\_result[v][ix] += accumulated\_result[ix];}
-\DoxyCodeLine{110                     \}}
-\DoxyCodeLine{111                 \}}
-\DoxyCodeLine{112                 marginal\_result.normalize();}
-\DoxyCodeLine{113                 \textcolor{keywordflow}{return} marginal\_result;}
-\DoxyCodeLine{114             \}}
-\DoxyCodeLine{115 }
-\DoxyCodeLine{116 }
-\DoxyCodeLine{117         \textcolor{keyword}{private}:}
+\DoxyCodeLine{96                         result\_container[v] = this-\/>\mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a32c2bfde82eef5beed8e7eb98663740d}{simulate\_node}}(v, bn[v].table(), parents\_result, iter\_samples);}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98                         \textcolor{keywordflow}{if}(bn[v].is\_evidence())\{}
+\DoxyCodeLine{99                             compute::transform( result\_container[v].state.begin()}
+\DoxyCodeLine{100                                                ,result\_container[v].state.end()}
+\DoxyCodeLine{101                                                ,valid\_evidence\_vec.begin()}
+\DoxyCodeLine{102                                                ,valid\_evidence\_vec.begin()}
+\DoxyCodeLine{103                                                ,(\_1 == bn[v].evidence\_state()) \&\& \_2}
+\DoxyCodeLine{104                                                ,this-\/>queue);}
+\DoxyCodeLine{105                         \}}
+\DoxyCodeLine{106                     \}}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108                     \textcolor{keywordflow}{for}(ulong v : vertex\_queue) \{}
+\DoxyCodeLine{109                         \textcolor{keyword}{auto} accumulated\_result = \mbox{\hyperlink{classbaylib_1_1inference_1_1logic__sampling_ab65d19c09d7e6dba0cdfeab62ace65b6}{compute\_result\_general}}(result\_container[v], valid\_evidence\_vec);}
+\DoxyCodeLine{110                         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} ix=0; ix< accumulated\_result.size(); ix++)}
+\DoxyCodeLine{111                             marginal\_result[v][ix] += accumulated\_result[ix];}
+\DoxyCodeLine{112                     \}}
+\DoxyCodeLine{113                 \}}
+\DoxyCodeLine{114                 marginal\_result.normalize();}
+\DoxyCodeLine{115                 \textcolor{keywordflow}{return} marginal\_result;}
+\DoxyCodeLine{116             \}}
+\DoxyCodeLine{117 }
 \DoxyCodeLine{118 }
-\DoxyCodeLine{124             std::vector<ulong> \mbox{\hyperlink{classbn_1_1inference_1_1logic__sampling_a445fdc4d1f7d64529f2881aedfb145c8}{compute\_result\_general}}(}
-\DoxyCodeLine{125                     \mbox{\hyperlink{structbn_1_1bcvec}{bcvec}}\& res,}
-\DoxyCodeLine{126                     compute::vector<int>\& valid}
-\DoxyCodeLine{127             )}
-\DoxyCodeLine{128             \{}
-\DoxyCodeLine{129                 compute::transform( res.state.begin()}
-\DoxyCodeLine{130                                    ,res.state.end()}
-\DoxyCodeLine{131                                    ,valid.begin()}
-\DoxyCodeLine{132                                    ,res.state.begin()}
-\DoxyCodeLine{133                                    ,(\_1+1)*\_2}
-\DoxyCodeLine{134                                    ,this-\/>queue);}
-\DoxyCodeLine{135                 std::vector<ulong> acc\_res(res.cardinality);}
-\DoxyCodeLine{136                 \textcolor{keywordflow}{for} (bn::state\_t i = 0; i < res.cardinality; ++i) \{}
-\DoxyCodeLine{137                     acc\_res[i] = compute::count(res.state.begin(), res.state.end(), i+1, this-\/>queue);}
-\DoxyCodeLine{138                 \}}
-\DoxyCodeLine{139                 \textcolor{keywordflow}{return} acc\_res;}
-\DoxyCodeLine{140             \}}
-\DoxyCodeLine{141         \};}
-\DoxyCodeLine{142     \} \textcolor{comment}{// namespace inference}}
-\DoxyCodeLine{143 \} \textcolor{comment}{// namespace bn}}
-\DoxyCodeLine{144 }
-\DoxyCodeLine{145 }
-\DoxyCodeLine{146 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_LOGIC\_SAMPLING\_HPP}}
+\DoxyCodeLine{119         \textcolor{keyword}{private}:}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{126             std::vector<ulong> \mbox{\hyperlink{classbaylib_1_1inference_1_1logic__sampling_ab65d19c09d7e6dba0cdfeab62ace65b6}{compute\_result\_general}}(}
+\DoxyCodeLine{127                     \mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}}\& res,}
+\DoxyCodeLine{128                     compute::vector<int>\& valid}
+\DoxyCodeLine{129             )}
+\DoxyCodeLine{130             \{}
+\DoxyCodeLine{131                 compute::transform( res.state.begin()}
+\DoxyCodeLine{132                                    ,res.state.end()}
+\DoxyCodeLine{133                                    ,valid.begin()}
+\DoxyCodeLine{134                                    ,res.state.begin()}
+\DoxyCodeLine{135                                    ,(\_1+1)*\_2}
+\DoxyCodeLine{136                                    ,this-\/>queue);}
+\DoxyCodeLine{137                 std::vector<ulong> acc\_res(res.cardinality);}
+\DoxyCodeLine{138                 \textcolor{keywordflow}{for} (baylib::state\_t i = 0; i < res.cardinality; ++i) \{}
+\DoxyCodeLine{139                     acc\_res[i] = compute::count(res.state.begin(), res.state.end(), i+1, this-\/>queue);}
+\DoxyCodeLine{140                 \}}
+\DoxyCodeLine{141                 \textcolor{keywordflow}{return} acc\_res;}
+\DoxyCodeLine{142             \}}
+\DoxyCodeLine{143         \};}
+\DoxyCodeLine{144     \} \textcolor{comment}{// namespace inference}}
+\DoxyCodeLine{145 \} \textcolor{comment}{// namespace baylib}}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_LOGIC\_SAMPLING\_HPP}}
 
 \end{DoxyCode}

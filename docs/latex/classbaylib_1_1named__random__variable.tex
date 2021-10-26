@@ -1,0 +1,104 @@
+\hypertarget{classbaylib_1_1named__random__variable}{}\doxysection{baylib\+::named\+\_\+random\+\_\+variable\texorpdfstring{$<$}{<} Probability\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1named__random__variable}\index{baylib::named\_random\_variable$<$ Probability\_ $>$@{baylib::named\_random\_variable$<$ Probability\_ $>$}}
+
+
+{\ttfamily \#include $<$smile\+\_\+utils.\+hpp$>$}
+
+Inheritance diagram for baylib\+::named\+\_\+random\+\_\+variable\texorpdfstring{$<$}{<} Probability\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classbaylib_1_1named__random__variable}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1named__random__variable_ad3f276b4ee6e77d83cff00ab95c56dd4}\label{classbaylib_1_1named__random__variable_ad3f276b4ee6e77d83cff00ab95c56dd4}} 
+{\bfseries named\+\_\+random\+\_\+variable} (std\+::string \mbox{\hyperlink{classbaylib_1_1named__random__variable_ae3ab4a3696076ba5da02402b43a9c8ff}{name}}, const std\+::vector$<$ std\+::string $>$ \&\mbox{\hyperlink{classbaylib_1_1named__random__variable_abae8e6ec205c511f4286867568445541}{states}})
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classbaylib_1_1named__random__variable_abae8e6ec205c511f4286867568445541}{states}} () const
+\item 
+std\+::string \mbox{\hyperlink{classbaylib_1_1named__random__variable_aa4e72cd2a8898f5aed1d0edb671078cb}{state}} (unsigned long s) const
+\item 
+bool \mbox{\hyperlink{classbaylib_1_1named__random__variable_a7534b95a096848138fbbaafa38c569b1}{has\+\_\+state}} (const std\+::string \&state\+\_\+name) const
+\item 
+std\+::string \mbox{\hyperlink{classbaylib_1_1named__random__variable_ae3ab4a3696076ba5da02402b43a9c8ff}{name}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1named__random__variable_a63413e88da58c44664f622cc5d23a220}\label{classbaylib_1_1named__random__variable_a63413e88da58c44664f622cc5d23a220}} 
+std\+::string {\bfseries \+\_\+name}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1named__random__variable_adf2bf389a6119bc244c6d0123ff13440}\label{classbaylib_1_1named__random__variable_adf2bf389a6119bc244c6d0123ff13440}} 
+std\+::vector$<$ std\+::string $>$ {\bfseries \+\_\+states}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$Arithmetic Probability\+\_\+ = double$>$\newline
+class baylib\+::named\+\_\+random\+\_\+variable$<$ Probability\+\_\+ $>$}
+This class is used to support xdsl additional features associated to a random variable, inheriting from \mbox{\hyperlink{classbaylib_1_1random__variable}{random\+\_\+variable}}. Offers to possibility to name the variable and its states. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Probability\+\_\+} & \+: the type expressing the probability must be arithmetic \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1named__random__variable_a7534b95a096848138fbbaafa38c569b1}\label{classbaylib_1_1named__random__variable_a7534b95a096848138fbbaafa38c569b1}} 
+\index{baylib::named\_random\_variable$<$ Probability\_ $>$@{baylib::named\_random\_variable$<$ Probability\_ $>$}!has\_state@{has\_state}}
+\index{has\_state@{has\_state}!baylib::named\_random\_variable$<$ Probability\_ $>$@{baylib::named\_random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{has\_state()}{has\_state()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+bool \mbox{\hyperlink{classbaylib_1_1named__random__variable}{baylib\+::named\+\_\+random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::has\+\_\+state (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{state\+\_\+name }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Verify if a specific state is a possible realization of the variable 
+\begin{DoxyParams}{Parameters}
+{\em state\+\_\+name} & \+: name of the state \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if state\+\_\+name is a state of var 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1named__random__variable_ae3ab4a3696076ba5da02402b43a9c8ff}\label{classbaylib_1_1named__random__variable_ae3ab4a3696076ba5da02402b43a9c8ff}} 
+\index{baylib::named\_random\_variable$<$ Probability\_ $>$@{baylib::named\_random\_variable$<$ Probability\_ $>$}!name@{name}}
+\index{name@{name}!baylib::named\_random\_variable$<$ Probability\_ $>$@{baylib::named\_random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{name()}{name()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+std\+::string \mbox{\hyperlink{classbaylib_1_1named__random__variable}{baylib\+::named\+\_\+random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+name of variable 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1named__random__variable_aa4e72cd2a8898f5aed1d0edb671078cb}\label{classbaylib_1_1named__random__variable_aa4e72cd2a8898f5aed1d0edb671078cb}} 
+\index{baylib::named\_random\_variable$<$ Probability\_ $>$@{baylib::named\_random\_variable$<$ Probability\_ $>$}!state@{state}}
+\index{state@{state}!baylib::named\_random\_variable$<$ Probability\_ $>$@{baylib::named\_random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{state()}{state()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+std\+::string \mbox{\hyperlink{classbaylib_1_1named__random__variable}{baylib\+::named\+\_\+random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::state (\begin{DoxyParamCaption}\item[{unsigned long}]{s }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Retrieves the name of the state identified by \char`\"{}s\char`\"{} as an index 
+\begin{DoxyParams}{Parameters}
+{\em s} & number of state \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+name of s-\/th state 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1named__random__variable_abae8e6ec205c511f4286867568445541}\label{classbaylib_1_1named__random__variable_abae8e6ec205c511f4286867568445541}} 
+\index{baylib::named\_random\_variable$<$ Probability\_ $>$@{baylib::named\_random\_variable$<$ Probability\_ $>$}!states@{states}}
+\index{states@{states}!baylib::named\_random\_variable$<$ Probability\_ $>$@{baylib::named\_random\_variable$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{states()}{states()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classbaylib_1_1named__random__variable}{baylib\+::named\+\_\+random\+\_\+variable}}$<$ Probability\+\_\+ $>$\+::states (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+vector of state names 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/smile\+\_\+utils/\mbox{\hyperlink{smile__utils_8hpp}{smile\+\_\+utils.\+hpp}}\end{DoxyCompactItemize}

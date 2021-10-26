@@ -16,7 +16,7 @@
 \DoxyCodeLine{12 }
 \DoxyCodeLine{15 }
 \DoxyCodeLine{16 }
-\DoxyCodeLine{17 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
+\DoxyCodeLine{17 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}} \{}
 \DoxyCodeLine{18     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Vertex>}
 \DoxyCodeLine{19     \textcolor{keyword}{using} graph = boost::adjacency\_list<boost::listS, \textcolor{comment}{// edge container}}
 \DoxyCodeLine{20                                         boost::vecS, \textcolor{comment}{// vertex container}}
@@ -27,7 +27,7 @@
 \DoxyCodeLine{25     \textcolor{keyword}{using} vertex = \textcolor{keyword}{typename} graph<Vertex>::vertex\_descriptor;}
 \DoxyCodeLine{26 }
 \DoxyCodeLine{36     \textcolor{keyword}{template} <\textcolor{keyword}{typename} Vertex>}
-\DoxyCodeLine{37     \textcolor{keyword}{auto} \mbox{\hyperlink{namespacebn_aabfeec14957a6a84112596fc4aa18a9f}{bundles}}(graph<Vertex> \& \_g)  \{}
+\DoxyCodeLine{37     \textcolor{keyword}{auto} \mbox{\hyperlink{namespacebaylib_a1779bf8bd4b2599df481ec059ef92996}{bundles}}(graph<Vertex> \& \_g)  \{}
 \DoxyCodeLine{38         \textcolor{keyword}{using} boost::adaptors::transformed;}
 \DoxyCodeLine{39         \textcolor{keyword}{auto} accessor = [map = get(boost::vertex\_bundle, \_g)](\textcolor{keyword}{auto} vid) -\/> \textcolor{keyword}{auto}\& \{}
 \DoxyCodeLine{40             \textcolor{keywordflow}{return} map[vid];}
@@ -37,7 +37,7 @@
 \DoxyCodeLine{44     \}}
 \DoxyCodeLine{45 }
 \DoxyCodeLine{46 }
-\DoxyCodeLine{47 \} \textcolor{comment}{// namespace bn}}
+\DoxyCodeLine{47 \} \textcolor{comment}{// namespace baylib}}
 \DoxyCodeLine{48 }
 \DoxyCodeLine{49 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//BAYLIB\_GRAPH\_HPP}}
 

@@ -1,0 +1,103 @@
+\hypertarget{classbaylib_1_1inference_1_1gibbs__sampling}{}\doxysection{baylib\+::inference\+::gibbs\+\_\+sampling\texorpdfstring{$<$}{<} Network\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1inference_1_1gibbs__sampling}\index{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$@{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$}}
+
+
+{\ttfamily \#include $<$gibbs\+\_\+sampling.\+hpp$>$}
+
+Inheritance diagram for baylib\+::inference\+::gibbs\+\_\+sampling\texorpdfstring{$<$}{<} Network\+\_\+, Generator\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbaylib_1_1inference_1_1gibbs__sampling}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1gibbs__sampling_a58a6dc290a503bb81d1efa7b3dbfde41}\label{classbaylib_1_1inference_1_1gibbs__sampling_a58a6dc290a503bb81d1efa7b3dbfde41}} 
+{\bfseries gibbs\+\_\+sampling} (const network\+\_\+type \&bn, ulong nsamples, uint nthreads=1, uint seed=0)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1gibbs__sampling_a68f7fddf69fe792a4cad4d554bf0ec3a}\label{classbaylib_1_1inference_1_1gibbs__sampling_a68f7fddf69fe792a4cad4d554bf0ec3a}} 
+typedef Network\+\_\+ {\bfseries network\+\_\+type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib\+::marginal\+\_\+distribution}}$<$ probability\+\_\+type $>$ \mbox{\hyperlink{classbaylib_1_1inference_1_1gibbs__sampling_ac23cd96da93815c9d0318090b6a0126c}{sample\+\_\+step}} (unsigned long nsamples, unsigned int seed) override
+\item 
+ulong \mbox{\hyperlink{classbaylib_1_1inference_1_1gibbs__sampling_ac2c62636b754ba97a21c8efe070e979c}{sample\+\_\+single\+\_\+variable}} (const unsigned long n, std\+::vector$<$ baylib\+::state\+\_\+t $>$ \&var\+\_\+state\+\_\+values, \mbox{\hyperlink{classbaylib_1_1random__generator}{baylib\+::random\+\_\+generator}}$<$ probability\+\_\+type, Generator\+\_\+ $>$ \&rnd\+\_\+gen)
+\item 
+probability\+\_\+type \mbox{\hyperlink{classbaylib_1_1inference_1_1gibbs__sampling_a6631f42edfa571237231e2796e9e647b}{get\+\_\+probability}} (const unsigned long n, const std\+::vector$<$ baylib\+::state\+\_\+t $>$ \&var\+\_\+state\+\_\+values)
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$BNet\+Derived Network\+\_\+, typename Generator\+\_\+ = std\+::mt19937$>$\newline
+class baylib\+::inference\+::gibbs\+\_\+sampling$<$ Network\+\_\+, Generator\+\_\+ $>$}
+===== Gibbs sampling Algorithm ===
+
+This class represents the Gibbs Sampling approximate inference algorithm for discrete Bayesian Networks. It\textquotesingle{}s based on the Gibbs sampler. It offers the possibility to use a custom generator and an initial seed NOTICE\+: Gibbs sampling should not be used for bayesian networks with deterministic nodes, i.\+e. nodes with some entry in the cpt equal to 1.\+0 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Network\+\_\+} & \+: the type of bayesian network (must inherit from \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}) \\
+\hline
+{\em Generator\+\_\+} & \+: the type of random generator (default Mersenne Twister pseudo-\/random generator) \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1gibbs__sampling_a6631f42edfa571237231e2796e9e647b}\label{classbaylib_1_1inference_1_1gibbs__sampling_a6631f42edfa571237231e2796e9e647b}} 
+\index{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$@{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$}!get\_probability@{get\_probability}}
+\index{get\_probability@{get\_probability}!baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$@{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$}}
+\doxysubsubsection{\texorpdfstring{get\_probability()}{get\_probability()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+, typename Generator\+\_\+  = std\+::mt19937$>$ \\
+probability\+\_\+type \mbox{\hyperlink{classbaylib_1_1inference_1_1gibbs__sampling}{baylib\+::inference\+::gibbs\+\_\+sampling}}$<$ Network\+\_\+, Generator\+\_\+ $>$\+::get\+\_\+probability (\begin{DoxyParamCaption}\item[{const unsigned long}]{n,  }\item[{const std\+::vector$<$ baylib\+::state\+\_\+t $>$ \&}]{var\+\_\+state\+\_\+values }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+Get the probability of the current realization of a specific node 
+\begin{DoxyParams}{Parameters}
+{\em n} & \+: numerical identifier of node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: probability\+\_\+type of the current realization of n 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1gibbs__sampling_ac2c62636b754ba97a21c8efe070e979c}\label{classbaylib_1_1inference_1_1gibbs__sampling_ac2c62636b754ba97a21c8efe070e979c}} 
+\index{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$@{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$}!sample\_single\_variable@{sample\_single\_variable}}
+\index{sample\_single\_variable@{sample\_single\_variable}!baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$@{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$}}
+\doxysubsubsection{\texorpdfstring{sample\_single\_variable()}{sample\_single\_variable()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+, typename Generator\+\_\+  = std\+::mt19937$>$ \\
+ulong \mbox{\hyperlink{classbaylib_1_1inference_1_1gibbs__sampling}{baylib\+::inference\+::gibbs\+\_\+sampling}}$<$ Network\+\_\+, Generator\+\_\+ $>$\+::sample\+\_\+single\+\_\+variable (\begin{DoxyParamCaption}\item[{const unsigned long}]{n,  }\item[{std\+::vector$<$ baylib\+::state\+\_\+t $>$ \&}]{var\+\_\+state\+\_\+values,  }\item[{\mbox{\hyperlink{classbaylib_1_1random__generator}{baylib\+::random\+\_\+generator}}$<$ probability\+\_\+type, Generator\+\_\+ $>$ \&}]{rnd\+\_\+gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+Samples a single variable usign the Gibbs sampling algorithm 
+\begin{DoxyParams}{Parameters}
+{\em bn} & \+: the bayesian network \\
+\hline
+{\em n} & \+: the index of the sampled variable \\
+\hline
+{\em var\+\_\+state\+\_\+values} & \+: the vector containing the var states \\
+\hline
+{\em rnd\+\_\+gen} & \+: the random generator with the given seed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sampled state 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1gibbs__sampling_ac23cd96da93815c9d0318090b6a0126c}\label{classbaylib_1_1inference_1_1gibbs__sampling_ac23cd96da93815c9d0318090b6a0126c}} 
+\index{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$@{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$}!sample\_step@{sample\_step}}
+\index{sample\_step@{sample\_step}!baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$@{baylib::inference::gibbs\_sampling$<$ Network\_, Generator\_ $>$}}
+\doxysubsubsection{\texorpdfstring{sample\_step()}{sample\_step()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+, typename Generator\+\_\+  = std\+::mt19937$>$ \\
+\mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib\+::marginal\+\_\+distribution}}$<$ probability\+\_\+type $>$ \mbox{\hyperlink{classbaylib_1_1inference_1_1gibbs__sampling}{baylib\+::inference\+::gibbs\+\_\+sampling}}$<$ Network\+\_\+, Generator\+\_\+ $>$\+::sample\+\_\+step (\begin{DoxyParamCaption}\item[{unsigned long}]{nsamples,  }\item[{unsigned int}]{seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm}{baylib\+::inference\+::parallel\+\_\+inference\+\_\+algorithm$<$ Network\+\_\+ $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/inference/\mbox{\hyperlink{gibbs__sampling_8hpp}{gibbs\+\_\+sampling.\+hpp}}\end{DoxyCompactItemize}

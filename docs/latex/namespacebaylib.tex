@@ -1,0 +1,212 @@
+\hypertarget{namespacebaylib}{}\doxysection{baylib Namespace Reference}
+\label{namespacebaylib}\index{baylib@{baylib}}
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classbaylib_1_1bayesian__net}{bayesian\+\_\+net}}
+\item 
+struct \mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}}
+\item 
+class \mbox{\hyperlink{classbaylib_1_1condition}{condition}}
+\item 
+class \mbox{\hyperlink{classbaylib_1_1condition__factory}{condition\+\_\+factory}}
+\item 
+class \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{marginal\+\_\+distribution}}
+\item 
+class \mbox{\hyperlink{classbaylib_1_1named__random__variable}{named\+\_\+random\+\_\+variable}}
+\item 
+class \mbox{\hyperlink{classbaylib_1_1random__generator}{random\+\_\+generator}}
+\item 
+class \mbox{\hyperlink{classbaylib_1_1random__variable}{random\+\_\+variable}}
+\item 
+class \mbox{\hyperlink{classbaylib_1_1seed__factory}{seed\+\_\+factory}}
+\item 
+class \mbox{\hyperlink{classbaylib_1_1xdsl__parser}{xdsl\+\_\+parser}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{namespacebaylib_a5100245aeeb3f0731b5b396af3e90113}\label{namespacebaylib_a5100245aeeb3f0731b5b396af3e90113}} 
+{\footnotesize template$<$typename Vertex $>$ }\\using {\bfseries graph} = boost\+::adjacency\+\_\+list$<$ boost\+::listS, boost\+::vecS, boost\+::bidirectionalS, Vertex $>$
+\item 
+\mbox{\Hypertarget{namespacebaylib_ae8a781d7c06a7170fae52169b9afeec0}\label{namespacebaylib_ae8a781d7c06a7170fae52169b9afeec0}} 
+{\footnotesize template$<$typename Vertex $>$ }\\using {\bfseries vertex} = typename graph$<$ Vertex $>$\+::vertex\+\_\+descriptor
+\item 
+\mbox{\Hypertarget{namespacebaylib_aa32ca320e06368271adeb799c37c77db}\label{namespacebaylib_aa32ca320e06368271adeb799c37c77db}} 
+using {\bfseries state\+\_\+t} = std\+::uint64\+\_\+t
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Vertex $>$ }\\auto \mbox{\hyperlink{namespacebaylib_a1779bf8bd4b2599df481ec059ef92996}{bundles}} (graph$<$ Vertex $>$ \&\+\_\+g)
+\item 
+{\footnotesize template$<$BNet\+Derived Network\+\_\+$>$ }\\std\+::vector$<$ unsigned long $>$ \mbox{\hyperlink{namespacebaylib_a02bd9315d6bfbb11442016299e84e7b6}{sampling\+\_\+order}} (const Network\+\_\+ \&bn)
+\item 
+{\footnotesize template$<$BNet\+Derived Network\+\_\+$>$ }\\std\+::unordered\+\_\+set$<$ unsigned long $>$ \mbox{\hyperlink{namespacebaylib_ac6b52de8ff738127f5afa2ce28126c53}{markov\+\_\+blanket}} (const Network\+\_\+ \&bn, unsigned long vid)
+\item 
+{\footnotesize template$<$BNet\+Derived Network\+\_\+$>$ }\\bool \mbox{\hyperlink{namespacebaylib_a49f1c1f9205ceeeb2364c9c449955fec}{cpt\+\_\+filled\+\_\+out}} (const Network\+\_\+ \&bn, const unsigned long cpt\+\_\+owner)
+\item 
+{\footnotesize template$<$BNet\+Derived Network\+\_\+$>$ }\\void \mbox{\hyperlink{namespacebaylib_a0cc5482c461e8b037492a82980a3dec5}{clear\+\_\+network\+\_\+evidences}} (Network\+\_\+ \&bn)
+\item 
+{\footnotesize template$<$BNet\+Derived Network\+\_\+$>$ }\\std\+::vector$<$ ulong $>$ \mbox{\hyperlink{namespacebaylib_aa6db784183236df8f4133d2acec631d6}{ancestors\+\_\+of\+\_\+evidence}} (const Network\+\_\+ \&bn)
+\item 
+\mbox{\Hypertarget{namespacebaylib_a38835c82a2f7a2c7b756ff1fdf178fa2}\label{namespacebaylib_a38835c82a2f7a2c7b756ff1fdf178fa2}} 
+{\footnotesize template$<$typename Iterator $>$ }\\{\bfseries marginal\+\_\+distribution} (Iterator begin, Iterator end) -\/$>$ \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{marginal\+\_\+distribution}}$<$ std\+::decay\+\_\+t$<$ decltype($\ast$begin)$>$ $>$
+\item 
+{\footnotesize template$<$RVar\+Derived Variable\+\_\+$>$ }\\std\+::map$<$ std\+::string, unsigned long $>$ \mbox{\hyperlink{namespacebaylib_a3fa7cc06d8943b2fab4c49a6d210edbb}{make\+\_\+name\+\_\+map}} (const \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$ \&bn)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+this file contains some useful algorithms for bayesian network inference ! graph rank function for vectorization ordering ! markov-\/blanket ! CPT filled out checker
+
+Other utils might be added in case of future support of exact inference algorithms
+
+========= Conditional probability\+\_\+type Table ========== This class models the conditional probability table associated to each variable of the bayesian network. Employs custom shared\+\_\+ptr from baylib\+::cow namespace adapted from Qt library source code to implement copy-\/on-\/write
+
+Adapted version of qshareddata.\+h from Qt library (which already implements the copy on write in an efficient way)
+
+Adapted version of qshareddata.\+h from Qt library which already implements the IMPLICIT copy on write in an efficient way 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacebaylib_aa6db784183236df8f4133d2acec631d6}\label{namespacebaylib_aa6db784183236df8f4133d2acec631d6}} 
+\index{baylib@{baylib}!ancestors\_of\_evidence@{ancestors\_of\_evidence}}
+\index{ancestors\_of\_evidence@{ancestors\_of\_evidence}!baylib@{baylib}}
+\doxysubsubsection{\texorpdfstring{ancestors\_of\_evidence()}{ancestors\_of\_evidence()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+$>$ \\
+std\+::vector$<$ ulong $>$ baylib\+::ancestors\+\_\+of\+\_\+evidence (\begin{DoxyParamCaption}\item[{const Network\+\_\+ \&}]{bn }\end{DoxyParamCaption})}
+
+Utility that returns the list of nodes that are ancestors of evidence including evidences themselves, the nodes are returned in topological order 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Variable} & \+: the type expressing the random variable \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em bn} & \+: the Bayesian network model \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: vector of nodes 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacebaylib_a1779bf8bd4b2599df481ec059ef92996}\label{namespacebaylib_a1779bf8bd4b2599df481ec059ef92996}} 
+\index{baylib@{baylib}!bundles@{bundles}}
+\index{bundles@{bundles}!baylib@{baylib}}
+\doxysubsubsection{\texorpdfstring{bundles()}{bundles()}}
+{\footnotesize\ttfamily template$<$typename Vertex $>$ \\
+auto baylib\+::bundles (\begin{DoxyParamCaption}\item[{graph$<$ Vertex $>$ \&}]{\+\_\+g }\end{DoxyParamCaption})}
+
+retrieves bundled properties (custom vertices) range from the given boost graph transforming boost \char`\"{}vertices\char`\"{} iterator Useful to overload iterators in baylib\+::bayesian\+\_\+net$<$probability\+\_\+type$>$ 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Graph} & \+: the boost graph descriptor \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+g} & \+: the boost graph const reference \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: bundled properties range 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacebaylib_a0cc5482c461e8b037492a82980a3dec5}\label{namespacebaylib_a0cc5482c461e8b037492a82980a3dec5}} 
+\index{baylib@{baylib}!clear\_network\_evidences@{clear\_network\_evidences}}
+\index{clear\_network\_evidences@{clear\_network\_evidences}!baylib@{baylib}}
+\doxysubsubsection{\texorpdfstring{clear\_network\_evidences()}{clear\_network\_evidences()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+$>$ \\
+void baylib\+::clear\+\_\+network\+\_\+evidences (\begin{DoxyParamCaption}\item[{Network\+\_\+ \&}]{bn }\end{DoxyParamCaption})}
+
+Utility to reset all evidences in the given bayesian network 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Variable\+\_\+} & \+: the type expressing the random variable \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em bn} & \+: the Bayesian network model \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacebaylib_a49f1c1f9205ceeeb2364c9c449955fec}\label{namespacebaylib_a49f1c1f9205ceeeb2364c9c449955fec}} 
+\index{baylib@{baylib}!cpt\_filled\_out@{cpt\_filled\_out}}
+\index{cpt\_filled\_out@{cpt\_filled\_out}!baylib@{baylib}}
+\doxysubsubsection{\texorpdfstring{cpt\_filled\_out()}{cpt\_filled\_out()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+$>$ \\
+bool baylib\+::cpt\+\_\+filled\+\_\+out (\begin{DoxyParamCaption}\item[{const Network\+\_\+ \&}]{bn,  }\item[{const unsigned long}]{cpt\+\_\+owner }\end{DoxyParamCaption})}
+
+check whether the given node\textquotesingle{}s condition probability table is properly filled (proper number of entries and sum(row\+\_\+i) == 1.\+0 with a tolerance of 1.\+0e-\/5) 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Probability} & \+: the type expressing the probability \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em cpt\+\_\+owner} & \+: the node the cpt belongs to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: true if filled out, false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacebaylib_a3fa7cc06d8943b2fab4c49a6d210edbb}\label{namespacebaylib_a3fa7cc06d8943b2fab4c49a6d210edbb}} 
+\index{baylib@{baylib}!make\_name\_map@{make\_name\_map}}
+\index{make\_name\_map@{make\_name\_map}!baylib@{baylib}}
+\doxysubsubsection{\texorpdfstring{make\_name\_map()}{make\_name\_map()}}
+{\footnotesize\ttfamily template$<$RVar\+Derived Variable\+\_\+$>$ \\
+std\+::map$<$ std\+::string, unsigned long $>$ baylib\+::make\+\_\+name\+\_\+map (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ Variable\+\_\+ $>$ \&}]{bn }\end{DoxyParamCaption})}
+
+This methods builds a \{name\+: id\} map scanning a \mbox{\hyperlink{classbaylib_1_1bayesian__net}{bayesian\+\_\+net}} whose nodes are named\+\_\+random\+\_\+variables 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Variable\+\_\+} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em bn} & \+: bayesian network of type Network\+\_\+ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacebaylib_ac6b52de8ff738127f5afa2ce28126c53}\label{namespacebaylib_ac6b52de8ff738127f5afa2ce28126c53}} 
+\index{baylib@{baylib}!markov\_blanket@{markov\_blanket}}
+\index{markov\_blanket@{markov\_blanket}!baylib@{baylib}}
+\doxysubsubsection{\texorpdfstring{markov\_blanket()}{markov\_blanket()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+$>$ \\
+std\+::unordered\+\_\+set$<$ unsigned long $>$ baylib\+::markov\+\_\+blanket (\begin{DoxyParamCaption}\item[{const Network\+\_\+ \&}]{bn,  }\item[{unsigned long}]{vid }\end{DoxyParamCaption})}
+
+Computes the Markov blanket reduction given the bayesian network and a node 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Variable\+\_\+} & \+: the type of bayesian network \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em bn} & \+: bayesian network \\
+\hline
+{\em vid} & \+: random variable id \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: unordered set containing the Markov blanket 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacebaylib_a02bd9315d6bfbb11442016299e84e7b6}\label{namespacebaylib_a02bd9315d6bfbb11442016299e84e7b6}} 
+\index{baylib@{baylib}!sampling\_order@{sampling\_order}}
+\index{sampling\_order@{sampling\_order}!baylib@{baylib}}
+\doxysubsubsection{\texorpdfstring{sampling\_order()}{sampling\_order()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+$>$ \\
+std\+::vector$<$ unsigned long $>$ baylib\+::sampling\+\_\+order (\begin{DoxyParamCaption}\item[{const Network\+\_\+ \&}]{bn }\end{DoxyParamCaption})}
+
+Applies ranking function to the DAG representing the bayesian network to get the appropriate sampling order
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Network\+\_\+} & \+: the type expressing the random variable \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em bn} & \+: bayesian network \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: vector containing variables sorted by rank 
+\end{DoxyReturn}

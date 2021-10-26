@@ -1,0 +1,78 @@
+\hypertarget{classbaylib_1_1inference_1_1parallel__inference__algorithm}{}\doxysection{baylib\+::inference\+::parallel\+\_\+inference\+\_\+algorithm\texorpdfstring{$<$}{<} Network\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1inference_1_1parallel__inference__algorithm}\index{baylib::inference::parallel\_inference\_algorithm$<$ Network\_ $>$@{baylib::inference::parallel\_inference\_algorithm$<$ Network\_ $>$}}
+
+
+{\ttfamily \#include $<$abstract\+\_\+inference\+\_\+algorithm.\+hpp$>$}
+
+Inheritance diagram for baylib\+::inference\+::parallel\+\_\+inference\+\_\+algorithm\texorpdfstring{$<$}{<} Network\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.462141cm]{classbaylib_1_1inference_1_1parallel__inference__algorithm}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1parallel__inference__algorithm_a7d8251137ba2d75d8a813eaf28a20d70}\label{classbaylib_1_1inference_1_1parallel__inference__algorithm_a7d8251137ba2d75d8a813eaf28a20d70}} 
+typedef Network\+\_\+ {\bfseries network\+\_\+type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1parallel__inference__algorithm_a204dfc75abd2d76cf4fc59a03d2bb8ef}\label{classbaylib_1_1inference_1_1parallel__inference__algorithm_a204dfc75abd2d76cf4fc59a03d2bb8ef}} 
+{\bfseries parallel\+\_\+inference\+\_\+algorithm} (const network\+\_\+type \&bn, unsigned long nsamples, unsigned int nthreads=1, unsigned int seed=0)
+\item 
+\mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib\+::marginal\+\_\+distribution}}$<$ probability\+\_\+type $>$ \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm_aeedf03da80dadb50952fd604d2cb6653}{make\+\_\+inference}} () override
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1parallel__inference__algorithm_acdb426a37b6aabf1c493980cbeec480a}\label{classbaylib_1_1inference_1_1parallel__inference__algorithm_acdb426a37b6aabf1c493980cbeec480a}} 
+void {\bfseries set\+\_\+number\+\_\+of\+\_\+threads} (unsigned int \+\_\+nthreads)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1parallel__inference__algorithm_a5ea6075dceed94ef62504ab663ee8115}\label{classbaylib_1_1inference_1_1parallel__inference__algorithm_a5ea6075dceed94ef62504ab663ee8115}} 
+virtual \mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib\+::marginal\+\_\+distribution}}$<$ probability\+\_\+type $>$ {\bfseries sample\+\_\+step} (unsigned long nsamples\+\_\+per\+\_\+step, unsigned int seed)=0
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1parallel__inference__algorithm_ac07d64d2e012e8e2c5c5bf90e202604d}\label{classbaylib_1_1inference_1_1parallel__inference__algorithm_ac07d64d2e012e8e2c5c5bf90e202604d}} 
+unsigned int {\bfseries nthreads}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$BNet\+Derived Network\+\_\+$>$\newline
+class baylib\+::inference\+::parallel\+\_\+inference\+\_\+algorithm$<$ Network\+\_\+ $>$}
+This class models an approximate inference algorithm parallelized with C++ threads. Its make\+\_\+inference employs the well-\/known approach of splitting the sampling work over the number of threads and merging the results 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Network\+\_\+} & \+: the type of bayesian network \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1parallel__inference__algorithm_aeedf03da80dadb50952fd604d2cb6653}\label{classbaylib_1_1inference_1_1parallel__inference__algorithm_aeedf03da80dadb50952fd604d2cb6653}} 
+\index{baylib::inference::parallel\_inference\_algorithm$<$ Network\_ $>$@{baylib::inference::parallel\_inference\_algorithm$<$ Network\_ $>$}!make\_inference@{make\_inference}}
+\index{make\_inference@{make\_inference}!baylib::inference::parallel\_inference\_algorithm$<$ Network\_ $>$@{baylib::inference::parallel\_inference\_algorithm$<$ Network\_ $>$}}
+\doxysubsubsection{\texorpdfstring{make\_inference()}{make\_inference()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+$>$ \\
+\mbox{\hyperlink{classbaylib_1_1marginal__distribution}{baylib\+::marginal\+\_\+distribution}}$<$ probability\+\_\+type $>$ \mbox{\hyperlink{classbaylib_1_1inference_1_1parallel__inference__algorithm}{baylib\+::inference\+::parallel\+\_\+inference\+\_\+algorithm}}$<$ Network\+\_\+ $>$\+::make\+\_\+inference (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Models the standard approach towards MCMC parallelization, i.\+e. assigns the sampling step to the number of available threads and eventually merges the results 
+\begin{DoxyParams}{Parameters}
+{\em bn} & \+: bayesian network graph \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: the marginal distribution of the variables post inference 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classbaylib_1_1inference_1_1inference__algorithm_a0bef5f3133e2a3bed05eb7d9b004e243}{baylib\+::inference\+::inference\+\_\+algorithm$<$ Network\+\_\+ $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/inference/\mbox{\hyperlink{abstract__inference__algorithm_8hpp}{abstract\+\_\+inference\+\_\+algorithm.\+hpp}}\end{DoxyCompactItemize}

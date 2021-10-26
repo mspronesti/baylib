@@ -47,6 +47,22 @@ namespace baylib {
         }
 
         /**
+         *  Retrieves the name of the state
+         *  identified by "s" as an index
+         * @param s: number of state
+         * @return name of s-th state
+         */
+        std::string state(unsigned long s) const {
+            BAYLIB_ASSERT(s < _states.size(),
+                          "random variable " << _name
+                          << " has " << _states.size()
+                          << " states, but " << s
+                          << "-th was requested",
+                          std::runtime_error)
+            return _states[s];
+        }
+
+        /**
         * Verify if a specific state is a possible realization of the variable
         * @param state_name : name of the state
         * @return           : true if state_name is a state of var

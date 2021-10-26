@@ -83,126 +83,129 @@ $(function() {
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;boost/compute.hpp&gt;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;boost/compute/device.hpp&gt;</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;<a class="code" href="abstract__inference__algorithm_8hpp.html">baylib/inference/abstract_inference_algorithm.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacebn.html">bn</a> {</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">namespace </span>inference{</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keyword">namespace </span>compute = boost::compute;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keyword">using</span> boost::compute::lambda::_1;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keyword">using</span> boost::compute::lambda::_2;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;<a class="code" href="condition__factory_8hpp.html">probability/condition_factory.hpp</a>&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;<a class="code" href="abstract__inference__algorithm_8hpp.html">baylib/inference/abstract_inference_algorithm.hpp</a>&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacebaylib.html">baylib</a> {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">namespace </span>inference{</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keyword">namespace </span>compute = boost::compute;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keyword">using</span> boost::compute::lambda::_1;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keyword">using</span> boost::compute::lambda::_2;</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keyword">template</span> &lt;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                BNetDerived Network_,</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                <span class="keyword">typename</span> Generator_ = std::mt19937</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                &gt;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classbn_1_1inference_1_1logic__sampling.html">   48</a></span>        <span class="keyword">class </span><a class="code hl_class" href="classbn_1_1inference_1_1logic__sampling.html">logic_sampling</a> : <span class="keyword">public</span> <a class="code hl_class" href="classbn_1_1inference_1_1vectorized__inference__algorithm.html">vectorized_inference_algorithm</a>&lt;Network_&gt;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        {</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <span class="keyword">using</span> <span class="keyword">typename</span> vectorized_inference_algorithm&lt;Network_&gt;::network_type;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <span class="keyword">using</span> <span class="keyword">typename</span> vectorized_inference_algorithm&lt;Network_&gt;::probability_type;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <span class="keyword">using</span> <a class="code hl_class" href="classbn_1_1inference_1_1vectorized__inference__algorithm.html">vectorized_inference_algorithm&lt;Network_&gt;::bn</a>;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            <span class="keyword">using</span> prob_v = boost::compute::vector&lt;probability_type&gt;;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <a class="code hl_class" href="classbn_1_1inference_1_1logic__sampling.html">logic_sampling</a>(</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                    <span class="keyword">const</span> network_type &amp;<a class="code hl_namespace" href="namespacebn.html">bn</a>,</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                    ulong samples,</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                    <span class="keywordtype">size_t</span> memory,</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                    uint seed = 0,</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                    <span class="keyword">const</span> compute::device &amp;device = compute::system::default_device()</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            )</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            : <a class="code hl_class" href="classbn_1_1inference_1_1vectorized__inference__algorithm.html">vectorized_inference_algorithm&lt;Network_&gt;</a>(samples, memory, seed, device)</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            { }</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classbn_1_1inference_1_1logic__sampling.html#a5d18603e91511f92b405c8571c42786c">   66</a></span>            <a class="code hl_class" href="classbn_1_1marginal__distribution.html">marginal_distribution&lt;probability_type&gt;</a> <a class="code hl_function" href="classbn_1_1inference_1_1logic__sampling.html#a5d18603e91511f92b405c8571c42786c">make_inference</a> ()<span class="keyword"> override</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">            </span>{</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                BAYLIB_ASSERT(std::all_of(<a class="code hl_namespace" href="namespacebn.html">bn</a>.begin(), <a class="code hl_namespace" href="namespacebn.html">bn</a>.end(),</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                                          [<span class="keyword">this</span>](<span class="keyword">auto</span> &amp;var){ return bn::cpt_filled_out(bn, var.id()); }),</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                              <span class="stringliteral">&quot;conditional probability tables must be properly filled to&quot;</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                              <span class="stringliteral">&quot; run logic_sampling inference algorithm&quot;</span>,</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                              std::runtime_error);</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                <span class="keyword">auto</span> [iter_samples, niter] = this-&gt;<a class="code hl_function" href="classbn_1_1inference_1_1vectorized__inference__algorithm.html#ae8ce12c7e911361b10d605649fa89788">calculate_iterations</a>(bn);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                <span class="keyword">auto</span> vertex_queue = <a class="code hl_function" href="namespacebn.html#af3d46b351f924835802c271a247183b5">bn::sampling_order</a>(<a class="code hl_namespace" href="namespacebn.html">bn</a>);</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                <a class="code hl_class" href="classbn_1_1marginal__distribution.html">marginal_distribution&lt;probability_type&gt;</a> marginal_result(<a class="code hl_namespace" href="namespacebn.html">bn</a>.begin(), <a class="code hl_namespace" href="namespacebn.html">bn</a>.end());</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                <span class="keywordflow">for</span> (ulong i = 0; i&lt; niter; i++) {</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                    std::vector&lt;bcvec&gt; result_container(vertex_queue.size());</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>                    <a class="code hl_class" href="classbn_1_1marginal__distribution.html">marginal_distribution&lt;probability_type&gt;</a> temp(<a class="code hl_namespace" href="namespacebn.html">bn</a>.begin(), <a class="code hl_namespace" href="namespacebn.html">bn</a>.end());</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                    compute::vector&lt;int&gt; valid_evidence_vec(this-&gt;nsamples, <span class="keyword">true</span>, this-&gt;queue);</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                    <span class="keywordflow">for</span>(ulong v : vertex_queue) {</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>                        std::vector&lt;bcvec*&gt; parents_result;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                        <span class="comment">// Build parents result vector in the correct order</span></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                        <span class="keyword">auto</span> parents = <a class="code hl_namespace" href="namespacebn.html">bn</a>.parents_of(v);</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                        std::reverse(parents.begin(), parents.end());</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> p : parents) {</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                            parents_result.push_back(&amp;result_container[p]);</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                        }</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                        result_container[v] = this-&gt;<a class="code hl_function" href="classbn_1_1inference_1_1vectorized__inference__algorithm.html#ae4dde96f4ba0818522ddc05db030c5e9">simulate_node</a>(bn[v].table(), parents_result, iter_samples);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keyword">template</span> &lt;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                BNetDerived Network_,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                <span class="keyword">typename</span> Generator_ = std::mt19937</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                &gt;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classbaylib_1_1inference_1_1logic__sampling.html">   49</a></span>        <span class="keyword">class </span><a class="code hl_class" href="classbaylib_1_1inference_1_1logic__sampling.html">logic_sampling</a> : <span class="keyword">public</span> <a class="code hl_class" href="classbaylib_1_1inference_1_1vectorized__inference__algorithm.html">vectorized_inference_algorithm</a>&lt;Network_&gt;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <span class="keyword">using</span> <span class="keyword">typename</span> vectorized_inference_algorithm&lt;Network_&gt;::network_type;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <span class="keyword">using</span> <span class="keyword">typename</span> vectorized_inference_algorithm&lt;Network_&gt;::probability_type;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            <span class="keyword">using</span> <a class="code hl_class" href="classbaylib_1_1inference_1_1vectorized__inference__algorithm.html">vectorized_inference_algorithm&lt;Network_&gt;::bn</a>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <span class="keyword">using</span> prob_v = boost::compute::vector&lt;probability_type&gt;;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <a class="code hl_class" href="classbaylib_1_1inference_1_1logic__sampling.html">logic_sampling</a>(</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                    <span class="keyword">const</span> network_type &amp;bn,</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                    ulong samples,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                    <span class="keywordtype">size_t</span> memory,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                    uint seed = 0,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                    <span class="keyword">const</span> compute::device &amp;device = compute::system::default_device()</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            )</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            : <a class="code hl_class" href="classbaylib_1_1inference_1_1vectorized__inference__algorithm.html">vectorized_inference_algorithm&lt;Network_&gt;</a>(bn, samples, memory, seed, device)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            { }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classbaylib_1_1inference_1_1logic__sampling.html#a9f9589a8bcf57d41b03f889a07606ef3">   67</a></span>            <a class="code hl_class" href="classbaylib_1_1marginal__distribution.html">marginal_distribution&lt;probability_type&gt;</a> <a class="code hl_function" href="classbaylib_1_1inference_1_1logic__sampling.html#a9f9589a8bcf57d41b03f889a07606ef3">make_inference</a> ()<span class="keyword"> override</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">            </span>{</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                                          [<span class="keyword">this</span>](<span class="keyword">auto</span> &amp;var){ return baylib::cpt_filled_out(bn, var.id()); }),</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                              <span class="stringliteral">&quot;conditional probability tables must be properly filled to&quot;</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                              <span class="stringliteral">&quot; run logic_sampling inference algorithm&quot;</span>,</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                              std::runtime_error);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                <span class="keyword">auto</span> [iter_samples, niter] = this-&gt;<a class="code hl_function" href="classbaylib_1_1inference_1_1vectorized__inference__algorithm.html#a8dd4c99eb211a42bee8d4a746c673c10">calculate_iterations</a>();</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                <span class="keyword">auto</span> vertex_queue = <a class="code hl_function" href="namespacebaylib.html#a02bd9315d6bfbb11442016299e84e7b6">baylib::sampling_order</a>(bn);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                <a class="code hl_class" href="classbaylib_1_1marginal__distribution.html">marginal_distribution&lt;probability_type&gt;</a> marginal_result(bn.begin(), bn.end());</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                <span class="keywordflow">for</span> (ulong i = 0; i&lt; niter; i++) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>                    std::vector&lt;bcvec&gt; result_container(vertex_queue.size());</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                    <a class="code hl_class" href="classbaylib_1_1marginal__distribution.html">marginal_distribution&lt;probability_type&gt;</a> temp(bn.begin(), bn.end());</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                    compute::vector&lt;int&gt; valid_evidence_vec(this-&gt;nsamples, <span class="keyword">true</span>, this-&gt;queue);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                    <span class="keywordflow">for</span>(ulong v : vertex_queue) {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                        std::vector&lt;bcvec*&gt; parents_result;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                        <span class="comment">// Build parents result vector in the correct order</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                        <span class="keyword">auto</span> parents = bn.parents_of(v);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                        <span class="comment">//std::reverse(parents.begin(), parents.end());</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> p : parents) {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                            parents_result.push_back(&amp;result_container[p]);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                        }</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                        <span class="keywordflow">if</span>(<a class="code hl_namespace" href="namespacebn.html">bn</a>[v].is_evidence()){</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                            compute::transform( result_container[v].state.begin()</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                                               ,result_container[v].state.end()</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                                               ,valid_evidence_vec.begin()</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                                               ,valid_evidence_vec.begin()</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                                               ,(_1 == <a class="code hl_namespace" href="namespacebn.html">bn</a>[v].evidence_state()) &amp;&amp; _2</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                                               ,this-&gt;queue);</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                        }</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                    }</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                    <span class="keywordflow">for</span>(ulong v : vertex_queue) {</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                        <span class="keyword">auto</span> accumulated_result = <a class="code hl_function" href="classbn_1_1inference_1_1logic__sampling.html#a445fdc4d1f7d64529f2881aedfb145c8">compute_result_general</a>(result_container[v], valid_evidence_vec);</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> ix=0; ix&lt; accumulated_result.size(); ix++)</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                            marginal_result[v][ix] += accumulated_result[ix];</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                    }</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                }</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                marginal_result.normalize();</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                <span class="keywordflow">return</span> marginal_result;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            }</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                        result_container[v] = this-&gt;<a class="code hl_function" href="classbaylib_1_1inference_1_1vectorized__inference__algorithm.html#a32c2bfde82eef5beed8e7eb98663740d">simulate_node</a>(v, bn[v].table(), parents_result, iter_samples);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                        <span class="keywordflow">if</span>(bn[v].is_evidence()){</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                            compute::transform( result_container[v].state.begin()</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                                               ,result_container[v].state.end()</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                                               ,valid_evidence_vec.begin()</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                                               ,valid_evidence_vec.begin()</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                                               ,(_1 == bn[v].evidence_state()) &amp;&amp; _2</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                                               ,this-&gt;queue);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                        }</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                    }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                    <span class="keywordflow">for</span>(ulong v : vertex_queue) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                        <span class="keyword">auto</span> accumulated_result = <a class="code hl_function" href="classbaylib_1_1inference_1_1logic__sampling.html#ab65d19c09d7e6dba0cdfeab62ace65b6">compute_result_general</a>(result_container[v], valid_evidence_vec);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> ix=0; ix&lt; accumulated_result.size(); ix++)</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                            marginal_result[v][ix] += accumulated_result[ix];</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                    }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                }</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                marginal_result.normalize();</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                <span class="keywordflow">return</span> marginal_result;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            }</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="classbn_1_1inference_1_1logic__sampling.html#a445fdc4d1f7d64529f2881aedfb145c8">  124</a></span>            std::vector&lt;ulong&gt; <a class="code hl_function" href="classbn_1_1inference_1_1logic__sampling.html#a445fdc4d1f7d64529f2881aedfb145c8">compute_result_general</a>(</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                    <a class="code hl_struct" href="structbn_1_1bcvec.html">bcvec</a>&amp; res,</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                    compute::vector&lt;int&gt;&amp; valid</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            )</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            {</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                compute::transform( res.state.begin()</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                                   ,res.state.end()</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                                   ,valid.begin()</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                                   ,res.state.begin()</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                                   ,(_1+1)*_2</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                                   ,this-&gt;queue);</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                std::vector&lt;ulong&gt; acc_res(res.cardinality);</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                <span class="keywordflow">for</span> (bn::state_t i = 0; i &lt; res.cardinality; ++i) {</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                    acc_res[i] = compute::count(res.state.begin(), res.state.end(), i+1, this-&gt;queue);</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                }</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                <span class="keywordflow">return</span> acc_res;</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            }</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        };</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    } <span class="comment">// namespace inference</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>} <span class="comment">// namespace bn</span></div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="preprocessor">#endif </span><span class="comment">//BAYLIB_LOGIC_SAMPLING_HPP</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="classbaylib_1_1inference_1_1logic__sampling.html#ab65d19c09d7e6dba0cdfeab62ace65b6">  126</a></span>            std::vector&lt;ulong&gt; <a class="code hl_function" href="classbaylib_1_1inference_1_1logic__sampling.html#ab65d19c09d7e6dba0cdfeab62ace65b6">compute_result_general</a>(</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                    <a class="code hl_struct" href="structbaylib_1_1bcvec.html">bcvec</a>&amp; res,</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                    compute::vector&lt;int&gt;&amp; valid</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            )</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                compute::transform( res.state.begin()</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                                   ,res.state.end()</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                                   ,valid.begin()</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                                   ,res.state.begin()</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                                   ,(_1+1)*_2</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                                   ,this-&gt;queue);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                std::vector&lt;ulong&gt; acc_res(res.cardinality);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                <span class="keywordflow">for</span> (baylib::state_t i = 0; i &lt; res.cardinality; ++i) {</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                    acc_res[i] = compute::count(res.state.begin(), res.state.end(), i+1, this-&gt;queue);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                }</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>                <span class="keywordflow">return</span> acc_res;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            }</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        };</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    } <span class="comment">// namespace inference</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>} <span class="comment">// namespace baylib</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#endif </span><span class="comment">//BAYLIB_LOGIC_SAMPLING_HPP</span></div>
 <div class="ttc" id="aabstract__inference__algorithm_8hpp_html"><div class="ttname"><a href="abstract__inference__algorithm_8hpp.html">abstract_inference_algorithm.hpp</a></div><div class="ttdoc">Abstract classes for stocastic algorithms.</div></div>
-<div class="ttc" id="aclassbn_1_1inference_1_1logic__sampling_html"><div class="ttname"><a href="classbn_1_1inference_1_1logic__sampling.html">bn::inference::logic_sampling</a></div><div class="ttdef"><b>Definition:</b> logic_sampling.hpp:49</div></div>
-<div class="ttc" id="aclassbn_1_1inference_1_1logic__sampling_html_a445fdc4d1f7d64529f2881aedfb145c8"><div class="ttname"><a href="classbn_1_1inference_1_1logic__sampling.html#a445fdc4d1f7d64529f2881aedfb145c8">bn::inference::logic_sampling::compute_result_general</a></div><div class="ttdeci">std::vector&lt; ulong &gt; compute_result_general(bcvec &amp;res, compute::vector&lt; int &gt; &amp;valid)</div><div class="ttdef"><b>Definition:</b> logic_sampling.hpp:124</div></div>
-<div class="ttc" id="aclassbn_1_1inference_1_1logic__sampling_html_a5d18603e91511f92b405c8571c42786c"><div class="ttname"><a href="classbn_1_1inference_1_1logic__sampling.html#a5d18603e91511f92b405c8571c42786c">bn::inference::logic_sampling::make_inference</a></div><div class="ttdeci">marginal_distribution&lt; probability_type &gt; make_inference() override</div><div class="ttdef"><b>Definition:</b> logic_sampling.hpp:66</div></div>
-<div class="ttc" id="aclassbn_1_1inference_1_1vectorized__inference__algorithm_html"><div class="ttname"><a href="classbn_1_1inference_1_1vectorized__inference__algorithm.html">bn::inference::vectorized_inference_algorithm</a></div><div class="ttdef"><b>Definition:</b> abstract_inference_algorithm.hpp:171</div></div>
-<div class="ttc" id="aclassbn_1_1inference_1_1vectorized__inference__algorithm_html_ae4dde96f4ba0818522ddc05db030c5e9"><div class="ttname"><a href="classbn_1_1inference_1_1vectorized__inference__algorithm.html#ae4dde96f4ba0818522ddc05db030c5e9">bn::inference::vectorized_inference_algorithm::simulate_node</a></div><div class="ttdeci">bcvec simulate_node(const cow::cpt&lt; probability_type &gt; &amp;cpt, std::vector&lt; bcvec * &gt; &amp;parents_result, int dim)</div><div class="ttdef"><b>Definition:</b> abstract_inference_algorithm.hpp:231</div></div>
-<div class="ttc" id="aclassbn_1_1inference_1_1vectorized__inference__algorithm_html_ae8ce12c7e911361b10d605649fa89788"><div class="ttname"><a href="classbn_1_1inference_1_1vectorized__inference__algorithm.html#ae8ce12c7e911361b10d605649fa89788">bn::inference::vectorized_inference_algorithm::calculate_iterations</a></div><div class="ttdeci">std::pair&lt; ulong, ulong &gt; calculate_iterations()</div><div class="ttdef"><b>Definition:</b> abstract_inference_algorithm.hpp:207</div></div>
-<div class="ttc" id="aclassbn_1_1marginal__distribution_html"><div class="ttname"><a href="classbn_1_1marginal__distribution.html">bn::marginal_distribution</a></div><div class="ttdef"><b>Definition:</b> marginal_distribution.hpp:27</div></div>
-<div class="ttc" id="anamespacebn_html"><div class="ttname"><a href="namespacebn.html">bn</a></div><div class="ttdef"><b>Definition:</b> baylib_concepts.hpp:14</div></div>
-<div class="ttc" id="anamespacebn_html_af3d46b351f924835802c271a247183b5"><div class="ttname"><a href="namespacebn.html#af3d46b351f924835802c271a247183b5">bn::sampling_order</a></div><div class="ttdeci">std::vector&lt; unsigned long &gt; sampling_order(const Network_ &amp;bn)</div><div class="ttdef"><b>Definition:</b> bayesian_utils.hpp:38</div></div>
-<div class="ttc" id="astructbn_1_1bcvec_html"><div class="ttname"><a href="structbn_1_1bcvec.html">bn::bcvec</a></div><div class="ttdef"><b>Definition:</b> gpu_utils.hpp:22</div></div>
+<div class="ttc" id="aclassbaylib_1_1inference_1_1logic__sampling_html"><div class="ttname"><a href="classbaylib_1_1inference_1_1logic__sampling.html">baylib::inference::logic_sampling</a></div><div class="ttdef"><b>Definition:</b> logic_sampling.hpp:50</div></div>
+<div class="ttc" id="aclassbaylib_1_1inference_1_1logic__sampling_html_a9f9589a8bcf57d41b03f889a07606ef3"><div class="ttname"><a href="classbaylib_1_1inference_1_1logic__sampling.html#a9f9589a8bcf57d41b03f889a07606ef3">baylib::inference::logic_sampling::make_inference</a></div><div class="ttdeci">marginal_distribution&lt; probability_type &gt; make_inference() override</div><div class="ttdef"><b>Definition:</b> logic_sampling.hpp:67</div></div>
+<div class="ttc" id="aclassbaylib_1_1inference_1_1logic__sampling_html_ab65d19c09d7e6dba0cdfeab62ace65b6"><div class="ttname"><a href="classbaylib_1_1inference_1_1logic__sampling.html#ab65d19c09d7e6dba0cdfeab62ace65b6">baylib::inference::logic_sampling::compute_result_general</a></div><div class="ttdeci">std::vector&lt; ulong &gt; compute_result_general(bcvec &amp;res, compute::vector&lt; int &gt; &amp;valid)</div><div class="ttdef"><b>Definition:</b> logic_sampling.hpp:126</div></div>
+<div class="ttc" id="aclassbaylib_1_1inference_1_1vectorized__inference__algorithm_html"><div class="ttname"><a href="classbaylib_1_1inference_1_1vectorized__inference__algorithm.html">baylib::inference::vectorized_inference_algorithm</a></div><div class="ttdef"><b>Definition:</b> abstract_inference_algorithm.hpp:171</div></div>
+<div class="ttc" id="aclassbaylib_1_1inference_1_1vectorized__inference__algorithm_html_a32c2bfde82eef5beed8e7eb98663740d"><div class="ttname"><a href="classbaylib_1_1inference_1_1vectorized__inference__algorithm.html#a32c2bfde82eef5beed8e7eb98663740d">baylib::inference::vectorized_inference_algorithm::simulate_node</a></div><div class="ttdeci">bcvec simulate_node(ulong v_id, const cow::cpt&lt; probability_type &gt; &amp;cpt, std::vector&lt; bcvec * &gt; &amp;parents_result, int dim)</div><div class="ttdef"><b>Definition:</b> abstract_inference_algorithm.hpp:238</div></div>
+<div class="ttc" id="aclassbaylib_1_1inference_1_1vectorized__inference__algorithm_html_a8dd4c99eb211a42bee8d4a746c673c10"><div class="ttname"><a href="classbaylib_1_1inference_1_1vectorized__inference__algorithm.html#a8dd4c99eb211a42bee8d4a746c673c10">baylib::inference::vectorized_inference_algorithm::calculate_iterations</a></div><div class="ttdeci">std::pair&lt; ulong, ulong &gt; calculate_iterations()</div><div class="ttdef"><b>Definition:</b> abstract_inference_algorithm.hpp:207</div></div>
+<div class="ttc" id="aclassbaylib_1_1marginal__distribution_html"><div class="ttname"><a href="classbaylib_1_1marginal__distribution.html">baylib::marginal_distribution</a></div><div class="ttdef"><b>Definition:</b> marginal_distribution.hpp:27</div></div>
+<div class="ttc" id="acondition__factory_8hpp_html"><div class="ttname"><a href="condition__factory_8hpp.html">condition_factory.hpp</a></div><div class="ttdoc">Condition factory for generating multiple condition objects sequentially.</div></div>
+<div class="ttc" id="anamespacebaylib_html"><div class="ttname"><a href="namespacebaylib.html">baylib</a></div><div class="ttdef"><b>Definition:</b> graph.hpp:17</div></div>
+<div class="ttc" id="anamespacebaylib_html_a02bd9315d6bfbb11442016299e84e7b6"><div class="ttname"><a href="namespacebaylib.html#a02bd9315d6bfbb11442016299e84e7b6">baylib::sampling_order</a></div><div class="ttdeci">std::vector&lt; unsigned long &gt; sampling_order(const Network_ &amp;bn)</div><div class="ttdef"><b>Definition:</b> bayesian_utils.hpp:38</div></div>
+<div class="ttc" id="astructbaylib_1_1bcvec_html"><div class="ttname"><a href="structbaylib_1_1bcvec.html">baylib::bcvec</a></div><div class="ttdef"><b>Definition:</b> gpu_utils.hpp:22</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

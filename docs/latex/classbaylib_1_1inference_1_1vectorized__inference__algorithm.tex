@@ -1,0 +1,104 @@
+\hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{}\doxysection{baylib\+::inference\+::vectorized\+\_\+inference\+\_\+algorithm\texorpdfstring{$<$}{<} Network\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm}\index{baylib::inference::vectorized\_inference\_algorithm$<$ Network\_ $>$@{baylib::inference::vectorized\_inference\_algorithm$<$ Network\_ $>$}}
+
+
+{\ttfamily \#include $<$abstract\+\_\+inference\+\_\+algorithm.\+hpp$>$}
+
+Inheritance diagram for baylib\+::inference\+::vectorized\+\_\+inference\+\_\+algorithm\texorpdfstring{$<$}{<} Network\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.896163cm]{classbaylib_1_1inference_1_1vectorized__inference__algorithm}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a8e7dd8dc301453c61b31d6930516c38f}\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a8e7dd8dc301453c61b31d6930516c38f}} 
+using {\bfseries prob\+\_\+v} = boost\+::compute\+::vector$<$ probability\+\_\+type $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a9bfe6d9df776126228f0777fae7aee34}\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a9bfe6d9df776126228f0777fae7aee34}} 
+{\bfseries vectorized\+\_\+inference\+\_\+algorithm} (const network\+\_\+type \&bn, ulong n\+\_\+samples, size\+\_\+t memory, uint seed=0, const compute\+::device \&device=compute\+::system\+::default\+\_\+device())
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::pair$<$ ulong, ulong $>$ \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a8dd4c99eb211a42bee8d4a746c673c10}{calculate\+\_\+iterations}} ()
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm_af38f76cf3eca2beb5e62bcc912bca310}\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm_af38f76cf3eca2beb5e62bcc912bca310}} 
+std\+::vector$<$ probability\+\_\+type $>$ {\bfseries accumulate\+\_\+cpt} (ulong v\+\_\+id, \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib\+::cow\+::cpt}}$<$ probability\+\_\+type $>$ cpt)
+\item 
+\mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}} \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a32c2bfde82eef5beed8e7eb98663740d}{simulate\+\_\+node}} (ulong v\+\_\+id, const \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cow\+::cpt}}$<$ probability\+\_\+type $>$ \&cpt, std\+::vector$<$ \mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}} $\ast$ $>$ \&parents\+\_\+result, int dim)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a204d0238dc48756a26872ae61927127e}\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a204d0238dc48756a26872ae61927127e}} 
+compute\+::device {\bfseries device}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm_af213957ac6733b54f36674de15b86f35}\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm_af213957ac6733b54f36674de15b86f35}} 
+compute\+::context {\bfseries context}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a5d2cad4bf684b3dc091e573fbfc89a8f}\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a5d2cad4bf684b3dc091e573fbfc89a8f}} 
+compute\+::command\+\_\+queue {\bfseries queue}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm_abc43081b9f2070f30174dc60993a333b}\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm_abc43081b9f2070f30174dc60993a333b}} 
+compute\+::default\+\_\+random\+\_\+engine {\bfseries rand}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a065e2cd43c6e0cf0ab006b7061d60357}\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a065e2cd43c6e0cf0ab006b7061d60357}} 
+size\+\_\+t {\bfseries memory}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$BNet\+Derived Network\+\_\+$>$\newline
+class baylib\+::inference\+::vectorized\+\_\+inference\+\_\+algorithm$<$ Network\+\_\+ $>$}
+This class models an approximate inference algorithm vectorized with a GPGPU approach. the method simulate\+\_\+node samples a node given the results of previous simulations of its parents nodes 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Network\+\_\+} & \+: the type of bayesian network \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a8dd4c99eb211a42bee8d4a746c673c10}\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a8dd4c99eb211a42bee8d4a746c673c10}} 
+\index{baylib::inference::vectorized\_inference\_algorithm$<$ Network\_ $>$@{baylib::inference::vectorized\_inference\_algorithm$<$ Network\_ $>$}!calculate\_iterations@{calculate\_iterations}}
+\index{calculate\_iterations@{calculate\_iterations}!baylib::inference::vectorized\_inference\_algorithm$<$ Network\_ $>$@{baylib::inference::vectorized\_inference\_algorithm$<$ Network\_ $>$}}
+\doxysubsubsection{\texorpdfstring{calculate\_iterations()}{calculate\_iterations()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+$>$ \\
+std\+::pair$<$ ulong, ulong $>$ \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{baylib\+::inference\+::vectorized\+\_\+inference\+\_\+algorithm}}$<$ Network\+\_\+ $>$\+::calculate\+\_\+iterations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+calculate the number of iterations needed for a complete simulation without exceeding the boundary set by the user 
+\begin{DoxyParams}{Parameters}
+{\em bn} & network \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pair$<$number of samples per iteration, number of iteration$>$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a32c2bfde82eef5beed8e7eb98663740d}\label{classbaylib_1_1inference_1_1vectorized__inference__algorithm_a32c2bfde82eef5beed8e7eb98663740d}} 
+\index{baylib::inference::vectorized\_inference\_algorithm$<$ Network\_ $>$@{baylib::inference::vectorized\_inference\_algorithm$<$ Network\_ $>$}!simulate\_node@{simulate\_node}}
+\index{simulate\_node@{simulate\_node}!baylib::inference::vectorized\_inference\_algorithm$<$ Network\_ $>$@{baylib::inference::vectorized\_inference\_algorithm$<$ Network\_ $>$}}
+\doxysubsubsection{\texorpdfstring{simulate\_node()}{simulate\_node()}}
+{\footnotesize\ttfamily template$<$BNet\+Derived Network\+\_\+$>$ \\
+\mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}} \mbox{\hyperlink{classbaylib_1_1inference_1_1vectorized__inference__algorithm}{baylib\+::inference\+::vectorized\+\_\+inference\+\_\+algorithm}}$<$ Network\+\_\+ $>$\+::simulate\+\_\+node (\begin{DoxyParamCaption}\item[{ulong}]{v\+\_\+id,  }\item[{const \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cow\+::cpt}}$<$ probability\+\_\+type $>$ \&}]{cpt,  }\item[{std\+::vector$<$ \mbox{\hyperlink{structbaylib_1_1bcvec}{bcvec}} $\ast$ $>$ \&}]{parents\+\_\+result,  }\item[{int}]{dim }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+Simulations of a specific node using opencl 
+\begin{DoxyParams}{Parameters}
+{\em cpt} & cpt of the node \\
+\hline
+{\em parents\+\_\+result} & results of previous simulate\+\_\+node calls \\
+\hline
+{\em dim} & number of samples of the simulation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result of the simulation 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/inference/\mbox{\hyperlink{abstract__inference__algorithm_8hpp}{abstract\+\_\+inference\+\_\+algorithm.\+hpp}}\end{DoxyCompactItemize}

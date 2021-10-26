@@ -1,0 +1,80 @@
+\hypertarget{classbaylib_1_1xdsl__parser}{}\doxysection{baylib\+::xdsl\+\_\+parser\texorpdfstring{$<$}{<} Probability\+\_\+ \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classbaylib_1_1xdsl__parser}\index{baylib::xdsl\_parser$<$ Probability\_ $>$@{baylib::xdsl\_parser$<$ Probability\_ $>$}}
+
+
+{\ttfamily \#include $<$smile\+\_\+utils.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbaylib_1_1bayesian__net}{named\+\_\+bayesian\+\_\+network}} \mbox{\hyperlink{classbaylib_1_1xdsl__parser_acd45d01336ab95f287dd5791e4cf0661}{deserialize}} (const std\+::string \&file\+\_\+name)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbaylib_1_1xdsl__parser_ae845223aeced2f1104fcc7e9c6bd8f15}\label{classbaylib_1_1xdsl__parser_ae845223aeced2f1104fcc7e9c6bd8f15}} 
+typedef \mbox{\hyperlink{classbaylib_1_1bayesian__net}{baylib\+::bayesian\+\_\+net}}$<$ \mbox{\hyperlink{classbaylib_1_1named__random__variable}{named\+\_\+random\+\_\+variable}}$<$ Probability\+\_\+ $>$ $>$ {\bfseries named\+\_\+bayesian\+\_\+network}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T $>$ \mbox{\hyperlink{classbaylib_1_1xdsl__parser_a3d1e14cefdb6448bc2ff734180bed41c}{split}} (const std\+::string \&text, std\+::function$<$ T(const std\+::string \&)$>$ mapper, const std\+::string \&delimiter=\char`\"{} \char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$Arithmetic Probability\+\_\+ = double$>$\newline
+class baylib\+::xdsl\+\_\+parser$<$ Probability\+\_\+ $>$}
+This class models an xml parser for the xdsl format, used to support the compatibility with the SMILE library 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Probability\+\_\+} & \+: the type expressing the probability must be arithmetic \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classbaylib_1_1xdsl__parser_acd45d01336ab95f287dd5791e4cf0661}\label{classbaylib_1_1xdsl__parser_acd45d01336ab95f287dd5791e4cf0661}} 
+\index{baylib::xdsl\_parser$<$ Probability\_ $>$@{baylib::xdsl\_parser$<$ Probability\_ $>$}!deserialize@{deserialize}}
+\index{deserialize@{deserialize}!baylib::xdsl\_parser$<$ Probability\_ $>$@{baylib::xdsl\_parser$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{deserialize()}{deserialize()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+\mbox{\hyperlink{classbaylib_1_1bayesian__net}{named\+\_\+bayesian\+\_\+network}} \mbox{\hyperlink{classbaylib_1_1xdsl__parser}{baylib\+::xdsl\+\_\+parser}}$<$ Probability\+\_\+ $>$\+::deserialize (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Create a \mbox{\hyperlink{classbaylib_1_1bayesian__net}{bayesian\+\_\+net}} starting from an xdsl file, the format is the same as specified in the smile library, if specified file can\textquotesingle{}t be found an exception is thrown 
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+name} & \+: file name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: bayesian network 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classbaylib_1_1xdsl__parser_a3d1e14cefdb6448bc2ff734180bed41c}\label{classbaylib_1_1xdsl__parser_a3d1e14cefdb6448bc2ff734180bed41c}} 
+\index{baylib::xdsl\_parser$<$ Probability\_ $>$@{baylib::xdsl\_parser$<$ Probability\_ $>$}!split@{split}}
+\index{split@{split}!baylib::xdsl\_parser$<$ Probability\_ $>$@{baylib::xdsl\_parser$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+ = double$>$ \\
+template$<$typename T $>$ \\
+std\+::vector$<$ T $>$ \mbox{\hyperlink{classbaylib_1_1xdsl__parser}{baylib\+::xdsl\+\_\+parser}}$<$ Probability\+\_\+ $>$\+::split (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{text,  }\item[{std\+::function$<$ T(const std\+::string \&)$>$}]{mapper,  }\item[{const std\+::string \&}]{delimiter = {\ttfamily \char`\"{}~\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+Utility of the parser for splitting a string and mapping to a specific value 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \+: output of mapper \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em text} & \+: input string \\
+\hline
+{\em mapper} & \+: mapper function \\
+\hline
+{\em delimiter} & \+: delimiter for splitting the input string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: output vector 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/smile\+\_\+utils/\mbox{\hyperlink{smile__utils_8hpp}{smile\+\_\+utils.\+hpp}}\end{DoxyCompactItemize}

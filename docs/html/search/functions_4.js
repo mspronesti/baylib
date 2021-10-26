@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['end_0',['end',['../classbn_1_1condition.html#a5a74ad63c485e07ba2485940cda2a627',1,'bn::condition']]],
-  ['evidence_5fstate_1',['evidence_state',['../classbn_1_1random__variable.html#a1574a573a79182f4ad3fbdfaee6e5959',1,'bn::random_variable']]]
+  ['end_0',['end',['../classbaylib_1_1condition.html#ae2b6abcd27110625ed81cb986e4a39ff',1,'baylib::condition']]],
+  ['evidence_5fstate_1',['evidence_state',['../classbaylib_1_1random__variable.html#a6e61ad4e1205e67f5ba200ecc461af9e',1,'baylib::random_variable']]]
 ];

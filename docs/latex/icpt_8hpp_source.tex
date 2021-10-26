@@ -12,26 +12,26 @@
 \DoxyCodeLine{8 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{cpt_8hpp}{probability/cpt.hpp}}>}}
 \DoxyCodeLine{9 \textcolor{preprocessor}{\#include <utility>}}
 \DoxyCodeLine{10 }
-\DoxyCodeLine{17 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebn}{bn}} \{}
+\DoxyCodeLine{17 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacebaylib}{baylib}} \{}
 \DoxyCodeLine{18     \textcolor{keyword}{namespace }cow \{}
-\DoxyCodeLine{24         \textcolor{keyword}{template} <Arithmetic Probability\_>}
-\DoxyCodeLine{25         \textcolor{keyword}{class }\mbox{\hyperlink{classbn_1_1cow_1_1icpt}{icpt}}: \textcolor{keyword}{public} \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{bn::cow::cpt}}<Probability\_>\{}
+\DoxyCodeLine{24         \textcolor{keyword}{template} <Arithmetic Probability\_ = \textcolor{keywordtype}{double} >}
+\DoxyCodeLine{25         \textcolor{keyword}{class }\mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{icpt}}: \textcolor{keyword}{public} \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{baylib::cow::cpt}}<Probability\_>\{}
 \DoxyCodeLine{26 }
 \DoxyCodeLine{27         \textcolor{keyword}{public}:}
-\DoxyCodeLine{28             \mbox{\hyperlink{classbn_1_1cow_1_1icpt}{icpt}}()= \textcolor{keywordflow}{default};}
+\DoxyCodeLine{28             \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{icpt}}()= \textcolor{keywordflow}{default};}
 \DoxyCodeLine{29 }
-\DoxyCodeLine{36             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1cow_1_1icpt_a40b8de1569c76c565d7e97844594adb3}{icpt}}(}
+\DoxyCodeLine{36             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_ad27b5abafde206e299034586f1feafd8}{icpt}}(}
 \DoxyCodeLine{37                     \textcolor{keyword}{const} std::vector<ulong> \&parents\_size,}
 \DoxyCodeLine{38                     uint states}
 \DoxyCodeLine{39             )}
-\DoxyCodeLine{40             : \mbox{\hyperlink{classbn_1_1cow_1_1icpt}{icpt}}(parents\_size, states, 1/static\_cast<Probability\_>(states))}
+\DoxyCodeLine{40             : \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{icpt}}(parents\_size, states, 1/static\_cast<Probability\_>(states))}
 \DoxyCodeLine{41             \{ \};}
 \DoxyCodeLine{42 }
-\DoxyCodeLine{48             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbn_1_1cow_1_1icpt_adac9b63226f06104d96912fd82ac969f}{icpt}}(}
-\DoxyCodeLine{49                     \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{cow::cpt<Probability\_>}}\& \mbox{\hyperlink{classbn_1_1cow_1_1cpt}{cpt}},}
+\DoxyCodeLine{48             \textcolor{keyword}{explicit} \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_a4a5fa43d4f73ebd951fbda2a6087341d}{icpt}}(}
+\DoxyCodeLine{49                     \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cow::cpt<Probability\_>}}\& \mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}},}
 \DoxyCodeLine{50                     \textcolor{keywordtype}{bool} empty=\textcolor{keyword}{false}}
 \DoxyCodeLine{51             )}
-\DoxyCodeLine{52             : \mbox{\hyperlink{namespacebn}{bn}}::cow::\mbox{\hyperlink{classbn_1_1cow_1_1cpt}{cpt}}<Probability\_>(\mbox{\hyperlink{classbn_1_1cow_1_1cpt}{cpt}})}
+\DoxyCodeLine{52             : \mbox{\hyperlink{namespacebaylib}{baylib}}::cow::\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}}<Probability\_>(\mbox{\hyperlink{classbaylib_1_1cow_1_1cpt}{cpt}})}
 \DoxyCodeLine{53             \{}
 \DoxyCodeLine{54                 \textcolor{keywordflow}{if}(empty)\{}
 \DoxyCodeLine{55                     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\& row: this-\/>d-\/>table)\{}
@@ -40,27 +40,27 @@
 \DoxyCodeLine{58                 \}}
 \DoxyCodeLine{59             \}}
 \DoxyCodeLine{60 }
-\DoxyCodeLine{66             std::vector<Probability\_> \&\mbox{\hyperlink{classbn_1_1cow_1_1icpt_a2986213324e11a50023e592ce8aee4d7}{operator[] }}(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1condition}{bn::condition}} \&cond)\{}
+\DoxyCodeLine{66             std::vector<Probability\_> \&\mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_a36faacff48a843057ca25d77d21c1873}{operator[] }}(\textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1condition}{baylib::condition}} \&cond)\{}
 \DoxyCodeLine{67                 \textcolor{keywordflow}{return} this-\/>d-\/>table[this-\/>cond\_map.at(cond)];}
 \DoxyCodeLine{68             \}}
 \DoxyCodeLine{69 }
 \DoxyCodeLine{70 }
-\DoxyCodeLine{71             std::vector<Probability\_>\& \mbox{\hyperlink{classbn_1_1cow_1_1icpt_a2986213324e11a50023e592ce8aee4d7}{operator[]}}(uint index)\{}
+\DoxyCodeLine{71             std::vector<Probability\_>\& \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_a36faacff48a843057ca25d77d21c1873}{operator[]}}(uint index)\{}
 \DoxyCodeLine{72                 \textcolor{keywordflow}{return} this-\/>d.data()-\/>table[index];}
 \DoxyCodeLine{73             \}}
 \DoxyCodeLine{74 }
-\DoxyCodeLine{80             \textcolor{keyword}{const} std::vector<Probability\_>\& \mbox{\hyperlink{classbn_1_1cow_1_1icpt_a6ae3e2769dc4a5042e1eb34e9bfb8b0c}{operator[]}}(uint index)\textcolor{keyword}{ const}\{}
+\DoxyCodeLine{80             \textcolor{keyword}{const} std::vector<Probability\_>\& \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_aa35807465ce0c12de82a36c7d306e019}{operator[]}}(uint index)\textcolor{keyword}{ const}\{}
 \DoxyCodeLine{81                 \textcolor{keywordflow}{return} this-\/>d.data()-\/>table[index];}
 \DoxyCodeLine{82             \}}
 \DoxyCodeLine{83 }
-\DoxyCodeLine{87             \textcolor{keywordtype}{void} \mbox{\hyperlink{classbn_1_1cow_1_1icpt_a39fe426341986000565549608b51b6d5}{normalize}}()\{}
+\DoxyCodeLine{87             \textcolor{keywordtype}{void} \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_ad15a61306264dc41f7d0f3d931a72a5d}{normalize}}()\{}
 \DoxyCodeLine{88                 \textcolor{keywordflow}{for}(std::vector<Probability\_>\& row: this-\/>d.data()-\/>table)\{}
 \DoxyCodeLine{89                     Probability\_ sum = std::accumulate(row.begin(), row.end(), 0.0);}
 \DoxyCodeLine{90                     std::transform(row.begin(), row.end(), row.begin(), [\&sum](Probability\_\& prob)\{return prob / sum;\});}
 \DoxyCodeLine{91                 \}}
 \DoxyCodeLine{92             \}}
 \DoxyCodeLine{93 }
-\DoxyCodeLine{101             \textcolor{keywordtype}{double} \mbox{\hyperlink{classbn_1_1cow_1_1icpt_ab3104cdd8b5ecf281f13287c33957a05}{absorb}}(\textcolor{keyword}{const} \mbox{\hyperlink{classbn_1_1cow_1_1icpt}{icpt<Probability\_>}}\& other, \textcolor{keywordtype}{float} learning\_rate)\{}
+\DoxyCodeLine{101             \textcolor{keywordtype}{double} \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt_a340204a85b5a49156393fee27336b2bf}{absorb}}(\textcolor{keyword}{const} \mbox{\hyperlink{classbaylib_1_1cow_1_1icpt}{icpt<Probability\_>}}\& other, \textcolor{keywordtype}{float} learning\_rate)\{}
 \DoxyCodeLine{102                 \textcolor{keywordtype}{double} tot\_var\_difference = 0.;}
 \DoxyCodeLine{103                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < this-\/>size(); ++i) \{}
 \DoxyCodeLine{104                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < (*this)[i].size(); ++j)\{}

@@ -62,13 +62,13 @@ namespace baylib {
             return mdistr[vid];
         }
 
-        void operator/=(Probability_ value) {
+        void operator /= (Probability_ value) {
             for (auto &row : mdistr)
                 for (auto &entry : row)
                     entry /= value;
         }
 
-        marginal_distribution<Probability_> &operator+=(
+        marginal_distribution<Probability_> &operator += (
                 const marginal_distribution<Probability_> &other
         ) {
             BAYLIB_ASSERT(mdistr.size() == other.mdistr.size(),
@@ -101,6 +101,10 @@ namespace baylib {
             }
             return os;
         }
+
+        auto begin() const { return mdistr.begin(); }
+
+        auto end() const { return mdistr.end(); }
 
         void normalize() {
             for (auto &row : mdistr) {

@@ -18,22 +18,22 @@ int main(){
     bayesian_net<random_variable<double>> bn;
     // We want to create manually the following
     // Bayesain network
-    // b    c
+    // B    C
     // \   /
     //  \ /
     //   v
-    //   a
+    //   A
     //   |
     //   |
     //   v
-    //   d
+    //   D
 
     // Use add_variable to add a new random variable with
     // its random states (default 2 states)
-    ulong A = bn.add_variable();
+    ulong A = bn.add_variable(2); // 2 can be omitted
     ulong B = bn.add_variable();
     ulong C = bn.add_variable();
-    ulong D = bn.add_variable();
+    ulong D = bn.add_variable(4); // D has 4 states
 
     // Use add_dependency to add an edge between two variables
     bn.add_dependency(B, A);
@@ -53,11 +53,11 @@ int main(){
     // all the possible conditions of a cpt
     std::vector<float> pb_vector = {0.1, 0.9, 0.2, 0.8, 0.3, 0.7, 0.5, 0.5};
     auto factory = baylib::condition_factory(bn, A);
-    uint i=0;
-    do{
+    uint i = 0;
+    do {
         bn.set_variable_probability(A, 0, factory.get(), pb_vector[i++]);
         bn.set_variable_probability(A, 1, factory.get(), pb_vector[i++]);
-    }while(factory.has_next());
+    } while(factory.has_next());
 
     c.add(A, 0);
     bn.set_variable_probability(D, 0, c, .5);

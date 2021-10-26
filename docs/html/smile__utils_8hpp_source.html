@@ -69,14 +69,14 @@ $(function() {
   <div class="headertitle"><div class="title">smile_utils.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="smile__utils_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef BAYLIB_XDSL_PARSER_HPP</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define BAYLIB_XDSL_PARSER_HPP</span></div>
+<a href="smile__utils_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef BAYLIB_SMILE_UTILS_HPP</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define BAYLIB_SMILE_UTILS_HPP</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;fstream&gt;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;<a class="code" href="bayesian__network_8hpp.html">baylib/network/bayesian_network.hpp</a>&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;<a class="code" href="bayesian__net_8hpp.html">baylib/network/bayesian_net.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;<a class="code" href="cpt_8hpp.html">baylib/probability/cpt.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="rapidxml_8hpp.html">rapidxml/rapidxml.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
@@ -86,187 +86,203 @@ $(function() {
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">using namespace </span>rapidxml;</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacebn.html">bn</a> {</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">template</span> &lt;Arithmetic Probability_ = <span class="keywordtype">double</span>&gt;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classbn_1_1named__random__variable.html">   22</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classbn_1_1named__random__variable.html">named_random_variable</a> : <span class="keyword">public</span> <a class="code hl_class" href="classbn_1_1random__variable.html">bn::random_variable</a>&lt;Probability_&gt; {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_class" href="classbn_1_1named__random__variable.html">named_random_variable</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <a class="code hl_class" href="classbn_1_1named__random__variable.html">named_random_variable</a> (</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                std::string <a class="code hl_function" href="classbn_1_1named__random__variable.html#a63a20fb1e04f15bb705ebbebcc39fc91">name</a>,</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                <span class="keyword">const</span> std::vector &lt;std::string&gt; &amp;<a class="code hl_function" href="classbn_1_1named__random__variable.html#ae08c43c699ea0ce371dc952f65d73d6e">states</a></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        )</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        : <a class="code hl_class" href="classbn_1_1random__variable.html">random_variable&lt;Probability_&gt;</a>(<a class="code hl_function" href="classbn_1_1named__random__variable.html#ae08c43c699ea0ce371dc952f65d73d6e">states</a>.size())</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        , _name(std::move(<a class="code hl_function" href="classbn_1_1named__random__variable.html#a63a20fb1e04f15bb705ebbebcc39fc91">name</a>))</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        , _states(<a class="code hl_function" href="classbn_1_1named__random__variable.html#ae08c43c699ea0ce371dc952f65d73d6e">states</a>)</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        { }</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classbn_1_1named__random__variable.html#ae08c43c699ea0ce371dc952f65d73d6e">   38</a></span>        std::vector &lt;std::string&gt; <a class="code hl_function" href="classbn_1_1named__random__variable.html#ae08c43c699ea0ce371dc952f65d73d6e">states</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keywordflow">return</span> _states;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacebaylib.html">baylib</a> {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">template</span> &lt;Arithmetic Probability_ = <span class="keywordtype">double</span>&gt;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classbaylib_1_1named__random__variable.html">   29</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classbaylib_1_1named__random__variable.html">named_random_variable</a> : <span class="keyword">public</span> <a class="code hl_class" href="classbaylib_1_1random__variable.html">baylib::random_variable</a>&lt;Probability_&gt; {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <a class="code hl_class" href="classbaylib_1_1named__random__variable.html">named_random_variable</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_class" href="classbaylib_1_1named__random__variable.html">named_random_variable</a> (</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                std::string <a class="code hl_function" href="classbaylib_1_1named__random__variable.html#ae3ab4a3696076ba5da02402b43a9c8ff">name</a>,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                <span class="keyword">const</span> std::vector &lt;std::string&gt; &amp;<a class="code hl_function" href="classbaylib_1_1named__random__variable.html#abae8e6ec205c511f4286867568445541">states</a></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        )</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        : <a class="code hl_class" href="classbaylib_1_1random__variable.html">random_variable&lt;Probability_&gt;</a>(<a class="code hl_function" href="classbaylib_1_1named__random__variable.html#abae8e6ec205c511f4286867568445541">states</a>.size())</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        , _name(std::move(<a class="code hl_function" href="classbaylib_1_1named__random__variable.html#ae3ab4a3696076ba5da02402b43a9c8ff">name</a>))</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        , _states(<a class="code hl_function" href="classbaylib_1_1named__random__variable.html#abae8e6ec205c511f4286867568445541">states</a>)</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        { }</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classbn_1_1named__random__variable.html#acea287b6bb7fefae9103f7c69c673e16">   47</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classbn_1_1named__random__variable.html#acea287b6bb7fefae9103f7c69c673e16">has_state</a>(<span class="keyword">const</span> std::string &amp;state_name)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="keywordflow">return</span> std::any_of(_states.begin(), _states.end(),</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                               [state_name](<span class="keyword">const</span> std::string&amp; state) { return state_name == state; });</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        }</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classbn_1_1named__random__variable.html#a63a20fb1e04f15bb705ebbebcc39fc91">   55</a></span>        std::string <a class="code hl_function" href="classbn_1_1named__random__variable.html#a63a20fb1e04f15bb705ebbebcc39fc91">name</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <span class="keywordflow">return</span> _name;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        }</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        std::string _name;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        std::vector &lt;std::string&gt; _states;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    };</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keyword">template</span> &lt;RVarDerived Variable_&gt;</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keyword">requires</span> std::is_same_v &lt;</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                            Variable_,</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                            named_random_variable&lt;typename Variable_::probability_type&gt;</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                            &gt;</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    std::map&lt;std::string, unsigned long&gt; make_name_map (</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <span class="keyword">const</span> <a class="code hl_class" href="classbn_1_1bayesian__network.html">bn::bayesian_network&lt;Variable_&gt;</a> &amp; <a class="code hl_namespace" href="namespacebn.html">bn</a></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    )</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    {</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keyword">auto</span> name_map = std::map&lt;std::string, unsigned long&gt;{};</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        std::for_each(<a class="code hl_namespace" href="namespacebn.html">bn</a>.begin(), <a class="code hl_namespace" href="namespacebn.html">bn</a>.end(), [&amp;name_map](<span class="keyword">const</span> <span class="keyword">auto</span> &amp; var){</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            name_map[var.name()] = var.id();</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        });</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordflow">return</span> name_map;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    }</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keyword">template</span>&lt;Arithmetic Probability_ = <span class="keywordtype">double</span>&gt;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classbn_1_1xdsl__parser.html">   90</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classbn_1_1xdsl__parser.html">xdsl_parser</a> {</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keyword">typedef</span> <a class="code hl_class" href="classbn_1_1bayesian__network.html">bn::bayesian_network&lt;named_random_variable&lt;Probability_&gt;</a>&gt; <a class="code hl_class" href="classbn_1_1bayesian__network.html">named_bayesian_network</a>;</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <a class="code hl_class" href="classbn_1_1xdsl__parser.html">xdsl_parser</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classbn_1_1xdsl__parser.html#a3abd56ce73536eb1b047906af5d6ffd0">  101</a></span>        <a class="code hl_class" href="classbn_1_1bayesian__network.html">named_bayesian_network</a> <a class="code hl_function" href="classbn_1_1xdsl__parser.html#a3abd56ce73536eb1b047906af5d6ffd0">deserialize</a> (</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>             <span class="keyword">const</span> std::string &amp; file_name</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        )</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        {</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            <a class="code hl_class" href="classbn_1_1bayesian__network.html">named_bayesian_network</a> <a class="code hl_namespace" href="namespacebn.html">bn</a>;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <span class="keyword">auto</span> doc = std::make_shared&lt;xml_document&lt;&gt;&gt;();</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            std::ifstream input_file(file_name);</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            BAYLIB_ASSERT(input_file,</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                          <span class="stringliteral">&quot;file &quot;</span> &lt;&lt; file_name &lt;&lt; <span class="stringliteral">&quot; was&quot;</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                          <span class="stringliteral">&quot; not found in current path&quot;</span>,</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                          std::runtime_error)</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="keyword">auto</span> buffer = std::make_shared&lt;std::stringstream&gt;();</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            *buffer &lt;&lt; input_file.rdbuf();</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            input_file.close();</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            std::string content(buffer-&gt;str());</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            doc-&gt;parse&lt;0&gt;(&amp;content[0]);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <a class="code hl_class" href="classrapidxml_1_1xml__node.html">xml_node&lt;&gt;</a> *pRoot = doc-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__node.html#aee9b7ecb01034f1857a5387af7e50e23">first_node</a>();</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>            <a class="code hl_class" href="classrapidxml_1_1xml__node.html">xml_node&lt;&gt;</a> *pNodes = pRoot-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__node.html#aee9b7ecb01034f1857a5387af7e50e23">first_node</a>(<span class="stringliteral">&quot;nodes&quot;</span>);</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            std::map&lt;std::string, ulong&gt; name_map{};</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <span class="comment">//reading all variables in file</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <span class="keywordflow">for</span> (<a class="code hl_class" href="classrapidxml_1_1xml__node.html">xml_node&lt;&gt;</a> *pNode = pNodes-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__node.html#aee9b7ecb01034f1857a5387af7e50e23">first_node</a>(<span class="stringliteral">&quot;cpt&quot;</span>); pNode; pNode = pNode-&gt;next_sibling()) {</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                <a class="code hl_class" href="classrapidxml_1_1xml__attribute.html">xml_attribute&lt;&gt;</a> *attr = pNode-&gt;first_attribute(<span class="stringliteral">&quot;id&quot;</span>);</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                std::string varname;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                std::vector&lt;std::string&gt; state_names, parents, resultingStates;</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                std::vector&lt;Probability_&gt; probDistribution;</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                <span class="comment">//reading variable name</span></div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                varname = attr-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__base.html#af3a3d4534f4c88f151e0f063aef1c6de">value</a>();</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                <span class="comment">//reading all properties of the variable</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                <span class="keywordflow">for</span> (<a class="code hl_class" href="classrapidxml_1_1xml__node.html">xml_node&lt;&gt;</a> *pStates = pNode-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__node.html#aee9b7ecb01034f1857a5387af7e50e23">first_node</a>(<span class="stringliteral">&quot;state&quot;</span>); pStates; pStates = pStates-&gt;next_sibling()) {</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                    std::string name(pStates-&gt;name());</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                    <span class="comment">//reading variable&#39;s states</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                    <span class="keywordflow">if</span> (name == <span class="stringliteral">&quot;state&quot;</span>) {</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                        attr = pStates-&gt;first_attribute(<span class="stringliteral">&quot;id&quot;</span>);</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>                        <span class="keywordflow">if</span> (attr != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                            state_names.emplace_back(attr-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__base.html#af3a3d4534f4c88f151e0f063aef1c6de">value</a>());</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>                    }</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (name == <span class="stringliteral">&quot;resultingstates&quot;</span>) {</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> state:split&lt;std::string&gt;(pStates-&gt;value(), [](<span class="keyword">const</span> std::string &amp;t){return t;})) {</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                            <span class="keywordtype">int</span> ix = std::find(state_names.begin(), state_names.end(), state) - state_names.begin();</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; state_names.size(); ++i)</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                                probDistribution.emplace_back(i == ix ? 1. : 0.);</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                        }</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                    }</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (name == <span class="stringliteral">&quot;probabilities&quot;</span>)</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                        probDistribution = split&lt;Probability_&gt;(pStates-&gt;value(), [](<span class="keyword">const</span> std::string &amp;t){return static_cast&lt;Probability_&gt;(std::stod(t));});</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (name == <span class="stringliteral">&quot;parents&quot;</span>)</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>                        parents = split&lt;std::string&gt;(pStates-&gt;value(), [](<span class="keyword">const</span> std::string &amp;t){return t;});</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>                }</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                <span class="comment">// Build the bayesian_network</span></div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>                ulong var_id = <a class="code hl_namespace" href="namespacebn.html">bn</a>.add_variable(varname, state_names);</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>                name_map[varname] = var_id;</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>                std::vector&lt;ulong&gt; parents_id{};</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>                <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; parent: parents){</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>                    <a class="code hl_namespace" href="namespacebn.html">bn</a>.add_dependency(name_map[parent], var_id);</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>                    parents_id.emplace_back(name_map[parent]);</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>                }</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>                <span class="comment">// fill CPTs</span></div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>                std::reverse(parents_id.begin(), parents_id.end());</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                <a class="code hl_class" href="classbn_1_1condition__factory.html">bn::condition_factory</a> cf(<a class="code hl_namespace" href="namespacebn.html">bn</a>, var_id, parents_id);</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0;</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                <span class="keywordflow">do</span> {</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                    <span class="keyword">auto</span> cond = cf.<a class="code hl_function" href="classbn_1_1condition__factory.html#a344ceae066be946ef4c5652464ee0351">get</a>();</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>                    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; state_names.size(); j++)</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>                        <a class="code hl_namespace" href="namespacebn.html">bn</a>.set_variable_probability(var_id, j, cond, probDistribution[i * state_names.size() + j]);</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>                    ++i;</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>                } <span class="keywordflow">while</span> (cf.<a class="code hl_function" href="classbn_1_1condition__factory.html#a5c941efbf6456134cc2ead072419ab51">has_next</a>());</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            }</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            <span class="keywordflow">return</span> <a class="code hl_namespace" href="namespacebn.html">bn</a>;</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        }</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="classbn_1_1xdsl__parser.html#a9b5a75c561d4ec2624c55c856098fc8d">  192</a></span>        std::vector&lt;T&gt; <a class="code hl_function" href="classbn_1_1xdsl__parser.html#a9b5a75c561d4ec2624c55c856098fc8d">split</a>(</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                <span class="keyword">const</span> std::string &amp;text,</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                std::function&lt;T(<span class="keyword">const</span> std::string&amp;)&gt; mapper,</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>                <span class="keyword">const</span> std::string&amp; delimiter = <span class="stringliteral">&quot; &quot;</span></div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        )</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        {</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>            std::vector&lt;T&gt; result;</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ix;</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> start = 0;</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            <span class="keywordflow">while</span>((ix = text.find(delimiter, start)) != std::string::npos){</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>                result.emplace_back(mapper(text.substr(start, ix-start)));</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>                start = ix + delimiter.length();</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            }</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>            result.emplace_back(mapper(text.substr(start, ix-start)));</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        }</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    };</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classbaylib_1_1named__random__variable.html#abae8e6ec205c511f4286867568445541">   45</a></span>        std::vector &lt;std::string&gt; <a class="code hl_function" href="classbaylib_1_1named__random__variable.html#abae8e6ec205c511f4286867568445541">states</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">return</span> _states;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classbaylib_1_1named__random__variable.html#aa4e72cd2a8898f5aed1d0edb671078cb">   55</a></span>        std::string <a class="code hl_function" href="classbaylib_1_1named__random__variable.html#aa4e72cd2a8898f5aed1d0edb671078cb">state</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> s)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            BAYLIB_ASSERT(s &lt; _states.size(),</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                          <span class="stringliteral">&quot;random variable &quot;</span> &lt;&lt; _name</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                          &lt;&lt; <span class="stringliteral">&quot; has &quot;</span> &lt;&lt; _states.size()</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                          &lt;&lt; <span class="stringliteral">&quot; states, but &quot;</span> &lt;&lt; s</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                          &lt;&lt; <span class="stringliteral">&quot;-th was requested&quot;</span>,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                          std::runtime_error)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordflow">return</span> _states[s];</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="classbaylib_1_1named__random__variable.html#a7534b95a096848138fbbaafa38c569b1">   70</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="classbaylib_1_1named__random__variable.html#a7534b95a096848138fbbaafa38c569b1">has_state</a>(<span class="keyword">const</span> std::string &amp;state_name)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <span class="keywordflow">return</span> std::any_of(_states.begin(), _states.end(),</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                               [state_name](<span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classbaylib_1_1named__random__variable.html#aa4e72cd2a8898f5aed1d0edb671078cb">state</a>) { return state_name == state; });</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classbaylib_1_1named__random__variable.html#ae3ab4a3696076ba5da02402b43a9c8ff">   78</a></span>        std::string <a class="code hl_function" href="classbaylib_1_1named__random__variable.html#ae3ab4a3696076ba5da02402b43a9c8ff">name</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            <span class="keywordflow">return</span> _name;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        std::string _name;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        std::vector &lt;std::string&gt; _states;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    };</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keyword">template</span> &lt;RVarDerived Variable_&gt;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">#ifdef __concepts_supported</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keyword">requires</span> std::is_same_v &lt;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                            Variable_,</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                            named_random_variable&lt;typename Variable_::probability_type&gt;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                            &gt;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="namespacebaylib.html#a3fa7cc06d8943b2fab4c49a6d210edbb">  101</a></span>    std::map&lt;std::string, unsigned long&gt; <a class="code hl_function" href="namespacebaylib.html#a3fa7cc06d8943b2fab4c49a6d210edbb">make_name_map</a> (</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            <span class="keyword">const</span> <a class="code hl_class" href="classbaylib_1_1bayesian__net.html">baylib::bayesian_net&lt;Variable_&gt;</a> &amp; bn</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    )</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keyword">auto</span> name_map = std::map&lt;std::string, unsigned long&gt;{};</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        std::for_each(bn.begin(), bn.end(), [&amp;name_map](<span class="keyword">const</span> <span class="keyword">auto</span> &amp; var){</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            name_map[var.name()] = var.id();</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        });</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keywordflow">return</span> name_map;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    }</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keyword">template</span>&lt;Arithmetic Probability_ = <span class="keywordtype">double</span>&gt;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classbaylib_1_1xdsl__parser.html">  120</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classbaylib_1_1xdsl__parser.html">xdsl_parser</a> {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keyword">typedef</span> <a class="code hl_class" href="classbaylib_1_1bayesian__net.html">baylib::bayesian_net&lt;named_random_variable&lt;Probability_&gt;</a>&gt; <a class="code hl_class" href="classbaylib_1_1bayesian__net.html">named_bayesian_network</a>;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        <a class="code hl_class" href="classbaylib_1_1xdsl__parser.html">xdsl_parser</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="classbaylib_1_1xdsl__parser.html#acd45d01336ab95f287dd5791e4cf0661">  131</a></span>        <a class="code hl_class" href="classbaylib_1_1bayesian__net.html">named_bayesian_network</a> <a class="code hl_function" href="classbaylib_1_1xdsl__parser.html#acd45d01336ab95f287dd5791e4cf0661">deserialize</a> (</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>             <span class="keyword">const</span> std::string &amp; file_name</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        )</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        {</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            <a class="code hl_class" href="classbaylib_1_1bayesian__net.html">named_bayesian_network</a> bn;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            <span class="keyword">auto</span> doc = std::make_shared&lt;xml_document&lt;&gt;&gt;();</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            std::ifstream input_file(file_name);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            BAYLIB_ASSERT(input_file,</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                          <span class="stringliteral">&quot;file &quot;</span> &lt;&lt; file_name &lt;&lt; <span class="stringliteral">&quot; was&quot;</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>                          <span class="stringliteral">&quot; not found in current path&quot;</span>,</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                          std::runtime_error)</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>            <span class="keyword">auto</span> buffer = std::make_shared&lt;std::stringstream&gt;();</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>            *buffer &lt;&lt; input_file.rdbuf();</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            input_file.close();</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            std::string content(buffer-&gt;str());</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            doc-&gt;parse&lt;0&gt;(&amp;content[0]);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            <a class="code hl_class" href="classrapidxml_1_1xml__node.html">xml_node&lt;&gt;</a> *pRoot = doc-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__node.html#aee9b7ecb01034f1857a5387af7e50e23">first_node</a>();</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            <a class="code hl_class" href="classrapidxml_1_1xml__node.html">xml_node&lt;&gt;</a> *pNodes = pRoot-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__node.html#aee9b7ecb01034f1857a5387af7e50e23">first_node</a>(<span class="stringliteral">&quot;nodes&quot;</span>);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>            std::map&lt;std::string, ulong&gt; name_map{};</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            <span class="comment">//reading all variables in file</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>            <span class="keywordflow">for</span> (<a class="code hl_class" href="classrapidxml_1_1xml__node.html">xml_node&lt;&gt;</a> *pNode = pNodes-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__node.html#aee9b7ecb01034f1857a5387af7e50e23">first_node</a>(<span class="stringliteral">&quot;cpt&quot;</span>); pNode; pNode = pNode-&gt;next_sibling()) {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>                <a class="code hl_class" href="classrapidxml_1_1xml__attribute.html">xml_attribute&lt;&gt;</a> *attr = pNode-&gt;first_attribute(<span class="stringliteral">&quot;id&quot;</span>);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                std::string varname;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>                std::vector&lt;std::string&gt; state_names, parents, resultingStates;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>                std::vector&lt;Probability_&gt; probDistribution;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>                <span class="comment">//reading variable name</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>                varname = attr-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__base.html#af3a3d4534f4c88f151e0f063aef1c6de">value</a>();</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>                <span class="comment">//reading all properties of the variable</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>                <span class="keywordflow">for</span> (<a class="code hl_class" href="classrapidxml_1_1xml__node.html">xml_node&lt;&gt;</a> *pStates = pNode-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__node.html#aee9b7ecb01034f1857a5387af7e50e23">first_node</a>(<span class="stringliteral">&quot;state&quot;</span>); pStates; pStates = pStates-&gt;next_sibling()) {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>                    std::string name(pStates-&gt;name());</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>                    <span class="comment">//reading variable&#39;s states</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                    <span class="keywordflow">if</span> (name == <span class="stringliteral">&quot;state&quot;</span>) {</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                        attr = pStates-&gt;first_attribute(<span class="stringliteral">&quot;id&quot;</span>);</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                        <span class="keywordflow">if</span> (attr != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>                            state_names.emplace_back(attr-&gt;<a class="code hl_function" href="classrapidxml_1_1xml__base.html#af3a3d4534f4c88f151e0f063aef1c6de">value</a>());</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>                    }</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (name == <span class="stringliteral">&quot;resultingstates&quot;</span>) {</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>                        <span class="keywordflow">for</span> (<span class="keyword">auto</span> state:split&lt;std::string&gt;(pStates-&gt;value(), [](<span class="keyword">const</span> std::string &amp;t){return t;})) {</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>                            <span class="keywordtype">int</span> ix = std::find(state_names.begin(), state_names.end(), state) - state_names.begin();</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>                            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; state_names.size(); ++i)</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>                                probDistribution.emplace_back(i == ix ? 1. : 0.);</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                        }</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                    }</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (name == <span class="stringliteral">&quot;probabilities&quot;</span>)</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                        probDistribution = split&lt;Probability_&gt;(pStates-&gt;value(), [](<span class="keyword">const</span> std::string &amp;t){return static_cast&lt;Probability_&gt;(std::stod(t));});</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (name == <span class="stringliteral">&quot;parents&quot;</span>)</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                        parents = split&lt;std::string&gt;(pStates-&gt;value(), [](<span class="keyword">const</span> std::string &amp;t){return t;});</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                }</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>                <span class="comment">// Build the bayesian_net</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                ulong var_id = bn.<a class="code hl_function" href="classbaylib_1_1bayesian__net.html#adbd76b0f0fb9d6b028f4e2cfb5e5cb4e">add_variable</a>(varname, state_names);</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>                name_map[varname] = var_id;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>                std::vector&lt;ulong&gt; parents_id{};</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; parent: parents){</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                    bn.<a class="code hl_function" href="classbaylib_1_1bayesian__net.html#aa391e1f65ae2a5eb477097f814804bad">add_dependency</a>(name_map[parent], var_id);</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                    parents_id.emplace_back(name_map[parent]);</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                }</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>                <span class="comment">// fill CPTs</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>                std::reverse(parents_id.begin(), parents_id.end());</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                <a class="code hl_class" href="classbaylib_1_1condition__factory.html">baylib::condition_factory</a> cf(bn, var_id, parents_id);</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>                <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                <span class="keywordflow">do</span> {</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>                    <span class="keyword">auto</span> cond = cf.<a class="code hl_function" href="classbaylib_1_1condition__factory.html#a0209b5e4bbdd0562e68b77e01a6c4141">get</a>();</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>                    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; state_names.size(); j++)</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>                        bn.<a class="code hl_function" href="classbaylib_1_1bayesian__net.html#ae50af99194fcf9c945c869377cc33677">set_variable_probability</a>(var_id, j, cond, probDistribution[i * state_names.size() + j]);</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>                    ++i;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>                } <span class="keywordflow">while</span> (cf.<a class="code hl_function" href="classbaylib_1_1condition__factory.html#a9475562765f5c61fceff368fd5b19679">has_next</a>());</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            }</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            <span class="keywordflow">return</span> bn;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        }</div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>} <span class="comment">// namespace bn</span></div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="preprocessor">#endif </span><span class="comment">//BAYLIB_XDSL_PARSER_HPP</span></div>
-<div class="ttc" id="abayesian__network_8hpp_html"><div class="ttname"><a href="bayesian__network_8hpp.html">bayesian_network.hpp</a></div><div class="ttdoc">bayesian network implementation based on boost GPL</div></div>
-<div class="ttc" id="aclassbn_1_1bayesian__network_html"><div class="ttname"><a href="classbn_1_1bayesian__network.html">bn::bayesian_network</a></div><div class="ttdef"><b>Definition:</b> bayesian_network.hpp:21</div></div>
-<div class="ttc" id="aclassbn_1_1condition__factory_html"><div class="ttname"><a href="classbn_1_1condition__factory.html">bn::condition_factory</a></div><div class="ttdef"><b>Definition:</b> condition_factory.hpp:28</div></div>
-<div class="ttc" id="aclassbn_1_1condition__factory_html_a344ceae066be946ef4c5652464ee0351"><div class="ttname"><a href="classbn_1_1condition__factory.html#a344ceae066be946ef4c5652464ee0351">bn::condition_factory::get</a></div><div class="ttdeci">bn::condition get() const</div><div class="ttdef"><b>Definition:</b> condition_factory.hpp:103</div></div>
-<div class="ttc" id="aclassbn_1_1condition__factory_html_a5c941efbf6456134cc2ead072419ab51"><div class="ttname"><a href="classbn_1_1condition__factory.html#a5c941efbf6456134cc2ead072419ab51">bn::condition_factory::has_next</a></div><div class="ttdeci">bool has_next()</div><div class="ttdef"><b>Definition:</b> condition_factory.hpp:76</div></div>
-<div class="ttc" id="aclassbn_1_1named__random__variable_html"><div class="ttname"><a href="classbn_1_1named__random__variable.html">bn::named_random_variable</a></div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:22</div></div>
-<div class="ttc" id="aclassbn_1_1named__random__variable_html_a63a20fb1e04f15bb705ebbebcc39fc91"><div class="ttname"><a href="classbn_1_1named__random__variable.html#a63a20fb1e04f15bb705ebbebcc39fc91">bn::named_random_variable::name</a></div><div class="ttdeci">std::string name() const</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:55</div></div>
-<div class="ttc" id="aclassbn_1_1named__random__variable_html_acea287b6bb7fefae9103f7c69c673e16"><div class="ttname"><a href="classbn_1_1named__random__variable.html#acea287b6bb7fefae9103f7c69c673e16">bn::named_random_variable::has_state</a></div><div class="ttdeci">bool has_state(const std::string &amp;state_name) const</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:47</div></div>
-<div class="ttc" id="aclassbn_1_1named__random__variable_html_ae08c43c699ea0ce371dc952f65d73d6e"><div class="ttname"><a href="classbn_1_1named__random__variable.html#ae08c43c699ea0ce371dc952f65d73d6e">bn::named_random_variable::states</a></div><div class="ttdeci">std::vector&lt; std::string &gt; states() const</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:38</div></div>
-<div class="ttc" id="aclassbn_1_1random__variable_html"><div class="ttname"><a href="classbn_1_1random__variable.html">bn::random_variable</a></div><div class="ttdef"><b>Definition:</b> random_variable.hpp:21</div></div>
-<div class="ttc" id="aclassbn_1_1xdsl__parser_html"><div class="ttname"><a href="classbn_1_1xdsl__parser.html">bn::xdsl_parser</a></div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:90</div></div>
-<div class="ttc" id="aclassbn_1_1xdsl__parser_html_a3abd56ce73536eb1b047906af5d6ffd0"><div class="ttname"><a href="classbn_1_1xdsl__parser.html#a3abd56ce73536eb1b047906af5d6ffd0">bn::xdsl_parser::deserialize</a></div><div class="ttdeci">named_bayesian_network deserialize(const std::string &amp;file_name)</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:101</div></div>
-<div class="ttc" id="aclassbn_1_1xdsl__parser_html_a9b5a75c561d4ec2624c55c856098fc8d"><div class="ttname"><a href="classbn_1_1xdsl__parser.html#a9b5a75c561d4ec2624c55c856098fc8d">bn::xdsl_parser::split</a></div><div class="ttdeci">std::vector&lt; T &gt; split(const std::string &amp;text, std::function&lt; T(const std::string &amp;)&gt; mapper, const std::string &amp;delimiter=&quot; &quot;)</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:192</div></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno"><a class="line" href="classbaylib_1_1xdsl__parser.html#a3d1e14cefdb6448bc2ff734180bed41c">  222</a></span>        std::vector&lt;T&gt; <a class="code hl_function" href="classbaylib_1_1xdsl__parser.html#a3d1e14cefdb6448bc2ff734180bed41c">split</a>(</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>                <span class="keyword">const</span> std::string &amp;text,</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>                std::function&lt;T(<span class="keyword">const</span> std::string&amp;)&gt; mapper,</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>                <span class="keyword">const</span> std::string&amp; delimiter = <span class="stringliteral">&quot; &quot;</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        )</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>        {</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>            std::vector&lt;T&gt; result;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ix;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>            <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> start = 0;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>            <span class="keywordflow">while</span>((ix = text.find(delimiter, start)) != std::string::npos){</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                result.emplace_back(mapper(text.substr(start, ix-start)));</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                start = ix + delimiter.length();</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>            }</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>            result.emplace_back(mapper(text.substr(start, ix-start)));</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        }</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    };</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>} <span class="comment">// namespace baylib</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="preprocessor">#endif </span><span class="comment">//BAYLIB_SMILE_UTILS_HPP</span></div>
+<div class="ttc" id="abayesian__net_8hpp_html"><div class="ttname"><a href="bayesian__net_8hpp.html">bayesian_net.hpp</a></div><div class="ttdoc">bayesian network implementation based on boost GPL</div></div>
+<div class="ttc" id="aclassbaylib_1_1bayesian__net_html"><div class="ttname"><a href="classbaylib_1_1bayesian__net.html">baylib::bayesian_net</a></div><div class="ttdef"><b>Definition:</b> bayesian_net.hpp:21</div></div>
+<div class="ttc" id="aclassbaylib_1_1bayesian__net_html_aa391e1f65ae2a5eb477097f814804bad"><div class="ttname"><a href="classbaylib_1_1bayesian__net.html#aa391e1f65ae2a5eb477097f814804bad">baylib::bayesian_net::add_dependency</a></div><div class="ttdeci">void add_dependency(vertex_id src_id, vertex_id dest_id)</div><div class="ttdef"><b>Definition:</b> bayesian_net.hpp:84</div></div>
+<div class="ttc" id="aclassbaylib_1_1bayesian__net_html_adbd76b0f0fb9d6b028f4e2cfb5e5cb4e"><div class="ttname"><a href="classbaylib_1_1bayesian__net.html#adbd76b0f0fb9d6b028f4e2cfb5e5cb4e">baylib::bayesian_net::add_variable</a></div><div class="ttdeci">vertex_id add_variable(Args_ &amp;&amp;...args)</div><div class="ttdef"><b>Definition:</b> bayesian_net.hpp:59</div></div>
+<div class="ttc" id="aclassbaylib_1_1bayesian__net_html_ae50af99194fcf9c945c869377cc33677"><div class="ttname"><a href="classbaylib_1_1bayesian__net.html#ae50af99194fcf9c945c869377cc33677">baylib::bayesian_net::set_variable_probability</a></div><div class="ttdeci">void set_variable_probability(const vertex_id var_id, baylib::state_t state_value, const baylib::condition &amp;cond, probability_type p)</div><div class="ttdef"><b>Definition:</b> bayesian_net.hpp:227</div></div>
+<div class="ttc" id="aclassbaylib_1_1condition__factory_html"><div class="ttname"><a href="classbaylib_1_1condition__factory.html">baylib::condition_factory</a></div><div class="ttdef"><b>Definition:</b> condition_factory.hpp:29</div></div>
+<div class="ttc" id="aclassbaylib_1_1condition__factory_html_a0209b5e4bbdd0562e68b77e01a6c4141"><div class="ttname"><a href="classbaylib_1_1condition__factory.html#a0209b5e4bbdd0562e68b77e01a6c4141">baylib::condition_factory::get</a></div><div class="ttdeci">baylib::condition get() const</div><div class="ttdef"><b>Definition:</b> condition_factory.hpp:104</div></div>
+<div class="ttc" id="aclassbaylib_1_1condition__factory_html_a9475562765f5c61fceff368fd5b19679"><div class="ttname"><a href="classbaylib_1_1condition__factory.html#a9475562765f5c61fceff368fd5b19679">baylib::condition_factory::has_next</a></div><div class="ttdeci">bool has_next()</div><div class="ttdef"><b>Definition:</b> condition_factory.hpp:77</div></div>
+<div class="ttc" id="aclassbaylib_1_1named__random__variable_html"><div class="ttname"><a href="classbaylib_1_1named__random__variable.html">baylib::named_random_variable</a></div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:29</div></div>
+<div class="ttc" id="aclassbaylib_1_1named__random__variable_html_a7534b95a096848138fbbaafa38c569b1"><div class="ttname"><a href="classbaylib_1_1named__random__variable.html#a7534b95a096848138fbbaafa38c569b1">baylib::named_random_variable::has_state</a></div><div class="ttdeci">bool has_state(const std::string &amp;state_name) const</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:70</div></div>
+<div class="ttc" id="aclassbaylib_1_1named__random__variable_html_aa4e72cd2a8898f5aed1d0edb671078cb"><div class="ttname"><a href="classbaylib_1_1named__random__variable.html#aa4e72cd2a8898f5aed1d0edb671078cb">baylib::named_random_variable::state</a></div><div class="ttdeci">std::string state(unsigned long s) const</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:55</div></div>
+<div class="ttc" id="aclassbaylib_1_1named__random__variable_html_abae8e6ec205c511f4286867568445541"><div class="ttname"><a href="classbaylib_1_1named__random__variable.html#abae8e6ec205c511f4286867568445541">baylib::named_random_variable::states</a></div><div class="ttdeci">std::vector&lt; std::string &gt; states() const</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:45</div></div>
+<div class="ttc" id="aclassbaylib_1_1named__random__variable_html_ae3ab4a3696076ba5da02402b43a9c8ff"><div class="ttname"><a href="classbaylib_1_1named__random__variable.html#ae3ab4a3696076ba5da02402b43a9c8ff">baylib::named_random_variable::name</a></div><div class="ttdeci">std::string name() const</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:78</div></div>
+<div class="ttc" id="aclassbaylib_1_1random__variable_html"><div class="ttname"><a href="classbaylib_1_1random__variable.html">baylib::random_variable</a></div><div class="ttdef"><b>Definition:</b> random_variable.hpp:26</div></div>
+<div class="ttc" id="aclassbaylib_1_1xdsl__parser_html"><div class="ttname"><a href="classbaylib_1_1xdsl__parser.html">baylib::xdsl_parser</a></div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:120</div></div>
+<div class="ttc" id="aclassbaylib_1_1xdsl__parser_html_a3d1e14cefdb6448bc2ff734180bed41c"><div class="ttname"><a href="classbaylib_1_1xdsl__parser.html#a3d1e14cefdb6448bc2ff734180bed41c">baylib::xdsl_parser::split</a></div><div class="ttdeci">std::vector&lt; T &gt; split(const std::string &amp;text, std::function&lt; T(const std::string &amp;)&gt; mapper, const std::string &amp;delimiter=&quot; &quot;)</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:222</div></div>
+<div class="ttc" id="aclassbaylib_1_1xdsl__parser_html_acd45d01336ab95f287dd5791e4cf0661"><div class="ttname"><a href="classbaylib_1_1xdsl__parser.html#acd45d01336ab95f287dd5791e4cf0661">baylib::xdsl_parser::deserialize</a></div><div class="ttdeci">named_bayesian_network deserialize(const std::string &amp;file_name)</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:131</div></div>
 <div class="ttc" id="aclassrapidxml_1_1xml__attribute_html"><div class="ttname"><a href="classrapidxml_1_1xml__attribute.html">rapidxml::xml_attribute</a></div><div class="ttdef"><b>Definition:</b> rapidxml.hpp:799</div></div>
 <div class="ttc" id="aclassrapidxml_1_1xml__base_html_af3a3d4534f4c88f151e0f063aef1c6de"><div class="ttname"><a href="classrapidxml_1_1xml__base.html#af3a3d4534f4c88f151e0f063aef1c6de">rapidxml::xml_base::value</a></div><div class="ttdeci">Ch * value() const</div><div class="ttdef"><b>Definition:</b> rapidxml.hpp:692</div></div>
 <div class="ttc" id="aclassrapidxml_1_1xml__node_html"><div class="ttname"><a href="classrapidxml_1_1xml__node.html">rapidxml::xml_node</a></div><div class="ttdef"><b>Definition:</b> rapidxml.hpp:891</div></div>
 <div class="ttc" id="aclassrapidxml_1_1xml__node_html_aee9b7ecb01034f1857a5387af7e50e23"><div class="ttname"><a href="classrapidxml_1_1xml__node.html#aee9b7ecb01034f1857a5387af7e50e23">rapidxml::xml_node::first_node</a></div><div class="ttdeci">xml_node&lt; Ch &gt; * first_node(const Ch *name=0, std::size_t name_size=0, bool case_sensitive=true) const</div><div class="ttdef"><b>Definition:</b> rapidxml.hpp:936</div></div>
 <div class="ttc" id="acondition__factory_8hpp_html"><div class="ttname"><a href="condition__factory_8hpp.html">condition_factory.hpp</a></div><div class="ttdoc">Condition factory for generating multiple condition objects sequentially.</div></div>
 <div class="ttc" id="acpt_8hpp_html"><div class="ttname"><a href="cpt_8hpp.html">cpt.hpp</a></div><div class="ttdoc">CPT class with COW optimization.</div></div>
-<div class="ttc" id="anamespacebn_html"><div class="ttname"><a href="namespacebn.html">bn</a></div><div class="ttdef"><b>Definition:</b> baylib_concepts.hpp:14</div></div>
+<div class="ttc" id="anamespacebaylib_html"><div class="ttname"><a href="namespacebaylib.html">baylib</a></div><div class="ttdef"><b>Definition:</b> graph.hpp:17</div></div>
+<div class="ttc" id="anamespacebaylib_html_a3fa7cc06d8943b2fab4c49a6d210edbb"><div class="ttname"><a href="namespacebaylib.html#a3fa7cc06d8943b2fab4c49a6d210edbb">baylib::make_name_map</a></div><div class="ttdeci">std::map&lt; std::string, unsigned long &gt; make_name_map(const baylib::bayesian_net&lt; Variable_ &gt; &amp;bn)</div><div class="ttdef"><b>Definition:</b> smile_utils.hpp:101</div></div>
 <div class="ttc" id="arapidxml_8hpp_html"><div class="ttname"><a href="rapidxml_8hpp.html">rapidxml.hpp</a></div><div class="ttdoc">This file contains rapidxml parser and DOM implementation.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

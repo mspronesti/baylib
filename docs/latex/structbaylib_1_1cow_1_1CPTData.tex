@@ -1,0 +1,32 @@
+\hypertarget{structbaylib_1_1cow_1_1CPTData}{}\doxysection{baylib\+::cow\+::CPTData\texorpdfstring{$<$}{<} Probability\+\_\+ \texorpdfstring{$>$}{>} Struct Template Reference}
+\label{structbaylib_1_1cow_1_1CPTData}\index{baylib::cow::CPTData$<$ Probability\_ $>$@{baylib::cow::CPTData$<$ Probability\_ $>$}}
+Inheritance diagram for baylib\+::cow\+::CPTData\texorpdfstring{$<$}{<} Probability\+\_\+ \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{structbaylib_1_1cow_1_1CPTData}
+\end{center}
+\end{figure}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::vector$<$ Probability\+\_\+ $>$ $>$ \mbox{\hyperlink{structbaylib_1_1cow_1_1CPTData_a524d0720791052daf6bbc98a1467f68c}{table}}
+\item 
+\mbox{\Hypertarget{structbaylib_1_1cow_1_1CPTData_a9c66092a8d063f30293d7d1661262ef0}\label{structbaylib_1_1cow_1_1CPTData_a9c66092a8d063f30293d7d1661262ef0}} 
+unsigned long {\bfseries nstates} \{\}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{structbaylib_1_1cow_1_1CPTData_a524d0720791052daf6bbc98a1467f68c}\label{structbaylib_1_1cow_1_1CPTData_a524d0720791052daf6bbc98a1467f68c}} 
+\index{baylib::cow::CPTData$<$ Probability\_ $>$@{baylib::cow::CPTData$<$ Probability\_ $>$}!table@{table}}
+\index{table@{table}!baylib::cow::CPTData$<$ Probability\_ $>$@{baylib::cow::CPTData$<$ Probability\_ $>$}}
+\doxysubsubsection{\texorpdfstring{table}{table}}
+{\footnotesize\ttfamily template$<$Arithmetic Probability\+\_\+$>$ \\
+std\+::vector$<$std\+::vector$<$Probability\+\_\+$>$ $>$ \mbox{\hyperlink{structbaylib_1_1cow_1_1CPTData}{baylib\+::cow\+::\+CPTData}}$<$ Probability\+\_\+ $>$\+::table}
+
+\char`\"{}table\char`\"{} doesn\textquotesingle{}t map condition into a probability vector using a map because this struct is used for copy-\/on-\/write (only probability values are actually shared, regardless of the condition entry so that COW is used for two tables having the very same probability entries even if they refer to different conditions ) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mspronesti/\+Desktop/baylib/baylib/probability/\mbox{\hyperlink{cpt_8hpp}{cpt.\+hpp}}\end{DoxyCompactItemize}

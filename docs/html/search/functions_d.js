@@ -1,7 +1,7 @@
 var searchData=
 [
   ['parent_0',['parent',['../classrapidxml_1_1xml__base.html#ad4b15506bec856966318905d5e854a14',1,'rapidxml::xml_base']]],
-  ['parents_5fof_1',['parents_of',['../classbn_1_1bayesian__network.html#ab9dff7e80e1ad29b2e39aaa7f9a22d18',1,'bn::bayesian_network']]],
+  ['parents_5fof_1',['parents_of',['../classbaylib_1_1bayesian__net.html#a11e3302b36482f9d1934e9fa3278c00f',1,'baylib::bayesian_net']]],
   ['parse_2',['parse',['../classrapidxml_1_1xml__document.html#ac6e73ff9ac323bf5a370c38feb03a6b1',1,'rapidxml::xml_document']]],
   ['parse_5ferror_3',['parse_error',['../classrapidxml_1_1parse__error.html#aea12a301271c393fb627b368fb9f35c1',1,'rapidxml::parse_error']]],
   ['prepend_5fattribute_4',['prepend_attribute',['../classrapidxml_1_1xml__node.html#a8b62ee76489faf8e2d1210869d547684',1,'rapidxml::xml_node']]],

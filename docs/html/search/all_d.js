@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['parallel_5finference_5falgorithm_0',['parallel_inference_algorithm',['../classbn_1_1inference_1_1parallel__inference__algorithm.html',1,'bn::inference']]],
+  ['parallel_5finference_5falgorithm_0',['parallel_inference_algorithm',['../classbaylib_1_1inference_1_1parallel__inference__algorithm.html',1,'baylib::inference']]],
   ['parent_1',['parent',['../classrapidxml_1_1xml__base.html#ad4b15506bec856966318905d5e854a14',1,'rapidxml::xml_base']]],
-  ['parents_5fof_2',['parents_of',['../classbn_1_1bayesian__network.html#ab9dff7e80e1ad29b2e39aaa7f9a22d18',1,'bn::bayesian_network']]],
+  ['parents_5fof_2',['parents_of',['../classbaylib_1_1bayesian__net.html#a11e3302b36482f9d1934e9fa3278c00f',1,'baylib::bayesian_net']]],
   ['parse_3',['parse',['../classrapidxml_1_1xml__document.html#ac6e73ff9ac323bf5a370c38feb03a6b1',1,'rapidxml::xml_document']]],
   ['parse_5fcomment_5fnodes_4',['parse_comment_nodes',['../rapidxml_8hpp.html#ae093dd49e2f59fa39eee95f1a6568e32',1,'rapidxml']]],
   ['parse_5fdeclaration_5fnode_5',['parse_declaration_node',['../rapidxml_8hpp.html#a999d782659513f8015ea4236e3204c42',1,'rapidxml']]],

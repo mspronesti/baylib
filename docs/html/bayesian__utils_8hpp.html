@@ -73,9 +73,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Collection of utilities for bayesian_network.  
+<p>Collection of utilities for bayesian_net.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="bayesian__network_8hpp_source.html">baylib/network/bayesian_network.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="bayesian__net_8hpp_source.html">baylib/network/bayesian_net.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="condition__factory_8hpp_source.html">baylib/probability/condition_factory.hpp</a>&gt;</code><br />
 <code>#include &lt;baylib/baylib_concepts.hpp&gt;</code><br />
 <code>#include &lt;unordered_set&gt;</code><br />
@@ -84,29 +84,29 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:namespacebn"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebn.html">bn</a></td></tr>
+<tr class="memitem:namespacebaylib"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebaylib.html">baylib</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af3d46b351f924835802c271a247183b5"><td class="memTemplParams" colspan="2">template&lt;BNetDerived Network_&gt; </td></tr>
-<tr class="memitem:af3d46b351f924835802c271a247183b5"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; unsigned long &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebn.html#af3d46b351f924835802c271a247183b5">bn::sampling_order</a> (const Network_ &amp;bn)</td></tr>
-<tr class="separator:af3d46b351f924835802c271a247183b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30b478c81538a7b88a827deb6c465ba2"><td class="memTemplParams" colspan="2">template&lt;BNetDerived Network_&gt; </td></tr>
-<tr class="memitem:a30b478c81538a7b88a827deb6c465ba2"><td class="memTemplItemLeft" align="right" valign="top">std::unordered_set&lt; unsigned long &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebn.html#a30b478c81538a7b88a827deb6c465ba2">bn::markov_blanket</a> (const Network_ &amp;bn, unsigned long vid)</td></tr>
-<tr class="separator:a30b478c81538a7b88a827deb6c465ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8488fe928f91fd19041fd541611ed1cf"><td class="memTemplParams" colspan="2">template&lt;BNetDerived Network_&gt; </td></tr>
-<tr class="memitem:a8488fe928f91fd19041fd541611ed1cf"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebn.html#a8488fe928f91fd19041fd541611ed1cf">bn::cpt_filled_out</a> (const Network_ &amp;bn, const unsigned long cpt_owner)</td></tr>
-<tr class="separator:a8488fe928f91fd19041fd541611ed1cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c43b0143bddb71614754619d81f8010"><td class="memTemplParams" colspan="2">template&lt;BNetDerived Network_&gt; </td></tr>
-<tr class="memitem:a9c43b0143bddb71614754619d81f8010"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebn.html#a9c43b0143bddb71614754619d81f8010">bn::clear_network_evidences</a> (Network_ &amp;bn)</td></tr>
-<tr class="separator:a9c43b0143bddb71614754619d81f8010"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a458aec071117b23c396cd2bddc27bc58"><td class="memTemplParams" colspan="2">template&lt;BNetDerived Network_&gt; </td></tr>
-<tr class="memitem:a458aec071117b23c396cd2bddc27bc58"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; ulong &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebn.html#a458aec071117b23c396cd2bddc27bc58">bn::ancestors_of_evidence</a> (const Network_ &amp;bn)</td></tr>
-<tr class="separator:a458aec071117b23c396cd2bddc27bc58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02bd9315d6bfbb11442016299e84e7b6"><td class="memTemplParams" colspan="2">template&lt;BNetDerived Network_&gt; </td></tr>
+<tr class="memitem:a02bd9315d6bfbb11442016299e84e7b6"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; unsigned long &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebaylib.html#a02bd9315d6bfbb11442016299e84e7b6">baylib::sampling_order</a> (const Network_ &amp;bn)</td></tr>
+<tr class="separator:a02bd9315d6bfbb11442016299e84e7b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6b52de8ff738127f5afa2ce28126c53"><td class="memTemplParams" colspan="2">template&lt;BNetDerived Network_&gt; </td></tr>
+<tr class="memitem:ac6b52de8ff738127f5afa2ce28126c53"><td class="memTemplItemLeft" align="right" valign="top">std::unordered_set&lt; unsigned long &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebaylib.html#ac6b52de8ff738127f5afa2ce28126c53">baylib::markov_blanket</a> (const Network_ &amp;bn, unsigned long vid)</td></tr>
+<tr class="separator:ac6b52de8ff738127f5afa2ce28126c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49f1c1f9205ceeeb2364c9c449955fec"><td class="memTemplParams" colspan="2">template&lt;BNetDerived Network_&gt; </td></tr>
+<tr class="memitem:a49f1c1f9205ceeeb2364c9c449955fec"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebaylib.html#a49f1c1f9205ceeeb2364c9c449955fec">baylib::cpt_filled_out</a> (const Network_ &amp;bn, const unsigned long cpt_owner)</td></tr>
+<tr class="separator:a49f1c1f9205ceeeb2364c9c449955fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cc5482c461e8b037492a82980a3dec5"><td class="memTemplParams" colspan="2">template&lt;BNetDerived Network_&gt; </td></tr>
+<tr class="memitem:a0cc5482c461e8b037492a82980a3dec5"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebaylib.html#a0cc5482c461e8b037492a82980a3dec5">baylib::clear_network_evidences</a> (Network_ &amp;bn)</td></tr>
+<tr class="separator:a0cc5482c461e8b037492a82980a3dec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6db784183236df8f4133d2acec631d6"><td class="memTemplParams" colspan="2">template&lt;BNetDerived Network_&gt; </td></tr>
+<tr class="memitem:aa6db784183236df8f4133d2acec631d6"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; ulong &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacebaylib.html#aa6db784183236df8f4133d2acec631d6">baylib::ancestors_of_evidence</a> (const Network_ &amp;bn)</td></tr>
+<tr class="separator:aa6db784183236df8f4133d2acec631d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Collection of utilities for bayesian_network. </p>
+<div class="textblock"><p >Collection of utilities for bayesian_net. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
