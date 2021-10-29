@@ -35,7 +35,7 @@ Here's a list of the main requested features:
 ## Dependencies
 * cmake >= 2.8
 * boost >= 1.65
-* libtbb 
+* libtbb
 * ocl-icd-opencl
 * mesa-opencl-icd
 
@@ -47,14 +47,32 @@ Under Linux, you can install the required dependencies using the provided script
 ```
 
 ## Install baylib
-Under Linux or MacOS, you can 
+
+Using the cmake `FetchContent` directives you can directly setup baylib as follows
+
+```cmake
+include(FetchContent)
+
+FetchContent_Declare(
+        baylib
+        GIT_REPOSITORY https://github.com/mspronesti/baylib.git
+)
+
+FetchContent_MakeAvailable(baylib)
+# create your executable 
+# and whatever you need for
+# your project ...
+target_link_libraries(<your_executable> baylib)
+```
+Alternatively
+under Linux or MacOS, you can
 run the provided script [install.sh](scripts/install.sh) as follows
 ```bash
 cd scripts/
 chmod u+x install.sh
 sudo ./install.sh
 ```
-alternatively, run the following commands
+another option for the script is running the following commands
 (assuming you're in the root of the project):
 ```bash
 mkdir build
@@ -65,7 +83,7 @@ sudo make install
 ```
 You can now include `baylib` in your projects.
 
-Make sure your `CMakeLists.txt` looks like this
+In the latter two cases, make sure your `CMakeLists.txt` looks like this
 ```cmake
 find_package(baylib)
 # create your executable 
@@ -75,7 +93,7 @@ target_link_libraries(<your_executable> baylib)
 ```
 ## Usage
 Baylib allows performing approximate inference on Bayesian Networks loaded from xdsl files
-or created by hand (either using named nodes or numeric identifiers). 
+or created by hand (either using named nodes or numeric identifiers).
 
 Have a look at [examples](examples) for more.
 

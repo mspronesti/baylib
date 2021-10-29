@@ -50,11 +50,11 @@ namespace baylib {
                 >
         class adaptive_importance_sampling: public vectorized_inference_algorithm<Network_>
         {
-            using typename vectorized_inference_algorithm<Network_>::network_type;
             using typename vectorized_inference_algorithm<Network_>::probability_type;
             using vectorized_inference_algorithm<Network_>::bn;
             typedef std::vector<cow::icpt<probability_type>> icpt_vector;
             typedef std::vector<std::vector<uint>>  simulation_matrix;
+            typedef Network_ network_type;
 
         public:
 

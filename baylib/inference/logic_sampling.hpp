@@ -12,7 +12,7 @@
 
 #include <boost/compute.hpp>
 #include <boost/compute/device.hpp>
-#include <probability/condition_factory.hpp>
+#include <baylib/probability/condition_factory.hpp>
 
 #include <baylib/inference/abstract_inference_algorithm.hpp>
 
@@ -48,10 +48,10 @@ namespace baylib {
                 >
         class logic_sampling : public vectorized_inference_algorithm<Network_>
         {
-            using typename vectorized_inference_algorithm<Network_>::network_type;
             using typename vectorized_inference_algorithm<Network_>::probability_type;
             using vectorized_inference_algorithm<Network_>::bn;
             using prob_v = boost::compute::vector<probability_type>;
+            typedef Network_ network_type;
         public:
 
             logic_sampling(
