@@ -15,7 +15,7 @@ namespace baylib {
      * This class models a Bayesian Network allowing both
      * index and name based access to its facilities for a better
      * user experience
-     * @tparam Probability : Type of cpts entries
+     * @tparam Variable_ : Type of the network nodes
      */
     template <RVarDerived Variable_>
     class bayesian_net {
@@ -286,10 +286,11 @@ namespace baylib {
 
 
         /**
-         * Checks if a specific variable, identified by numerical identifier, has a cpt that is already
-         * present in the network, if it's the case the cpt of the node is deleted from memory and switched
-         * with a reference to the one that already exists, the cpt will be copied if a write operation is executed
-         * following the COW paradigm
+         * Checks if a specific variable, identified by numerical identifier,
+         * has a cpt that is already present in the network, if it's the case
+         * the cpt of the node is deleted from memory and switched with a reference
+         * to the one that already exists, the cpt will be copied if a write
+         * operation is executed following the COW paradigm
          * @param id : numerical identifier of node
          */
         void optimize_cpt_memory_occupation(vertex_id id){

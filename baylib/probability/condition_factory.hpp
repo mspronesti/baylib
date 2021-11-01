@@ -5,9 +5,8 @@
 #ifndef BAYLIB_CONDITION_FACTORY_HPP
 #define BAYLIB_CONDITION_FACTORY_HPP
 
-#include <baylib/network/bayesian_net.hpp>
 #include <baylib/probability/condition.hpp>
-#include <baylib_concepts.hpp>
+#include <baylib/baylib_concepts.hpp>
 
 /**
  * @file condition_factory.hpp
