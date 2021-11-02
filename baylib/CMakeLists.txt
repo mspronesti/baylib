@@ -14,21 +14,30 @@ endif()
 
 set(threading=multi)
 
+# Suppress superfluous randlib warnings about libbaylib.a having no symbols on MacOSX.
+IF (APPLE)
+    set(CMAKE_C_ARCHIVE_CREATE   "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+    set(CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+    set(CMAKE_C_ARCHIVE_FINISH   "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
+    set(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
+ENDIF (APPLE)
+
 #openCL
 if(NOT TARGET OpenCL::OpenCL)
     set(CMAKE_PREFIX_PATH "${OPENCL_ROOT}")
     find_package(OpenCL REQUIRED)
     set_target_properties(OpenCL::OpenCL PROPERTIES INTERFACE_COMPILE_DEFINITIONS CL_TARGET_OPENCL_VERSION=220)
 endif()
+
 find_package(Threads REQUIRED)
 find_package(TBB REQUIRED)
 
 set(BAYLIB_REQUIRED_LIBS
-    OpenCL
-    pthread
-    boost_thread
-    boost_system
-    tbb
+        OpenCL
+        pthread
+        boost_thread
+        boost_system
+        tbb
 )
 
 set (src
@@ -57,28 +66,25 @@ set (src
 )
 
 set (BAYLIB_INCLUDE_LIBS ../baylib)
-
-if(NOT TARGET baylib)
-    add_library(baylib STATIC ${src})
-endif()
+add_library(baylib ${src})
 
 set_target_properties(baylib PROPERTIES LINKER_LANGUAGE CXX)
-target_compile_options(baylib PUBLIC "-std=c++2a")
+target_compile_options(baylib PRIVATE "-std=c++2a")
 
 target_include_directories(baylib
         INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
         INTERFACE $<INSTALL_INTERFACE:include>
-        PUBLIC ${BAYLIB_INCLUDE_LIBS}
-        )
+        INTERFACE ${BAYLIB_INCLUDE_LIBS}
+)
 
-target_link_libraries(baylib ${BAYLIB_REQUIRED_LIBS})
+target_link_libraries(baylib  ${BAYLIB_REQUIRED_LIBS})
 
 install(DIRECTORY ./
         DESTINATION include/baylib
         FILES_MATCHING
         PATTERN "*.hpp"
         PATTERN "*.h"
-)
+        )
 
 export(TARGETS baylib FILE baylib-config.cmake)
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)

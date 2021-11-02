@@ -10,7 +10,7 @@ Baylib is a parallel inference library for discrete Bayesian networks supporting
 
 ## Main features
 Here's a list of the main requested features:
-* Copy-On-Write semantics for the graph data structure, including the conditional probability table (CPT) of each node
+* Copy-On-Write semantics for the graph data structure, including the conditional probability table (CPT) of each node 
 * parallel implementation of the algorithms either using C++17 threads or GPU computing with [boost compute](https://www.boost.org/doc/libs/1_66_0/libs/compute/doc/html/index.html)
 * template-based classes for probability format
 * input compatibility with the [XDSL format](https://support.bayesfusion.com/docs/) provided by the SMILE library
@@ -64,16 +64,7 @@ FetchContent_MakeAvailable(baylib)
 # your project ...
 target_link_libraries(<your_executable> baylib)
 ```
-Alternatively
-under Linux or MacOS, you can
-run the provided script [install.sh](scripts/install.sh) as follows
-```bash
-cd scripts/
-chmod u+x install.sh
-sudo ./install.sh
-```
-another option for the script is running the following commands
-(assuming you're in the root of the project):
+Alternatively compile it manuallt
 ```bash
 mkdir build
 cd build
@@ -83,7 +74,7 @@ sudo make install
 ```
 You can now include `baylib` in your projects.
 
-In the latter two cases, make sure your `CMakeLists.txt` looks like this
+In the latter case, make sure the `CMakeLists.txt` of your project looks like this
 ```cmake
 find_package(baylib)
 # create your executable 
@@ -91,6 +82,16 @@ find_package(baylib)
 # your project ...
 target_link_libraries(<your_executable> baylib)
 ```
+## Install baylib Python API
+To build the python API run 
+```bash
+python3 setup.py build
+```
+to build and install, run
+```bash
+python setup.py install
+```
+
 ## Usage
 Baylib allows performing approximate inference on Bayesian Networks loaded from xdsl files
 or created by hand (either using named nodes or numeric identifiers).

@@ -1,5 +1,8 @@
 # Project exclude paths
 cmake-build-debug/
+dist/
+build/
+venv/
 
 .idea
 

@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: baylib
+Version: 0.0.0
+Summary: A toolkit for parallel inference on discrete Bayesian networks
+Home-page: https://github.com/mspronesti/baylib
+Author: ['Massimiliano Pronesti', 'Paolo Rabino', 'Tiblias Federico']
+Author-email: UNKNOWN
+License: GPL-3 Software License
+Description: UNKNOWN
+Platform: UNKNOWN

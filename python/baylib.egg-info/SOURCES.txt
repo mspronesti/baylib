@@ -1,0 +1,7 @@
+README.md
+setup.py
+python/baylib.egg-info/PKG-INFO
+python/baylib.egg-info/SOURCES.txt
+python/baylib.egg-info/dependency_links.txt
+python/baylib.egg-info/not-zip-safe
+python/baylib.egg-info/top_level.txt

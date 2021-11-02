@@ -16,6 +16,9 @@ option(BUILD_EXAMPLES "Build the examples showing how to use baylib" OFF)
 # change this option to compile tests
 option(BUILD_TESTS "Build tests for baylib" OFF)
 
+# change this option to compile benchmarks
+option(BUILD_BENCHMARKS "Build benchmarks for baylib" OFF)
+
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 
 add_subdirectory(baylib)
@@ -30,3 +33,8 @@ if(BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
 unset (BUILD_EXAMPLES CACHE)
+
+if(BUILD_BENCHMARKS)
+    add_subdirectory(benchmark)
+endif()
+unset(BUILD_BENCHMARKS CACHE)
