@@ -139,11 +139,24 @@ namespace baylib {
         }
 
         /**
-         * Operator that returns the random_variable class identified by id
+         * Retrieves a random_variable reference
          * @param v : variable id
-         * @return  : random variable class
+         * @return  : random variable reference
          */
         variable_type & variable(vertex_id v) {
+            BAYLIB_ASSERT(has_variable(v),
+                          "out of bound access to graph",
+                          std::out_of_range)
+
+            return (*graph)[v];
+        }
+
+        /**
+         * Retrieves a random_variable const reference
+         * @param v : variable id
+         * @return  : random variable const reference
+         */
+        const variable_type & variable(vertex_id v) const {
             BAYLIB_ASSERT(has_variable(v),
                           "out of bound access to graph",
                           std::out_of_range)

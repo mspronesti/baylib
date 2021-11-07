@@ -36,11 +36,11 @@ namespace baylib {
                 >
         class gibbs_sampling : public parallel_inference_algorithm<Network_>
         {
-            typedef Network_ network_type;
             using typename parallel_inference_algorithm<Network_>::probability_type;
             using parallel_inference_algorithm<Network_>::bn;
-
         public:
+            typedef Network_ network_type;
+
             explicit gibbs_sampling (
                     const network_type &bn,
                     ulong nsamples,
@@ -50,7 +50,7 @@ namespace baylib {
             : parallel_inference_algorithm<Network_>(bn, nsamples, nthreads, seed)
             { }
 
-        private:
+        protected:
             baylib::marginal_distribution<probability_type> sample_step (
                     unsigned long nsamples, // the number of samples of each thread
                     unsigned int seed
@@ -72,7 +72,7 @@ namespace baylib {
 
                 return marginal_distr;
             }
-
+        private:
             /**
              * Samples a single variable usign the Gibbs sampling
              * algorithm

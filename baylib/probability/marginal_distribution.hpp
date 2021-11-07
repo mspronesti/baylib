@@ -29,7 +29,7 @@ namespace baylib {
         template <typename Container>
         explicit marginal_distribution(const Container &vars){
             for(auto & var : vars)
-                mdistr.emplace_back(var.states().size(), 0.0);
+                mdistr.emplace_back(var.number_of_states(), 0.0);
         }
 
         template<typename Iterator>

@@ -39,13 +39,6 @@ Here's a list of the main requested features:
 * ocl-icd-opencl
 * mesa-opencl-icd
 
-Under Linux, you can install the required dependencies using the provided script [install_dependencies.sh](scripts/install_dependencies.sh) as follows
-```bash
- cd scripts/
- chmod u+x install_dependencies.sh
-./install_dependencies.sh
-```
-
 ## Install baylib
 
 Using the cmake `FetchContent` directives you can directly setup baylib as follows

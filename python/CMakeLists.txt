@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
         pybind11
         GIT_REPOSITORY https://github.com/pybind/pybind11
-        GIT_TAG        v2.6.1
+        GIT_TAG        v2.8.1
 )
 FetchContent_MakeAvailable(pybind11)
 find_package(PythonInterp REQUIRED)
@@ -21,7 +21,10 @@ endif()
 add_subdirectory(../baylib baylib_build)
 
 set(binding_src
-    bindings/bayesian_net.cpp
+    bindings/types.h
+        bindings/bayesian.h
+    bindings/inference.h
+    bindings/pybaylib.cpp
 )
 
 pybind11_add_module(_pybaylib ${binding_src})
