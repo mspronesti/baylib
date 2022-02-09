@@ -2,7 +2,6 @@
 #define BAYLIB_ABSTRACT_INFERENCE_ALGORITHM_HPP
 
 #define CL_TARGET_OPENCL_VERSION 220
-#define MEMORY_SLACK 0.9
 
 #include <baylib/network/bayesian_utils.hpp>
 #include <baylib/probability/marginal_distribution.hpp>
@@ -206,7 +205,7 @@ namespace baylib {
              */
             std::pair<ulong, ulong> calculate_iterations()
             {
-                ulong sample_p = this->memory / (bn.number_of_variables() * sizeof(probability_type) + 3 * sizeof(cl_ushort)) * MEMORY_SLACK;
+                ulong sample_p = this->memory / (bn.number_of_variables() * sizeof(probability_type) + 3 * sizeof(cl_ushort)) * MEMORY_SLACK / 100;
                 if(sample_p < this->nsamples)
                     return {sample_p, this->nsamples / sample_p};
                 else

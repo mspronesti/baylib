@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+include(CheckLanguage)
 
 if (POLICY CMP0048)
     cmake_policy(SET CMP0048 NEW)
@@ -9,15 +10,25 @@ project(baylib)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/baylib/cmake_module)
 
 # change this option to compile the examples
 option(BUILD_EXAMPLES "Build the examples showing how to use baylib" OFF)
 
 # change this option to compile tests
-option(BUILD_TESTS "Build tests for baylib" OFF)
+option(BUILD_TESTS "Build tests for baylib" ON)
+
+check_language(CUDA)
+if(CMAKE_CUDA_COMPILER)
+    enable_language(CUDA)
+    add_compile_definitions(CUDA_CMP_FOUND)
+    set(CMAKE_CUDA_STANDARD 14)
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+    set(CUDA_ARCHITECTURES OFF)
+endif()
+
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
-
 add_subdirectory(baylib)
 
 if(BUILD_TESTS)

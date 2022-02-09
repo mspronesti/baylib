@@ -55,6 +55,17 @@ set (src
     baylib_assert.h
     baylib_concepts.hpp
 )
+set (src_cuda
+        inference/cuda/logic_sampler.cuh
+        inference/cuda/logic_sampler.cu
+        inference/logic_sampling_cuda.hpp
+        tools/gpu/cuda_utils.cuh
+        tools/gpu/cuda_utils.cu
+    )
+
+if(CMAKE_CUDA_COMPILER)
+    list(APPEND src ${src_cuda})
+endif()
 
 set (BAYLIB_INCLUDE_LIBS ../baylib)
 
@@ -63,7 +74,14 @@ if(NOT TARGET baylib)
 endif()
 
 set_target_properties(baylib PROPERTIES LINKER_LANGUAGE CXX)
-target_compile_options(baylib PUBLIC "-std=c++2a")
+
+if(CMAKE_CUDA_COMPILER)
+    set_target_properties(baylib
+            PROPERTIES
+            CUDA_SEPARABLE_COMPILATION ON
+            POSITION_INDEPENDENT_CODE ON
+            LINKER_LANGUAGE CXX)
+endif()
 
 target_include_directories(baylib
         INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
@@ -78,6 +96,8 @@ install(DIRECTORY ./
         FILES_MATCHING
         PATTERN "*.hpp"
         PATTERN "*.h"
+        PATTERN "*.cuh"
+        PATTERN "*.cu"
 )
 
 export(TARGETS baylib FILE baylib-config.cmake)

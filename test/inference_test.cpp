@@ -11,6 +11,9 @@
 #include <baylib/inference/rejection_sampling.hpp>
 #include <baylib/inference/adaptive_importance_sampling.hpp>
 
+#ifdef CUDA_CMP_FOUND
+#include <baylib/inference/logic_sampling_cuda.hpp>
+#endif
 
 #define THREADS std::thread::hardware_concurrency()
 #define SAMPLES 10000
@@ -28,7 +31,10 @@ std::vector<baylib::marginal_distribution<Probability>> get_results(const baylib
         gibbs_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
         likelihood_weighting<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
         rejection_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-        adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference()
+        adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+#ifdef CUDA_CMP_FOUND
+        logic_sampling_cuda<baylib::bayesian_net<Variable>>(bn, SAMPLES).make_inference()
+#endif
     };
     return results;
 }
@@ -39,7 +45,10 @@ template<typename Probability, class Variable>
                 logic_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
                 likelihood_weighting<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
                 rejection_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-                adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference()
+                adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+#ifdef CUDA_CMP_FOUND
+                logic_sampling_cuda<baylib::bayesian_net<Variable>>(bn, SAMPLES).make_inference()
+#endif
             };
             return results;
         }
