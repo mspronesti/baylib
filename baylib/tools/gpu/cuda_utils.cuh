@@ -133,6 +133,15 @@ namespace baylib {
             }
         }
 
+        /**
+         * Set node to evidence node
+         * @param index : index of the node
+         * @param state : evidence state
+         */
+        void set_evidence(ulong index, ushort state){
+            host_variables[index].set_evidence(state);
+        }
+
         cuda_graph(const cuda_graph<Probability_> &) = delete;
 
         cuda_graph(cuda_graph<Probability_> &&) noexcept = default;

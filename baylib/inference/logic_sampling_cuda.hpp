@@ -55,13 +55,6 @@ namespace baylib {
                 auto vertex_queue = baylib::sampling_order(this->bn);
                 std::vector<uint> result_line = simulate(graph, vertex_queue, this->nsamples);
                 auto result = reshape_marginal<probability_type>(this->bn, vertex_queue, result_line);
-                auto samples = std::accumulate(result[0].begin(), result[0].end(), 0);
-                if (samples != 10240){
-                    printf("Samples were %d", samples);
-                    for(int i=0; i<result.size(); i++){
-                        assert(samples==std::accumulate(result[i].begin(), result[i].end(), 0));
-                    }
-                }
                 result.normalize();
                 return result;
             }

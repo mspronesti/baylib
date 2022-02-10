@@ -11,6 +11,9 @@
 #include <baylib/inference/rejection_sampling.hpp>
 #include <baylib/inference/adaptive_importance_sampling.hpp>
 #include <baylib/network/bayesian_utils.hpp>
+#ifdef CUDA_CMP_FOUND
+#include <baylib/inference/logic_sampling_cuda.hpp>
+#endif
 
 #define THREADS std::thread::hardware_concurrency()
 #define SAMPLES 10000
@@ -30,7 +33,10 @@ template<typename Probability, class Variable>
                 gibbs_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
                 likelihood_weighting<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
                 rejection_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-                adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference()
+                adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+#ifdef CUDA_CMP_FOUND
+                logic_sampling_cuda<baylib::bayesian_net<Variable>>(bn, SAMPLES).make_inference()
+#endif
             };
             return results;
         }
@@ -136,7 +142,6 @@ TEST(evidence_test, evidence_barley){
     net[name_map["frspsum"]].set_as_evidence(0);
     int i = 0;
     for(baylib::marginal_distribution<double>& result: get_results_heavy<double>(net)){
-        std::cout << i++ << '\n';
         ASSERT_NEAR(result[name_map["udbr"]][0], .16, TOLERANCE);
         ASSERT_NEAR(result[name_map["udbr"]][1], .03, TOLERANCE);
         ASSERT_NEAR(result[name_map["udbr"]][2], .07, TOLERANCE);

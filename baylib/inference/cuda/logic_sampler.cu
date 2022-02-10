@@ -49,6 +49,7 @@ namespace baylib {
                 result_cache[i] = 0;
 
             for (int iter = 0; iter < n_iter; iter++) {
+                bool valid_sample = true;
                 running_size = 0;
                 for (int i = 0; i < n_vars; i++) {
                     uint var_result;
@@ -69,9 +70,21 @@ namespace baylib {
                         }
                         var_result = baylib::discrete_sample(cpt + cpt_index, var_states, local_state);
                     }
+                    if(graph[index].is_evidence && graph[index].evidence_state != var_result){
+                        valid_sample = false;
+                        break;
+                    }
                     network_cache[index] = var_result;
-                    result_cache[running_size + var_result] += 1;
                     running_size += var_states;
+                }
+                if(valid_sample) {
+                    running_size = 0;
+                    for (int i = 0; i < n_vars; i++) {
+                        ulong index = sim_order[i];
+                        ushort var_states = graph[index].states;
+                        result_cache[running_size + network_cache[index]] += 1;
+                        running_size += var_states;
+                    }
                 }
             }
 

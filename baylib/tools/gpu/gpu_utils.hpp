@@ -100,12 +100,14 @@ namespace baylib {
     cuda_graph<probability_type> make_cuda_graph(const Network_ &bn) {
         auto graph = cuda_graph<probability_type>(bn.number_of_variables());
         for (ushort i = 0; i < bn.number_of_variables(); i++) {
-
             graph.add_variable(i, baylib::flatten_cpt<probability_type>(bn, i),
                                bn[i].table().number_of_states(),
                                bn.parents_of(i).size(),
                                bn[i].table().number_of_conditions());
             graph.add_dependencies(i, bn.parents_of(i));
+            if(bn[i].is_evidence()){
+                graph.set_evidence(i, bn[i].evidence_state());
+            }
         }
         return graph;
     };
