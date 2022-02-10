@@ -10,7 +10,7 @@ project(baylib)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/baylib/cmake_module)
+set(CMAKE_MODULE_PATH cmake_module)
 
 # change this option to compile the examples
 option(BUILD_EXAMPLES "Build the examples showing how to use baylib" OFF)

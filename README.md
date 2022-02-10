@@ -11,7 +11,8 @@ Baylib is a parallel inference library for discrete Bayesian networks supporting
 ## Main features
 Here's a list of the main requested features:
 * Copy-On-Write semantics for the graph data structure, including the conditional probability table (CPT) of each node
-* parallel implementation of the algorithms either using C++17 threads or GPU computing with [boost compute](https://www.boost.org/doc/libs/1_66_0/libs/compute/doc/html/index.html)
+* parallel implementation of the algorithms either using C++17 threads or GPGPUU optimization
+* GPGPU optimization implemented with opencl, using [boost compute](https://www.boost.org/doc/libs/1_66_0/libs/compute/doc/html/index.html) and cuda.
 * template-based classes for probability format
 * input compatibility with the [XDSL format](https://support.bayesfusion.com/docs/) provided by the SMILE library
 * cmake-based deployment
@@ -23,13 +24,13 @@ Here's a list of the main requested features:
 * Rejection Sampling - C++11 threads
 * Adaptive importance sampling - C++11 threads, GPGPU with boost compute
 
-|       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| GPGPU 	|
-|:------------------------------:|--------------|-----------------------|-------------------|-----------|
-| gibbs sampling       	         |    &check;   |     *                 |     &check;       |           |
-| likelihood weighting 	         |    &check;   |     &check;           |     &check;       |           |
-| logic sampling       	         |    &check;   |     &check;           |                   |  &check;  |
-| rejection sampling  	         |    &check;   |     &check;           |     &check;       |           |
-| adaptive importance sampling   |    &check;  	|     &check;           |     &check;       |  &check;  |
+|       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| GPGPU-opencl 	| GPGPU - CUDA |
+|:------------------------------:|--------------|-----------------------|-------------------|---------------|--------------|
+| gibbs sampling       	         |    &check;   |     *                 |     &check;       |               |              |
+| likelihood weighting 	         |    &check;   |     &check;           |     &check;       |               |              |
+| logic sampling       	         |    &check;   |     &check;           |                   |  &check;      | &check;      |
+| rejection sampling  	         |    &check;   |     &check;           |     &check;       |               |              |
+| adaptive importance sampling   |    &check;  	|     &check;           |     &check;       |  &check;      |              |
 
 *It's a very well-known limitation of the Gibbs sampling approach
 ## Dependencies

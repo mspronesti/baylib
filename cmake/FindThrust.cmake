@@ -26,7 +26,7 @@
 #
 
 find_path( THRUST_INCLUDE_DIR
-        HINTS ./
+        HINTS .
         ../thrust
         ../../thrust
         ../../../thrust

@@ -22,32 +22,33 @@
 
 using namespace baylib::inference;
 using probability_type = double;
-
+template<class Variable>
+using bnet = baylib::bayesian_net<Variable>;;
 
 template<typename Probability, class Variable>
-std::vector<baylib::marginal_distribution<Probability>> get_results(const baylib::bayesian_net<Variable> &bn){
+std::vector<baylib::marginal_distribution<Probability>> get_results(const bnet<Variable> &bn){
     std::vector<baylib::marginal_distribution<Probability>> results{
-        logic_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
-        gibbs_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-        likelihood_weighting<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-        rejection_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-        adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+        logic_sampling<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+        gibbs_sampling<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+        likelihood_weighting<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+        rejection_sampling<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+        adaptive_importance_sampling<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
 #ifdef CUDA_CMP_FOUND
-        logic_sampling_cuda<baylib::bayesian_net<Variable>>(bn, SAMPLES).make_inference()
+        logic_sampling_cuda<bnet<Variable>>(bn, SAMPLES).make_inference()
 #endif
     };
     return results;
 }
 
 template<typename Probability, class Variable>
-        std::vector<baylib::marginal_distribution<Probability>> get_results_deterministic(const baylib::bayesian_net<Variable> &bn){
+        std::vector<baylib::marginal_distribution<Probability>> get_results_deterministic(const bnet<Variable> &bn){
             std::vector<baylib::marginal_distribution<Probability>> results{
-                logic_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
-                likelihood_weighting<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-                rejection_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-                adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+                logic_sampling<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+                likelihood_weighting<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+                rejection_sampling<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+                adaptive_importance_sampling<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
 #ifdef CUDA_CMP_FOUND
-                logic_sampling_cuda<baylib::bayesian_net<Variable>>(bn, SAMPLES).make_inference()
+                logic_sampling_cuda<bnet<Variable>>(bn, SAMPLES).make_inference()
 #endif
             };
             return results;
