@@ -53,16 +53,24 @@ namespace baylib {
         int max_shared_mem;
         size_t memory_for_single = var_num * sizeof(uint);
         int device;
+        int max_threads_per_block;
         ulong chucks;
         gpuErrcheck(cudaGetDevice(&device));
         gpuErrcheck(cudaDeviceGetAttribute(&max_shared_mem, cudaDevAttrMaxSharedMemoryPerBlock, device));
+        gpuErrcheck(cudaDeviceGetAttribute(&max_threads_per_block, cudaDevAttrMaxThreadsPerBlock, device));
 
         uint thread_capacity = max_shared_mem / memory_for_single;
         size_t shared_mem_size;
         uint thread_num;
         if (thread_capacity > set_num) {
-            chucks = 1;
-            thread_num = set_num;
+            if(set_num > max_threads_per_block) {
+                chucks = 1;
+                thread_num = set_num;
+            }
+            else{
+                thread_num = max_threads_per_block;
+                chucks = set_num / max_threads_per_block + 1;
+            }
         } else {
             chucks = set_num / thread_capacity + 1;
             thread_num = thread_capacity;

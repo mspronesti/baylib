@@ -122,19 +122,25 @@ namespace baylib {
             int max_shared_mem;
             int device;
             baylib::kernel_params result{};
+            int max_launchable_threads;
+            int max_launchable_blocks;
+            int warp_size;
             uint max_threads;
             uint n_threads;
             uint n_blocks;
             uint n_iter;
             gpuErrcheck(cudaGetDevice(&device));
             gpuErrcheck(cudaDeviceGetAttribute(&max_shared_mem, cudaDevAttrMaxSharedMemoryPerBlock, device));
+            gpuErrcheck(cudaDeviceGetAttribute(&max_launchable_threads, cudaDevAttrMaxThreadsPerBlock, device));
+            gpuErrcheck(cudaDeviceGetAttribute(&max_launchable_blocks, cudaDevAttrMaxGridDimX, device));
+            gpuErrcheck(cudaDeviceGetAttribute(&warp_size, cudaDevAttrWarpSize, device));
             max_threads = max_shared_mem / shared_mem_per_thread;
-            n_threads = max_threads < 1024 ? max_threads : 1024;
-            if (n_threads > 32)
-                n_threads -= n_threads % 32;
+            n_threads = max_threads < max_launchable_threads ? max_threads : max_launchable_threads;
+            if (n_threads > warp_size)
+                n_threads -= n_threads % warp_size;
             result.N_Threads = n_threads;
             n_blocks = samples / n_threads + 1;
-            n_blocks = n_blocks < 65535 ? n_blocks : 65535;
+            n_blocks = n_blocks < max_launchable_blocks ? n_blocks : max_launchable_blocks;
             result.N_Blocks = n_blocks;
             n_iter = samples / (n_threads * n_blocks) + 1;
             result.N_Iter = n_iter;
