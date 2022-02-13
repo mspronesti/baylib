@@ -56,9 +56,10 @@ set (src
     baylib_concepts.hpp
 )
 set (src_cuda
-        inference/cuda/logic_sampler.cuh
-        inference/cuda/logic_sampler.cu
+        inference/cuda/samplers_cuda.cuh
+        inference/cuda/samplers_cuda.cu
         inference/logic_sampling_cuda.hpp
+        inference/likelihood_weighting_cuda.hpp
         tools/gpu/cuda_utils.cuh
         tools/gpu/cuda_utils.cu
     )

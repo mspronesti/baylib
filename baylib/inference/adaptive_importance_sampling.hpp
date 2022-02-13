@@ -19,7 +19,7 @@
 #include <network/bayesian_utils.hpp>
 
 //! \file adaptive_importance_sampling.hpp
-//! \brief Adaptive sampling implementation with GPGPU and multi-thread support
+//! \brief Adaptive sampling implementation with opencl optimization and multi-thread support
 
 namespace baylib {
     namespace inference{

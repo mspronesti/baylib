@@ -11,6 +11,10 @@
 #include <baylib/inference/likelihood_weighting.hpp>
 #include <baylib/inference/adaptive_importance_sampling.hpp>
 
+#ifdef CUDA_CMP_FOUND
+#include <baylib/inference/logic_sampling_cuda.hpp>
+#endif
+
 #define THREADS std::thread::hardware_concurrency()
 #define SAMPLES 10000
 #define MEMORY 500*(std::pow(2,30))
@@ -101,7 +105,13 @@ TEST_F(cow_tests, cow_inference){
     auto gibbs = gibbs_sampling<named_bayesian_network>(net5, SAMPLES, THREADS);
     auto likely = likelihood_weighting<named_bayesian_network>(net5, SAMPLES, THREADS);
     auto adaptive = adaptive_importance_sampling<named_bayesian_network>(net5, SAMPLES, MEMORY);
+#ifdef CUDA_CMP_FOUND
+    auto logic_cuda = logic_sampling_cuda<named_bayesian_network>(net5, SAMPLES);
+    std::vector<inference_algorithm<named_bayesian_network>*> algorithms = {&gibbs, &logic, &likely, &adaptive, &logic_cuda};
+#else
     std::vector<inference_algorithm<named_bayesian_network>*> algorithms = {&gibbs, &logic, &likely, &adaptive};
+#endif
+
 
     auto name_map = baylib::make_name_map(net5);
     const auto& e1 = net5[name_map["Income"]].table();

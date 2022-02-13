@@ -96,13 +96,17 @@ namespace baylib {
     template<typename Probability_>
     struct cuda_graph {
         std::vector<cuda_variable<Probability_>> host_variables;
+        cuda_variable<Probability_>* device_variables;
         ulong total_dim{};
 
         /**
          * cuda_graph constructor
          * @param n_variables   : number of variables in the graph
          */
-        explicit cuda_graph(ulong n_variables) : total_dim(n_variables), host_variables(n_variables) {}
+        explicit cuda_graph(ulong n_variables) :
+                 total_dim(n_variables),
+                 host_variables(n_variables),
+                 device_variables(nullptr){}
 
         /**
          * Add variable contents
@@ -134,6 +138,23 @@ namespace baylib {
         }
 
         /**
+         * Load graph into gpu memory if not already loaded
+         * @return true if loading was successful, false if there was already a loaded graph
+         */
+        bool load_graph_to_device(){
+            if(device_variables == nullptr) {
+                gpuErrcheck(cudaMalloc(&device_variables, sizeof(baylib::cuda_variable<Probability_>) * total_dim));
+                gpuErrcheck(cudaMemcpy(device_variables, host_variables.data(),
+                                       sizeof(baylib::cuda_variable<Probability_>) * total_dim,
+                                       cudaMemcpyHostToDevice));
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        /**
          * Set node to evidence node
          * @param index : index of the node
          * @param state : evidence state
@@ -147,6 +168,12 @@ namespace baylib {
         cuda_graph(cuda_graph<Probability_> &&) noexcept = default;
 
         cuda_graph<Probability_> &operator=(cuda_graph<Probability_> &&) noexcept = default;
+
+        ~cuda_graph<Probability_>(){
+            if(device_variables != nullptr){
+                gpuErrcheck(cudaFree(device_variables));
+            }
+        }
 
     };
 
@@ -167,15 +194,8 @@ namespace baylib {
      * @param state         : CurandState for curand library
      * @return              : sample
      */
-    template<typename Probability>
-    __device__ uint discrete_sample(Probability *distrib, uint size, curandState *state) {
-        auto sample = static_cast<Probability>(curand_uniform(state));
-        uint i = 0;
-        Probability prob = distrib[0];
-        while (sample > prob && i < size)
-            prob += distrib[++i];
-        return i;
-    }
+//    template<typename Probability>
+//    __device__ uint discrete_sample(Probability *distrib, uint size, curandState *state);
 
 
     /**
@@ -185,13 +205,22 @@ namespace baylib {
      * @param set_num   : number of arrays
      * @return          : marginal vector
      */
-    std::vector<uint> reduce_marginal_array(uint *arr, uint var_num, uint set_num);
+    template<typename T>
+    std::vector<T> reduce_marginal_array(T *arr, uint var_num, uint set_num);
 
     /**
      * Setup curandState for curand library
      * @param state : output array of dimension equal to the number of launched threads
      */
     __global__ void setup_kernel(curandState *state);
+
+    /**
+    * Calculate kernel dimensions depending on the needed memory
+    * @param samples               : Number of samples requested
+    * @param shared_mem_per_thread : Memory needed by every single thread
+    * @return                      : kernel parameters
+    */
+    baylib::kernel_params calc_kernel_parameters(uint samples, size_t shared_mem_per_thread);
 
 }
 #endif //BAYLIB_CUDA_UTILS_CUH

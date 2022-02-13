@@ -13,6 +13,7 @@
 #include <baylib/network/bayesian_utils.hpp>
 #ifdef CUDA_CMP_FOUND
 #include <baylib/inference/logic_sampling_cuda.hpp>
+#include <baylib/inference/likelihood_weighting_cuda.hpp>
 #endif
 
 #define THREADS std::thread::hardware_concurrency()
@@ -37,7 +38,8 @@ template<typename Probability, class Variable>
                 rejection_sampling<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
                 adaptive_importance_sampling<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
 #ifdef CUDA_CMP_FOUND
-                logic_sampling_cuda<bnet<Variable>>(bn, SAMPLES).make_inference()
+                logic_sampling_cuda<bnet<Variable>>(bn, SAMPLES).make_inference(),
+                likelihood_weighting_cuda<bnet<Variable>>(bn, SAMPLES).make_inference()
 #endif
             };
             return results;
@@ -49,7 +51,10 @@ template<typename Probability, class Variable>
                 likelihood_weighting<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
                 gibbs_sampling<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
                 rejection_sampling<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-                adaptive_importance_sampling<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference()
+                adaptive_importance_sampling<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+#ifdef CUDA_CMP_FOUND
+                likelihood_weighting_cuda<bnet<Variable>>(bn, SAMPLES).make_inference()
+#endif
             };
             return results;
         }

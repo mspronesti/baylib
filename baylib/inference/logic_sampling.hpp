@@ -17,7 +17,7 @@
 #include <baylib/inference/abstract_inference_algorithm.hpp>
 
 //! \file logic_sampling.hpp
-//! \brief Logic Sampling implementation with GPGPU support
+//! \brief Logic Sampling implementation with opencl optimization
 
 namespace baylib {
     namespace inference{

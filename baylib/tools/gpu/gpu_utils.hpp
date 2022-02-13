@@ -74,10 +74,10 @@ namespace baylib {
         return flat_cpt;
     }
 
-    template<typename probability_type, BNetDerived Network_>
+    template<typename probability_type, BNetDerived Network_, typename marginal_type>
     marginal_distribution <probability_type> reshape_marginal(const Network_ &bn,
                                                               const std::vector<ulong> &v_order,
-                                                              const std::vector<uint> &flat_marginal) {
+                                                              const std::vector<marginal_type> &flat_marginal) {
         marginal_distribution<probability_type> result(bn.begin(), bn.end());
         uint marginal_ix = 0;
         for (ulong i: v_order) {
@@ -109,6 +109,7 @@ namespace baylib {
                 graph.set_evidence(i, bn[i].evidence_state());
             }
         }
+        graph.load_graph_to_device();
         return graph;
     };
 }
