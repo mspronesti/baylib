@@ -27,7 +27,7 @@ Here's a list of the main requested features:
 |       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| GPGPU-opencl 	| GPGPU - CUDA |
 |:------------------------------:|--------------|-----------------------|-------------------|---------------|--------------|
 | gibbs sampling       	         |    &check;   |     *                 |     &check;       |               |              |
-| likelihood weighting 	         |    &check;   |     &check;           |     &check;       |               |              |
+| likelihood weighting 	         |    &check;   |     &check;           |     &check;       |               | &check;      |
 | logic sampling       	         |    &check;   |     &check;           |                   |  &check;      | &check;      |
 | rejection sampling  	         |    &check;   |     &check;           |     &check;       |               |              |
 | adaptive importance sampling   |    &check;  	|     &check;           |     &check;       |  &check;      |              |
@@ -39,6 +39,8 @@ Here's a list of the main requested features:
 * libtbb
 * ocl-icd-opencl
 * mesa-opencl-icd
+
+In order to use the cuda algorithms the system must be cuda compatible and the relative cuda toolkit must be installed.
 
 Under Linux, you can install the required dependencies using the provided script [install_dependencies.sh](scripts/install_dependencies.sh) as follows
 ```bash

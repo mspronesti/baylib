@@ -4,7 +4,7 @@ include(FetchContent)
 FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG main
+        GIT_TAG        e2239ee6043f73722e7aa812a459f54a28552929 # release-1.11.0
 )
 
 if (WIN32)
@@ -23,10 +23,10 @@ endif()
 
 
 macro(add_gtest name)
-   add_executable(${name}_test ${name}_test.cpp)
-   set_target_properties(${name}_test PROPERTIES OUTPUT_NAME "${name}")
-   target_link_libraries(${name}_test gtest gtest_main baylib)
-   add_test(${name}_test ${name})
+    add_executable(${name}_test ${name}_test.cpp)
+    set_target_properties(${name}_test PROPERTIES OUTPUT_NAME "${name}")
+    target_link_libraries(${name}_test gtest gtest_main baylib)
+    add_test(${name}_test ${name})
 endmacro()
 
 add_gtest(bnet)
