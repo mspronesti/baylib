@@ -7,11 +7,10 @@
 
 #include <boost/compute.hpp>
 #include <boost/compute/device.hpp>
-#include <boost/graph/adjacency_list.hpp>
 #include <utility>
 #include <baylib/network/bayesian_net.hpp>
 #include <baylib/tools/gpu/cuda_utils.cuh>
-
+#include <baylib/tools/gpu/cuda_graph_adapter.cuh>
 
 /**
  * @file gpu_utils.hpp
@@ -74,6 +73,16 @@ namespace baylib {
         return flat_cpt;
     }
 
+    /**
+     * Reshape an unraveled marginal probability table according to a specified order
+     * @tparam probability_type : cpt entry type
+     * @tparam Network_ : network type
+     * @tparam marginal_type : type of the marginal distribution
+     * @param bn : network
+     * @param v_order : vertex order
+     * @param flat_marginal : marginal array
+     * @return : marginal distribution
+     */
     template<typename probability_type, BNetDerived Network_, typename marginal_type>
     marginal_distribution <probability_type> reshape_marginal(const Network_ &bn,
                                                               const std::vector<ulong> &v_order,
@@ -90,15 +99,15 @@ namespace baylib {
     }
 
     /**
-     * upload bayesian network to cuda memory
-     * @tparam probability_type : probability type
-     * @tparam Network_         : network type
+     *
+     * @tparam probability_type : type of cpt entry
+     * @tparam Network_         : network tyoe
      * @param bn                : network
-     * @return                  : cuda_graph
+     * @return                  : cuda adapter
      */
     template<typename probability_type, BNetDerived Network_>
-    cuda_graph<probability_type> make_cuda_graph(const Network_ &bn) {
-        auto graph = cuda_graph<probability_type>(bn.number_of_variables());
+    cuda_graph_adapter<probability_type> make_cuda_graph_revised(const Network_ &bn) {
+        auto graph = cuda_graph_adapter<probability_type>(bn.number_of_variables());
         for (ushort i = 0; i < bn.number_of_variables(); i++) {
             graph.add_variable(i, baylib::flatten_cpt<probability_type>(bn, i),
                                bn[i].table().number_of_states(),

@@ -6,6 +6,7 @@
 #define BAYLIB_SAMPLERS_CUDA_CUH
 
 #include <baylib/tools/gpu/cuda_utils.cuh>
+#include <baylib/tools/gpu/cuda_graph_adapter.cuh>
 
 
 //! \file samplers_cuda.cuh
@@ -24,7 +25,11 @@ namespace baylib {
          */
         template<typename Probability>
         std::vector<uint>
-        logic_sampler(baylib::cuda_graph<Probability> &graph, const std::vector<ulong> &sim_order, uint samples = 10000, bool evidence=true);
+        logic_sampler(cuda_graph_adapter <Probability> &graph,
+                      const std::vector<ulong> &sim_order,
+                      uint samples = 10000,
+                      bool evidence=true,
+                      size_t seed=7);
 
         /**
          * Likelihood Sampling for bayesian networks using cuda optimization
@@ -36,7 +41,10 @@ namespace baylib {
          */
         template<typename Probability>
         std::vector<float>
-        likelihood_weighting_sampler(baylib::cuda_graph<Probability> &graph, const std::vector<ulong> &sim_order, uint samples = 10000);
+        likelihood_weighting_sampler(baylib::cuda_graph_adapter <Probability> &graph,
+                                     const std::vector<ulong> &sim_order,
+                                     uint samples = 10000,
+                                     size_t seed=7);
 
     }
 }

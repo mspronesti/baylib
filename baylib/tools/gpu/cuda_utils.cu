@@ -46,25 +46,17 @@ namespace baylib {
         }
 
     }
-
-    /**
-     * Sample from a given discrete distribution while inside a cuda kernel
-     * @tparam Probability  : Probability type of the distribution
-     * @param distrib       : Distribution array
-     * @param size          : size of the distribution
-     * @param state         : CurandState for curand library
-     * @return              : sample
-     */
-    template<typename Probability>
-    __device__ uint discrete_sample(Probability *distrib, uint size, curandState *state) {
-        auto sample = static_cast<Probability>(curand_uniform(state));
-        uint i = 0;
-        Probability prob = distrib[0];
-        while (sample > prob && i < size)
-            prob += distrib[++i];
-        return i;
+    template <typename T>
+    __global__ void reduce_marginal_array_kernel_2(T *arr, uint var_num, uint n_set){
+        unsigned idx = threadIdx.x + blockDim.x*blockIdx.x;
+        while (idx < var_num){
+            T my_result = (T)0;
+            for (int i = 0; i < n_set; i++)
+                my_result += arr[(i*var_num)+idx];
+            arr[idx] = my_result;
+            idx += gridDim.x * blockDim.x;
+        }
     }
-
 
     /**
      * Accumulate array of multiple marginal probability arrays into 1 single marginal vector
@@ -75,33 +67,23 @@ namespace baylib {
      */
     template<typename T>
     std::vector<T> reduce_marginal_array(T *arr, uint var_num, uint set_num) {
-        int max_shared_mem;
-        size_t memory_for_single = var_num * sizeof(T);
         int device;
         int max_threads_per_block;
+        uint n_threads;
         ulong chucks;
         gpuErrcheck(cudaGetDevice(&device));
-        gpuErrcheck(cudaDeviceGetAttribute(&max_shared_mem, cudaDevAttrMaxSharedMemoryPerBlock, device));
         gpuErrcheck(cudaDeviceGetAttribute(&max_threads_per_block, cudaDevAttrMaxThreadsPerBlock, device));
-        uint thread_capacity = max_shared_mem / memory_for_single;
-        thread_capacity = thread_capacity > max_threads_per_block ? max_threads_per_block : thread_capacity;
-        size_t shared_mem_size;
-        chucks = set_num / thread_capacity + 1;
-
-        shared_mem_size = var_num * thread_capacity * sizeof(T);
-        reduce_marginal_array_kernel<<<chucks, thread_capacity, shared_mem_size >>>(arr, var_num, set_num);
-
-
-        std::vector<T> marginal(var_num * set_num, 0);
-        cudaMemcpy(marginal.data(), arr, sizeof(T) * var_num * set_num, cudaMemcpyDeviceToHost);
-
-        if (chucks > 1) {
-            for (int i = 1; i < chucks; i++) {
-                for (int j = 0; j < var_num; j++) {
-                    marginal[j] += marginal[i * var_num + j];
-                }
-            }
+        if(set_num < max_threads_per_block){
+            n_threads = set_num;
+            chucks = 1;
         }
+        else{
+            n_threads = max_threads_per_block;
+            chucks = set_num / max_threads_per_block + 1;
+        }
+        reduce_marginal_array_kernel_2<<<chucks, 1024>>>(arr, var_num, set_num);
+        std::vector<T> marginal(var_num, 0);
+        cudaMemcpy(marginal.data(), arr, sizeof(T) * var_num , cudaMemcpyDeviceToHost);
         return marginal;
     }
 
@@ -109,11 +91,31 @@ namespace baylib {
      * Setup curandState for curand library
      * @param state : output array of dimension equal to the number of launched threads
      */
-    __global__ void setup_kernel(curandState *state) {
+    __global__ void setup_kernel(curandState *state, uint length, uint seed) {
         uint id = threadIdx.x + blockIdx.x * blockDim.x;
         /* Each thread gets different seed, a different sequence
            number, no offset */
-        curand_init(7 + id, id, 0, &state[id]);
+        if(id < length)
+            curand_init(7 + id, id, 0, &state[id]);
+    }
+
+    /**
+     * Setup the curandState array for the CuRand Library
+     * @param state     : curand state array where to save the results
+     * @param length    : sizeo of state array
+     * @param seed      : initial seed
+     */
+    void setup_curand_kernel(curandState *state, uint length, size_t seed){
+        kernel_params kp{};
+        int device;
+        int max_launchable_threads;
+        int max_launchable_blocks;
+        gpuErrcheck(cudaGetDevice(&device));
+        gpuErrcheck(cudaDeviceGetAttribute(&max_launchable_threads, cudaDevAttrMaxThreadsPerBlock, device));
+        gpuErrcheck(cudaDeviceGetAttribute(&max_launchable_blocks, cudaDevAttrMaxGridDimX, device));
+        kp.N_Threads = length > max_launchable_threads ? max_launchable_threads : length;
+        kp.N_Blocks = length / kp.N_Threads + 1;
+        setup_kernel<<<kp.N_Blocks, kp.N_Threads>>>(state, length, seed);
     }
 
     /**

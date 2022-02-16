@@ -62,6 +62,7 @@ set (src_cuda
         inference/likelihood_weighting_cuda.hpp
         tools/gpu/cuda_utils.cuh
         tools/gpu/cuda_utils.cu
+        tools/gpu/cuda_graph_adapter.cuh
     )
 
 if(CMAKE_CUDA_COMPILER)

@@ -50,15 +50,19 @@ namespace baylib {
              * @return : marginal distribution
              */
             baylib::marginal_distribution<probability_type> make_inference(){
-                cuda_graph<probability_type> graph = make_cuda_graph<probability_type>(this->bn);
+                cuda_graph_adapter<probability_type> graph = make_cuda_graph_revised<probability_type>(this->bn);
                 auto vertex_queue = baylib::sampling_order(this->bn);
                 baylib::marginal_distribution<probability_type> result(this->bn.begin(), this->bn.end());
                 if(evidence_presence(this->bn)) {
-                    std::vector<float> result_line = likelihood_weighting_sampler(graph, vertex_queue, this->nsamples);
+                    std::vector<float> result_line = likelihood_weighting_sampler(
+                            graph, vertex_queue, this->nsamples, this->seed
+                            );
                     result = reshape_marginal<probability_type>(this->bn, vertex_queue, result_line);
                 }
                 else{
-                    std::vector<uint> result_line = logic_sampler(graph, vertex_queue, this->nsamples, false);
+                    std::vector<uint> result_line = logic_sampler(
+                            graph,vertex_queue,this->nsamples,false,this->seed
+                            );
                     result = reshape_marginal<probability_type>(this->bn, vertex_queue, result_line);
                 }
                 result.normalize();
