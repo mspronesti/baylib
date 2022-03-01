@@ -5,21 +5,27 @@
 #ifndef BAYLIB_GPU_UTILS_HPP
 #define BAYLIB_GPU_UTILS_HPP
 
+#ifdef BAYLIB_OPENCL
+#define CL_TARGET_OPENCL_VERSION 220
 #include <boost/compute.hpp>
 #include <boost/compute/device.hpp>
-#include <utility>
-#include <baylib/network/bayesian_net.hpp>
+#endif
+
+#ifdef BAYLIB_CUDA
 #include <baylib/tools/gpu/cuda_utils.cuh>
 #include <baylib/tools/gpu/cuda_graph_adapter.cuh>
+#endif
 
+#include <utility>
+#include <baylib/network/bayesian_net.hpp>
+#include <baylib/probability/marginal_distribution.hpp>
 /**
  * @file gpu_utils.hpp
- * @brief utils for using boost::compute
+ * @brief utils for using boost::compute and cuda
  */
 
-#define MEMORY_SLACK 80
-
 namespace baylib {
+#ifdef BAYLIB_OPENCL
     /**
      * Container for gpu vectors with built in auto release of the memory after set number of uses
      */
@@ -53,6 +59,7 @@ namespace baylib {
         uint evidence_state{};
 
     };
+#endif //BAYLIB_OPENCL
 
     /**
      * flatten a cpt into vector preserving the condition order given by the network
@@ -98,6 +105,7 @@ namespace baylib {
         return result;
     }
 
+#if BAYLIB_CUDA
     /**
      *
      * @tparam probability_type : type of cpt entry
@@ -121,6 +129,8 @@ namespace baylib {
         graph.load_graph_to_device();
         return graph;
     };
+#endif //BAYLIB_CUDA
+
 }
 
 #endif //BAYLIB_GPU_UTILS_HPP

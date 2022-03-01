@@ -1,8 +1,9 @@
+
 //
 // Created by paolo on 28/10/21.
 //
 
-#include <baylib/inference/logic_sampling.hpp>
+#include <baylib/inference/cuda/likelihood_weighting_cuda.hpp>
 #include <baylib/smile_utils/smile_utils.hpp>
 
 #include <iostream>
@@ -23,15 +24,13 @@ int main(int argc, char** argv){
     // simultaneously, for this reason we have to take into account memory usage
     // For all gpu algorithms the first attribute will be the network, the second one will be the number of samples
     // to be generated and the third one will be the amount of memory on the opencl device available
-    logic_sampling ls(bn, 1000, (ulong)std::pow(2, 20));
+    likelihood_weighting_cuda ls(bn, 10000);
 
     // Gpu algorithms offer the same external interface as all other baylib algorithms
     auto result = ls.make_inference();
 
     // The main advantage to using this kind of parallelization is that for high number of samples the
-    // computation time raises very slowly in respect to classical algorithms (as long as enough memory is provided),
-    // the downside is that for low number of samples the high overhead could make the overall computation inefficient
-    // comparatively to normal algorithms
+    // computation time raises very slowly in respect to classical algorithms (as long as enough memory is provided)
     std::cout << result << '\n';
 
 }

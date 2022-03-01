@@ -16,15 +16,30 @@ set(CMAKE_MODULE_PATH cmake_module)
 option(BUILD_EXAMPLES "Build the examples showing how to use baylib" OFF)
 
 # change this option to compile tests
-option(BUILD_TESTS "Build tests for baylib" ON)
+option(BUILD_TESTS "Build tests for baylib" OFF)
 
+#CUDA
 check_language(CUDA)
 if(CMAKE_CUDA_COMPILER)
     enable_language(CUDA)
-    add_compile_definitions(CUDA_CMP_FOUND)
+    add_compile_definitions(BAYLIB_CUDA)
     set(CMAKE_CUDA_STANDARD 14)
     set(CMAKE_CUDA_STANDARD_REQUIRED ON)
-    set(CUDA_ARCHITECTURES OFF)
+    set(CMAKE_CUDA_ARCHITECTURES OFF)
+endif()
+
+#openCL
+if(NOT TARGET OpenCL::OpenCL)
+    set(CMAKE_PREFIX_PATH "${OPENCL_ROOT}")
+    find_package(OpenCL)
+    if(OpenCL_FOUND)
+        set(BAYLIB_OPENCL 1)
+        add_compile_definitions(BAYLIB_OPENCL)
+        set_target_properties(OpenCL::OpenCL PROPERTIES INTERFACE_COMPILE_DEFINITIONS CL_TARGET_OPENCL_VERSION=220)
+        add_compile_definitions(BAYLIB_OPENCL)
+    else()
+        set(BAYLIB_OPENCL 0)
+    endif()
 endif()
 
 

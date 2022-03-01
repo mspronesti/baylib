@@ -81,7 +81,7 @@ namespace baylib {
             n_threads = max_threads_per_block;
             chucks = set_num / max_threads_per_block + 1;
         }
-        reduce_marginal_array_kernel_2<<<chucks, 1024>>>(arr, var_num, set_num);
+        reduce_marginal_array_kernel_2<<<chucks, n_threads>>>(arr, var_num, set_num);
         std::vector<T> marginal(var_num, 0);
         cudaMemcpy(marginal.data(), arr, sizeof(T) * var_num , cudaMemcpyDeviceToHost);
         return marginal;

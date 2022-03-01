@@ -2,8 +2,8 @@
 // Created by elle on 22/07/21.
 //
 
-#ifndef BAYLIB_LOGIC_SAMPLING_HPP
-#define BAYLIB_LOGIC_SAMPLING_HPP
+#ifndef BAYLIB_LOGIC_SAMPLING_OPENCL_HPP
+#define BAYLIB_LOGIC_SAMPLING_OPENCL_HPP
 
 #define CL_TARGET_OPENCL_VERSION 220
 
@@ -12,11 +12,12 @@
 
 #include <boost/compute.hpp>
 #include <boost/compute/device.hpp>
-#include <baylib/probability/condition_factory.hpp>
+#include "baylib/probability/condition_factory.hpp"
 
-#include <baylib/inference/abstract_inference_algorithm.hpp>
+#include "baylib/inference/abstract_inference_algorithm.hpp"
+#include "vectorized_inference_opencl.hpp"
 
-//! \file logic_sampling.hpp
+//! \file logic_sampling_opencl.hpp
 //! \brief Logic Sampling implementation with opencl optimization
 
 namespace baylib {
@@ -46,7 +47,7 @@ namespace baylib {
                 BNetDerived Network_,
                 typename Generator_ = std::mt19937
                 >
-        class logic_sampling : public vectorized_inference_algorithm<Network_>
+        class logic_sampling_opencl : public baylib::inference::vectorized_inference_algorithm<Network_>
         {
             using typename vectorized_inference_algorithm<Network_>::probability_type;
             using vectorized_inference_algorithm<Network_>::bn;
@@ -54,7 +55,7 @@ namespace baylib {
             typedef Network_ network_type;
         public:
 
-            logic_sampling(
+            logic_sampling_opencl(
                     const network_type &bn,
                     ulong samples,
                     size_t memory,
@@ -69,7 +70,7 @@ namespace baylib {
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
                                           [this](auto &var){ return baylib::cpt_filled_out(bn, var.id()); }),
                               "conditional probability tables must be properly filled to"
-                              " run logic_sampling inference algorithm",
+                              " run logic_sampling_opencl inference algorithm",
                               std::runtime_error);
 
                 auto [iter_samples, niter] = this->calculate_iterations();
@@ -145,4 +146,4 @@ namespace baylib {
 } // namespace baylib
 
 
-#endif //BAYLIB_LOGIC_SAMPLING_HPP
+#endif //BAYLIB_LOGIC_SAMPLING_OPENCL_HPP

@@ -10,6 +10,7 @@
 #include <baylib/inference/cuda/samplers_cuda.cuh>
 #include <baylib/tools/gpu/cuda_utils.cuh>
 #include <baylib/network/bayesian_utils.hpp>
+#include <baylib/tools/gpu/gpu_utils.hpp>
 
 //! \file logic_sampling_cuda.hpp
 //! \brief Logic Sampling implementation with cuda optimization
@@ -51,13 +52,13 @@ namespace baylib {
              * @return : marginal distribution
              */
             baylib::marginal_distribution<probability_type> make_inference(){
-                cuda_graph_adapter<probability_type> graph = make_cuda_graph_revised<probability_type>(this->bn);
+                cuda_graph_adapter<probability_type> graph = baylib::make_cuda_graph_revised<probability_type>(this->bn);
                 bool evidence = evidence_presence(this->bn);
                 auto vertex_queue = baylib::sampling_order(this->bn);
                 std::vector<uint> result_line = logic_sampler(
                         graph, vertex_queue, this->nsamples, evidence, this->seed
                         );
-                auto result = reshape_marginal<probability_type>(this->bn, vertex_queue, result_line);
+                auto result = baylib::reshape_marginal<probability_type>(this->bn, vertex_queue, result_line);
                 result.normalize();
                 return result;
             }
