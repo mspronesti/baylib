@@ -1,8 +1,9 @@
 # baylib C++ library
-<img alt="c++" src="https://img.shields.io/badge/C++-20-blue.svg?style=flat&logo=c%2B%2B"/> 
-<img alt="CI build" src="https://github.com/mspronesti/baylib/actions/workflows/ci.yml/badge.svg"/> 
-<img alt="GPU build" src="https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg"/>
-<img alt="License" src="https://img.shields.io/github/license/mspronesti/baylib"/>
+
+[![C++ version](https://img.shields.io/badge/C++-20-blue.svg?style=flat&logo=c%2B%2B)]()
+[![Build](https://github.com/mspronesti/baylib/actions/workflows/ci.yml/badge.svg)]()
+[![Build GPU](https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg)]()
+[![License](https://img.shields.io/github/license/mspronesti/baylib)]()
 
 
 Baylib is a parallel inference library for discrete Bayesian networks supporting approximate inference algorithms both in CPU and GPU.
@@ -23,7 +24,7 @@ Here's a list of the main requested features:
 * Rejection Sampling - C++11 threads
 * Adaptive importance sampling - C++11 threads, GPGPU with boost compute
 
-|       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| GPGPU-opencl 	| GPGPU - CUDA |
+|       algorithm      	         | evidence 	| deterministic nodes 	| multi-threading 	| GPGPU-OpenCL 	| GPGPU - CUDA |
 |:------------------------------:|--------------|-----------------------|-------------------|---------------|--------------|
 | gibbs sampling       	         |    &check;   |     *                 |     &check;       |               |              |
 | likelihood weighting 	         |    &check;   |     &check;           |     &check;       |               | &check;      |
