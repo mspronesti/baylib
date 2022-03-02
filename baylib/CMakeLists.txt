@@ -63,7 +63,9 @@ set (src_cuda
 if(CMAKE_CUDA_COMPILER)
     list(APPEND src ${src_cuda})
 endif()
+
 if(BAYLIB_OPENCL)
+    list(APPEND BAYLIB_REQUIRED_LIBS OpenCL)
     list(APPEND src ${src_opencl})
 endif()
 

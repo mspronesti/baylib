@@ -5,7 +5,6 @@
 #include <gtest/gtest.h>
 #include <baylib/smile_utils/smile_utils.hpp>
 #include <baylib/probability/condition.hpp>
-#include <baylib/smile_utils/smile_utils.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
 
@@ -35,8 +34,7 @@ protected:
         A,
         B,
         C,
-        D,
-        E
+        D
     };
 
 
