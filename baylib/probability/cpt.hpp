@@ -147,6 +147,10 @@ namespace baylib{
                 return os;
             }
 
+            auto data() const{
+                return d.data();
+            }
+
             auto begin() const {
                 return d->table.begin();
             }

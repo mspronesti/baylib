@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 set(CMAKE_CXX_STANDARD 20)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -13,18 +13,10 @@ if(NOT TARGET Boost::boost)
 endif()
 
 set(threading=multi)
-
-#openCL
-if(NOT TARGET OpenCL::OpenCL)
-    set(CMAKE_PREFIX_PATH "${OPENCL_ROOT}")
-    find_package(OpenCL REQUIRED)
-    set_target_properties(OpenCL::OpenCL PROPERTIES INTERFACE_COMPILE_DEFINITIONS CL_TARGET_OPENCL_VERSION=220)
-endif()
 find_package(Threads REQUIRED)
 find_package(TBB REQUIRED)
 
 set(BAYLIB_REQUIRED_LIBS
-    OpenCL
     pthread
     boost_thread
     boost_system
@@ -36,9 +28,7 @@ set (src
     inference/abstract_inference_algorithm.hpp
     inference/gibbs_sampling.hpp
     inference/likelihood_weighting.hpp
-    inference/logic_sampling.hpp
     inference/rejection_sampling.hpp
-    inference/adaptive_importance_sampling.hpp
     network/bayesian_net.hpp
     network/bayesian_utils.hpp
     network/random_variable.hpp
@@ -55,6 +45,29 @@ set (src
     baylib_assert.h
     baylib_concepts.hpp
 )
+set(src_opencl
+    inference/opencl/logic_sampling_opencl.hpp
+    inference/opencl/adaptive_importance_sampling_opencl.hpp
+    inference/opencl/vectorized_inference_opencl.hpp
+)
+set (src_cuda
+    inference/cuda/samplers_cuda.cuh
+    inference/cuda/samplers_cuda.cu
+    inference/cuda/logic_sampling_cuda.hpp
+    inference/cuda/likelihood_weighting_cuda.hpp
+    tools/gpu/cuda_utils.cuh
+    tools/gpu/cuda_utils.cu
+    tools/gpu/cuda_graph_adapter.cuh
+    )
+
+if(CMAKE_CUDA_COMPILER)
+    list(APPEND src ${src_cuda})
+endif()
+
+if(BAYLIB_OPENCL)
+    list(APPEND BAYLIB_REQUIRED_LIBS OpenCL)
+    list(APPEND src ${src_opencl})
+endif()
 
 set (BAYLIB_INCLUDE_LIBS ../baylib)
 
@@ -63,7 +76,15 @@ if(NOT TARGET baylib)
 endif()
 
 set_target_properties(baylib PROPERTIES LINKER_LANGUAGE CXX)
-target_compile_options(baylib PUBLIC "-std=c++2a")
+
+if(CMAKE_CUDA_COMPILER)
+    set_target_properties(baylib
+            PROPERTIES
+            CUDA_SEPARABLE_COMPILATION ON
+            POSITION_INDEPENDENT_CODE ON
+            LINKER_LANGUAGE CXX
+        )
+endif()
 
 target_include_directories(baylib
         INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
@@ -78,6 +99,8 @@ install(DIRECTORY ./
         FILES_MATCHING
         PATTERN "*.hpp"
         PATTERN "*.h"
+        PATTERN "*.cuh"
+        PATTERN "*.cu"
 )
 
 export(TARGETS baylib FILE baylib-config.cmake)

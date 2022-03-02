@@ -2,24 +2,24 @@
 // Created by paolo on 11/09/21.
 //
 
-#ifndef BAYLIB_ADAPTIVE_IMPORTANCE_SAMPLING_HPP
-#define BAYLIB_ADAPTIVE_IMPORTANCE_SAMPLING_HPP
+#ifndef BAYLIB_ADAPTIVE_IMPORTANCE_SAMPLING_OPENCL_HPP
+#define BAYLIB_ADAPTIVE_IMPORTANCE_SAMPLING_OPENCL_HPP
 
 #define CL_TARGET_OPENCL_VERSION 220
 
-#include <inference/abstract_inference_algorithm.hpp>
-#include <probability/icpt.hpp>
-#include <probability/cpt.hpp>
+#include <baylib/inference/opencl/vectorized_inference_opencl.hpp>
+#include <baylib/probability/icpt.hpp>
+#include <baylib/probability/cpt.hpp>
 #include <boost/iterator/counting_iterator.hpp>
 #include <boost/compute.hpp>
 #include <boost/compute/device.hpp>
 #include <utility>
 #include <execution>
-#include <tools/gpu/gpu_utils.hpp>
-#include <network/bayesian_utils.hpp>
+#include <baylib/tools/gpu/gpu_utils.hpp>
+#include <baylib/network/bayesian_utils.hpp>
 
-//! \file adaptive_importance_sampling.hpp
-//! \brief Adaptive sampling implementation with GPGPU and multi-thread support
+//! \file adaptive_importance_sampling_opencl.hpp
+//! \brief Adaptive sampling implementation with opencl optimization and multi-thread support
 
 namespace baylib {
     namespace inference{
@@ -48,7 +48,7 @@ namespace baylib {
                 BNetDerived Network_,
                 typename Generator_ = std::mt19937
                 >
-        class adaptive_importance_sampling: public vectorized_inference_algorithm<Network_>
+        class adaptive_importance_sampling_opencl: public baylib::inference::vectorized_inference_algorithm<Network_>
         {
             using typename vectorized_inference_algorithm<Network_>::probability_type;
             using vectorized_inference_algorithm<Network_>::bn;
@@ -69,7 +69,7 @@ namespace baylib {
              * @param seed : seed for the random generators
              * @param device : opencl device used for the simulation
              */
-            explicit adaptive_importance_sampling(
+            explicit adaptive_importance_sampling_opencl(
                 const network_type & bn,
                 ulong nsamples,
                 size_t memory,
@@ -98,7 +98,7 @@ namespace baylib {
                 BAYLIB_ASSERT(std::all_of(bn.begin(), bn.end(),
                                           [this](auto &var){ return baylib::cpt_filled_out(bn, var.id()); }),
                               "conditional probability tables must be properly filled to"
-                              " run logic_sampling inference algorithm",
+                              " run logic_sampling_opencl inference algorithm",
                               std::runtime_error);
 
                 icpt_vector icptvec{};
@@ -112,7 +112,7 @@ namespace baylib {
                     }
                 }
                 // If no evidence is present the algorithm degenerates to simple
-                // logic_sampling, and we can skip the learning phase
+                // logic_sampling_opencl, and we can skip the learning phase
                 if(evidence_found){
                     ancestors = ancestors_of_evidence(bn);
                     learn_icpt(icptvec);
@@ -365,4 +365,4 @@ namespace baylib {
     }
 }
 
-#endif //BAYLIB_ADAPTIVE_IMPORTANCE_SAMPLING_HPP
+#endif //BAYLIB_ADAPTIVE_IMPORTANCE_SAMPLING_OPENCL_HPP

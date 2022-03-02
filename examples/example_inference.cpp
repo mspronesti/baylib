@@ -1,6 +1,6 @@
 #include <baylib/smile_utils/smile_utils.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
-#include <baylib/inference/logic_sampling.hpp>
+#include "baylib/inference/opencl/logic_sampling_opencl.hpp"
 #include <baylib/inference/likelihood_weighting.hpp>
 #include <iostream>
 

@@ -6,11 +6,18 @@
 #include <baylib/network/bayesian_net.hpp>
 #include <baylib/smile_utils/smile_utils.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
-#include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
 #include <baylib/inference/rejection_sampling.hpp>
-#include <baylib/inference/adaptive_importance_sampling.hpp>
 
+#ifdef BAYLIB_OPENCL
+#include "baylib/inference/opencl/logic_sampling_opencl.hpp"
+#include <baylib/inference/opencl/adaptive_importance_sampling_opencl.hpp>
+#endif
+
+#ifdef BAYLIB_CUDA
+#include "baylib/inference/cuda/logic_sampling_cuda.hpp"
+#include "baylib/inference/cuda/likelihood_weighting_cuda.hpp"
+#endif
 
 #define THREADS std::thread::hardware_concurrency()
 #define SAMPLES 10000
@@ -19,27 +26,40 @@
 
 using namespace baylib::inference;
 using probability_type = double;
-
+template<class Variable>
+using bnet = baylib::bayesian_net<Variable>;;
 
 template<typename Probability, class Variable>
-std::vector<baylib::marginal_distribution<Probability>> get_results(const baylib::bayesian_net<Variable> &bn){
+std::vector<baylib::marginal_distribution<Probability>> get_results(const bnet<Variable> &bn){
     std::vector<baylib::marginal_distribution<Probability>> results{
-        logic_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
-        gibbs_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-        likelihood_weighting<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-        rejection_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-        adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference()
+            gibbs_sampling<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+            likelihood_weighting<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+            rejection_sampling<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+#ifdef BAYLIB_OPENCL
+            logic_sampling_opencl<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+            adaptive_importance_sampling_opencl<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+#endif
+#ifdef BAYLIB_CUDA
+            logic_sampling_cuda<bnet<Variable>>(bn, SAMPLES).make_inference(),
+            likelihood_weighting_cuda<bnet<Variable>>(bn, SAMPLES).make_inference()
+#endif
     };
     return results;
 }
 
 template<typename Probability, class Variable>
-        std::vector<baylib::marginal_distribution<Probability>> get_results_deterministic(const baylib::bayesian_net<Variable> &bn){
+        std::vector<baylib::marginal_distribution<Probability>> get_results_deterministic(const bnet<Variable> &bn){
             std::vector<baylib::marginal_distribution<Probability>> results{
-                logic_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
-                likelihood_weighting<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-                rejection_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, THREADS).make_inference(),
-                adaptive_importance_sampling<baylib::bayesian_net<Variable>>(bn, SAMPLES, MEMORY).make_inference()
+                    likelihood_weighting<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+                    rejection_sampling<bnet<Variable>>(bn, SAMPLES, THREADS).make_inference(),
+#ifdef BAYLIB_CUDA
+                    logic_sampling_cuda<bnet<Variable>>(bn, SAMPLES).make_inference(),
+                    likelihood_weighting_cuda<bnet<Variable>>(bn, SAMPLES).make_inference(),
+#endif
+#ifdef BAYLIB_OPENCL
+                    logic_sampling_opencl<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+                    adaptive_importance_sampling_opencl<bnet<Variable>>(bn, SAMPLES, MEMORY).make_inference(),
+#endif
             };
             return results;
         }
@@ -51,7 +71,7 @@ TEST(inference_tests, big_bang_Coma){
 
     //https://repo.bayesfusion.com/network/permalink?net=Small+BNs%2FComa.xdsl
     auto net1 = baylib::xdsl_parser<probability_type>().deserialize("../../examples/xdsl/Coma.xdsl");
-    //baylib::inference::logic_sampling<probability_type> alg = baylib::inference::logic_sampling<probability_type>(SAMPLES, MEMORY);
+    //baylib::inference::logic_sampling_opencl<probability_type> alg = baylib::inference::logic_sampling_opencl<probability_type>(SAMPLES, MEMORY);
     auto n_map = baylib::make_name_map(net1);
     for (baylib::marginal_distribution<double>& result: get_results<double>(net1)){
         ASSERT_NEAR(result[n_map["MetastCancer"]][0], .2, TOLERANCE);

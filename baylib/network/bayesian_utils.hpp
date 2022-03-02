@@ -187,6 +187,17 @@ namespace  baylib{
         return ordered_result;
     }
 
+    /**
+     * Function to check if network has any evidence node
+     * @tparam Network_ : type of network
+     * @param bn        : network
+     * @return          : true if any evidence node was found, false if there are no evidence nodes
+     */
+    template <BNetDerived Network_>
+    bool evidence_presence(const Network_ &bn){
+        return std::any_of(bn.begin(), bn.end(), [](auto var){return var.is_evidence();});
+    }
+
 
 } // namespace baylib
 

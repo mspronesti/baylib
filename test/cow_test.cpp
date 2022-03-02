@@ -5,11 +5,17 @@
 #include <gtest/gtest.h>
 #include <baylib/smile_utils/smile_utils.hpp>
 #include <baylib/probability/condition.hpp>
-#include <baylib/smile_utils/smile_utils.hpp>
-#include <baylib/inference/logic_sampling.hpp>
 #include <baylib/inference/gibbs_sampling.hpp>
 #include <baylib/inference/likelihood_weighting.hpp>
-#include <baylib/inference/adaptive_importance_sampling.hpp>
+
+#ifdef BAYLIB_OPENCL
+#include <baylib/inference/opencl/logic_sampling_opencl.hpp>
+#include <baylib/inference/opencl/adaptive_importance_sampling_opencl.hpp>
+#endif
+
+#ifdef BAYLIB_CUDA
+#include <baylib/inference/cuda/logic_sampling_cuda.hpp>
+#endif
 
 #define THREADS std::thread::hardware_concurrency()
 #define SAMPLES 10000
@@ -28,8 +34,7 @@ protected:
         A,
         B,
         C,
-        D,
-        E
+        D
     };
 
 
@@ -97,11 +102,21 @@ TEST_F(cow_tests, cow_inference){
     auto n_map = baylib::make_name_map(net5);
 
     baylib::condition c;
-    auto logic = logic_sampling<named_bayesian_network>(net5, SAMPLES, MEMORY);
     auto gibbs = gibbs_sampling<named_bayesian_network>(net5, SAMPLES, THREADS);
     auto likely = likelihood_weighting<named_bayesian_network>(net5, SAMPLES, THREADS);
-    auto adaptive = adaptive_importance_sampling<named_bayesian_network>(net5, SAMPLES, MEMORY);
-    std::vector<inference_algorithm<named_bayesian_network>*> algorithms = {&gibbs, &logic, &likely, &adaptive};
+    std::vector<inference_algorithm<named_bayesian_network>*> algorithms = {&gibbs, &likely};
+
+#ifdef BAYLIB_CUDA
+    auto logic_cuda = logic_sampling_cuda<named_bayesian_network>(net5, SAMPLES);
+    algorithms.emplace_back(&logic_cuda);
+#endif
+
+#ifdef BAYLIB_OPENCL
+    auto logic_opencl = logic_sampling_opencl<named_bayesian_network>(net5, SAMPLES, MEMORY);
+    auto adaptive_opencl = adaptive_importance_sampling_opencl<named_bayesian_network>(net5, SAMPLES, MEMORY);
+    algorithms.emplace_back(&logic_opencl);
+    algorithms.emplace_back(&adaptive_opencl);
+#endif
 
     auto name_map = baylib::make_name_map(net5);
     const auto& e1 = net5[name_map["Income"]].table();
