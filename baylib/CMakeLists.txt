@@ -17,7 +17,6 @@ find_package(Threads REQUIRED)
 find_package(TBB REQUIRED)
 
 set(BAYLIB_REQUIRED_LIBS
-    OpenCL
     pthread
     boost_thread
     boost_system
