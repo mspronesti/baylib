@@ -1,10 +1,9 @@
 # baylib C++ library
-<p align="center">
- <img alt="c++" src="https://img.shields.io/badge/C++-20-blue.svg?style=flat&logo=c%2B%2B"/> 
- <img alt="CI build" src="https://github.com/mspronesti/baylib/actions/workflows/ci.yml/badge.svg"/> 
- <img alt="GPU build" src="https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg"/>
- <img alt="License" src="https://img.shields.io/github/license/mspronesti/baylib"/>
-</p>
+<img alt="c++" src="https://img.shields.io/badge/C++-20-blue.svg?style=flat&logo=c%2B%2B"/> 
+<img alt="CI build" src="https://github.com/mspronesti/baylib/actions/workflows/ci.yml/badge.svg"/> 
+<img alt="GPU build" src="https://github.com/mspronesti/baylib/actions/workflows/build-gpu.yml/badge.svg"/>
+<img alt="License" src="https://img.shields.io/github/license/mspronesti/baylib"/>
+
 
 Baylib is a parallel inference library for discrete Bayesian networks supporting approximate inference algorithms both in CPU and GPU.
 
@@ -12,7 +11,7 @@ Baylib is a parallel inference library for discrete Bayesian networks supporting
 Here's a list of the main requested features:
 * Copy-On-Write semantics for the graph data structure, including the conditional probability table (CPT) of each node
 * parallel implementation of the algorithms either using C++17 threads or GPGPUU optimization
-* GPGPU optimization implemented with opencl, using [boost compute](https://www.boost.org/doc/libs/1_66_0/libs/compute/doc/html/index.html) and cuda.
+* GPGPU optimization implemented with opencl, using [boost compute](https://www.boost.org/doc/libs/1_66_0/libs/compute/doc/html/index.html) and CUDA.
 * template-based classes for probability format
 * input compatibility with the [XDSL format](https://support.bayesfusion.com/docs/) provided by the SMILE library
 * cmake-based deployment
@@ -37,8 +36,8 @@ Here's a list of the main requested features:
 * cmake >= 2.8
 * boost >= 1.65
 * libtbb
-* ocl-icd-opencl
-* mesa-opencl-icd
+* [optional] ocl-icd-opencl
+* [optional] mesa-opencl-icd
 
 In order to use the cuda algorithms the system must be cuda compatible and the relative cuda toolkit must be installed.
 
